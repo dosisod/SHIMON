@@ -1,7 +1,7 @@
-from Crypto.Signature import PKCS1_PSS
-from Crypto.Cipher import PKCS1_OAEP
-from Crypto.PublicKey import RSA
-from Crypto.Hash import SHA512
+from Cryptodome.Signature import PKCS1_PSS
+from Cryptodome.Cipher import PKCS1_OAEP
+from Cryptodome.PublicKey import RSA
+from Cryptodome.Hash import SHA512
 
 class kee(): #allows proper padding with OAEP and signing via crypto signature
 	def __init__(self, bits=None):
