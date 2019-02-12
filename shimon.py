@@ -19,6 +19,11 @@ def index():
 	check_local()
 	return render_template("index.html")
 
+@app.route("/login")
+def login():
+	check_local()
+	return render_template("login.html")
+
 @app.route("/api/", methods=["POST"])
 def auth():
 	check_local()
