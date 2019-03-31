@@ -5,6 +5,8 @@ from flask.json import jsonify
 from waitress import serve
 from security import check_local
 
+from storage import unlock
+
 app=Flask(__name__, static_url_path="")
 
 @app.errorhandler(Exception)
@@ -24,11 +26,12 @@ def login():
 	check_local()
 	return render_template("login.html")
 
-@app.route("/api/", methods=["POST"])
+@app.route("/api/", methods=["GET"])
 def auth():
 	check_local()
-	data=requests.args.post("id") #for testing
-	return jsonify({"msg":"good"})
+
+	data=request.args.to_dict()
+	return jsonify(data)
 
 if __name__=="__main__":
 	serve(app, host="0.0.0.0", port=1717)
