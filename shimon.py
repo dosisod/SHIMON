@@ -3,9 +3,10 @@ from werkzeug.exceptions import HTTPException
 from flask_restful import Resource, Api
 from flask.json import jsonify
 from waitress import serve
-from security import check_local
 
+from security import check_local
 from storage import unlock
+from api import api_handle
 
 app=Flask(__name__, static_url_path="")
 
@@ -31,7 +32,7 @@ def auth():
 	check_local()
 
 	data=request.args.to_dict()
-	return jsonify(data)
+	return api_handle(data)
 
 if __name__=="__main__":
 	serve(app, host="0.0.0.0", port=1717)
