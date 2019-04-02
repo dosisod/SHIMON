@@ -4,9 +4,10 @@
 <div class="container">
 	<span class="title">SHIMON</span><br>
 	<span class="desc">Type in password to unlock cache</span>
-	<div class="bar">
-		<input id="pwd" type="password"></input><input type="submit" id="click" value="UNLOCK"></input>
-	</div>
+	<form method="POST" action="/api/" id="bar">
+		<input name="unlock" id="pwd" type="password"></input><input type="submit" id="click" value="UNLOCK"></input>
+	</form>
+	<span id="msg">{{ msg }}</span>
 </div>
 
 <style>
@@ -43,13 +44,10 @@ input {
 	border-left: 0;
 	background: white;
 }
-</style>
-
-<script>
-click.onclick=()=>{
-	alert(1)
+#msg {
+	color: red;
 }
-</script>
+</style>
 
 </body>
 </html>

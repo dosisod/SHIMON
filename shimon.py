@@ -20,7 +20,10 @@ class Shimon:
 
 	def index(self): #index page
 		check_local()
-		return render_template("index.html")
+		if self.cache:
+			return render_template("index.html")
+		else:
+			return render_template("login.html")
 
 	def login(self): #handles login page
 		check_local()
@@ -33,7 +36,21 @@ class Shimon:
 		out=api_handle(data) #sends data to seperate method to handle
 
 		if out["type"]=="cache":
-			self.cache=out["data"]
-			return jsonify({"msg":"unlock successful"})
+			if out["fail"]: #if decryption failed
+				return render_template("login.html", msg=out["data"])
+			else:
+				self.cache=out["data"] #cache decrypted, save to shimon
+				return jsonify({"msg":"unlock successful"})
+			
 		else:
 			return jsonify({"msg":"nothing happened"})
+
+
+
+
+
+
+
+
+
+
