@@ -25,7 +25,7 @@ def index():
 def login():
 	return shimon.login()
 
-@app.route("/api/", methods=["GET"])
+@app.route("/api/", methods=["POST"])
 def api():
 	return shimon.api()
 

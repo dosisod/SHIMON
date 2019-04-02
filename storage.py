@@ -9,7 +9,7 @@ gpg=pbp.GPG()
 
 def unlock(pwd):
 	with open("data.gpg", "rb") as f:
-		return gpg.decrypt_file(f, passphrase=pwd)
+		return gpg.decrypt_file(f, passphrase=pwd).data.decode()
 
 def lock(data, pwd):
 	cipher=gpg.encrypt(data, passphrase=pwd, symmetric=True, encrypt=False, output="data.gpg")

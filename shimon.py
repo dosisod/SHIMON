@@ -29,5 +29,11 @@ class Shimon:
 	def api(self): #api method
 		check_local()
 
-		data=request.args.to_dict()
-		return api_handle(data) #sends data to seperate method to handle
+		data=request.form.to_dict()
+		out=api_handle(data) #sends data to seperate method to handle
+
+		if out["type"]=="cache":
+			self.cache=out["data"]
+			return jsonify({"msg":"unlock successful"})
+		else:
+			return jsonify({"msg":"nothing happened"})
