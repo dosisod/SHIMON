@@ -8,31 +8,26 @@ from security import check_local
 from storage import unlock
 from api import api_handle
 
-app=Flask(__name__, static_url_path="")
+class Shimon:
+	def __init__(self):
+		self.cache=None #stores cached data after decryption
 
-@app.errorhandler(Exception)
-def error(ex):
-	err=500
-	if isinstance(ex, HTTPException):
-		err=ex.code
-	return render_template("error.html", error=err)
+	def error(self, ex): #redirects after error msg
+		err=500
+		if isinstance(ex, HTTPException):
+			err=ex.code
+		return render_template("error.html", error=err)
 
-@app.route("/")
-def index():
-	check_local()
-	return render_template("index.html")
+	def index(self): #index page
+		check_local()
+		return render_template("index.html")
 
-@app.route("/login")
-def login():
-	check_local()
-	return render_template("login.html")
+	def login(self): #handles login page
+		check_local()
+		return render_template("login.html")
 
-@app.route("/api/", methods=["GET"])
-def auth():
-	check_local()
+	def api(self): #api method
+		check_local()
 
-	data=request.args.to_dict()
-	return api_handle(data)
-
-if __name__=="__main__":
-	serve(app, host="0.0.0.0", port=1717)
+		data=request.args.to_dict()
+		return api_handle(data) #sends data to seperate method to handle
