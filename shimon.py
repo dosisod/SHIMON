@@ -22,7 +22,7 @@ class Shimon:
 		check_local()
 		if self.cache:
 			return render_template("index.html")
-		else:
+		else: #if cache isnt loaded, unlock cache
 			return render_template("login.html")
 
 	def login(self): #handles login page
@@ -40,17 +40,7 @@ class Shimon:
 				return render_template("login.html", msg=out["data"])
 			else:
 				self.cache=out["data"] #cache decrypted, save to shimon
-				return jsonify({"msg":"unlock successful"})
+				return render_template("index.html")
 			
 		else:
 			return jsonify({"msg":"nothing happened"})
-
-
-
-
-
-
-
-
-
-
