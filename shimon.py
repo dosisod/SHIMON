@@ -43,8 +43,10 @@ class Shimon:
 				return render_template("index.html")
 
 		elif out["type"]=="lock":
-			lock(self.cache, "123") #uses "123" for testing only
-			return jsonify({"msg":"cache locked"})
+			if self.cache: #if lock was sent and cache is open
+				lock(self.cache, "123") #uses "123" for testing only
+				self.cache=None #clear cache
+				return jsonify({"msg":"cache locked"})
 
 		else:
 			return jsonify({"msg":"nothing happened"})
