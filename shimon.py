@@ -5,7 +5,7 @@ from flask.json import jsonify
 from waitress import serve
 
 from security import check_local
-from storage import unlock
+from storage import unlock, lock
 from api import api_handle
 
 class Shimon:
@@ -41,6 +41,10 @@ class Shimon:
 			else:
 				self.cache=out["data"] #cache decrypted, save to shimon
 				return render_template("index.html")
-			
+
+		elif out["type"]=="lock":
+			lock(self.cache, "123") #uses "123" for testing only
+			return jsonify({"msg":"cache locked"})
+
 		else:
 			return jsonify({"msg":"nothing happened"})

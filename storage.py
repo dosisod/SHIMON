@@ -7,9 +7,9 @@ gnupg._parsers.Verify.TRUST_LEVELS["DECRYPTION_COMPLIANCE_MODE"] = 23
 
 gpg=pbp.GPG()
 
-def unlock(pwd):
+def unlock(pwd): #given password, try and return plaintext
 	with open("data.gpg", "rb") as f:
 		return gpg.decrypt_file(f, passphrase=pwd).data.decode()
 
-def lock(data, pwd):
-	cipher=gpg.encrypt(data, passphrase=pwd, symmetric=True, encrypt=False, output="data.gpg")
+def lock(data, pwd): #encrypt data with password, send to "data.gpg"
+	gpg.encrypt(data, passphrase=pwd, symmetric=True, encrypt=False, output="/home/groot/Downloads/GIT/SHIMON/data.gpg")
