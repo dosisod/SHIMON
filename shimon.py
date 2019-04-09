@@ -46,7 +46,7 @@ class Shimon:
 			if self.cache: #if lock was sent and cache is open
 				lock(self.cache, "123") #uses "123" for testing only
 				self.cache=None #clear cache
-				return jsonify({"msg":"cache locked"})
+				return render_template("login.html", msg="Cache has been locked")
 
 		else:
 			return jsonify({"msg":"nothing happened"})
