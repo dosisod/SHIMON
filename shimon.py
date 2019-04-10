@@ -3,6 +3,8 @@ from werkzeug.exceptions import HTTPException
 from flask_restful import Resource, Api
 from flask.json import jsonify
 from waitress import serve
+import json
+import os
 
 from security import check_local
 from storage import unlock, lock
@@ -20,9 +22,14 @@ class Shimon:
 
 	def index(self): #index page
 		check_local()
-		if self.cache:
+		if self.cache: #load page if cache is open
 			return render_template("index.html")
-		else: #if cache isnt loaded, unlock cache
+
+		elif not os.path.isfile("data.gpg"): #if cache doesnt exist create and then open page
+			self.cache={}
+			return render_template("index.html")
+
+		else: #if cache isnt loaded, request unlock cache
 			return render_template("login.html")
 
 	def login(self): #handles login page
@@ -37,16 +44,22 @@ class Shimon:
 
 		if out["type"]=="cache":
 			if out["fail"]: #if decryption failed
-				return render_template("login.html", msg=out["data"])
+				if out["data"]=="Cache doesnt exist":
+					self.cache={}
+					return render_template("index.html")
+				else:
+					return render_template("login.html", msg=out["data"])
 			else:
-				self.cache=out["data"] #cache decrypted, save to shimon
+				self.cache=json.loads(out["data"]) #cache decrypted, save to shimon
 				return render_template("index.html")
 
 		elif out["type"]=="lock":
-			if self.cache: #if lock was sent and cache is open
-				lock(self.cache, "123") #uses "123" for testing only
+			if self.cache or self.cache=={}: #if lock was sent and cache is open/never created
+				lock(json.dumps(self.cache), "123") #uses "123" for testing only
 				self.cache=None #clear cache
 				return render_template("login.html", msg="Cache has been locked")
+			else:
+				return render_template("login.html", msg="Cache was never open")
 
 		else:
 			return jsonify({"msg":"nothing happened"})

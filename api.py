@@ -17,7 +17,9 @@ def api_handle(data): #handles all api requests
 		cache=unlock(data["unlock"])
 		if cache: #if the cache was decrypted
 			return api_return("cache", False, cache)
-		else:
+		elif cache=="{}": #if cache doesnt exist
+			return api_return("cache", True, "Cache doesnt exist")
+		else: #cache pwd is incorrect
 			return api_return("cache", True, "Failed to open")
 
 	elif "lock" in data: #user wants to encrypt cache

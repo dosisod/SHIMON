@@ -1,4 +1,5 @@
 import pretty_bad_protocol as pbp
+import os
 
 #fixes 'DECRYPTION_COMPLIANCE_MODE' '23' error
 from pretty_bad_protocol import gnupg
@@ -8,8 +9,11 @@ gnupg._parsers.Verify.TRUST_LEVELS["DECRYPTION_COMPLIANCE_MODE"] = 23
 gpg=pbp.GPG()
 
 def unlock(pwd): #given password, try and return plaintext
-	with open("data.gpg", "rb") as f:
-		return gpg.decrypt_file(f, passphrase=pwd).data.decode()
+	if os.path.isfile("data.gpg"): #check if data.gpg exists
+		with open("data.gpg", "rb") as f:
+			return gpg.decrypt_file(f, passphrase=pwd).data.decode()
+
+	return "{}"
 
 def lock(data, pwd): #encrypt data with password, send to "data.gpg"
 	gpg.encrypt(data, passphrase=pwd, symmetric=True, encrypt=False, output="/home/groot/Downloads/GIT/SHIMON/data.gpg")
