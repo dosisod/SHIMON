@@ -61,5 +61,9 @@ class Shimon:
 			else:
 				return render_template("login.html", msg="Cache was never open")
 
+		elif out["type"]=="ping":
+			return jsonify({"ping":"pong"})
+			#return render_template("login.html", msg="YES")
+
 		else:
 			return jsonify({"msg":"nothing happened"})

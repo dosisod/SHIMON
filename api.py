@@ -25,6 +25,9 @@ def api_handle(data): #handles all api requests
 	elif "lock" in data: #user wants to encrypt cache
 		return api_return("lock", False, "Lock cache")
 
+	elif "ping" in data:
+		return api_return("ping", False, "Pinged")
+
 	return api_return("other", True, data)
 
 def api_return(desc, fail, data): #creates json to be returned
