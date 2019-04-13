@@ -3,6 +3,8 @@ from flask.json import jsonify
 
 from storage import unlock
 
+VERSION="0.0.1"
+
 """
 api_handle data is returned like this:
 {
@@ -24,6 +26,11 @@ def api_handle(data): #handles all api requests
 
 	elif "lock" in data: #user wants to encrypt cache
 		return api_return("lock", False, "Lock cache")
+
+	elif "status" in data:
+		return api_return("status", False, {
+			"version": VERSION
+		})
 
 	elif "ping" in data:
 		return api_return("ping", False, "Pinged")
