@@ -23,7 +23,7 @@ async function post(arr, redirect) { //construct api call from dictionary
 		var fd=new FormData()
 		for (i in arr) fd.append(i, arr[i]) //fill formdata
 	
-		return fetch("/api/", {method:"post", body:fd})
+		return fetch("/api/", {method:"POST", body:fd})
 			.then(e=>e.json())
 			.then(e=>{return e}) //return data
 	}
