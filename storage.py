@@ -13,7 +13,7 @@ def unlock(pwd): #given password, try and return plaintext
 		with open("data.gpg", "rb") as f:
 			return gpg.decrypt_file(f, passphrase=pwd).data.decode()
 
-	return "{}"
+	return "{}" #return blank if file doesnt exist
 
 def lock(data, pwd): #encrypt data with password, send to "data.gpg"
-	gpg.encrypt(data, passphrase=pwd, symmetric=True, encrypt=False, output="/home/groot/Downloads/GIT/SHIMON/data.gpg")
+	gpg.encrypt(data, passphrase=pwd, symmetric=True, encrypt=False, output="data.gpg")
