@@ -25,6 +25,7 @@ async function post(arr, redirect) { //construct api call from dictionary
 	
 		return fetch("/api/", {method:"POST", body:fd})
 			.then(e=>e.json())
+			.catch(e=>console.log({"error":e.message})) //returns any error
 			.then(e=>{return e}) //return data
 	}
 }

@@ -59,7 +59,7 @@ class Shimon:
 				self.cache=None #clear cache
 				return render_template("login.html", msg="Cache has been locked")
 			else:
-				return render_template("login.html", msg="Cache was never open")
+				return render_template("login.html", msg="Please re-open cache")
 
 		elif out["type"]=="status":
 			return jsonify(out["data"])
