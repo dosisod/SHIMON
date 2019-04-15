@@ -67,5 +67,8 @@ class Shimon:
 		elif out["type"]=="ping":
 			return jsonify({"ping":"pong"})
 
+		elif out["type"]=="data": #returns data from api
+			return jsonify(out["data"])
+
 		else:
 			return jsonify({"msg":"nothing happened"})
