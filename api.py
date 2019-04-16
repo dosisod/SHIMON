@@ -41,6 +41,17 @@ def api_handle(data, cache=None): #handles all api requests
 		if data["data"]=="friends":
 			return api_return("friends", False, cache["friends"])
 
+		elif data["data"]=="recent":
+			ret=[]
+			
+			for user in cache["history"]:
+				ret.append({
+					"id": user["id"],
+					"msgs": [user["msgs"][0]] #only get most recent message
+				})
+
+			return api_return("recent", False, ret)
+
 		else:
 			return api_return("data", False, "data")
 
