@@ -38,7 +38,11 @@ def api_handle(data, cache=None): #handles all api requests
 		return api_return("ping", False, "Pinged")
 
 	elif "data" in data: #requesting data from cache
-		return api_return("data", False, ["stuff"])
+		if data["data"]=="friends":
+			return api_return("friends", False, cache["friends"])
+
+		else:
+			return api_return("data", False, "data")
 
 	return api_return("other", True, data)
 

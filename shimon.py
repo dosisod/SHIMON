@@ -40,7 +40,7 @@ class Shimon:
 		check_local()
 
 		data=request.form.to_dict()
-		out=api_handle(data) #sends data to seperate method to handle
+		out=api_handle(data, self.cache) #sends data to seperate method to handle
 
 		if out["type"]=="cache":
 			if out["fail"]: #if decryption failed
@@ -67,7 +67,7 @@ class Shimon:
 		elif out["type"]=="ping":
 			return jsonify({"ping":"pong"})
 
-		elif out["type"]=="data": #returns data from api
+		elif out["type"]=="friends": #returns friends list from api
 			return jsonify(out["data"])
 
 		else:
