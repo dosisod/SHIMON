@@ -1,5 +1,6 @@
 from flask import render_template
 from flask.json import jsonify
+import json
 
 from storage import unlock
 
@@ -38,6 +39,8 @@ def api_handle(data, cache=None): #handles all api requests
 		return api_return("ping", False, "Pinged")
 
 	elif "data" in data: #requesting data from cache
+		data["data"]=api_decode(data["data"]) #if json was passed, try to decode it
+
 		if data["data"]=="friends":
 			return api_return("friends", False, cache["friends"])
 
@@ -52,10 +55,30 @@ def api_handle(data, cache=None): #handles all api requests
 
 			return api_return("recent", False, ret)
 
+		#returns all data for specified id
+		elif "allfor" in data["data"]:
+			for user in cache["history"]:
+				if user["id"]==data["data"]["allfor"]:
+					#return all messages from user
+					return api_return("allfor", False, {"id":user["id"], "msgs":user["msgs"]})
+
+			return api_return("allfor", True, "User couldnt be found")
+
 		else:
-			return api_return("data", False, "data")
+			
+			return api_return("data", True, "data")
 
 	return api_return("other", True, data)
 
 def api_return(desc, fail, data): #creates json to be returned
 	return {"type": desc, "fail": fail, "data": data}
+
+def api_decode(s): #decodes json if possible
+	try:
+		if s.startswith("[") or s.startswith("{"):
+			return json.loads(s) #potentialy json, try to parse
+
+		else:
+			return s #s is a string not object, return anyways
+	except:
+		return s #error, return original string

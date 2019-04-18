@@ -65,7 +65,7 @@ class Shimon:
 			return jsonify({"ping":"pong"})
 
 		#all elements in the array just return what the api returns
-		elif out["type"] in ["friends", "recent", "status"]:
+		elif out["type"] in ["friends", "recent", "status", "allfor"]:
 			return jsonify(out["data"])
 
 		else:
