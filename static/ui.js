@@ -1,4 +1,46 @@
 var tray=document.getElementById("tray")
+var friends=[]
+
+async function check_friends() { //get friends list if list is empty
+	if (!friends.length) {
+		friends=await post({"data":"friends"}) //wait for response
+	}
+}
+
+function realname(id) { //find name from id
+	for (i of friends) {
+		if (i["id"]==id) return i["name"]
+	}
+}
+
+async function replace_tray(arr) { //replaces tray with new data
+	tray.innerHTML="" //clear tray
+	
+	await check_friends()
+	
+	var cards=[arr]
+	//make sure cards are an array type
+	//(arr.constructor.name!="Array")?cards.append(arr):cards=arr
+
+	for (var i of cards) {
+		try {
+			new_card(
+				i["id"], //id from user
+				realname(i["id"]), //name for given id
+				i["msgs"][0]["msg"] //must recent message from user
+			)
+		}
+		catch {} //just ignore
+	}
+
+	nu("span", {
+		"class": "name",
+		"innerText": "RELOAD"
+	}, [
+		nu("li", {"class": "center"}),
+		"tray"
+	])
+}
 
 function new_card(u, n, m) { //adds card to tray
 	//uuid, name, message
