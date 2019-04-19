@@ -15,12 +15,11 @@ function realname(id) { //find name from id
 
 async function replace_tray(arr) { //replaces tray with new data
 	tray.innerHTML="" //clear tray
-	
+
 	await check_friends()
-	
-	var cards=[arr]
+
 	//make sure cards are an array type
-	//(arr.constructor.name!="Array")?cards.append(arr):cards=arr
+	var cards=(arr.constructor.name!="Array")?cards.append(arr):cards=arr
 
 	for (var i of cards) {
 		try {
@@ -34,12 +33,15 @@ async function replace_tray(arr) { //replaces tray with new data
 	}
 
 	nu("span", {
-		"class": "name",
-		"innerText": "RELOAD"
-	}, [
-		nu("li", {"class": "center"}),
-		"tray"
-	])
+		"className": "center name",
+		"innerText": "RELOAD",
+		"onclick": ()=>reload()
+	}, "tray")
+}
+
+function reload() { //reloads recents
+	post({"data":"recent"})
+		.then(e=>replace_tray(e))
 }
 
 function new_card(u, n, m) { //adds card to tray
@@ -60,7 +62,7 @@ function new_card(u, n, m) { //adds card to tray
 	)
 
 	var div=nu("div", {
-		"onclick": ()=>alert(1)
+		"onclick": ()=>alert("Click")
 	})
 
 	div.appendChild(
