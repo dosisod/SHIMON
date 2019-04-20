@@ -1,6 +1,8 @@
 <html>
 <body>
 
+<link rel="stylesheet" href={{ url_for("static", filename="login.css") }}>
+
 <div class="container">
 	<span class="title">SHIMON</span><br>
 	<span class="desc">Type in password to unlock cache</span>
@@ -9,45 +11,6 @@
 	</form>
 	<span id="msg">{{ msg }}</span>
 </div>
-
-<style>
-* {
-	font-family: monospace, monospace;
-}
-.container {
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-}
-.title {
-	font-size: 45px;
-}
-.desc {
-	font-size: 25px;
-	padding-bottom: 5px;
-}
-.bar {
-	margin-top: 10px;
-}
-input {
-	border: 1px solid #333;
-	box-sizing: border-box;
-	vertical-align: middle;
-	height: 20px;
-}
-#pwd {
-	font-size: 20px;
-	width: 16em;
-}
-#click {
-	border-left: 0;
-	background: white;
-}
-#msg {
-	color: red;
-}
-</style>
 
 <script src={{ url_for("static", filename="url.js") }}></script>
 <script>url("login")</script>
