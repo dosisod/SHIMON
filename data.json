@@ -1,0 +1,14 @@
+{
+	"friends":[
+		{
+			"name":"bob",
+			"id":"12345"
+		}
+	],
+	"history":[
+		{
+			"id":"12345",
+			"msgs": [{"sending": true,"msg":"hey"},{"sending": false,"msg":"yo"}]
+		}
+	]
+}
