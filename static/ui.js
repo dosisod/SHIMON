@@ -19,7 +19,7 @@ async function replace_tray(arr) { //replaces tray with new data
 	await check_friends()
 
 	//make sure cards are an array type
-	var cards=(arr.constructor.name!="Array")?cards.append(arr):cards=arr
+	var cards=(arr.constructor.name!="Array")?[arr]:arr
 
 	for (var i of cards) {
 		try {
