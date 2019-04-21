@@ -62,6 +62,7 @@ function new_card(u, n, m) { //adds card to tray
 	)
 
 	var div=nu("div", {
+		"className": "holder",
 		"onclick": ()=>alert("Click")
 	})
 
