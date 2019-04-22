@@ -4,7 +4,7 @@ import json
 
 from storage import unlock
 
-VERSION="0.0.1"
+VERSION="0.0.2"
 
 """
 api_handle data is returned like this:
@@ -50,7 +50,7 @@ def api_handle(data, cache=None): #handles all api requests
 			for user in cache["history"]:
 				ret.append({
 					"id": user["id"],
-					"msgs": [user["msgs"][0]] #only get most recent message
+					"msgs": [user["msgs"][-1]] #only get most recent message
 				})
 
 			return api_return("recent", False, ret)
