@@ -2,7 +2,9 @@ from flask import Flask, request, render_template
 from werkzeug.exceptions import HTTPException
 from flask_restful import Resource, Api
 from flask.json import jsonify
+from datetime import datetime
 from waitress import serve
+import math
 import json
 import os
 
@@ -13,6 +15,11 @@ from api import api_handle
 class Shimon:
 	def __init__(self):
 		self.cache=None #stores cached data after decryption
+
+		self.attempts=0
+		self.maxtries=3
+		self.start=0
+		self.cooldown=10
 
 	def error(self, ex): #redirects after error msg
 		err=500
@@ -43,8 +50,18 @@ class Shimon:
 		out=api_handle(data, self.cache) #sends data to seperate method to handle
 
 		if out["type"]=="cache":
-			if out["fail"]: #if decryption failed
-				if out["data"]=="Cache doesnt exist":
+			if out["fail"] or self.time()-self.start<self.cooldown or self.attempts>=self.maxtries: #if decryption failed
+				self.attempts+=1
+
+				if self.time()-self.start<self.cooldown:
+					return render_template("login.html", msg="Try again in "+str(self.start-self.time()+self.cooldown)+" seconds")
+
+				elif self.attempts>=self.maxtries:
+					self.start=self.time() #start cooldown timer
+					self.attempts=0 #reset attempt timer
+					return render_template("login.html", msg="Try again in "+str(self.cooldown)+" seconds")
+
+				elif out["data"]=="Cache doesnt exist":
 					self.cache={}
 					return render_template("index.html")
 				else:
@@ -70,3 +87,6 @@ class Shimon:
 
 		else:
 			return jsonify({"msg":"nothing happened"})
+
+	def time(self):
+		return math.ceil(datetime.today().timestamp())
