@@ -25,7 +25,7 @@ def api_handle(data, cache=None): #handles all api requests
 			return api_return("cache", True, "Cache doesnt exist")
 
 		else: #cache pwd is incorrect
-			return api_return("cache", True, "Failed to open")
+			return api_return("cache", True, "Incorrect password")
 
 	elif "lock" in data: #user wants to encrypt cache
 		return api_return("lock", False, "Lock cache")
@@ -78,7 +78,7 @@ def api_decode(s): #decodes json if possible
 		if s.startswith("[") or s.startswith("{"):
 			return json.loads(s) #potentialy json, try to parse
 
-		else:
-			return s #s is a string not object, return anyways
 	except:
-		return s #error, return original string
+		pass
+
+	return s #return if invalid or not json
