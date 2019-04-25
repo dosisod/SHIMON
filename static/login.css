@@ -22,6 +22,8 @@ input {
 	box-sizing: border-box;
 	vertical-align: middle;
 	height: 20px;
+	background: white;
+	color: black;
 }
 #pwd {
 	font-size: 20px;
