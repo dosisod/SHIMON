@@ -4,7 +4,6 @@ from flask_restful import Resource, Api
 from flask.json import jsonify
 from datetime import datetime
 from waitress import serve
-import math
 import json
 import os
 
@@ -54,9 +53,12 @@ class Shimon:
 				self.attempts+=1
 
 				if self.time()-self.start<self.cooldown:
-					return render_template("login.html", msg="Try again in "+str(self.start-self.time()+self.cooldown)+" seconds")
+					return render_template("login.html", msg="Try again in "+str(round(self.start-self.time()+self.cooldown, 1))+" seconds")
 
-				elif self.attempts>=self.maxtries:
+				else:
+					self.start=0
+
+				if self.attempts>=self.maxtries:
 					self.start=self.time() #start cooldown timer
 					self.attempts=0 #reset attempt timer
 					return render_template("login.html", msg="Try again in "+str(self.cooldown)+" seconds")
@@ -89,4 +91,4 @@ class Shimon:
 			return jsonify({"msg":"nothing happened"})
 
 	def time(self):
-		return math.ceil(datetime.today().timestamp())
+		return round(datetime.today().timestamp(), 1)
