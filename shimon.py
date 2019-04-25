@@ -50,15 +50,15 @@ class Shimon:
 
 		if out["type"]=="cache":
 			if out["fail"] or self.time()-self.start<self.cooldown or self.attempts>=self.maxtries: #if decryption failed
-				self.attempts+=1
+				self.attempts+=1 #if there is an error, add one to attempts
 
-				if self.time()-self.start<self.cooldown:
+				if self.time()-self.start<self.cooldown: #if user hasnt waited long enough let them know
 					return render_template("login.html", msg="Try again in "+str(round(self.start-self.time()+self.cooldown, 1))+" seconds")
 
-				else:
+				else: #restart timer if user has waited long enough
 					self.start=0
 
-				if self.attempts>=self.maxtries:
+				if self.attempts>=self.maxtries: #if the user has attempted too many times
 					self.start=self.time() #start cooldown timer
 					self.attempts=0 #reset attempt timer
 					return render_template("login.html", msg="Try again in "+str(self.cooldown)+" seconds")
@@ -66,6 +66,7 @@ class Shimon:
 				elif out["data"]=="Cache doesnt exist":
 					self.cache={}
 					return render_template("index.html")
+
 				else:
 					return render_template("login.html", msg=out["data"])
 			else:
@@ -75,12 +76,17 @@ class Shimon:
 		elif out["type"]=="lock":
 			if self.cache or self.cache=={}: #if lock was sent and cache is open/never created
 				lock(json.dumps(self.cache), "123") #uses "123" for testing only
-				self.cache=None #clear cache
+
+				#allow user to unlock afterwards
+				self.cache=None
+				self.attempts=0
+				self.start=0
+
 				return render_template("login.html", msg="Cache has been locked")
 			else:
 				return render_template("login.html", msg="Please re-open cache")
 
-		elif out["type"]=="ping":
+		elif out["type"]=="ping": #checks for connectivity
 			return jsonify({"ping":"pong"})
 
 		#all elements in the array just return what the api returns
