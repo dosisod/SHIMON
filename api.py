@@ -32,7 +32,8 @@ def api_handle(data, cache=None): #handles all api requests
 
 	elif "status" in data:
 		return api_return("status", False, {
-			"version": VERSION
+			"version": VERSION,
+			"unlocked": bool(cache)
 		})
 
 	elif "ping" in data:
