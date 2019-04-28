@@ -1,12 +1,7 @@
-from flask import Flask, request, render_template
 from werkzeug.exceptions import HTTPException
 from flask_restful import Resource, Api
-from flask.json import jsonify
 from waitress import serve
-
-from security import check_local
-from storage import unlock
-from api import api_handle
+from flask import Flask
 
 from shimon import Shimon
 
