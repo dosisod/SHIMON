@@ -21,6 +21,10 @@ def error(ex):
 def index():
 	return shimon.index()
 
+@app.route("/msg")
+def msg():
+	return shimon.msg()
+
 @app.route("/login")
 def login():
 	return shimon.login()
