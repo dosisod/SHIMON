@@ -1,0 +1,60 @@
+<html>
+<head>
+<meta name="viewport" content="width=device-width">
+<title>SHIMON</title>
+<link rel="stylesheet" href={{ url_for("static", filename="msg.css") }}>
+
+</head>
+<body>
+<div class="container">
+<ol class="content" id="tray">
+	<li class="item">
+		<div class="holder">
+			<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAIUlEQVQ4jWNgYGD4TyEeNWDUgFEDBq8BMIDMhvFhYjAaAKzXE/uFMqc7AAAAAElFTkSuQmCC">
+			<ol>
+				<li class="name">bob</li>
+				<li class="msg">yo</li>
+			</ol>
+		</div>
+	</li>
+	<li class="item">
+		<div class="holder block sending">
+			<span class="msg">
+				1
+			</span>
+		</div>
+	</li>
+	<li class="item">
+		<div class="holder block receiving">
+			<span class="msg">
+				2
+			</span>
+		</div>
+	</li>
+	<li class="item">
+		<div class="holder block receiving">
+			<span class="msg">
+				3
+			</span>
+		</div>
+	</li>
+</ol>
+
+</div>
+</div>
+
+<script src={{ url_for("static", filename="nu.min.js") }}></script>
+<script src={{ url_for("static", filename="url.js") }}></script>
+<script src={{ url_for("static", filename="ui.js") }}></script>
+<script src={{ url_for("static", filename="api.js") }}></script>
+
+<script>
+url("msg") //set url
+
+//post({"data":"recent"}) //load recents
+//	.then(e=>replace_tray(e))
+
+</script>
+
+</body>
+</html>
