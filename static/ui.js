@@ -50,13 +50,13 @@ function new_card(u, n, m) { //adds card to tray
 	var ol=nu("ol")
 	ol.appendChild(
 		nu("li", {
-			"className": "name",
+			"className": "name hide",
 			"innerText": n
 		})
 	)
 	ol.appendChild(
 		nu("li", {
-			"className": "msg",
+			"className": "msg hide",
 			"innerText": m
 		})
 	)
