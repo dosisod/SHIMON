@@ -13,6 +13,55 @@ function realname(id) { //find name from id
 	}
 }
 
+async function reload_msgs() {
+	user=document.getElementById("uname").innerText
+
+	raw=await post({"data":{"allfor":user}})
+	data=raw["msgs"]
+
+	replace_template(
+		new_card(
+			raw["id"],
+			user,
+			""
+		),
+		(arr)=>{ //function template for creating cards
+			return nu("span", {
+				"className": "msg",
+				"innerText": arr["msg"]
+			}, [
+				nu("div", {
+					"className": "holder block "+(arr["sending"]?"sending":"receiving")
+				}),
+				nu("li", {
+					"className": "item"
+				})
+			])
+		},
+		data, //parameters to feed the template
+		nu("span", { //ending element
+			"className": "center name",
+			"innerText": "RELOAD"
+		})
+	)
+}
+
+async function replace_template(start, template, params, end) { //replace tray with nu elements
+	//start and end are put at the start and end of the tray
+	//template is a template to build items in the middle off of
+	//params is an array of the params for the template
+
+	tray.innerHTML=""
+
+	if (start) tray.appendChild(start)
+
+	params.forEach(e=>{
+		tray.appendChild(template(e)) //spread out params into template
+	})
+
+	if (end) tray.appendChild(end)
+}
+
 async function replace_tray(arr) { //replaces tray with new data
 	tray.innerHTML="" //clear tray
 
