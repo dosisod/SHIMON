@@ -13,6 +13,12 @@ function realname(id) { //find name from id
 	}
 }
 
+function uname(name) { //find id from name
+	for (i of friends) {
+		if (i["name"]==name) return i["id"]
+	}
+}
+
 async function reload_msgs() {
 	user=document.getElementById("uname").innerText
 
@@ -41,7 +47,8 @@ async function reload_msgs() {
 		data, //parameters to feed the template
 		nu("span", { //ending element
 			"className": "center name",
-			"innerText": "RELOAD"
+			"innerText": "RELOAD",
+			"onclick": ()=>reload_msgs()
 		})
 	)
 }
@@ -50,6 +57,8 @@ async function replace_template(start, template, params, end) { //replace tray w
 	//start and end are put at the start and end of the tray
 	//template is a template to build items in the middle off of
 	//params is an array of the params for the template
+
+	await check_friends() //always make sure that the friends list is populated
 
 	tray.innerHTML=""
 
@@ -112,7 +121,7 @@ function new_card(u, n, m) { //adds card to tray
 
 	var div=nu("div", {
 		"className": "holder",
-		"onclick": ()=>alert("Click")
+		"onclick": ()=>post({"msg":uname(n)}, true)
 	})
 
 	div.appendChild(

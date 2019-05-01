@@ -7,7 +7,7 @@
 
 </head>
 <body>
-<span class="uname">{{ uname }}</span>
+<span class="uname" id="uname">{{ uname }}</span>
 <div class="container">
 <ol class="content" id="tray">
 	<li class="item">
@@ -53,8 +53,8 @@
 <script>
 url("msg") //set url
 
-//post({"data":"recent"}) //load recents
-//	.then(e=>replace_tray(e))
+post({"data":"recent"}) //load recents
+	.then(e=>reload_msgs(e))
 
 </script>
 

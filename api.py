@@ -66,8 +66,10 @@ def api_handle(data, cache=None): #handles all api requests
 			return api_return("allfor", True, "User couldnt be found")
 
 		else:
-			
 			return api_return("data", True, "data")
+
+	elif "msg" in data: #if user requests msg, send command to redirect
+		return api_return("msg", False, data["msg"])
 
 	return api_return("other", True, data)
 

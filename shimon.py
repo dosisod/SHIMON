@@ -97,6 +97,9 @@ class Shimon:
 		elif out["type"]=="ping": #checks for connectivity
 			return jsonify({"ping":"pong"})
 
+		elif out["type"]=="msg":
+			return render_template("msg.html", uname=out["data"])
+
 		#all elements in the array just return what the api returns
 		elif out["type"] in ["friends", "recent", "status", "allfor"]:
 			return jsonify(out["data"])
