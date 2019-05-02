@@ -20,7 +20,9 @@ function uname(name) { //find id from name
 }
 
 async function reload_msgs() {
-	user=document.getElementById("uname").innerText
+	await check_friends() //make sure friends list is set
+
+	user=document.getElementById("uname").innerText //grab user passed from redirect
 
 	raw=await post({"data":{"allfor":user}})
 	data=raw["msgs"]
@@ -28,8 +30,9 @@ async function reload_msgs() {
 	replace_template(
 		new_card(
 			raw["id"],
-			user,
-			""
+			realname(user),
+			"",
+			true //return the card instead of appending
 		),
 		(arr)=>{ //function template for creating cards
 			return nu("span", {
@@ -102,8 +105,8 @@ function reload() { //reloads recents
 		.then(e=>replace_tray(e))
 }
 
-function new_card(u, n, m) { //adds card to tray
-	//uuid, name, message
+function new_card(u, n, m, r) { //returns or appends a new card
+	//uuid, name, message, return
 
 	var ol=nu("ol")
 	ol.appendChild(
@@ -136,7 +139,10 @@ function new_card(u, n, m) { //adds card to tray
 		"className": "item"
 	})
 	card.appendChild(div)
-	tray.appendChild(card)
+	
+	if (r) return card //stop here if you want to return it
+	
+	tray.appendChild(card) //else just append it
 }
 function new_img(uuid) { //converts uuid to b64 img of hash
 	var canv=nu("canvas", {
