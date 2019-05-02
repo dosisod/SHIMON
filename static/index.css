@@ -1,3 +1,6 @@
+* {
+	font-family: monospace, monospace;
+}
 .hide {
 	max-width: 0px;
 }
