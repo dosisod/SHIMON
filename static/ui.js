@@ -56,6 +56,31 @@ async function reload_msgs() {
 	)
 }
 
+async function reload_index() {
+	await check_friends()
+
+	raw=await post({"data":"recent"})
+
+	replace_template(
+		undefined,
+		(arr)=>{
+			return new_card(
+				arr["id"],
+				realname(arr["id"]),
+				arr["msgs"][0]["msg"],
+				true
+			)
+		},
+		raw,
+		nu("span", { //ending element
+			"className": "center name",
+			"innerText": "RELOAD",
+			"onclick": ()=>reload_index()
+		})
+
+	)
+}
+
 async function replace_template(start, template, params, end) { //replace tray with nu elements
 	//start and end are put at the start and end of the tray
 	//template is a template to build items in the middle off of
