@@ -99,37 +99,6 @@ async function replace_template(start, template, params, end) { //replace tray w
 	if (end) tray.appendChild(end)
 }
 
-async function replace_tray(arr) { //replaces tray with new data
-	tray.innerHTML="" //clear tray
-
-	await check_friends()
-
-	//make sure cards are an array type
-	var cards=(arr.constructor.name!="Array")?[arr]:arr
-
-	for (var i of cards) {
-		try {
-			new_card(
-				i["id"], //id from user
-				realname(i["id"]), //name for given id
-				i["msgs"][0]["msg"] //must recent message from user
-			)
-		}
-		catch {} //just ignore
-	}
-
-	nu("span", {
-		"className": "center name",
-		"innerText": "RELOAD",
-		"onclick": ()=>reload()
-	}, "tray")
-}
-
-function reload() { //reloads recents
-	post({"data":"recent"})
-		.then(e=>replace_tray(e))
-}
-
 function new_card(u, n, m, r) { //returns or appends a new card
 	//uuid, name, message, return
 
