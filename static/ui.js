@@ -65,9 +65,9 @@ async function reload_index() {
 		undefined,
 		(arr)=>{
 			return new_card(
-				arr["id"],
-				realname(arr["id"]),
-				arr["msgs"][0]["msg"],
+				arr["id"], //id of user
+				realname(arr["id"]), //realname of id
+				arr["msgs"][arr["msgs"].length-1]["msg"], //last message
 				true
 			)
 		},
