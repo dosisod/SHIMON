@@ -89,6 +89,12 @@ async function replace_template(start, template, params, end) { //replace tray w
 	await check_friends() //always make sure that the friends list is populated
 
 	tray.innerHTML=""
+	
+	nu("span", {
+		"innerText": "LOCK",
+		"className": "lock name",
+		"onclick": (e)=>lock(e)
+	}, "tray")
 
 	if (start) tray.appendChild(start)
 

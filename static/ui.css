@@ -66,3 +66,7 @@ div > img {
 .msg {
 	font-size: 14px;
 }
+.lock {
+	position: absolute;
+	right: 0;
+}
