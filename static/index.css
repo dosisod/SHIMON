@@ -2,5 +2,8 @@
 	font-family: monospace, monospace;
 }
 .hide {
-	max-width: 0px;
+	white-space: nowrap;
+}
+ol {
+	width: calc(100% - 74px);
 }
