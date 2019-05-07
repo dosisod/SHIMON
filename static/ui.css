@@ -68,5 +68,7 @@ div > img {
 }
 .lock {
 	position: absolute;
+	padding-top: 3px;
+	padding-right: 3px;
 	right: 0;
 }
