@@ -10,7 +10,7 @@
 <div class="container">
 <ol class="content" id="tray">
 	<span class="lock name" onclick="lock()">LOCK</span>
-	<li class="center name" onclick="reload_msgs()">RELOAD</li>
+	<li class="center name" onclick="reload_index()">RELOAD</li>
 </ol>
 
 </div>
@@ -24,8 +24,7 @@
 <script>
 url("") //set url
 
-post({"data":"recent"}) //load recents
-	.then(e=>reload_index(e))
+reload_index() //load recents
 
 </script>
 
