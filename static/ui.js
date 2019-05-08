@@ -86,10 +86,9 @@ async function replace_template(start, template, params, end) { //replace tray w
 	//template is a template to build items in the middle off of
 	//params is an array of the params for the template
 
-	await check_friends() //always make sure that the friends list is populated
+	tray.innerHTML="" //clear old tray
 
-	tray.innerHTML=""
-	
+	//always add lock button
 	nu("span", {
 		"innerText": "LOCK",
 		"className": "lock name",
@@ -99,7 +98,8 @@ async function replace_template(start, template, params, end) { //replace tray w
 	if (start) tray.appendChild(start)
 
 	params.forEach(e=>{
-		tray.appendChild(template(e)) //spread out params into template
+		//append new item given params for template
+		tray.appendChild(template(e))
 	})
 
 	if (end) tray.appendChild(end)
@@ -152,7 +152,7 @@ function new_img(uuid) { //converts uuid to b64 img of hash
 	var draw=canv.getContext("2d")
 
 	bin=""
-	for (i of uuid) bin+=parseInt(i,16).toString(2) //hex to binary string)
+	for (i of uuid) bin+=parseInt(i,16).toString(2) //hex to binary string
 	bin="0".repeat(256-bin.length)+bin //add leading bits
 
 	for (i=0;i<256;i++) { //16*16=256 pixels
@@ -161,5 +161,6 @@ function new_img(uuid) { //converts uuid to b64 img of hash
 		draw.fillRect(i%16, ~~(i/16), 1, 1) //draw single pixel
 	}
 
+	//return b64 for image src
 	return canv.toDataURL()
 }
