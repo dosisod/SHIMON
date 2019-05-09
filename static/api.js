@@ -4,9 +4,7 @@ async function post(arr, redirect) { //construct api call from dictionary
 			try {
 				return JSON.stringify(s)
 			}
-			catch {
-				return s
-			}
+			catch {}
 		}
 		return s
 	}
