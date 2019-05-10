@@ -14,26 +14,22 @@ def api_handle(self, data): #handles all api requests
 			return render_template("index.html")
 
 		else:
-			if self.time()-self.start<self.cooldown or self.attempts>=self.maxtries: #if decryption failed
-				self.attempts+=1 #if there is an error, add one to attempts
+			self.attempts+=1 #if there is an error, add one to attempts
 
-				if self.time()-self.start<self.cooldown: #if user hasnt waited long enough let them know
-					return render_template("login.html", msg="Try again in "+str(round(self.start-self.time()+self.cooldown, 1))+" seconds")
+			if self.time()-self.start<self.cooldown: #if user hasnt waited long enough let them know
+				return render_template("login.html", msg="Try again in "+str(round(self.start-self.time()+self.cooldown, 1))+" seconds")
 
-				else: #restart timer if user has waited long enough
-					self.start=0
+			else: #restart timer if user has waited long enough
+				self.start=0
 
-				if self.attempts>=self.maxtries: #if the user has attempted too many times
-					self.start=self.time() #start cooldown timer
-					self.attempts=0 #reset attempt timer
-					return render_template("login.html", msg="Try again in "+str(self.cooldown)+" seconds")
+			if self.attempts>=self.maxtries: #if the user has attempted too many times
+				self.start=self.time() #start cooldown timer
+				self.attempts=0 #reset attempt timer
+				return render_template("login.html", msg="Try again in "+str(self.cooldown)+" seconds")
 
-				elif plain=="{}":
-					self.cache={}
-					return render_template("index.html")
-
-				else:
-					return render_template("login.html", msg="Incorrect password")
+			elif plain=="{}":
+				self.cache={}
+				return render_template("index.html")
 
 			else:
 				return render_template("login.html", msg="Incorrect password")
