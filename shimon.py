@@ -54,58 +54,7 @@ class Shimon:
 		check_local()
 
 		data=request.form.to_dict()
-		out=api_handle(data, self.cache) #sends data to seperate method to handle
-
-		if out["type"]=="cache":
-			if out["fail"] or self.time()-self.start<self.cooldown or self.attempts>=self.maxtries: #if decryption failed
-				self.attempts+=1 #if there is an error, add one to attempts
-
-				if self.time()-self.start<self.cooldown: #if user hasnt waited long enough let them know
-					return render_template("login.html", msg="Try again in "+str(round(self.start-self.time()+self.cooldown, 1))+" seconds")
-
-				else: #restart timer if user has waited long enough
-					self.start=0
-
-				if self.attempts>=self.maxtries: #if the user has attempted too many times
-					self.start=self.time() #start cooldown timer
-					self.attempts=0 #reset attempt timer
-					return render_template("login.html", msg="Try again in "+str(self.cooldown)+" seconds")
-
-				elif out["data"]=="Cache doesnt exist":
-					self.cache={}
-					return render_template("index.html")
-
-				else:
-					return render_template("login.html", msg=out["data"])
-			else:
-				self.cache=json.loads(out["data"]) #cache decrypted, save to shimon
-				return render_template("index.html")
-
-		elif out["type"]=="lock":
-			if self.cache or self.cache=={}: #if lock was sent and cache is open/never created
-				lock(json.dumps(self.cache), "123") #uses "123" for testing only
-
-				#allow user to unlock afterwards
-				self.cache=None
-				self.attempts=0
-				self.start=0
-
-				return render_template("login.html", msg="Cache has been locked")
-			else:
-				return render_template("login.html", msg="Please re-open cache")
-
-		elif out["type"]=="ping": #checks for connectivity
-			return jsonify({"ping":"pong"})
-
-		elif out["type"]=="msg":
-			return render_template("msg.html", uname=out["data"])
-
-		#all elements in the array just return what the api returns
-		elif out["type"] in ["friends", "recent", "status", "allfor"]:
-			return jsonify(out["data"])
-
-		else:
-			return jsonify({"msg":"nothing happened"})
+		return api_handle(self, data) #sends data to seperate method to handle
 
 	def time(self):
 		return round(datetime.today().timestamp(), 1)

@@ -2,66 +2,87 @@ from flask import render_template
 from flask.json import jsonify
 import json
 
-from storage import unlock
+from storage import unlock, lock
 
 VERSION="0.0.2"
 
-"""
-api_handle data is returned like this:
-{
-	"type": "descriptor of type",
-	"fail": True or False,
-	"data": "can be anything"
-}
-"""
-
-def api_handle(data, cache=None): #handles all api requests
+def api_handle(self, data): #handles all api requests
 	if "unlock" in data: #try and unlock cache
 		plain=unlock(data["unlock"])
 		if plain: #if the cache was decrypted
-			return api_return("cache", False, plain)
+			self.cache=json.loads(plain) #cache decrypted, save to shimon
+			return render_template("index.html")
 
-		elif plain=="{}": #if cache doesnt exist
-			return api_return("cache", True, "Cache doesnt exist")
+		else:
+			if self.time()-self.start<self.cooldown or self.attempts>=self.maxtries: #if decryption failed
+				self.attempts+=1 #if there is an error, add one to attempts
 
-		else: #cache pwd is incorrect
-			return api_return("cache", True, "Incorrect password")
+				if self.time()-self.start<self.cooldown: #if user hasnt waited long enough let them know
+					return render_template("login.html", msg="Try again in "+str(round(self.start-self.time()+self.cooldown, 1))+" seconds")
+
+				else: #restart timer if user has waited long enough
+					self.start=0
+
+				if self.attempts>=self.maxtries: #if the user has attempted too many times
+					self.start=self.time() #start cooldown timer
+					self.attempts=0 #reset attempt timer
+					return render_template("login.html", msg="Try again in "+str(self.cooldown)+" seconds")
+
+				elif plain=="{}":
+					self.cache={}
+					return render_template("index.html")
+
+				else:
+					return render_template("login.html", msg="Incorrect password")
+
+			else:
+				return render_template("login.html", msg="Incorrect password")
 
 	elif "lock" in data: #user wants to encrypt cache
-		return api_return("lock", False, "Lock cache")
+		if self.cache or self.cache=={}: #if lock was sent and cache is open/never created
+			lock(json.dumps(self.cache), "123") #uses "123" for testing only
+
+			#allow user to unlock afterwards
+			self.cache=None
+			self.attempts=0
+			self.start=0
+
+			return render_template("login.html", msg="Cache has been locked")
+		else:
+			return render_template("login.html", msg="Please re-open cache")
 
 	elif "status" in data:
-		return api_return("status", False, {
+		return jsonify({
 			"version": VERSION,
-			"unlocked": bool(cache)
+			"unlocked": bool(self.cache)
 		})
 
 	elif "ping" in data:
-		return api_return("ping", False, "Pinged")
+		return jsonify({"ping":"pong"})
 
 	elif "data" in data: #requesting data from cache
 		data["data"]=api_decode(data["data"]) #if json was passed, try to decode it
 
 		if data["data"]=="friends":
-			return api_return("friends", False, cache["friends"])
+			return jsonify(self.cache["friends"])
 
 		elif data["data"]=="recent":
 			ret=[]
 			
-			for user in cache["history"]:
+			for user in self.cache["history"]:
 				ret.append({
 					"id": user["id"],
 					"msgs": [user["msgs"][-1]] #only get most recent message
 				})
 
-			return api_return("recent", False, ret)
+			return jsonify(ret)
 
 		#returns all data for specified id
 		elif "allfor" in data["data"]:
-			for user in cache["history"]:
+			for user in self.cache["history"]:
 				if user["id"]==data["data"]["allfor"]:
 					#return all messages from user
-					return api_return("allfor", False, {"id":user["id"], "msgs":user["msgs"]})
+					return jsonify({"id":user["id"], "msgs":user["msgs"]})
 
 			return api_return("allfor", True, "User couldnt be found")
 
@@ -69,12 +90,9 @@ def api_handle(data, cache=None): #handles all api requests
 			return api_return("data", True, "data")
 
 	elif "msg" in data: #if user requests msg, send command to redirect
-		return api_return("msg", False, data["msg"])
+		return render_template("msg.html", uname=data["msg"])
 
 	return api_return("other", True, data)
-
-def api_return(desc, fail, data): #creates json to be returned
-	return {"type": desc, "fail": fail, "data": data}
 
 def api_decode(s): #decodes json if possible
 	try:
