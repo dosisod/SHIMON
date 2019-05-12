@@ -2,7 +2,6 @@ from flask import Flask, request, render_template
 from werkzeug.exceptions import HTTPException
 from flask_restful import Resource, Api
 from flask.json import jsonify
-from datetime import datetime
 from waitress import serve
 import json
 import os
@@ -54,6 +53,3 @@ class Shimon:
 		check_local()
 
 		return api_handle(self, request.form.to_dict()) #sends data to seperate method to handle
-
-	def time(self):
-		return round(datetime.today().timestamp(), 1)

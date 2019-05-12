@@ -1,5 +1,6 @@
 from flask import render_template
 from flask.json import jsonify
+from datetime import datetime
 import json
 
 from storage import unlock, lock
@@ -9,21 +10,21 @@ VERSION="0.0.3"
 def api_handle(self, data): #handles all api requests
 	if "unlock" in data: #try and unlock cache
 		plain=unlock(data["unlock"])
-		if plain: #if the cache was decrypted
+		if not time()-self.start<self.cooldown and plain: #if not in cooldown and the cache was decrypted
 			self.cache=json.loads(plain) #cache decrypted, save to shimon
 			return render_template("index.html")
 
 		else:
 			self.attempts+=1 #if there is an error, add one to attempts
 
-			if self.time()-self.start<self.cooldown: #if user hasnt waited long enough let them know
-				return render_template("login.html", msg="Try again in "+str(round(self.start-self.time()+self.cooldown, 1))+" seconds")
+			if time()-self.start<self.cooldown: #if user hasnt waited long enough let them know
+				return render_template("login.html", msg="Try again in "+str(round(self.start-time()+self.cooldown, 1))+" seconds")
 
 			else: #restart timer if user has waited long enough
 				self.start=0
 
 			if self.attempts>=self.maxtries: #if the user has attempted too many times
-				self.start=self.time() #start cooldown timer
+				self.start=time() #start cooldown timer
 				self.attempts=0 #reset attempt timer
 				return render_template("login.html", msg="Try again in "+str(self.cooldown)+" seconds")
 
@@ -99,3 +100,6 @@ def api_decode(s): #decodes json if possible
 		pass
 
 	return s #return if invalid or not json
+
+def time():
+	return round(datetime.today().timestamp(), 1)
