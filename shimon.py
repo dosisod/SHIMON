@@ -53,8 +53,7 @@ class Shimon:
 	def api(self): #api method
 		check_local()
 
-		data=request.form.to_dict()
-		return api_handle(self, data) #sends data to seperate method to handle
+		return api_handle(self, request.form.to_dict()) #sends data to seperate method to handle
 
 	def time(self):
 		return round(datetime.today().timestamp(), 1)
