@@ -32,7 +32,8 @@ async function reload_msgs() {
 			raw["id"],
 			realname(user),
 			"",
-			true //return the card instead of appending
+			true, //return the card instead of appending
+			true //disable clicking of user card
 		),
 		(arr)=>{ //function template for creating cards
 			return nu("span", {
@@ -105,8 +106,8 @@ async function replace_template(start, template, params, end) { //replace tray w
 	if (end) tray.appendChild(end)
 }
 
-function new_card(u, n, m, r) { //returns or appends a new card
-	//uuid, name, message, return
+function new_card(u, n, m, r, d) { //returns or appends a new card
+	//uuid, name, message, return (card), disable (click)
 
 	var ol=nu("ol")
 	ol.appendChild(
@@ -123,9 +124,10 @@ function new_card(u, n, m, r) { //returns or appends a new card
 	)
 
 	var div=nu("div", {
-		"className": "holder",
-		"onclick": ()=>post({"msg":uname(n)}, true)
+		"className": "holder"
 	})
+	//if disable is set, onclick wont be added
+	if (!d) div.onclick=()=>post({"msg":uname(n)}, true)
 
 	div.appendChild(
 		nu("img", {
