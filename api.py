@@ -1,6 +1,6 @@
-from flask import render_template
+from flask import render_template, make_response
+from datetime import datetime, timedelta
 from flask.json import jsonify
-from datetime import datetime
 import json
 
 from storage import unlock, lock
@@ -87,7 +87,10 @@ def api_handle(self, data): #handles all api requests
 			return api_return("data", True, "data")
 
 	elif "msg" in data: #if user requests msg, send command to redirect
-		return render_template("msg.html", uname=data["msg"])
+		res=make_response(render_template("msg.html"))
+		res.set_cookie("uname", data["msg"])
+
+		return res
 
 	return api_return("other", True, data)
 

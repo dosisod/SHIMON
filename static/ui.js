@@ -22,7 +22,8 @@ function uname(name) { //find id from name
 async function reload_msgs() {
 	await check_friends() //make sure friends list is set
 
-	user=document.getElementById("uname").innerText //grab user passed from redirect
+	//from MDN docs
+	user=document.cookie.replace(/(?:(?:^|.*;\s*)uname\s*\=\s*([^;]*).*$)|^.*$/, "$1")
 
 	raw=await post({"data":{"allfor":user}})
 	data=raw["msgs"]
