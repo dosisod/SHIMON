@@ -44,7 +44,10 @@ def api_handle(self, data): #handles all api requests
 			self.attempts=0
 			self.start=0
 
-			return render_template("login.html", msg="Cache has been locked")
+			res=make_response(render_template("login.html", msg="Cache has been locked"))
+			res.set_cookie("uname", "", expires=0)
+
+			return res
 		else:
 			return render_template("login.html", msg="Please re-open cache")
 
