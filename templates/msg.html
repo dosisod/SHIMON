@@ -19,7 +19,7 @@
 <script src={{ url_for("static", filename="lock.js") }}></script>
 
 <script>
-url("msg") //set url
+url("msg/"+document.cookie.replace(/(?:(?:^|.*;\s*)uname\s*\=\s*([^;]*).*$)|^.*$/, "$1")) //set url
 
 reload_msgs() //reload
 
