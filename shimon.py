@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, make_response, abort
 from werkzeug.exceptions import HTTPException
 from flask_restful import Resource, Api
 from flask.json import jsonify
@@ -39,10 +39,19 @@ class Shimon:
 		else: #if cache isnt loaded, request unlock cache
 			return render_template("login.html")
 
-	def msg(self):
+	def msg(self, uuid):
 		check_all(self.cache)
 
-		return render_template("msg.html")
+		#make sure requested user is in friends list
+		for friend in self.cache["friends"]:
+			if friend["id"]==uuid:
+				res=make_response(render_template("msg.html"))
+				res.set_cookie("uname", uuid)
+
+				return res
+
+		#400 bad request
+		abort(400)
 
 	def login(self): #handles login page
 		check_local()

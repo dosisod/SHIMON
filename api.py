@@ -1,4 +1,4 @@
-from flask import render_template, make_response
+from flask import render_template, make_response, redirect
 from datetime import datetime, timedelta
 from flask.json import jsonify
 import json
@@ -89,11 +89,8 @@ def api_handle(self, data): #handles all api requests
 		else:
 			return api_return("data", True, "data")
 
-	elif "msg" in data: #if user requests msg, send command to redirect
-		res=make_response(render_template("msg.html"))
-		res.set_cookie("uname", data["msg"])
-
-		return res
+	elif "msg" in data: #if user requests msg, redirect to /msg/
+		return redirect("/msg/"+data["msg"])
 
 	return api_return("other", True, data)
 
