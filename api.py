@@ -5,7 +5,7 @@ import json
 
 from storage import unlock, lock
 
-VERSION="0.0.3"
+VERSION="0.0.4"
 
 def api_handle(self, data): #handles all api requests
 	if "unlock" in data: #try and unlock cache
