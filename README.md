@@ -2,7 +2,7 @@
 
 Secure Human Interactions Made Over Networks
 
-A simplistic messaging app using python and flask
+A simplistic messaging app using python3 and flask
 
 # Note
 
