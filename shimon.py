@@ -20,6 +20,8 @@ class Shimon:
 		self.start=0
 		self.cooldown=10
 
+		self.session=None
+
 	def error(self, ex): #redirects after error msg
 		err=500
 		if isinstance(ex, HTTPException):

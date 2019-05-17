@@ -4,6 +4,7 @@ from flask.json import jsonify
 import json
 
 from storage import unlock, lock
+from session import session_start
 
 VERSION="0.0.4"
 
@@ -12,7 +13,7 @@ def api_handle(self, data): #handles all api requests
 		plain=unlock(data["unlock"])
 		if not time()-self.start<self.cooldown and plain: #if not in cooldown and the cache was decrypted
 			self.cache=json.loads(plain) #cache decrypted, save to shimon
-			return render_template("index.html")
+			return session_start(self)
 
 		else:
 			self.attempts+=1 #if there is an error, add one to attempts
@@ -30,7 +31,7 @@ def api_handle(self, data): #handles all api requests
 
 			elif plain=="{}":
 				self.cache={}
-				return render_template("index.html")
+				return session_start(self)
 
 			else:
 				return render_template("login.html", msg="Incorrect password")
