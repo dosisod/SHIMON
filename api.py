@@ -4,7 +4,7 @@ from flask.json import jsonify
 import json
 
 from storage import unlock, lock
-from session import session_start
+from session import session_start, session_check
 
 VERSION="0.0.4"
 
@@ -36,7 +36,9 @@ def api_handle(self, data): #handles all api requests
 			else:
 				return render_template("login.html", msg="Incorrect password")
 
-	elif "lock" in data: #user wants to encrypt cache
+	session_check(self, data)
+
+	if "lock" in data: #user wants to encrypt cache
 		if self.cache or self.cache=={}: #if lock was sent and cache is open/never created
 			lock(json.dumps(self.cache), "123") #uses "123" for testing only
 

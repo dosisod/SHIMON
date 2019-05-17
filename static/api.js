@@ -1,4 +1,9 @@
 async function post(arr, redirect) { //construct api call from dictionary
+	//grab session cookie if available
+	session=document.cookie.replace(/(?:(?:^|.*;\s*)session\s*\=\s*([^;]*).*$)|^.*$/, "$1")
+
+	if (session) arr["session"]=session
+
 	var encode=(s)=>{ //if any param passed is an object, jsonify it
 		if (typeof s=="object") {
 			try {
