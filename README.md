@@ -17,6 +17,7 @@ Additional requirements:
 * Access to localhost port 1717
 
 Tested : Linux kali 4.19.0-kali4-amd64 #1 SMP Debian 4.19.28-2kali1 (2019-03-18) x86_64 GNU/Linux
+
 Untested : Windows
 
 # Running
@@ -31,7 +32,7 @@ Debug cache password is `123`
 
 This web app is under development, many features have yet to be implemented
 
-#The Future
+# The Future
 
 In the future I plan to:
 * Add networking capabilities
