@@ -6,7 +6,7 @@ import json
 from storage import unlock, lock
 from session import session_start, session_check
 
-VERSION="0.0.4"
+VERSION="0.0.5"
 
 def api_handle(self, data): #handles all api requests
 	if "unlock" in data: #try and unlock cache
