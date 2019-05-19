@@ -3,8 +3,8 @@ from datetime import datetime, timedelta
 from flask.json import jsonify
 import json
 
+from session import session_start, session_check, session_keepalive, session_kill
 from storage import unlock, lock
-from session import session_start, session_check
 
 VERSION="0.0.5"
 
@@ -46,6 +46,8 @@ def api_handle(self, data): #handles all api requests
 			self.cache=None
 			self.attempts=0
 			self.start=0
+
+			session_kill(self)
 
 			res=make_response(render_template("login.html", msg="Cache has been locked"))
 			res.set_cookie("uname", "", expires=0) #clear uname cookie
