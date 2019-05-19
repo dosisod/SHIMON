@@ -17,7 +17,7 @@ def session_start(self):
 
 def session_check(self, data):
 	if "session" in data:
-		if datetime.now()>(self.lastcall+timedelta(seconds=self.expires)):
+		if datetime.now()>(self.lastcall+timedelta(hours=self.expires)):
 			#if session has expired, clear it
 			session_kill(self)
 
@@ -25,11 +25,15 @@ def session_check(self, data):
 			session_keepalive(self)
 			return
 
-	return jsonify({"error":"401"})
+	if data["redirect"]=="true": #true is string not bool
+		return render_template("error.html", error=401)
+	else:
+		return jsonify({"error":"401"})
 
 def session_keepalive(self):
 	self.lastcall=datetime.now()
 
 def session_kill(self):
 	self.session=None
+	self.cache=None
 	self.lastcall=datetime.min

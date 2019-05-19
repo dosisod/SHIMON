@@ -36,7 +36,9 @@ def api_handle(self, data): #handles all api requests
 			else:
 				return render_template("login.html", msg="Incorrect password")
 
-	session_check(self, data)
+	check=session_check(self, data)
+	if check:
+		return check #if session_check fails, redirect will be returned
 
 	if "lock" in data: #user wants to encrypt cache
 		if self.cache or self.cache=={}: #if lock was sent and cache is open/never created

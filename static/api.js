@@ -3,6 +3,7 @@ async function post(arr, redirect) { //construct api call from dictionary
 	session=document.cookie.replace(/(?:(?:^|.*;\s*)session\s*\=\s*([^;]*).*$)|^.*$/, "$1")
 
 	if (session) arr["session"]=session
+	arr["redirect"]=!!redirect
 
 	var encode=(s)=>{ //if any param passed is an object, jsonify it
 		if (typeof s=="object") {
@@ -40,7 +41,11 @@ async function post(arr, redirect) { //construct api call from dictionary
 	
 		return fetch("/api/", {method:"POST", body:fd})
 			.then(e=>e.json())
-			.catch(e=>console.log({"error":e.message})) //returns any error
-			.then(e=>{return e}) //return data
+			.catch(e=>{console.log({"error":e.message})})
+			.then(e=>{
+				//if there is an error redirect to error page
+				if (100<=e["error"]&&e["error"]<=505) window.location="/error/"+e["error"]
+				else return e //return data
+			})
 	}
 }

@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template, make_response, abort
 from werkzeug.exceptions import HTTPException
+from datetime import datetime, timedelta
 from flask_restful import Resource, Api
 from flask.json import jsonify
 from waitress import serve
@@ -20,7 +21,10 @@ class Shimon:
 		self.start=0
 		self.cooldown=10
 
+		#session related vars
 		self.session=None
+		self.lastcall=datetime.now()
+		self.expires=1
 
 	def error(self, ex): #redirects after error msg
 		err=500
