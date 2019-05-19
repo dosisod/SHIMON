@@ -25,8 +25,11 @@ class Shimon:
 	def error(self, ex): #redirects after error msg
 		err=500
 		if isinstance(ex, HTTPException):
-			err=ex.code
-		return render_template("error.html", error=err)
+			err=ex.code #handle internal error
+		elif 300<=ex and ex<=417:
+			err=ex #handle self assigned error
+		else:
+			err=400 #handle invalid error
 
 	def index(self): #index page
 		check_local()

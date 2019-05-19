@@ -8,6 +8,7 @@ from shimon import Shimon
 app=Flask(__name__, static_url_path="")
 shimon=Shimon()
 
+@app.route("/error/<int:ex>")
 @app.errorhandler(Exception)
 def error(ex):
 	return shimon.error(ex)
