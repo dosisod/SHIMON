@@ -30,6 +30,7 @@ class Shimon:
 			err=ex #handle self assigned error
 		else:
 			err=400 #handle invalid error
+		return render_template("error.html", error=err)
 
 	def index(self): #index page
 		check_local()
