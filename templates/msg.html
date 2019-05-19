@@ -9,7 +9,13 @@
 <body>
 
 <div class="container">
-	<ol class="content" id="tray"></ol>
+<ol class="content" id="tray">
+	<div class="rightbar">
+		<span class="rightitem name" onclick="alert(1)">SETTINGS</span></br>
+		<span class="rightitem name" onclick="lock()">LOCK</span>
+	</div>
+	<li class="center name" onclick="reload_msgs">RELOAD</li>
+</ol>
 </div>
 
 <script src={{ url_for("static", filename="nu.min.js") }}></script>

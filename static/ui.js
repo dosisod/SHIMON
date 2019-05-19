@@ -90,12 +90,24 @@ async function replace_template(start, template, params, end) { //replace tray w
 
 	tray.innerHTML="" //clear old tray
 
-	//always add lock button
+	//always add the right bar (settings and lock buttons)
+	div=nu("div", {"className": "rightbar"})
+
+	nu("span", {
+		"innerText": "SETTINGS",
+		"className": "rightitem name",
+		"onclick": (e)=>alert(1)
+	}, div)
+
+	nu("br", {}, div)
+
 	nu("span", {
 		"innerText": "LOCK",
-		"className": "lock name",
+		"className": "rightitem name",
 		"onclick": (e)=>lock(e)
-	}, "tray")
+	}, div)
+
+	tray.appendChild(div)
 
 	if (start) tray.appendChild(start)
 
