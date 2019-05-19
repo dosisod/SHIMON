@@ -31,12 +31,14 @@ class Shimon:
 	def index(self): #index page
 		check_local()
 
-		if self.cache: #load page if cache is open
-			return render_template("index.html")
-
-		elif not os.path.isfile("data.gpg"): #if cache doesnt exist create and then open page
+		if not os.path.isfile("data.gpg"): #if cache doesnt exist create and then open page
 			self.cache={}
-			return render_template("index.html")
+
+		if self.cache or not os.path.isfile("data.gpg"): #load page if cache is open
+			res=make_response(render_template("index.html"))
+			res.set_cookie("uname", "", expires=0) #uname not needed, clear ir
+
+			return res
 
 		else: #if cache isnt loaded, request unlock cache
 			return render_template("login.html")
