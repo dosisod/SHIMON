@@ -17,6 +17,10 @@ def error(ex):
 def index():
 	return shimon.index()
 
+@app.route("/settings")
+def settings():
+	return shimon.settings()
+
 @app.route("/msg/<uuid>")
 def msg(uuid):
 	return shimon.msg(uuid)

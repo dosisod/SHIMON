@@ -51,6 +51,11 @@ class Shimon:
 		else: #if cache isnt loaded, request unlock cache
 			return render_template("login.html")
 
+	def settings(self):
+		check_all(self.cache)
+
+		return render_template("settings.html")
+
 	def msg(self, uuid):
 		check_all(self.cache)
 
