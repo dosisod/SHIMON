@@ -40,7 +40,15 @@ def api_handle(self, data): #handles all api requests
 	if check:
 		return check #if session_check fails, redirect will be returned
 
-	if "lock" in data: #user wants to encrypt cache
+	if "save" in data: #user only wants to encrypt cache
+		if self.cache or self.cache=={}:
+			lock(json.dumps(self.cache), "123")
+
+			return jsonify("OK")
+
+		return josnify({"error":401})
+
+	elif "lock" in data: #user wants to encrypt cache and log out
 		if self.cache or self.cache=={}: #if lock was sent and cache is open/never created
 			lock(json.dumps(self.cache), "123") #uses "123" for testing only
 
