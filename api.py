@@ -101,7 +101,7 @@ def api_handle(self, data): #handles all api requests
 	elif "msg" in data: #if user requests msg, redirect to /msg/
 		return redirect("/msg/"+data["msg"])
 
-	return api_return("other", True, data)
+	return jsonify({"error":400})
 
 def api_decode(s): #decodes json if possible
 	try:
