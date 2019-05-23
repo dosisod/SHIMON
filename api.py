@@ -42,15 +42,18 @@ def api_handle(self, data): #handles all api requests
 
 	if "save" in data: #user only wants to encrypt cache
 		if self.cache or self.cache=={}:
-			lock(json.dumps(self.cache), "123")
+			#try to lock
+			if not lock(self, json.dumps(self.cache), data["save"]):
+				return jsonify({"error":401})
 
 			return jsonify("OK")
 
-		return josnify({"error":401})
+		return jsonify({"error":401})
 
 	elif "lock" in data: #user wants to encrypt cache and log out
 		if self.cache or self.cache=={}: #if lock was sent and cache is open/never created
-			lock(json.dumps(self.cache), "123") #uses "123" for testing only
+			if not lock(self, json.dumps(self.cache), data["lock"]): #uses "123" for testing only
+				return jsonify({"error":401})
 
 			#allow user to unlock afterwards
 			self.cache=None

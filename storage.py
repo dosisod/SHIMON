@@ -1,4 +1,5 @@
 import pretty_bad_protocol as pbp
+from hashlib import sha512
 import os
 
 #fixes 'DECRYPTION_COMPLIANCE_MODE' '23' error
@@ -15,5 +16,14 @@ def unlock(pwd): #given password, try and return plaintext
 
 	return "{}" #return blank if file doesnt exist
 
-def lock(data, pwd): #encrypt data with password, send to "data.gpg"
+def locker(data, pwd): #encrypt data with password, send to "data.gpg"
 	gpg.encrypt(data, passphrase=pwd, symmetric=True, encrypt=False, output="data.gpg")
+
+def lock(self, data, pwd): #tries and locks with given password
+	if self.cache["sha512"]:
+		if self.cache["sha512"]==sha512(pwd.encode()).hexdigest():
+			#only lock if the pwd is the same as the cahce
+			locker(data, pwd)
+			return True
+
+	return False #error if cache was not locked
