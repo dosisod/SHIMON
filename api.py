@@ -41,34 +41,24 @@ def api_handle(self, data): #handles all api requests
 		return check #if session_check fails, redirect will be returned
 
 	if "save" in data: #user only wants to encrypt cache
-		if self.cache or self.cache=={}:
-			#try to lock
-			if not lock(self, json.dumps(self.cache), data["save"]):
-				return jsonify({"error":401})
-
-			return jsonify("OK")
-
-		return jsonify({"error":401})
+		lock(self, json.dumps(self.cache), data["save"])
+		return jsonify("OK")
 
 	elif "lock" in data: #user wants to encrypt cache and log out
-		if self.cache or self.cache=={}: #if lock was sent and cache is open/never created
-			if not lock(self, json.dumps(self.cache), data["lock"]): #uses "123" for testing only
-				return jsonify({"error":401})
+		lock(self, json.dumps(self.cache), data["lock"])
 
-			#allow user to unlock afterwards
-			self.cache=None
-			self.attempts=0
-			self.start=0
+		#allow user to unlock afterwards
+		self.cache=None
+		self.attempts=0
+		self.start=0
 
-			session_kill(self)
+		session_kill(self)
 
-			res=make_response(render_template("login.html", msg="Cache has been locked"))
-			res.set_cookie("uname", "", expires=0) #clear uname cookie
-			res.set_cookie("session", "", expires=0) #clear session cookie
+		res=make_response(render_template("login.html", msg="Cache has been locked"))
+		res.set_cookie("uname", "", expires=0) #clear uname cookie
+		res.set_cookie("session", "", expires=0) #clear session cookie
 
-			return res
-		else:
-			return render_template("login.html", msg="Please re-open cache")
+		return res
 
 	elif "status" in data:
 		return jsonify({
