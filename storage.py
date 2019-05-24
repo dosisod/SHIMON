@@ -1,4 +1,5 @@
 import pretty_bad_protocol as pbp
+from flask.json import jsonify
 from hashlib import sha512
 import os
 
@@ -28,7 +29,7 @@ def lock(self, data, pwd): #tries and locks with given password
 				return
 
 		#if sha512 doesnt exist or doesnt match passed pwd, 401
-		return jsonify({"error":401})
+		return jsonify({"error":"401"})
 
 	else:
 		#go back to login if cache doesnt exist
