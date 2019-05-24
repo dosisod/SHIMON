@@ -1,6 +1,7 @@
 from flask import render_template, make_response, redirect
 from datetime import datetime, timedelta
 from flask.json import jsonify
+from hashlib import sha512
 import json
 
 from session import session_start, session_check, session_keepalive, session_kill
@@ -68,6 +69,24 @@ def api_handle(self, data): #handles all api requests
 		res.set_cookie("session", "", expires=0) #clear session cookie
 
 		return res
+
+	elif "change pwd" in data:
+		data["change pwd"]=api_decode(data["change pwd"])
+
+		#if old and new are set
+		if "old" in data["change pwd"] and "new" in data["change pwd"]:
+			#check if old password is correct
+			if self.cache["sha512"]==sha512(data["change pwd"]["old"].encode()).hexdigest():
+				#password matches, set new password
+				self.cache["sha512"]=sha512(data["change pwd"]["new"].encode()).hexdigest()
+
+				return jsonify("OK")
+
+			else:
+				return jsonify({"error":"401"})
+
+		else:
+			return jsonify({"error":"400"})
 
 	elif "status" in data:
 		return jsonify({
