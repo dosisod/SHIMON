@@ -30,10 +30,14 @@ class Shimon:
 		err=500
 		if isinstance(ex, HTTPException):
 			err=ex.code #handle internal error
-		elif 300<=ex and ex<=417:
-			err=ex #handle self assigned error
-		else:
-			err=400 #handle invalid error
+
+		elif isinstance(ex, int):
+			if 300<=ex and ex<=417:
+				err=ex #handle self assigned error
+
+			else:
+				err=400 #handle invalid error
+
 		return render_template("error.html", error=err)
 
 	def index(self): #index page
