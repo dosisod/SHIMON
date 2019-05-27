@@ -24,7 +24,7 @@ class Shimon:
 		#session related vars
 		self.session=None
 		self.lastcall=datetime.now()
-		self.expires=1
+		self.expires=3600 #(default) time to expire in seconds
 
 	def error(self, ex): #redirects after error msg
 		err=500

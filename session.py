@@ -17,7 +17,7 @@ def session_start(self):
 
 def session_check(self, data):
 	if "session" in data:
-		if datetime.now()>(self.lastcall+timedelta(hours=self.expires)):
+		if datetime.now()>(self.lastcall+timedelta(seconds=self.expires)):
 			#if session has expired, clear it
 			session_kill(self)
 
