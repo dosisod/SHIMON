@@ -14,6 +14,8 @@ def api_handle(self, data): #handles all api requests
 		plain=unlock(data["unlock"])
 		if not time()-self.start<self.cooldown and plain: #if not in cooldown and the cache was decrypted
 			self.cache=json.loads(plain) #cache decrypted, save to shimon
+			self.expires=self.cache["expiration"]
+
 			return session_start(self)
 
 		else:
@@ -87,6 +89,19 @@ def api_handle(self, data): #handles all api requests
 
 		else:
 			return jsonify({"error":"400"})
+
+	elif "expiration timer" in data:
+		num=data["expiration timer"]
+		#timer was within acceptable range
+		if num.isdigit():
+			num=int(num)
+			if num>=900 and num<=86400:
+				self.expires=num
+				self.cache["expiration"]=num
+
+				return jsonify("OK")
+
+		return jsonify({"error": "400"})
 
 	elif "status" in data:
 		return jsonify({

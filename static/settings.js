@@ -13,4 +13,7 @@ function setting(e) { //make api calls based off setting type
 			"new": nw
 		}})
 	}
+	else if (["15 mins", "1 hour", "5 hours", "1 day"].indexOf(str)>-1) {
+		post({"expiration timer": e.value})
+	}
 }

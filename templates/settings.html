@@ -9,6 +9,15 @@
 <div class="container">
 <ol class="content" id="tray">
 	<li class="name setting" onclick="setting(this)">CHANGE PASSWORD</li>
+	<li class="name setting">EXPIRATION TIMER
+		<select class="dropdown">
+			<option value="" disabled="disabled" selected="selected"></option>
+			<option value="900" onclick="setting(this)">15 Mins</option>
+			<option value="3600" onclick="setting(this)">1 Hour</option>
+			<option value="18000" onclick="setting(this)">5 Hours</option>
+			<option value="86400" onclick="setting(this)">1 Day</option>
+		</select>
+	</li>
 </ol>
 
 </div>

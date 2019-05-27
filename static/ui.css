@@ -77,7 +77,14 @@ div > img {
 	right: 0;
 }
 .setting {
+	display: flex;
+	align-items: center;
 	text-align: left;
 	padding-top: 5px;
 	padding-bottom: 5px;
+}
+.dropdown {
+	vertical-align: middle;
+	position: absolute;
+	right: 0;
 }
