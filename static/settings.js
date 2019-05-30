@@ -3,10 +3,10 @@ function setting(e) { //make api calls based off setting type
 
 	if (str=="change password") {
 		old=prompt("Enter old password")
-		nw=prompt("Enter new password")
+		if (!old) return
 
-		//exit if either are not set
-		if (!old||!nw) return
+		nw=prompt("Enter new password")
+		if (!nw) return
 
 		post({"change pwd": {
 			"old": old,
