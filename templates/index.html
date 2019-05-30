@@ -7,6 +7,7 @@
 
 </head>
 <body>
+
 <div class="container">
 <ol class="content" id="tray">
 	<div class="rightbar">
@@ -24,10 +25,13 @@
 <script src={{ url_for("static", filename="ui.js") }}></script>
 <script src={{ url_for("static", filename="api.js") }}></script>
 <script src={{ url_for("static", filename="lock.js") }}></script>
+
 <script>
 url("") //set url
 
 reload_index() //load recents
+
+setInterval(reload_index, 5000) //reload again every 5 seconds
 
 </script>
 
