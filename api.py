@@ -43,7 +43,24 @@ def api_handle(self, data): #handles all api requests
 	if check:
 		return check #if session_check fails, redirect will be returned
 
-	if "save" in data: #user only wants to encrypt cache
+	if "send msg" in data:
+		message=api_decode(data["send msg"])
+
+		if "uname" in message and "msg" in message: #make sure data is set
+			for friend in self.cache["friends"]:
+				if message["uname"]==friend["id"]: #make sure friend is in friends list
+					for i, hist in enumerate(self.cache["history"]):
+						if hist["id"]==message["uname"]: #find friend in history
+							self.cache["history"][i]["msgs"].append({
+								"sending": True,
+								"msg": message["msg"]
+							})
+
+							return jsonify("OK") #all good
+
+		return jsonify({"error": "400"}) #user didnt set something/made an invalid request
+
+	elif "save" in data: #user only wants to encrypt cache
 		ret=lock(self, json.dumps(self.cache), data["save"])
 
 		#if if the lock returns an error, re-return it
@@ -144,7 +161,7 @@ def api_handle(self, data): #handles all api requests
 	elif "msg" in data: #if user requests msg, redirect to /msg/
 		return redirect("/msg/"+data["msg"])
 
-	return jsonify({"error":400})
+	return jsonify({"error": "400"})
 
 def api_decode(s): #decodes json if possible
 	try:

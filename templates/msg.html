@@ -36,7 +36,10 @@ function send(e) { //send msg to user
 	//only send if enter was pressed
 	if (e.key!="Enter") return
 
-	//send msg later
+	post({"send msg":{
+		"uname": document.cookie.replace(/(?:(?:^|.*;\s*)uname\s*\=\s*([^;]*).*$)|^.*$/, "$1"),
+		"msg": e.target.value
+	}})
 
 	e.target.value="" //reset input box
 }
