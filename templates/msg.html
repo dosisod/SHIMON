@@ -16,7 +16,7 @@
 	</div>
 	<li class="center name" onclick="reload_msgs()">RELOAD</li>
 </ol>
-<input id="typer"></input>
+<input id="typer" onkeydown="send(event)"></input>
 </div>
 
 <script src={{ url_for("static", filename="nu.min.js") }}></script>
@@ -31,6 +31,15 @@ url("msg/"+document.cookie.replace(/(?:(?:^|.*;\s*)uname\s*\=\s*([^;]*).*$)|^.*$
 reload_msgs() //reload
 
 setInterval(reload_msgs, 5000) //reload again every 5 seconds
+
+function send(e) { //send msg to user
+	//only send if enter was pressed
+	if (e.key!="Enter") return
+
+	//send msg later
+
+	e.target.value="" //reset input box
+}
 
 </script>
 
