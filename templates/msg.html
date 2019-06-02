@@ -14,7 +14,7 @@
 		<span class="rightitem name" onclick="window.location='/settings'">SETTINGS</span></br>
 		<span class="rightitem name" onclick="lock()">LOCK</span>
 	</div>
-	<li class="center name" onclick="reload_msgs()">RELOAD</li>
+	<li class="center name" id="reload" onclick="reload_msgs()">RELOAD</li>
 </ol>
 <input id="typer" onkeydown="send(event)"></input>
 </div>
@@ -35,6 +35,21 @@ setInterval(reload_msgs, 5000) //reload again every 5 seconds
 function send(e) { //send msg to user
 	//only send if enter was pressed
 	if (e.key!="Enter") return
+
+	document.getElementById("tray").insertBefore(
+		nu("span", { //immediately add sent msg to screen, reload later
+			"className": "msg",
+			"innerText": e.target.value
+		}, [
+			nu("div", {
+				"className": "holder block sending"
+			}),
+			nu("li", {
+				"className": "item"
+			})
+		]),
+		document.getElementById("reload")
+	)
 
 	post({"send msg":{
 		"uname": document.cookie.replace(/(?:(?:^|.*;\s*)uname\s*\=\s*([^;]*).*$)|^.*$/, "$1"),
