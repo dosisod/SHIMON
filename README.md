@@ -26,7 +26,7 @@ Run with `python3 main.py`
 
 Got to `http://0.0.0.0:1717` in a web browser
 
-Debug cache password is `123`
+Debug cache password is `123` (this can be changed after unlocking)
 
 # Note
 
@@ -36,5 +36,4 @@ This web app is under development, many features have yet to be implemented
 
 In the future I plan to:
 * Add networking capabilities
-* Make cache password non-static
 * Compile to working webapp/apk
