@@ -42,7 +42,7 @@ async function reload_msgs() {
 				"innerText": arr["msg"]
 			}, [
 				nu("div", {
-					"className": "holder block "+(arr["sending"]?"receiving":"sending")
+					"className": "holder block "+(arr["sending"]?"sending":"receiving")
 				}),
 				nu("li", {
 					"className": "item"
@@ -53,6 +53,7 @@ async function reload_msgs() {
 		nu("span", { //ending element
 			"className": "center name",
 			"innerText": "RELOAD",
+			"id": "reload",
 			"onclick": ()=>reload_msgs()
 		})
 	)

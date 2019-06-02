@@ -6,11 +6,11 @@
 	
 	position: relative;
 }
-.sending {
+.receiving {
 	left: 0;
 	border: 1px solid black;
 }
-.receiving {
+.sending {
 	left: calc(20% - 40px);
 	background: black;
 	color: white;
