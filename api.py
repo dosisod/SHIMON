@@ -152,10 +152,7 @@ def api_handle(self, data): #handles all api requests
 					#return all messages from user
 					return jsonify({"id":user["id"], "msgs":user["msgs"]})
 
-			return api_return("allfor", True, "User couldnt be found")
-
-		else:
-			return api_return("data", True, "data")
+		return jsonify({"error":"400"})
 
 	elif "msg" in data: #if user requests msg, redirect to /msg/
 		return redirect("/msg/"+data["msg"])
