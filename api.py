@@ -119,6 +119,11 @@ def api_handle(self, data): #handles all api requests
 
 		return jsonify({"error": "400"})
 
+	elif "nuke" in data: #user wants to delete cache
+		if self.cache["sha512"]==sha512(data["nuke"].encode()).hexdigest():
+			#start a new session as if it is booting for the first time
+			return session_start(self, True)
+
 	elif "status" in data:
 		return jsonify({
 			"version": VERSION,

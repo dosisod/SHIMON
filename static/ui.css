@@ -89,3 +89,6 @@ div > img {
 	position: absolute;
 	right: 0;
 }
+.warn {
+	color: red;
+}

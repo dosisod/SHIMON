@@ -18,11 +18,13 @@
 			<option value="86400" onclick="setting(this)">1 Day</option>
 		</select>
 	</li>
+	<li class="name setting warn" onclick="setting(this)">NUKE CACHE</li>
 </ol>
 
 </div>
 </div>
 
+<script src={{ url_for("static", filename="nu.min.js") }}></script>
 <script src={{ url_for("static", filename="url.js") }}></script>
 <script src={{ url_for("static", filename="api.js") }}></script>
 <script src={{ url_for("static", filename="settings.js") }}></script>
