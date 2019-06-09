@@ -2,14 +2,27 @@ from flask import render_template, make_response, abort
 from datetime import datetime, timedelta
 from flask.json import jsonify
 import base64 as b64
+import json
 import os
 
-def session_start(self):
+from storage import lock
+
+def session_start(self, fresh=False):
 	res=make_response(render_template("index.html"))
 
 	#creates session id
 	self.session=b64.urlsafe_b64encode(os.urandom(32)).decode().replace("=","")
 	res.set_cookie("session", self.session)
+
+	if fresh: #if starting with a fresh (new) cache, set it up
+		self.cache={ #fill cache with these default values
+			"friends": [],
+			"history": [],
+			#sha512 for password "123", this will change when password is reset
+			"sha512": "3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2",
+			"expiration": 3600
+		}
+		lock(self, json.dumps(self.cache), "123") #save default cache right away
 
 	session_keepalive(self)
 

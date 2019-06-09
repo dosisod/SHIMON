@@ -8,6 +8,7 @@ import json
 import os
 
 from security import check_all, check_local, check_allowed
+from session import session_start
 from storage import unlock, lock
 from api import api_handle
 
@@ -44,11 +45,11 @@ class Shimon:
 		check_local()
 
 		if not os.path.isfile("data.gpg"): #if cache doesnt exist create and then open page
-			self.cache={}
+			return session_start(self, True)
 
 		if self.cache or not os.path.isfile("data.gpg"): #load page if cache is open
 			res=make_response(render_template("index.html"))
-			res.set_cookie("uname", "", expires=0) #uname not needed, clear ir
+			res.set_cookie("uname", "", expires=0) #uname not needed, clear it
 
 			return res
 

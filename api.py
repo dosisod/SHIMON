@@ -33,8 +33,7 @@ def api_handle(self, data): #handles all api requests
 				return render_template("login.html", msg="Try again in "+str(self.cooldown)+" seconds")
 
 			elif plain=="{}":
-				self.cache={}
-				return session_start(self)
+				return session_start(self, True)
 
 			else:
 				return render_template("login.html", msg="Incorrect password")
