@@ -1,11 +1,13 @@
 from flask import render_template, make_response, redirect
 from datetime import datetime, timedelta
+from base64 import b64encode as b64
 from flask.json import jsonify
 from hashlib import sha512
 import json
 
 from session import session_start, session_check, session_keepalive, session_kill
 from storage import unlock, lock
+from kee import kee
 
 VERSION="0.0.11"
 
@@ -105,6 +107,18 @@ def api_handle(self, data): #handles all api requests
 
 		else:
 			return jsonify({"error":"400"})
+
+	elif "new key" in data:
+		if data["new key"]:
+			#password required to change key
+			if self.cache["sha512"]==sha512(data["new key"].encode()).hexdigest():
+				self.cache["key"]=str(b64(kee(2048).exportKey()))
+
+				lock(self, json.dumps(self.cache), data["new key"]) #makes sure changes are saved
+
+				return render_template("index.html")
+
+		return jsonify({"error": "401"})
 
 	elif "expiration timer" in data:
 		num=data["expiration timer"]

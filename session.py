@@ -2,6 +2,7 @@ from flask import render_template, make_response, abort
 from datetime import datetime, timedelta
 from flask.json import jsonify
 import base64 as b64
+from kee import kee
 import json
 import os
 
@@ -18,8 +19,13 @@ def session_start(self, fresh=False):
 		self.cache={ #fill cache with these default values
 			"friends": [],
 			"history": [],
+
 			#sha512 for password "123", this will change when password is reset
 			"sha512": "3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2",
+
+			#base64 encoded private key for user
+			"key": str(b64.b64encode(kee(2048).exportKey())),
+
 			"expiration": 3600
 		}
 		lock(self, json.dumps(self.cache), "123") #save default cache right away
