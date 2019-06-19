@@ -24,7 +24,7 @@ def session_start(self, fresh=False):
 			"sha512": "3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2",
 
 			#base64 encoded private key for user
-			"key": str(b64.b64encode(kee(2048).exportKey())),
+			"key": str(b64.b64encode(kee(2048).private())),
 
 			"expiration": 3600
 		}

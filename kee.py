@@ -13,7 +13,7 @@ class kee(): #allows proper padding with OAEP and signing via crypto signature
 	def pub(self): #returns public key
 		return self.RSA.publickey().exportKey(format="DER")
 
-	def exportKey(self): #returns private key
+	def private(self): #returns private key
 		return self.RSA.exportKey(format="DER")
 
 	def importKey(self, k):

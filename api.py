@@ -112,7 +112,7 @@ def api_handle(self, data): #handles all api requests
 		if data["new key"]:
 			#password required to change key
 			if self.cache["sha512"]==sha512(data["new key"].encode()).hexdigest():
-				self.cache["key"]=str(b64(kee(2048).exportKey()))
+				self.cache["key"]=str(b64(kee(2048).private()))
 
 				lock(self, json.dumps(self.cache), data["new key"]) #makes sure changes are saved
 
