@@ -71,7 +71,7 @@ def api_handle(self, data): #handles all api requests
 		return jsonify("OK")
 
 	elif "lock" in data: #user wants to encrypt cache and log out
-		ret=lock(self, json.dumps(self.cache), data["lock"])
+		ret=lock(self, data["lock"])
 
 		#if the lock returns an error, goto error page
 		if ret:
@@ -114,7 +114,7 @@ def api_handle(self, data): #handles all api requests
 			if self.cache["sha512"]==sha512(data["new key"].encode()).hexdigest():
 				self.cache["key"]=str(b64(kee(2048).private()))
 
-				lock(self, json.dumps(self.cache), data["new key"]) #makes sure changes are saved
+				lock(self, data["new key"]) #makes sure changes are saved
 
 				return render_template("index.html")
 

@@ -1,6 +1,7 @@
 import pretty_bad_protocol as pbp
 from flask.json import jsonify
 from hashlib import sha512
+import json
 import os
 
 #fixes 'DECRYPTION_COMPLIANCE_MODE' '23' error
@@ -20,12 +21,12 @@ def unlock(pwd): #given password, try and return plaintext
 def locker(data, pwd): #encrypt data with password, send to "data.gpg"
 	gpg.encrypt(data, passphrase=pwd, symmetric=True, encrypt=False, output="data.gpg")
 
-def lock(self, data, pwd): #tries and locks with given password
+def lock(self, pwd): #tries and locks with given password
 	if self.cache or self.cache=={}:
 		if self.cache["sha512"]:
 			if self.cache["sha512"]==sha512(pwd.encode()).hexdigest():
-				#only lock if the pwd is the same as the cahce
-				locker(data, pwd)
+				#only lock if the pwd is the same as the cache
+				locker(json.dumps(self.cache), pwd)
 				return
 
 		#if sha512 doesnt exist or doesnt match passed pwd, 401
