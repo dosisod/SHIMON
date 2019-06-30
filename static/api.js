@@ -17,6 +17,7 @@ async function post(arr, redirect) { //construct api call from dictionary
 
 	if (redirect) { //create form, submit and follow it
 		var form=nu("form", { //make nu empty form
+			"id": "api-form",
 			"action": "/api/",
 			"method": "POST"
 		})
@@ -34,6 +35,8 @@ async function post(arr, redirect) { //construct api call from dictionary
 		}, [form, document.body], true)
 		
 		submit.click() //send form
+
+		document.getElementById("api-form").remove()
 	}
 	else { //only grab data from api
 		var fd=new FormData()
