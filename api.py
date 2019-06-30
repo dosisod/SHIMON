@@ -9,8 +9,6 @@ from session import session_start, session_check, session_keepalive, session_kil
 from storage import unlock, lock
 from kee import kee
 
-VERSION="0.0.11"
-
 def api_handle(self, data): #handles all api requests
 	if "unlock" in data: #try and unlock cache
 		plain=unlock(data["unlock"])
@@ -140,7 +138,7 @@ def api_handle(self, data): #handles all api requests
 
 	elif "status" in data:
 		return jsonify({
-			"version": VERSION,
+			"version": self.VERSION,
 			"unlocked": bool(self.cache)
 		})
 

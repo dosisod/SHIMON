@@ -14,6 +14,8 @@ from api import api_handle
 
 class Shimon:
 	def __init__(self):
+		self.VERSION="0.0.11"
+
 		self.cache=None #stores cached data after decryption
 
 		#stuff related to login timeouts

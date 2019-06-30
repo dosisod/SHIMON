@@ -34,4 +34,6 @@ def api():
 	return shimon.api()
 
 if __name__=="__main__":
+	print("starting SHIMON v"+shimon.VERSION+" -> github.com/dosisod/SHIMON")
+	print("")
 	serve(app, host="0.0.0.0", port=1717, threads=6)
