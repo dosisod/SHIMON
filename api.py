@@ -61,7 +61,7 @@ def api_handle(self, data): #handles all api requests
 		return jsonify({"error": "400"}) #user didnt set something/made an invalid request
 
 	elif "save" in data: #user only wants to encrypt cache
-		ret=lock(self, json.dumps(self.cache), data["save"])
+		ret=lock(self, data["save"])
 
 		#if if the lock returns an error, re-return it
 		if ret:
