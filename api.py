@@ -6,6 +6,7 @@ from hashlib import sha512
 import json
 
 from session import session_start, session_check, session_keepalive, session_kill
+from security import correct_pwd, update_pwd
 from storage import unlock, lock
 from kee import kee
 
@@ -91,25 +92,21 @@ def api_handle(self, data): #handles all api requests
 	elif "change pwd" in data:
 		data["change pwd"]=api_decode(data["change pwd"])
 
-		#if old and new are set
 		if "old" in data["change pwd"] and "new" in data["change pwd"]:
-			#check if old password is correct
-			if self.cache["sha512"]==sha512(data["change pwd"]["old"].encode()).hexdigest():
-				#password matches, set new password
-				self.cache["sha512"]=sha512(data["change pwd"]["new"].encode()).hexdigest()
-
-				return jsonify("OK")
+			tmp=update_pwd(self, data["change pwd"]["old"], data["change pwd"]["new"])
+			if tmp:
+				return jsonify("OK") #password was updated successfully
 
 			else:
-				return jsonify({"error":"401"})
+				return jsonify({"error":"401"}) #incorrect info was given
 
 		else:
-			return jsonify({"error":"400"})
+			return jsonify({"error":"400"}) #invalid request
 
 	elif "new key" in data:
 		if data["new key"]:
 			#password required to change key
-			if self.cache["sha512"]==sha512(data["new key"].encode()).hexdigest():
+			if correct_pwd(self, data["new key"]):
 				self.cache["key"]=str(b64(kee(2048).private()))
 
 				lock(self, data["new key"]) #makes sure changes are saved
@@ -132,7 +129,7 @@ def api_handle(self, data): #handles all api requests
 		return jsonify({"error": "400"})
 
 	elif "nuke" in data: #user wants to delete cache
-		if self.cache["sha512"]==sha512(data["nuke"].encode()).hexdigest():
+		if correct_pwd(data["nuke"]):
 			#start a new session as if it is booting for the first time
 			return session_start(self, True)
 
