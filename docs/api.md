@@ -3,6 +3,7 @@
 This is a list of api commands, their functions, and how to call them
 
 | Name | Args | Return | Description |
+| ---- | ---- | ------ | ----------- |
 | "unlock" | PWD (string) | Home screen if success, login page with error msg if error | Tries to unlock cache with PWD as password |
 | "save" | PWD (string) | Error if invalid, OK if success | Saves current state of SHIMON to cache |
 | "lock" | PWD (string) | Error if invalid, OK if success | Saves then deletes the session |
