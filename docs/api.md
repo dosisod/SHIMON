@@ -15,3 +15,11 @@ This is a list of api commands, their functions, and how to call them
 | "status" | | Status of app | Gets version and unlock state |
 | "ping" | | pong | ping pong |
 | "msg" | UNAME (string) | Redirect | Goes to page for user UNAME |
+
+The `"data"` command is more involved, it can take a string or dictionary depending on the type of request:
+
+`{"data":"friends"}` Grabs a list of all friends in the friends list
+
+`{"data":"recent"}` Grabs the most recent even for each friend in the friends list
+
+`{"data":{"allfor":UNAME}}` Grabs all messages sent to and from user UNAME
