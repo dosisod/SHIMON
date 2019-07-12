@@ -63,6 +63,11 @@ class Shimon:
 
 		return render_template("settings.html")
 
+	def account(self):
+		check_all(self.cache)
+
+		return render_template("account.html")
+
 	def msg(self, uuid):
 		check_all(self.cache)
 

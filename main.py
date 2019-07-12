@@ -21,6 +21,10 @@ def index():
 def settings():
 	return shimon.settings()
 
+@app.route("/account")
+def account():
+	return shimon.account()
+
 @app.route("/msg/<uuid>")
 def msg(uuid):
 	return shimon.msg(uuid)

@@ -1,0 +1,29 @@
+<html>
+<head>
+<meta name="viewport" content="width=device-width">
+<title>SHIMON</title>
+<link rel="stylesheet" href={{ url_for("static", filename="ui.css") }}>
+
+</head>
+<body>
+<div class="container">
+<ol class="content" id="tray">
+	<li class="item">
+		<div class="holder">
+			<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGElEQVQ4jWNgYGD4TyEeNWDUgFEDhocBAJvM/wEeNfmLAAAAAElFTkSuQmCC">
+			<ol>
+				<li class="name hide">USER ACCOUNT</li>
+			</ol>
+		</div>
+	</li>
+	<li class="name setting"><span onclick="window.location='/settings'">SETTINGS</span></li>
+	<li class="name setting"><span onclick="lock(event)">LOCK</span></li>
+</ol>
+</div>
+
+<script src={{ url_for("static", filename="shimon.min.js") }}></script>
+
+<script>url("account")</script>
+
+</body>
+</html>
