@@ -95,17 +95,17 @@ async function replace_template(start, template, params, end) { //replace tray w
 	div=nu("div", {"className": "rightbar"})
 
 	nu("span", {
-		"innerText": "SETTINGS",
+		"innerText": "ACCOUNT",
 		"className": "rightitem name",
-		"onclick": (e)=>window.location="/settings"
+		"onclick": (e)=>window.location="/account"
 	}, div)
 
 	nu("br", {}, div)
 
 	nu("span", {
-		"innerText": "LOCK",
+		"innerText": "SAVE",
 		"className": "rightitem name",
-		"onclick": (e)=>lock(e)
+		"onclick": (e)=>save(e)
 	}, div)
 
 	tray.appendChild(div)
