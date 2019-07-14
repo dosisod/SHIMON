@@ -92,3 +92,6 @@ div > img {
 .warn {
 	color: red;
 }
+.info {
+	color: grey;
+}

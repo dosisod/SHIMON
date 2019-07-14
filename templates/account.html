@@ -17,13 +17,23 @@
 		</div>
 	</li>
 	<li class="name setting"><span onclick="window.location='/settings'">SETTINGS</span></li>
-	<li class="name setting"><span onclick="lock(event)">LOCK</span></li>
+	<li class="name setting"><span onclick="lock(event)">LOCK</span></li></br>
+	<li class="name setting">
+		<a href="https://github.com/dosisod/SHIMON" class="info">SHIMON</a>
+		<span id="version" class="info"></span>
+	</li>
 </ol>
 </div>
 
 <script src={{ url_for("static", filename="shimon.min.js") }}></script>
 
-<script>url("account")</script>
+<script>
+url("account")
+
+post({"status":""}).then(e=>{
+	document.getElementById("version").innerHTML="&nbsp;v"+e.version
+})
+</script>
 
 </body>
 </html>
