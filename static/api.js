@@ -44,10 +44,17 @@ async function post(arr, redirect) { //construct api call from dictionary
 	
 		return fetch("/api/", {method:"POST", body:fd})
 			.then(e=>e.json())
-			.catch(e=>{console.log({"error":e.message})})
+			.catch(e=>{
+				console.log({"error":e.message})
+				if (e.message=="NetworkError when attempting to fetch resource.") {
+					document.getElementById("error").innerText="Network Disconnected"
+				}
+			})
 			.then(e=>{
 				//if there is an error redirect to error page
-				if (100<=e["error"]&&e["error"]<=505) window.location="/error/"+e["error"]
+				else if (100<=e["error"]&&e["error"]<=505) {
+					window.location="/error/"+e["error"]
+				}
 				else return e //return data
 			})
 	}
