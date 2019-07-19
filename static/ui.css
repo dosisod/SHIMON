@@ -95,3 +95,11 @@ div > img {
 .info {
 	color: grey;
 }
+.error {
+	padding: 5px;
+	margin: -15px;
+	background: white;
+	text-align: center;
+	transform: translate(-50%, 50%);
+	position: fixed;
+}
