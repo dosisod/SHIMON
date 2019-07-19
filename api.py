@@ -129,7 +129,7 @@ def api_handle(self, data): #handles all api requests
 		return jsonify({"error": "400"})
 
 	elif "nuke" in data: #user wants to delete cache
-		if correct_pwd(data["nuke"]):
+		if correct_pwd(self, data["nuke"]):
 			#start a new session as if it is booting for the first time
 			return session_start(self, True)
 

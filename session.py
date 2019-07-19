@@ -15,6 +15,7 @@ def session_start(self, fresh=False):
 	self.session=b64.urlsafe_b64encode(os.urandom(32)).decode().replace("=","")
 	res.set_cookie("session", self.session)
 
+
 	if fresh: #if starting with a fresh (new) cache, set it up
 		self.cache={ #fill cache with these default values
 			"friends": [],
@@ -24,11 +25,11 @@ def session_start(self, fresh=False):
 			"sha512": "3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2",
 
 			#base64 encoded private key for user
-			"key": str(b64.b64encode(kee(2048).private())),
+			"key": b64.b64encode(kee(2048).private()).decode(),
 
 			"expiration": 3600
 		}
-		lock(self, json.dumps(self.cache), "123") #save default cache right away
+		lock(self, "123") #save default cache right away
 
 	session_keepalive(self)
 
