@@ -82,6 +82,11 @@ class Shimon:
 		#400 bad request
 		abort(400)
 
+	def add(self):
+		check_all(self.cache)
+
+		return render_template("add.html")
+
 	def login(self): #handles login page
 		check_local()
 

@@ -29,6 +29,10 @@ def account():
 def msg(uuid):
 	return shimon.msg(uuid)
 
+@app.route("/add")
+def add():
+	return shimon.add()
+
 @app.route("/login")
 def login():
 	return shimon.login()
