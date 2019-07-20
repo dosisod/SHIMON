@@ -95,6 +95,14 @@ async function replace_template(start, template, params, end) { //replace tray w
 	div=nu("div", {"className": "rightbar"})
 
 	nu("span", {
+		"innerText": "ADD FRIEND",
+		"className": "rightitem name",
+		"onclick": (e)=>window.location="/add"
+	}, div)
+
+	nu("br", {}, div)
+
+	nu("span", {
 		"innerText": "ACCOUNT",
 		"className": "rightitem name",
 		"onclick": (e)=>window.location="/account"

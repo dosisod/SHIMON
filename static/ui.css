@@ -47,6 +47,18 @@ ol {
 a {
 	color: black;
 }
+input.input {
+	border: 1px solid #333;
+	box-sizing: border-box;
+	vertical-align: middle;
+	height: 20px;
+	background: white;
+	color: black;
+}
+#click {
+	color: black;
+	background: white;
+}
 div > img {
 	vertical-align: top;
 	width: 64px;
