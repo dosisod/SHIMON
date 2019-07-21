@@ -9,12 +9,14 @@
 <link rel="stylesheet" href={{ url_for("static", filename="login.css") }}>
 
 <div class="container">
+<div class="content">
 	<span class="title">SHIMON</span><br>
 	<span class="desc">Type in password to unlock cache</span>
 	<form method="POST" action="/api/" id="bar">
 		<input name="unlock" id="pwd" type="password"></input><input type="submit" id="click" value="UNLOCK"></input>
 	</form>
 	<span id="msg">{{ msg }}</span>
+</div>
 </div>
 
 <script src={{ url_for("static", filename="url.js") }}></script>
