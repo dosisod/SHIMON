@@ -8,6 +8,7 @@ import json
 from session import session_start, session_check, session_keepalive, session_kill
 from security import correct_pwd, update_pwd
 from storage import unlock, lock
+from error import api_error
 from kee import kee
 
 def api_handle(self, data): #handles all api requests
@@ -113,7 +114,9 @@ def api_handle(self, data): #handles all api requests
 
 				return render_template("index.html")
 
-		return jsonify({"error": "401"})
+			return jsonify({"error": "401"})
+
+		return jsonify({"error": "400"})
 
 	elif "expiration timer" in data:
 		num=data["expiration timer"]
@@ -132,6 +135,8 @@ def api_handle(self, data): #handles all api requests
 		if correct_pwd(self, data["nuke"]):
 			#start a new session as if it is booting for the first time
 			return session_start(self, True)
+
+		return jsonify({"error": "401"})
 
 	elif "status" in data:
 		return jsonify({
