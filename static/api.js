@@ -52,7 +52,7 @@ async function post(arr, redirect) { //construct api call from dictionary
 			})
 			.then(e=>{
 				//if there is an error redirect to error page
-				else if (100<=e["error"]&&e["error"]<=505) {
+				if (100<=e["error"]&&e["error"]<=505) {
 					window.location="/error/"+e["error"]
 				}
 				else return e //return data
