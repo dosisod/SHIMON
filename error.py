@@ -4,8 +4,6 @@ from flask.json import jsonify
 def api_error(code, ret, redirect, rethrow):
 	if type(redirect) is str:
 		redirect=(redirect=="true") #convert JS true to python True
-
-	print(code, ret, redirect, rethrow)
 	
 	if redirect:
 		return ret
