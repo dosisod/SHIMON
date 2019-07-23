@@ -4,6 +4,7 @@ var friends=[]
 async function check_friends() { //get friends list if list is empty
 	if (!friends.length) {
 		friends=await post({"data":"friends"}) //wait for response
+		friends=friends["msg"]
 	}
 }
 
@@ -26,6 +27,7 @@ async function reload_msgs() {
 	user=document.cookie.replace(/(?:(?:^|.*;\s*)uname\s*\=\s*([^;]*).*$)|^.*$/, "$1")
 
 	raw=await post({"data":{"allfor":user}})
+	raw=raw["msg"]
 	data=raw["msgs"]
 
 	replace_template(
@@ -63,6 +65,7 @@ async function reload_index() {
 	await check_friends()
 
 	raw=await post({"data":"recent"})
+	raw=raw["msg"]
 
 	replace_template(
 		undefined,
