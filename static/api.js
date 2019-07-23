@@ -1,4 +1,7 @@
 async function post(arr, redirect) { //construct api call from dictionary
+	//if there is an error being displayed, clear it
+	document.getElementById("error").innerText=""
+
 	//grab session cookie if available
 	session=document.cookie.replace(/(?:(?:^|.*;\s*)session\s*\=\s*([^;]*).*$)|^.*$/, "$1")
 
@@ -52,6 +55,9 @@ async function post(arr, redirect) { //construct api call from dictionary
 			})
 			.then(e=>{
 				//if the request is to be rethrown, make the same request with redirects on
+				if (e["code"]!=200) { //if error occurs, print it to the screen
+					document.getElementById("error").innerText=e["msg"]
+				}
 				if (e["rethrow"]=="") {
 					post(arr, true)
 				}
