@@ -45,10 +45,13 @@ def session_check(self, data):
 			session_keepalive(self)
 			return
 
-	if data["redirect"]=="true": #true is string not bool
-		return render_template("error.html", error=401)
-	else:
-		return jsonify({"error":"401"})
+
+	return api_error(
+		401,
+		redner_template("error.html", error=401),
+		data["redirect"],
+		True
+	)
 
 def session_keepalive(self):
 	self.lastcall=datetime.now()

@@ -4,6 +4,8 @@ from hashlib import sha512
 import json
 import os
 
+from error import api_error
+
 #fixes 'DECRYPTION_COMPLIANCE_MODE' '23' error
 from pretty_bad_protocol import gnupg
 import pretty_bad_protocol._parsers
@@ -30,8 +32,13 @@ def lock(self, pwd): #tries and locks with given password
 				return
 
 		#if sha512 doesnt exist or doesnt match passed pwd, 401
-		return jsonify({"error":"401"})
+		return api_error(401, "Cache could not be locked", False, False)
 
 	else:
 		#go back to login if cache doesnt exist
-		return render_template("login.html", msg="Please re-open cache")
+		return api_error(
+			400,
+			render_template("login.html", msg="Please re-open cache"),
+			False,
+			True
+		)

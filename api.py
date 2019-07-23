@@ -32,6 +32,7 @@ def api_handle(self, data): #handles all api requests
 			if self.attempts>=self.maxtries: #if the user has attempted too many times
 				self.start=time() #start cooldown timer
 				self.attempts=0 #reset attempt timer
+
 				return render_template("login.html", msg="Try again in "+str(self.cooldown)+" seconds")
 
 			elif plain=="{}":
@@ -57,38 +58,42 @@ def api_handle(self, data): #handles all api requests
 								"msg": message["msg"]
 							})
 
-							return jsonify("OK") #all good
+							return api_error(200, "OK", False, False)
 
-		return jsonify({"error": "400"}) #user didnt set something/made an invalid request
+		return api_error(400, "Message could not be sent", False, False) #user didnt set something/made an invalid request
 
 	elif "save" in data: #user only wants to encrypt cache
 		ret=lock(self, data["save"])
 
-		#if if the lock returns an error, re-return it
+		#if the lock returns an error, re-return it
 		if ret:
 			return ret
 
-		return jsonify("OK")
+		return api_error(200, "OK", False, False)
 
 	elif "lock" in data: #user wants to encrypt cache and log out
-		ret=lock(self, data["lock"])
+		if data["redirect"]=="true": #dont kill session unless user will be directed to login
+			ret=lock(self, data["lock"])
 
-		#if the lock returns an error, goto error page
-		if ret:
-			return render_template("error.html", error="401")
+			#if the lock returns an error, goto error page
+			if ret:
+				return ret
 
-		#allow user to unlock afterwards
-		self.cache=None
-		self.attempts=0
-		self.start=0
+			#allow user to unlock afterwards
+			self.cache=None
+			self.attempts=0
+			self.start=0
 
-		session_kill(self)
+			session_kill(self)
 
-		res=make_response(render_template("login.html", msg="Cache has been locked"))
-		res.set_cookie("uname", "", expires=0) #clear uname cookie
-		res.set_cookie("session", "", expires=0) #clear session cookie
+			res=make_response(render_template("login.html", msg="Cache has been locked"))
+			res.set_cookie("uname", "", expires=0) #clear uname cookie
+			res.set_cookie("session", "", expires=0) #clear session cookie
 
-		return res
+			return res
+
+		else:
+			return api_error(303, "", False, True)
 
 	elif "change pwd" in data:
 		data["change pwd"]=api_decode(data["change pwd"])
@@ -96,13 +101,13 @@ def api_handle(self, data): #handles all api requests
 		if "old" in data["change pwd"] and "new" in data["change pwd"]:
 			tmp=update_pwd(self, data["change pwd"]["old"], data["change pwd"]["new"])
 			if tmp:
-				return jsonify("OK") #password was updated successfully
+				return api_error(200, "OK", False, False) #password was updated successfull
 
 			else:
-				return jsonify({"error":"401"}) #incorrect info was given
+				return api_error(401, "Password could not be updated", data["redirect"], False) #incorrect info was given
 
 		else:
-			return jsonify({"error":"400"}) #invalid request
+			return api_error(400, "Invalid Request", data["redirect"], False) #invalid request
 
 	elif "new key" in data:
 		if data["new key"]:
@@ -114,9 +119,9 @@ def api_handle(self, data): #handles all api requests
 
 				return render_template("index.html")
 
-			return jsonify({"error": "401"})
+			return api_error(401, "Incorrect password", False, False)
 
-		return jsonify({"error": "400"})
+		return api_error(400, "Invalid request", False, False)
 
 	elif "expiration timer" in data:
 		num=data["expiration timer"]
@@ -127,31 +132,31 @@ def api_handle(self, data): #handles all api requests
 				self.expires=num
 				self.cache["expiration"]=num
 
-				return jsonify("OK")
+				return api_error(200, "OK", False, False)
 
-		return jsonify({"error": "400"})
+		return api_error(400, "Invalid request", False, False)
 
 	elif "nuke" in data: #user wants to delete cache
 		if correct_pwd(self, data["nuke"]):
 			#start a new session as if it is booting for the first time
 			return session_start(self, True)
 
-		return jsonify({"error": "401"})
+		return api_error(401, "Invalid password", False, False)
 
 	elif "status" in data:
-		return jsonify({
+		return api_error(200, {
 			"version": self.VERSION,
 			"unlocked": bool(self.cache)
-		})
+		}, data["redirect"], False)
 
 	elif "ping" in data:
-		return jsonify({"ping":"pong"})
+		return api_error(200, "pong", data["redirect"], False)
 
 	elif "data" in data: #requesting data from cache
 		data["data"]=api_decode(data["data"]) #if json was passed, try to decode it
 
 		if data["data"]=="friends":
-			return jsonify(self.cache["friends"])
+			return api_error(200, self.cache["friends"], False, False)
 
 		elif data["data"]=="recent":
 			ret=[]
@@ -162,21 +167,21 @@ def api_handle(self, data): #handles all api requests
 					"msgs": [user["msgs"][-1]] #only get most recent message
 				})
 
-			return jsonify(ret)
+			return api_error(200, ret, False, False)
 
 		#returns all data for specified id
 		elif "allfor" in data["data"]:
 			for user in self.cache["history"]:
 				if user["id"]==data["data"]["allfor"]:
 					#return all messages from user
-					return jsonify({"id":user["id"], "msgs":user["msgs"]})
+					return api_error(200, {"id":user["id"], "msgs":user["msgs"]}, False, False)
 
-		return jsonify({"error":"400"})
+		return api_error(400, "Invalid request", False, False)
 
 	elif "msg" in data: #if user requests msg, redirect to /msg/
 		return redirect("/msg/"+data["msg"])
 
-	return jsonify({"error": "400"})
+	return api_error(400, "Invalid request", False, False)
 
 def api_decode(s): #decodes json if possible
 	try:
