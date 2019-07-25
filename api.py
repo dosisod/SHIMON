@@ -147,7 +147,8 @@ def api_handle(self, data): #handles all api requests
 	elif "status" in data:
 		return api_error(200, {
 			"version": self.VERSION,
-			"unlocked": bool(self.cache)
+			"unlocked": bool(self.cache),
+			"developer": self.developer
 		}, data["redirect"], False)
 
 	elif "ping" in data:
