@@ -33,7 +33,7 @@
 url("account")
 
 post({"status":""}).then(e=>{
-	document.getElementById("version").innerHTML="&nbsp;v"+e.version
+	document.getElementById("version").innerHTML="&nbsp;v"+e["msg"].version
 })
 </script>
 
