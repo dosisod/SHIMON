@@ -29,6 +29,8 @@ class Shimon:
 		self.lastcall=datetime.now()
 		self.expires=3600 #(default) time to expire in seconds
 
+		self.developer=False #(default) turns developer mode off
+
 	def error(self, ex): #redirects after error msg
 		err=500
 		if isinstance(ex, HTTPException):
@@ -61,7 +63,7 @@ class Shimon:
 	def settings(self):
 		check_all(self.cache)
 
-		return render_template("settings.html")
+		return render_template("settings.html", seconds=self.expires, checked=self.developer)
 
 	def account(self):
 		check_all(self.cache)

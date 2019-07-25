@@ -27,7 +27,8 @@ def session_start(self, fresh=False):
 			#base64 encoded private key for user
 			"key": b64.b64encode(kee(2048).private()).decode(),
 
-			"expiration": 3600
+			"expiration": 3600,
+			"developer": False
 		}
 		lock(self, "123") #save default cache right away
 

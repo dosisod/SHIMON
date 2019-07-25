@@ -17,6 +17,7 @@ def api_handle(self, data): #handles all api requests
 		if not time()-self.start<self.cooldown and plain: #if not in cooldown and the cache was decrypted
 			self.cache=json.loads(plain) #cache decrypted, save to shimon
 			self.expires=self.cache["expiration"]
+			self.developer=self.cache["developer"]
 
 			return session_start(self)
 
