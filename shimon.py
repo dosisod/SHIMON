@@ -14,7 +14,7 @@ from api import api_handle
 
 class Shimon:
 	def __init__(self):
-		self.VERSION="0.0.13"
+		self.VERSION="0.0.14"
 
 		self.cache=None #stores cached data after decryption
 
