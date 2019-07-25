@@ -1,5 +1,5 @@
 function setting(e) { //make api calls based off setting type
-	str=e.innerText.toLowerCase()
+	str=e.innerText.toLowerCase()||e.id
 
 	if (str=="change password") {
 		old=prompt("Enter old password")
@@ -23,6 +23,9 @@ function setting(e) { //make api calls based off setting type
 	}
 	else if (["15 mins", "1 hour", "5 hours", "1 day"].indexOf(str)>-1) {
 		post({"expiration timer": e.value})
+	}
+	else if (str=="devmode") {
+		post({"devmode":e.checked}) //developer mode will be set to what is sent here
 	}
 	else if (str=="nuke cache") {
 		if (!confirm("Are you sure you want to delete cache?")) return
