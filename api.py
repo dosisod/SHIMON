@@ -102,7 +102,7 @@ def api_handle(self, data): #handles all api requests
 		if "old" in data["change pwd"] and "new" in data["change pwd"]:
 			tmp=update_pwd(self, data["change pwd"]["old"], data["change pwd"]["new"])
 			if tmp:
-				return api_error(200, "OK", False, False) #password was updated successfull
+				return api_error(202, "Lock or save to apply changes", False, False) #password was updated successfull
 
 			else:
 				return api_error(401, "Password could not be updated", data["redirect"], False) #incorrect info was given
@@ -133,7 +133,7 @@ def api_handle(self, data): #handles all api requests
 				self.expires=num
 				self.cache["expiration"]=num
 
-				return api_error(200, "OK", False, False)
+				return api_error(202, "Lock or save to apply changes", False, False)
 
 		return api_error(400, "Invalid request", False, False)
 
