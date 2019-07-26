@@ -137,6 +137,12 @@ def api_handle(self, data): #handles all api requests
 
 		return api_error(400, "Invalid request", False, False)
 
+	elif "devmode" in data:
+		#if devmode is true, enable devmode, else disable
+		self.cache["developer"]=(data["devmode"]=="true")
+
+		return api_error(202, "Lock or save to apply changes", False, False)
+
 	elif "nuke" in data: #user wants to delete cache
 		if correct_pwd(self, data["nuke"]):
 			#start a new session as if it is booting for the first time

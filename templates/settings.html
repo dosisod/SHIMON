@@ -31,8 +31,12 @@
 		</select>
 	</li>
 	<li class="name setting"><span>ENABLE DEVELOPER MODE
+		<input type="checkbox" class="dropdown" onclick="setting(this)" id="devmode"
 		{# based on whether developer mode is on, check/uncheck box #}
-		<input type="checkbox" class="dropdown" onclick="setting(this)" id="devmode" checked={{ checked }}></input>
+		{% if checked %}
+			checked="checked"
+		{% endif %}
+		></input>
 	</span></li>
 	<li class="name setting warn"><span onclick="setting(this)">NUKE CACHE</span></li>
 </ol>
