@@ -14,7 +14,7 @@
 }
 @media screen and (max-width: 700px) {
 	.content {
-		left: 0;
+		left: 5px;
 		transform: translate(0%, -50%);
 	}
 }
