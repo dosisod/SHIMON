@@ -6,7 +6,7 @@ def api_error(code, ret, redirect, rethrow):
 		redirect=(redirect=="true") #convert JS true to python True
 
 	if redirect:
-		return ret
+		return jsonify(ret)
 
 	else:
 		if rethrow: #force user to make the same call with redirect on
