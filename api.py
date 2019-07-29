@@ -19,6 +19,8 @@ def api_handle(self, data): #handles all api requests
 			self.expires=self.cache["expiration"]
 			self.developer=self.cache["developer"]
 
+			self.cache["version"]=self.VERSION
+
 			return session_start(self)
 
 		else:

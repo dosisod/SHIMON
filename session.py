@@ -28,7 +28,9 @@ def session_start(self, fresh=False):
 			"key": b64.b64encode(kee(2048).private()).decode(),
 
 			"expiration": 3600,
-			"developer": False
+			"developer": False,
+
+			"version": self.VERSION
 		}
 		lock(self, "123") #save default cache right away
 
