@@ -11,6 +11,7 @@ This is a list of api commands, their functions, and how to call them
 | "change pwd" | OLD (string), NEW (string) | Error if invalid, OK if success | If OLD password is correct, update to NEW string |
 | "new key" | PWD (string) | Error if invalid, `index.html` if success | If password PWD is correct, update internal RSA key |
 | "expiration timer" | SECONDS (int) | Error if SECONDS is not in range, OK if success | Update how long to wait until session expires |
+| "devmode" | | OK | Toggles the state of developermode status |
 | "nuke" | PWD (string) |  | Deletes cache if PWD is correct |
 | "status" | | Status of app | Gets version and unlock state |
 | "ping" | | pong | ping pong |
