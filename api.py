@@ -2,7 +2,8 @@ from flask import render_template, make_response, redirect
 from datetime import datetime, timedelta
 from base64 import b64encode as b64
 from flask.json import jsonify
-from hashlib import sha512
+from hashlib import sha256
+from copy import deepcopy
 import json
 
 from session import session_start, session_check, session_keepalive, session_kill
@@ -166,7 +167,11 @@ def api_handle(self, data): #handles all api requests
 		data["data"]=api_decode(data["data"]) #if json was passed, try to decode it
 
 		if data["data"]=="friends":
-			return api_error(200, self.cache["friends"], False, False)
+			ret=deepcopy(self.cache["friends"])
+			for i in ret:
+				i["hash"]=sha256(i["id"].encode()).hexdigest()
+
+			return api_error(200, ret, False, False)
 
 		elif data["data"]=="recent":
 			ret=[]
