@@ -169,7 +169,7 @@ def api_handle(self, data): #handles all api requests
 		if data["data"]=="friends":
 			ret=deepcopy(self.cache["friends"])
 			for i in ret:
-				i["hash"]=sha256(i["id"].encode()).hexdigest()
+				i["hash"]=sha256hex(i["id"])
 
 			return api_error(200, ret, False, False)
 
@@ -179,7 +179,7 @@ def api_handle(self, data): #handles all api requests
 			for user in self.cache["history"]:
 				ret.append({
 					"id": user["id"],
-					"hash": sha256(user["id"].encode()).hexdigest(),
+					"hash": sha256hex(user["id"]),
 					"msgs": [user["msgs"][-1]] #only get most recent message
 				})
 
@@ -193,7 +193,7 @@ def api_handle(self, data): #handles all api requests
 					return api_error(200, {
 						"id": user["id"],
 						"msgs": user["msgs"],
-						"hash": sha256(user["id"].encode()).hexdigest()
+						"hash": sha256hex(user["id"])
 					}, False, False)
 
 		return api_error(400, "Invalid request", False, False)
@@ -215,3 +215,10 @@ def api_decode(s): #decodes json if possible
 
 def time():
 	return round(datetime.today().timestamp(), 1)
+
+def sha256hex(data): #returns the sha256 hex digest for given data
+	if type(data) is str:
+		return sha256(data.encode()).hexdigest()
+
+	else:
+		return sha256(data).hexdigest()
