@@ -32,7 +32,7 @@ async function reload_msgs() {
 
 	replace_template(
 		new_card(
-			raw["id"],
+			raw["hash"],
 			realname(user),
 			"",
 			true, //return the card instead of appending
@@ -71,7 +71,7 @@ async function reload_index() {
 		undefined,
 		(arr)=>{
 			return new_card(
-				arr["id"], //id of user
+				arr["hash"], //hash of user id
 				realname(arr["id"]), //realname of id
 				arr["msgs"][arr["msgs"].length-1]["msg"], //last message
 				true
@@ -179,8 +179,10 @@ function new_img(uuid) { //converts uuid to b64 img of hash
 	var draw=canv.getContext("2d")
 
 	bin=""
-	for (i of uuid) bin+=parseInt(i,16).toString(2) //hex to binary string
-	bin="0".repeat(256-bin.length)+bin //add leading bits
+	for (i of uuid) {
+		tmp=parseInt(i,16).toString(2) //hex to binary string
+		bin+="0".repeat(4-tmp.length)+tmp
+	}
 
 	for (i=0;i<256;i++) { //16*16=256 pixels
 		//set black or white pixel

@@ -179,6 +179,7 @@ def api_handle(self, data): #handles all api requests
 			for user in self.cache["history"]:
 				ret.append({
 					"id": user["id"],
+					"hash": sha256(user["id"].encode()).hexdigest(),
 					"msgs": [user["msgs"][-1]] #only get most recent message
 				})
 
@@ -189,7 +190,11 @@ def api_handle(self, data): #handles all api requests
 			for user in self.cache["history"]:
 				if user["id"]==data["data"]["allfor"]:
 					#return all messages from user
-					return api_error(200, {"id":user["id"], "msgs":user["msgs"]}, False, False)
+					return api_error(200, {
+						"id": user["id"],
+						"msgs": user["msgs"],
+						"hash": sha256(user["id"].encode()).hexdigest()
+					}, False, False)
 
 		return api_error(400, "Invalid request", False, False)
 
