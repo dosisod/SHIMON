@@ -1,9 +1,9 @@
 from flask import render_template, make_response, redirect
 from datetime import datetime, timedelta
-from base64 import b64encode as b64
 from flask.json import jsonify
 from hashlib import sha256
 from copy import deepcopy
+import base64 as b64
 import json
 
 from session import session_start, session_check, session_keepalive, session_kill
@@ -117,7 +117,7 @@ def api_handle(self, data): #handles all api requests
 		if data["new key"]:
 			#password required to change key
 			if correct_pwd(self, data["new key"]):
-				self.cache["key"]=str(b64(kee(2048).private()))
+				self.cache["key"]=b64.b64encode(kee(2048).private()).decode()
 
 				lock(self, data["new key"]) #makes sure changes are saved
 
