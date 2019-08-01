@@ -152,7 +152,7 @@ function new_card(u, n, m, r, d) { //returns or appends a new card
 		"className": "holder"
 	})
 	//if disable is set, onclick wont be added
-	if (!d) div.onclick=()=>post({"msg":uname(n)}, true)
+	if (!d) div.onclick=()=>window.location="/msg/"+uname(n)
 
 	div.appendChild(
 		nu("img", {
