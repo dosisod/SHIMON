@@ -198,9 +198,6 @@ def api_handle(self, data): #handles all api requests
 
 		return api_error(400, "Invalid request", False, False)
 
-	elif "msg" in data: #if user requests msg, redirect to /msg/
-		return redirect("/msg/"+data["msg"])
-
 	return api_error(400, "Invalid request", False, False)
 
 def api_decode(s): #decodes json if possible
