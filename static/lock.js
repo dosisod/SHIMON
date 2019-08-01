@@ -19,4 +19,9 @@ function save(e) {
 	if (!str) return
 
 	post({"save": str})
+		.then(e=>{
+			if (e["code"]) {
+				document.getElementById("error").innerText="Cache was successfully saved"
+			}
+		})
 }
