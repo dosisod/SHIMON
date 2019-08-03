@@ -8,9 +8,9 @@
 <body>
 <div class="container">
 <ol class="content" id="tray">
-	<li class="name setting">USER ID: <input class="input"></input></li>
-	<li class="name setting">NAME: <input class="input"></input></li>
-	<li class="name setting"><input class="input" type="submit" id="click" value="ADD FRIEND"></input></li>
+	<li class="name setting">USER ID: <input class="input" id="id"></input></li>
+	<li class="name setting">NAME: <input class="input" id="name"></input></li>
+	<li class="name setting"><button class="input" onclick="send()" id="click">ADD FRIEND</button></li>
 </ol>
 <span class="warn error" id="error"></span>
 
@@ -19,7 +19,17 @@
 
 <script src={{ url_for("static", filename="shimon.min.js") }}></script>
 
-<script>url("add")</script>
+<script>
+url("add")
+
+function send() {
+	post({"add friend": {
+		"id": document.getElementById("id").value,
+		"name": document.getElementById("name").value
+	}}, true)
+}
+
+</script>
 
 </body>
 </html>

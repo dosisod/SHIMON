@@ -198,6 +198,22 @@ def api_handle(self, data): #handles all api requests
 
 		return api_error(400, "Invalid request", False, False)
 
+	elif "add friend" in data:
+		if "name" in data["add friend"] and "id" in data["add friend"]:
+			data["add friend"]=api_decode(data["add friend"])
+
+			#only append the names and ids, dont let user add extra data
+			self.cache["friends"].append({
+				"id": data["add friend"]["id"],
+				"name": data["add friend"]["name"]
+			})
+
+			#add blank msg history to cache history
+			self.cache["history"].append({
+				"id": data["add friend"]["id"],
+				"msgs": []
+			})
+
 	return api_error(400, "Invalid request", False, False)
 
 def api_decode(s): #decodes json if possible
