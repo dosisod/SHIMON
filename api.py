@@ -13,6 +13,9 @@ from error import api_error
 from kee import kee
 
 def api_handle(self, data): #handles all api requests
+	for attr in data: #loop through and convert to json
+		data[attr]=api_decode(data[attr])
+
 	if "unlock" in data: #try and unlock cache
 		plain=unlock(data["unlock"])
 		if not time()-self.start<self.cooldown and plain: #if not in cooldown and the cache was decrypted
@@ -50,7 +53,7 @@ def api_handle(self, data): #handles all api requests
 		return check #if session_check fails, redirect will be returned
 
 	if "send msg" in data:
-		message=api_decode(data["send msg"])
+		message=data["send msg"]
 
 		if "uname" in message and "msg" in message: #make sure data is set
 			for friend in self.cache["friends"]:
@@ -100,8 +103,6 @@ def api_handle(self, data): #handles all api requests
 			return api_error(303, "", False, True)
 
 	elif "change pwd" in data:
-		data["change pwd"]=api_decode(data["change pwd"])
-
 		if "old" in data["change pwd"] and "new" in data["change pwd"]:
 			tmp=update_pwd(self, data["change pwd"]["old"], data["change pwd"]["new"])
 			if tmp:
@@ -164,8 +165,6 @@ def api_handle(self, data): #handles all api requests
 		return api_error(200, "pong", data["redirect"], False)
 
 	elif "data" in data: #requesting data from cache
-		data["data"]=api_decode(data["data"]) #if json was passed, try to decode it
-
 		if data["data"]=="friends":
 			ret=deepcopy(self.cache["friends"])
 			for i in ret:
@@ -210,8 +209,6 @@ def api_handle(self, data): #handles all api requests
 
 	elif "add friend" in data:
 		if "name" in data["add friend"] and "id" in data["add friend"]:
-			data["add friend"]=api_decode(data["add friend"])
-
 			#only append the names and ids, dont let user add extra data
 			self.cache["friends"].append({
 				"id": data["add friend"]["id"],
@@ -238,7 +235,7 @@ def api_decode(s): #decodes json if possible
 	except:
 		pass
 
-	return s #return if invalid or not json
+	return s #return if not json or if the json was malformed
 
 def time():
 	return round(datetime.today().timestamp(), 1)
