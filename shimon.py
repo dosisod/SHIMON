@@ -10,6 +10,7 @@ import os
 from security import check_all, check_local, check_allowed
 from session import session_start
 from storage import unlock, lock
+from renderer import render
 from api import api_handle
 
 class Shimon:
@@ -43,7 +44,7 @@ class Shimon:
 			else:
 				err=400 #handle invalid error
 
-		return render_template("error.html", error=err)
+		return render(self, "error.html", error=err)
 
 	def index(self): #index page
 		check_local()
@@ -52,23 +53,23 @@ class Shimon:
 			return session_start(self, True)
 
 		if self.cache or not os.path.isfile("data.gpg"): #load page if cache is open
-			res=make_response(render_template("index.html"))
+			res=make_response(render(self, "index.html"))
 			res.set_cookie("uname", "", expires=0) #uname not needed, clear it
 
 			return res
 
 		else: #if cache isnt loaded, request unlock cache
-			return render_template("login.html")
+			return render(self, "login.html")
 
 	def settings(self):
 		check_all(self.cache)
 
-		return render_template("settings.html", seconds=self.expires, checked=self.developer)
+		return render(self, "settings.html", seconds=self.expires, checked=self.developer)
 
 	def account(self):
 		check_all(self.cache)
 
-		return render_template("account.html")
+		return render(self, "account.html")
 
 	def msg(self, uuid):
 		check_all(self.cache)
@@ -76,7 +77,7 @@ class Shimon:
 		#make sure requested user is in friends list
 		for friend in self.cache["friends"]:
 			if friend["id"]==uuid:
-				res=make_response(render_template("msg.html"))
+				res=make_response(render(self, "msg.html"))
 				res.set_cookie("uname", uuid)
 
 				return res
@@ -87,12 +88,12 @@ class Shimon:
 	def add(self):
 		check_all(self.cache)
 
-		return render_template("add.html")
+		return render(self, "add.html")
 
 	def login(self): #handles login page
 		check_local()
 
-		return render_template("login.html")
+		return render(self, "login.html")
 
 	def api(self): #api method
 		check_local()

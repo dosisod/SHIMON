@@ -5,6 +5,7 @@ import json
 import os
 
 from error import api_error
+from renderer import render
 
 #fixes 'DECRYPTION_COMPLIANCE_MODE' '23' error
 from pretty_bad_protocol import gnupg
@@ -38,7 +39,7 @@ def lock(self, pwd): #tries and locks with given password
 		#go back to login if cache doesnt exist
 		return api_error(
 			400,
-			render_template("login.html", msg="Please re-open cache"),
+			render(self, "login.html", msg="Please re-open cache"),
 			False,
 			True
 		)

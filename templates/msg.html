@@ -17,7 +17,7 @@
 <input id="typer" onkeydown="send(event)"></input>
 </div>
 
-<script src={{ url_for("static", filename="shimon.min.js") }}></script>
+{% include "headers.html" %}
 
 <script>
 url("msg/"+document.cookie.replace(/(?:(?:^|.*;\s*)uname\s*\=\s*([^;]*).*$)|^.*$/, "$1")) //set url
