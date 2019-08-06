@@ -9,7 +9,7 @@ A simplistic messaging app using python3 and flask
 ```
 git clone https://github.com/dosisod/SHIMON.git
 cd SHIMON
-pip3 -r install requirements.txt
+pip3 install -r requirements.txt
 ```
 
 Additional requirements:
