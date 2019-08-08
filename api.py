@@ -209,21 +209,28 @@ def api_handle(self, data): #handles all api requests
 
 	elif "add friend" in data:
 		if "name" in data["add friend"] and "id" in data["add friend"]:
-			#only append the names and ids, dont let user add extra data
-			self.cache["friends"].append({
-				"id": data["add friend"]["id"],
-				"name": data["add friend"]["name"]
-			})
+			#make sure that name and id are not blank
+			if data["add friend"]["name"] and data["add friend"]["id"]:
+				#make sure id is not already taken
+				for friend in self.cache["friends"]:
+					if friend["id"]==data["add friend"]["id"]:
+						return api_error(400, "Friend already exists", False, False)
 
-			#add blank msg history to cache history
-			self.cache["history"].append({
-				"id": data["add friend"]["id"],
-				"msgs": []
-			})
+				#only append the names and ids, dont let user add extra data
+				self.cache["friends"].append({
+					"id": data["add friend"]["id"],
+					"name": data["add friend"]["name"]
+				})
 
-			return api_error(200, render_template("index.html"), True, False)
+				#add blank msg history to cache history
+				self.cache["history"].append({
+					"id": data["add friend"]["id"],
+					"msgs": []
+				})
 
-		return(400, "Invalid request", False, False)
+				return api_error(200, render_template("index.html"), True, False)
+
+		return api_error(400, "Invalid request", False, False)
 
 	return api_error(400, "Invalid request", False, False)
 
