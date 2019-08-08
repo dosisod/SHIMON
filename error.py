@@ -1,4 +1,3 @@
-from flask import render_template
 from flask.json import jsonify
 
 def api_error(code, ret, redirect, rethrow):

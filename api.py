@@ -1,5 +1,5 @@
-from flask import render_template, make_response, redirect
 from datetime import datetime, timedelta
+from flask import make_response
 from flask.json import jsonify
 from hashlib import sha256
 from copy import deepcopy
@@ -9,6 +9,7 @@ import json
 from session import session_start, session_check, session_keepalive, session_kill
 from security import correct_pwd, update_pwd
 from storage import unlock, lock
+from renderer import render
 from error import api_error
 from kee import kee
 
@@ -31,7 +32,7 @@ def api_handle(self, data): #handles all api requests
 			self.attempts+=1 #if there is an error, add one to attempts
 
 			if time()-self.start<self.cooldown: #if user hasnt waited long enough let them know
-				return render_template("login.html", msg="Try again in "+str(round(self.start-time()+self.cooldown, 1))+" seconds")
+				return render(self, "login.html", msg="Try again in "+str(round(self.start-time()+self.cooldown, 1))+" seconds")
 
 			else: #restart timer if user has waited long enough
 				self.start=0
@@ -40,13 +41,13 @@ def api_handle(self, data): #handles all api requests
 				self.start=time() #start cooldown timer
 				self.attempts=0 #reset attempt timer
 
-				return render_template("login.html", msg="Try again in "+str(self.cooldown)+" seconds")
+				return render(self, "login.html", msg="Try again in "+str(self.cooldown)+" seconds")
 
 			elif plain=="{}":
 				return session_start(self, True)
 
 			else:
-				return render_template("login.html", msg="Incorrect password")
+				return render(self, "login.html", msg="Incorrect password")
 
 	check=session_check(self, data)
 	if check:
@@ -93,7 +94,7 @@ def api_handle(self, data): #handles all api requests
 
 			session_kill(self)
 
-			res=make_response(render_template("login.html", msg="Cache has been locked"))
+			res=make_response(render(self, "login.html", msg="Cache has been locked"))
 			res.set_cookie("uname", "", expires=0) #clear uname cookie
 			res.set_cookie("session", "", expires=0) #clear session cookie
 
@@ -122,7 +123,7 @@ def api_handle(self, data): #handles all api requests
 
 				lock(self, data["new key"]) #makes sure changes are saved
 
-				return render_template("index.html")
+				return render(self, "index.html")
 
 			return api_error(401, "Incorrect password", False, False)
 
@@ -228,7 +229,7 @@ def api_handle(self, data): #handles all api requests
 					"msgs": []
 				})
 
-				return api_error(200, render_template("index.html"), True, False)
+				return api_error(200, render(self, "index.html"), True, False)
 
 		return api_error(400, "Invalid request", False, False)
 
