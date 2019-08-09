@@ -4,6 +4,3 @@
 .hide {
 	white-space: nowrap;
 }
-ol {
-	width: calc(100% - 74px);
-}
