@@ -13,7 +13,7 @@
 	{% include "sidebar.html" %}
 	<li class="center name" id="reload" onclick="reload_index()">RELOAD</li>
 </ol>
-<span class="warn error" id="error"></span>
+<span class="warn error" id="error">{{ error }}</span>
 </div>
 
 {% include "headers.html" %}
@@ -21,7 +21,9 @@
 <script>
 url("") //set url
 
-reload_index() //load recents
+{% if not error|length %}
+reload_index() //load recents if there is no error
+{% endif %}
 
 setInterval(reload_index, 5000) //reload again every 5 seconds
 </script>
