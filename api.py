@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from flask import make_response
+from flask import make_response, abort
 from flask.json import jsonify
 from hashlib import sha256
 from copy import deepcopy
@@ -233,7 +233,11 @@ def api_handle(self, data): #handles all api requests
 
 		return api_error(400, render(self, "index.html", error="Invalid request"), True, False)
 
-	return api_error(400, "Invalid request", False, False)
+	else:
+		#if the call is not recognized, throw a 400 error
+		return api_error(400, "Invalid request", False, False)
+
+	abort(500) #if anything above exits and gets to here, make sure the user knows of the error
 
 def api_decode(s): #decodes json if possible
 	try:
