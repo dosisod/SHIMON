@@ -64,7 +64,7 @@ class Shimon:
 	def settings(self):
 		check_all(self.cache)
 
-		return render(self, "settings.html", seconds=self.expires, checked=self.developer)
+		return render(self, "settings.html", seconds=self.expires)
 
 	def account(self):
 		check_all(self.cache)
