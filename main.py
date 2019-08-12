@@ -5,6 +5,9 @@ from flask import Flask
 
 from shimon import Shimon
 
+IP="127.0.0.1"
+PORT=1717
+
 app=Flask(__name__, static_url_path="")
 shimon=Shimon()
 
@@ -44,4 +47,10 @@ def api():
 if __name__=="__main__":
 	print("starting SHIMON v"+shimon.VERSION+" -> github.com/dosisod/SHIMON")
 	print("")
-	serve(app, host="127.0.0.1", port=1717, threads=6)
+
+	try:
+		serve(app, host=IP, port=PORT, threads=6)
+
+	except OSError:
+		print("Could not bind to port "+str(PORT))
+		print("Is SHIMON already running? if not, check port "+str(PORT)+" availability")
