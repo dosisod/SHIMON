@@ -6,9 +6,21 @@
 	
 	position: relative;
 }
+.x-receiving {
+	color: black;
+	position: absolute;
+	right: calc(20% - 35px);
+	z-index: 99;
+}
 .receiving {
 	left: 0;
 	border: 1px solid black;
+}
+.x-sending {
+	color: white;
+	position: absolute;
+	right: 5px;
+	z-index: 99;
 }
 .sending {
 	left: calc(20% - 40px);
