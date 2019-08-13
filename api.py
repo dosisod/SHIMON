@@ -70,6 +70,33 @@ def api_handle(self, data): #handles all api requests
 
 		return api_error(400, "Message could not be sent", False, False) #user didnt set something/made an invalid request
 
+	elif "delete msg" in data:
+		if "id" in data["delete msg"] and "index" in data["delete msg"]:
+			index=0
+			if type(data["delete msg"]["index"]) is int:
+				index=data["delete msg"]["index"]
+
+			else:
+				try:
+					#try and get index of msg to be deleted
+					index=int(data["delete msg"])
+
+				except:
+					return api_error(400, "Index is not an integer", False, False)
+
+			for friend in self.cache["friends"]:
+				if friend["id"]==data["delete msg"]["id"]:
+					for i, hist in enumerate(self.cache["history"]):
+						if hist["id"]==data["delete msg"]["id"]:
+							if index<0 or index>=len(hist["msgs"]):
+								return api_error(400, "Index is out of bounds", False, False)
+
+							else:
+								self.cache["history"][i]["msgs"].pop(index)
+								return api_error(200, "Message deleted", False, False)
+
+		return api_error(400, "Invalid request", False, False)
+
 	elif "save" in data: #user only wants to encrypt cache
 		ret=lock(self, data["save"])
 

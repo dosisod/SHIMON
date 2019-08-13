@@ -45,7 +45,10 @@ async function reload_msgs() {
 				"onclick": (e)=>{
 					if(!confirm("Are you sure you want to delete this message?")) return
 
-					post({"delete msg":""})
+					post({"delete msg":{
+						"id":raw["id"],
+						"index":arr["index"]
+					}})
 				}
 			}, nu("li", {
 				"className": "item"
@@ -134,7 +137,8 @@ async function replace_template(start, template, params, end) { //replace tray w
 
 	if (start) tray.appendChild(start)
 
-	params.forEach(e=>{
+	params.forEach((e,i)=>{
+		e["index"]=i
 		//append new item given params for template
 		tray.appendChild(template(e))
 	})
