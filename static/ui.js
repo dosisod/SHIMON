@@ -39,17 +39,28 @@ async function reload_msgs() {
 			true //disable clicking of user card
 		),
 		(arr)=>{ //function template for creating cards
-			return nu("span", {
+			ret=nu("span", {
+				"className": arr["sending"]?"x-sending":"x-receiving",
+				"innerText": "x",
+				"onclick": (e)=>{
+					if(!confirm("Are you sure you want to delete this message?")) return
+
+					post({"delete msg":""})
+				}
+			}, nu("li", {
+				"className": "item"
+			}))
+
+			nu("span", {
 				"className": "msg",
 				"innerText": arr["msg"]
 			}, [
 				nu("div", {
 					"className": "holder block "+(arr["sending"]?"sending":"receiving")
 				}),
-				nu("li", {
-					"className": "item"
-				})
+				ret
 			])
+			return ret
 		},
 		data, //parameters to feed the template
 		nu("span", { //ending element
