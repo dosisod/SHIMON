@@ -5,8 +5,8 @@ def api_error(code, ret, redirect, rethrow):
 		redirect=(redirect=="true") #convert JS true to python True
 
 	if redirect:
-		#ret is some json object or string, jonsify first
-		if type(ret) is not dict and type(ret) is not list and type(ret) is not str:
+		#ret is some json object or string, jsonify first
+		if type(ret) is dict or type(ret) is list or type(ret) is str:
 			return jsonify(ret)
 
 		#ret is probably a render_template, just return
