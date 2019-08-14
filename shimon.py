@@ -34,10 +34,10 @@ class Shimon:
 
 	def error(self, ex): #redirects after error msg
 		err=500
-		if isinstance(ex, HTTPException):
+		if type(ex) is HTTPException:
 			err=ex.code #handle internal error
 
-		elif isinstance(ex, int):
+		elif type(ex) is int:
 			if 300<=ex and ex<=417:
 				err=ex #handle self assigned error
 
