@@ -49,6 +49,9 @@ async function reload_msgs() {
 						"id":raw["id"],
 						"index":arr["index"]
 					}})
+
+					//reload the indexs of messages by refreshiNg
+					reload_msgs()
 				}
 			}, nu("li", {
 				"className": "item"
