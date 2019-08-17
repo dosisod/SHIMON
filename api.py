@@ -104,6 +104,10 @@ def api_handle(self, data): #handles all api requests
 		if ret:
 			return ret
 
+		#update settings if they were set since last save
+		self.expires=self.cache["expiration"]
+		self.developer=self.cache["developer"]
+
 		return api_error(200, "OK", False, False)
 
 	elif "lock" in data: #user wants to encrypt cache and log out
