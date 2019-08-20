@@ -16,7 +16,6 @@ def session_start(self, fresh=False):
 	self.session=b64.urlsafe_b64encode(os.urandom(32)).decode().replace("=","")
 	res.set_cookie("session", self.session)
 
-
 	if fresh: #if starting with a fresh (new) cache, set it up
 		self.cache={ #fill cache with these default values
 			"friends": [],
