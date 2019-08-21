@@ -69,7 +69,7 @@ class Shimon:
 	def account(self):
 		check_all(self.cache)
 
-		return render(self, "account.html")
+		return render(self, "account.html", version=self.VERSION)
 
 	def msg(self, uuid):
 		check_all(self.cache)

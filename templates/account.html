@@ -19,8 +19,7 @@
 	<li class="name setting"><span onclick="window.location='/settings'">SETTINGS</span></li>
 	<li class="name setting"><span onclick="lock(event)">LOCK</span></li></br>
 	<li class="name setting">
-		<a href="https://github.com/dosisod/SHIMON" class="info">SHIMON</a>
-		<span id="version" class="info"></span>
+		<a href="https://github.com/dosisod/SHIMON" class="info">SHIMON v{{ version }}</a>
 	</li>
 </ol>
 <span class="warn error" id="error"></span>
@@ -29,13 +28,7 @@
 
 {% include "headers.html" %}
 
-<script>
-url("account")
-
-post({"status":""}).then(e=>{
-	document.getElementById("version").innerHTML="&nbsp;v"+e["msg"].version
-})
-</script>
+<script>url("account")</script>
 
 </body>
 </html>
