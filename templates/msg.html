@@ -26,29 +26,19 @@ reload_msgs() //reload
 
 setInterval(reload_msgs, 5000) //reload again every 5 seconds
 
-function send(e) { //send msg to user
+async function send(e) { //send msg to user
 	//only send if enter was pressed
 	if (e.key!="Enter") return
 
-	document.getElementById("tray").insertBefore(
-		nu("span", { //immediately add sent msg to screen, reload later
-			"className": "msg",
-			"innerText": e.target.value
-		}, [
-			nu("div", {
-				"className": "holder block sending"
-			}),
-			nu("li", {
-				"className": "item"
-			})
-		]),
-		document.getElementById("reload")
-	)
-
-	post({"send msg":{
+	//wait for message to send before procceding
+	await post({"send msg":{
 		"uname": document.cookie.replace(/(?:(?:^|.*;\s*)uname\s*\=\s*([^;]*).*$)|^.*$/, "$1"),
 		"msg": e.target.value
 	}})
+
+	//reload and scroll to bottom of page
+	reload_msgs()
+	window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight)
 
 	e.target.value="" //reset input box
 }
