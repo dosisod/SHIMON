@@ -16,9 +16,18 @@ Additional requirements:
 * Command-line version of gpg (check with `whereis gpg`)
 * Access to localhost port 1717
 
-Tested : Linux kali 4.19.0-kali4-amd64 #1 SMP Debian 4.19.28-2kali1 (2019-03-18) x86_64 GNU/Linux
+#### Tested :
 
-Untested : Windows
+```
+Linux NA 4.19.0-kali4-amd64 #1 SMP Debian 4.19.28-2kali1 (2019-03-18) x86_64 GNU/Linux
+Linux NA 4.18.0-15-generic #16~18.04.1-Ubuntu SMP Thu Feb 7 14:06:04 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
+```
+
+#### Untested :
+
+```
+Windows
+```
 
 ## Running
 
