@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, make_response, abort
+from flask import Flask, request, make_response, abort
 from werkzeug.exceptions import HTTPException
 from datetime import datetime, timedelta
 from flask_restful import Resource, Api

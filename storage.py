@@ -1,5 +1,4 @@
 import pretty_bad_protocol as pbp
-from flask.json import jsonify
 from hashlib import sha512
 import json
 import os
