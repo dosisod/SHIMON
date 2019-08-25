@@ -8,8 +8,15 @@
 <body>
 <div class="container">
 <ol class="content" id="tray">
-	<li class="name setting">USER ID: <input class="input" id="id"></input></li>
-	<li class="name setting">NAME: <input class="input" id="name"></input></li>
+	<li class="item">
+		<div class="holder">
+			<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGElEQVQ4jWNgYGD4TyEeNWDUgFEDhocBAJvM/wEeNfmLAAAAAElFTkSuQmCC">
+			<ol>
+				<li class="name hide"><input id="name"  class="input" placeholder="NAME"></input></li>
+			</ol>
+		</div>
+	</li>
+	<textarea class="name" id="id" placeholder="USER ID"></textarea>
 	<li class="name setting"><button class="input" onclick="send()" id="click">ADD FRIEND</button></li>
 </ol>
 <span class="warn error" id="error"></span>

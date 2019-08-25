@@ -47,6 +47,15 @@ ol {
 a {
 	color: black;
 }
+textarea {
+	width: 100%;
+	resize: none;
+	border: 1px solid #333;
+	box-sizing: border-box;
+	vertical-align: middle;
+	background: white;
+	color: black;
+}
 .input {
 	border: 1px solid #333;
 	box-sizing: border-box;
