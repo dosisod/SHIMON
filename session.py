@@ -6,6 +6,7 @@ from kee import kee
 import json
 import os
 
+from error import api_error
 from renderer import render
 from storage import lock
 
@@ -48,10 +49,10 @@ def session_check(self, data):
 			session_keepalive(self)
 			return
 
-
+	#if the session is no longer valid go back to the login page
 	return api_error(
 		401,
-		redner_template("error.html", error=401),
+		render(self, "login.html", msg="Session is no longer valid"),
 		data["redirect"],
 		True
 	)
