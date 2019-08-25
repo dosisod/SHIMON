@@ -1,9 +1,22 @@
+from session import session_check
 from flask import request, abort
 from hashlib import sha512
 
-def check_all(cache): #errors if any of the below tests fails
+def check_all(self): #errors if any of the below tests fails
 	check_local()
-	check_allowed(cache)
+	check_allowed(self.cache)
+	return check_session(self)
+
+def check_session(self):
+	#make sure session exists before setting is
+	session=""
+	if "session" in request.cookies:
+		session=request.cookies["session"]
+
+	return session_check(self, {
+		"session": session, #grab cookie from page
+		"redirect": True #true since the request is coming from a click (not fetch)
+	})
 
 def check_local(): #errors if inbound IP isnt localhost
 	if not request.remote_addr=="127.0.0.1":

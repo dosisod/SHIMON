@@ -7,7 +7,7 @@ from waitress import serve
 import json
 import os
 
-from security import check_all, check_local, check_allowed
+from security import check_all, check_local, check_allowed, check_session
 from session import session_start
 from storage import unlock, lock
 from renderer import render
@@ -52,27 +52,30 @@ class Shimon:
 		if not os.path.isfile("data.gpg"): #if cache doesnt exist create and then open page
 			return session_start(self, True)
 
-		if self.cache or not os.path.isfile("data.gpg"): #load page if cache is open
-			res=make_response(render(self, "index.html"))
-			res.set_cookie("uname", "", expires=0) #uname not needed, clear it
-
-			return res
-
-		else: #if cache isnt loaded, request unlock cache
+		ret=check_session(self)
+		if not self.cache or ret: #make sure that the user is allowed to see the index page
 			return render(self, "login.html")
 
+		res=make_response(render(self, "index.html"))
+		res.set_cookie("uname", "", expires=0) #uname not needed, clear it
+
+		return res
+
 	def settings(self):
-		check_all(self.cache)
+		ret=check_all(self)
+		if ret: return ret
 
 		return render(self, "settings.html", seconds=self.expires)
 
 	def account(self):
-		check_all(self.cache)
+		ret=check_all(self)
+		if ret: return ret
 
 		return render(self, "account.html", version=self.VERSION)
 
 	def msg(self, uuid):
-		check_all(self.cache)
+		ret=check_all(self)
+		if ret: return ret
 
 		#make sure requested user is in friends list
 		for friend in self.cache["friends"]:
@@ -86,7 +89,8 @@ class Shimon:
 		abort(400)
 
 	def add(self):
-		check_all(self.cache)
+		ret=check_all(self)
+		if ret: return ret
 
 		return render(self, "add.html")
 

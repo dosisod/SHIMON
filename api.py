@@ -9,6 +9,7 @@ import json
 from session import session_start, session_check, session_keepalive, session_kill
 from security import correct_pwd, update_pwd
 from storage import unlock, lock
+from security import check_all
 from renderer import render
 from error import api_error
 from kee import kee
@@ -55,9 +56,8 @@ def api_handle(self, data): #handles all api requests
 			else:
 				return render(self, "login.html", msg="Incorrect password")
 
-	check=session_check(self, data)
-	if check:
-		return check #if session_check fails, redirect will be returned
+	ret=check_all(self)
+	if ret: return ret
 
 	if "send msg" in data:
 		message=data["send msg"]
@@ -212,7 +212,7 @@ def api_handle(self, data): #handles all api requests
 
 		elif data["data"]=="recent":
 			ret=[]
-			
+
 			for user in self.cache["history"]:
 				tmp={
 					"id": user["id"],
