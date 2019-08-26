@@ -18,7 +18,7 @@ def api_handle(self, data): #handles all api requests
 	for attr in data: #loop through and convert to json
 		data[attr]=api_decode(data[attr])
 
-	if "unlock" in data: #try and unlock cache
+	if "unlock" in data and not self.cache: #try and unlock cache (if cache is not unlocked)
 		plain=unlock(data["unlock"])
 		if not time()-self.start<self.cooldown and plain: #if not in cooldown and the cache was decrypted
 			self.cache=json.loads(plain) #cache decrypted, save to shimon
