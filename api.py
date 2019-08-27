@@ -74,7 +74,7 @@ def api_handle(self, data): #handles all api requests
 
 							return api_error(200, "OK", False, False)
 
-		return api_error(400, "Message could not be sent", False, False) #user didnt set something/made an invalid request
+		return api_error_400() #user didnt set something/made an invalid request
 
 	elif "delete msg" in data:
 		if "id" in data["delete msg"] and "index" in data["delete msg"]:
@@ -88,20 +88,20 @@ def api_handle(self, data): #handles all api requests
 					index=int(data["delete msg"])
 
 				except:
-					return api_error(400, "Index is not an integer", False, False)
+					return api_error_400("Index is not an integer")
 
 			for friend in self.cache["friends"]:
 				if friend["id"]==data["delete msg"]["id"]:
 					for i, hist in enumerate(self.cache["history"]):
 						if hist["id"]==data["delete msg"]["id"]:
 							if index<0 or index>=len(hist["msgs"]):
-								return api_error(400, "Index is out of bounds", False, False)
+								return api_error_400("Index is out of bounds")
 
 							else:
 								self.cache["history"][i]["msgs"].pop(index)
 								return api_error(200, "Message deleted", False, False)
 
-		return api_error(400, "Invalid request", False, False)
+		return api_error_400()
 
 	elif "save" in data: #user only wants to encrypt cache
 		ret=lock(self, data["save"])
@@ -144,13 +144,13 @@ def api_handle(self, data): #handles all api requests
 		if "old" in data["change pwd"] and "new" in data["change pwd"]:
 			tmp=update_pwd(self, data["change pwd"]["old"], data["change pwd"]["new"])
 			if tmp:
-				return api_error(202, "Lock or save to apply changes", False, False) #password was updated successfull
+				return api_error_202() #password was updated successfull
 
 			else:
 				return api_error(401, "Password could not be updated", data["redirect"], False) #incorrect info was given
 
 		else:
-			return api_error(400, "Invalid Request", data["redirect"], False) #invalid request
+			return api_error_400(data=data) #invalid request
 
 	elif "new key" in data:
 		if data["new key"]:
@@ -164,7 +164,7 @@ def api_handle(self, data): #handles all api requests
 
 			return api_error(401, "Incorrect password", False, False)
 
-		return api_error(400, "Invalid request", False, False)
+		return api_error_400()
 
 	elif "expiration timer" in data:
 		num=data["expiration timer"]
@@ -175,15 +175,15 @@ def api_handle(self, data): #handles all api requests
 				self.expires=num
 				self.cache["expiration"]=num
 
-				return api_error(202, "Lock or save to apply changes", False, False)
+				return api_error_202()
 
-		return api_error(400, "Invalid request", False, False)
+		return api_error_400()
 
 	elif "devmode" in data:
 		#if devmode is true, enable devmode, else disable
 		self.cache["developer"]=(data["devmode"]=="true")
 
-		return api_error(202, "Lock or save to apply changes", False, False)
+		return api_error_202()
 
 	elif "nuke" in data: #user wants to delete cache
 		if correct_pwd(self, data["nuke"]):
@@ -243,7 +243,7 @@ def api_handle(self, data): #handles all api requests
 						"hash": sha256hex(user["id"])
 					}, False, False)
 
-		return api_error(400, "Invalid request", False, False)
+		return api_error_400()
 
 	elif "add friend" in data:
 		if "name" in data["add friend"] and "id" in data["add friend"]:
@@ -272,7 +272,7 @@ def api_handle(self, data): #handles all api requests
 
 	else:
 		#if the call is not recognized, throw a 400 error
-		return api_error(400, "Invalid request", False, False)
+		return api_error_400()
 
 	abort(500) #if anything above exits and gets to here, make sure the user knows of the error
 
@@ -295,3 +295,26 @@ def sha256hex(data): #returns the sha256 hex digest for given data
 
 	else:
 		return sha256(data).hexdigest()
+
+#below is a bunch of api_error wrappers for common calls
+#data is a place holder for passing
+
+def api_error_wrapper(num, s, data, rethrow):
+	ret=False
+	if type(data) is bool:
+		ret=data
+
+	elif type(data) is dict:
+		if "redirect" in data:
+			ret=data["redirect"]
+
+	return api_error(num, s, data, rethrow)
+
+def api_error_400(error="Invalid Request", data=False):
+	return api_error(400, error, data, rethrow=False)
+
+def api_error_202(error="Lock or save to apply changes", data=False): #usually used when the user needs to save/lock to fulfill request
+	return api_error(202, error, data, rethrow=False)
+
+def api_error_200(error="OK", data=False):
+	return api_error(200, error, data, rethrow=False)
