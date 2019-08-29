@@ -44,7 +44,7 @@ class Shimon:
 			else:
 				err=400 #handle invalid error
 
-		return render(self, "error.html", error=err)
+		return render(self, "error.html", error=err, url=request.url)
 
 	def index(self): #index page
 		check_local()
