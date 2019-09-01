@@ -90,8 +90,10 @@ div > img {
 	text-align: right;
 }
 .rightitem {
+	background: white;
 	position: relative;
 	padding-top: 3px;
+	padding-left: 5px;
 	right: 0;
 }
 .setting {
