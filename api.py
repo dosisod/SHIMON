@@ -1,5 +1,5 @@
+from flask import make_response, abort, redirect
 from datetime import datetime, timedelta
-from flask import make_response, abort
 from flask.json import jsonify
 from hashlib import sha256
 from copy import deepcopy
@@ -55,6 +55,10 @@ def api_handle(self, data): #handles all api requests
 
 			else:
 				return render(self, "login.html", msg="Incorrect password")
+
+	elif "unlock" in data and self.cache: #user requested unlock but the cache is unlocked
+		#cache is logged in, handle as if the user is trying to access index
+		return redirect("/")
 
 	ret=check_all(self)
 	if ret: return ret
