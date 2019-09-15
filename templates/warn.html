@@ -1,0 +1,39 @@
+<html>
+<head>
+<meta name="viewport" content="width=device-width">
+<title>WARNING</title>
+<link rel="stylesheet" href={{ url_for("static", filename="font.css") }}>
+<link rel="stylesheet" href={{ url_for("static", filename="ui.css") }}>
+
+</head>
+
+<body>
+
+<div class="container">
+<div class="content" id="tray">
+	<br>
+	<span class="title warn">WARNING</span>
+	<br>
+	<span class="desc">SHIMON has been updated since last run, some features may not work as expected</span>
+	<br>
+	<a id="next" href="/">CONTINUE</a>
+</div>
+</div>
+
+<style>
+.warn {
+	display: block;
+}
+.desc {
+	display: block;
+}
+#next {
+	text-decoration: underline;
+}
+</style>
+
+<script src={{ url_for("static", filename="url.js") }}></script>
+<script>url("")</script>
+
+</body>
+</html>

@@ -31,9 +31,15 @@ def api_handle(self, data): #handles all api requests
 			else:
 				self.cache["developer"]=self.developer
 
-			self.cache["version"]=self.VERSION
+			#versions dont match, warn user of possible quirks
+			if self.cache["version"]!=self.VERSION:
+				self.cache["version"]=self.VERSION
+				return session_start(self, target="warn.html")
 
-			return session_start(self)
+			#if not, procceed like normal
+			else:
+				self.cache["version"]=self.VERSION
+				return session_start(self)
 
 		else:
 			self.attempts+=1 #if there is an error, add one to attempts

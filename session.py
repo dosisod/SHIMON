@@ -10,8 +10,8 @@ from error import api_error
 from renderer import render
 from storage import lock
 
-def session_start(self, fresh=False):
-	res=make_response(render(self, "index.html"))
+def session_start(self, fresh=False, target="index.html"):
+	res=make_response(render(self, target))
 
 	#creates session id
 	self.session=b64.urlsafe_b64encode(os.urandom(32)).decode().replace("=","")
