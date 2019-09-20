@@ -2,25 +2,22 @@
 
 This is a list of api commands, their functions, and how to call them
 
-| Name | Args | Return | Description |
-| ---- | ---- | ------ | ----------- |
-| "unlock" | PWD (string) | Home screen if success, login page with error msg if error | Tries to unlock cache with PWD as password |
-| "save" | PWD (string) | Error if invalid, OK if success | Saves current state of SHIMON to cache |
-| "lock" | PWD (string) | Error if invalid, OK if success | Saves then deletes the session |
-| "send msg" | UNAME (string), MSG (string) | Error if invalid, OK if success | Send a message MSG to user UNAME |
-| "change pwd" | OLD (string), NEW (string) | Error if invalid, OK if success | If OLD password is correct, update to NEW string |
-| "new key" | PWD (string) | Error if invalid, `index.html` if success | If password PWD is correct, update internal RSA key |
-| "expiration timer" | SECONDS (int) | Error if SECONDS is not in range, OK if success | Update how long to wait until session expires |
-| "devmode" | | OK | Toggles the state of developermode status |
-| "nuke" | PWD (string) |  | Deletes cache if PWD is correct |
-| "status" | | Status of app | Gets version and unlock state |
-| "ping" | | pong | ping pong |
-| "add friend" | NAME (string), ID (string) | Redirect to index with completion status | Add a friend with user id ID and give them name NAME |
+Any below text wrapped in `""` is a string variable, else it is an integer value
 
-The `"data"` command is more involved, it can take a string or dictionary depending on the type of request:
-
-`{"data":"friends"}` Grabs a list of all friends in the friends list
-
-`{"data":"recent"}` Grabs the most recent even for each friend in the friends list
-
-`{"data":{"allfor":UNAME}}` Grabs all messages sent to and from user UNAME
+| Usage | Return | Description |
+| ----- | ------ | ----------- |
+| `{"unlock": "PWD"}` | `index.html` if success, login page with error msg if error | Tries to unlock cache with PWD as password |
+| `{"save": "PWD"}` | Error if invalid, OK if success | Saves current state of SHIMON to cache |
+| `{"lock": "PWD"}` | Error if invalid, OK if success | Saves then deletes the session |
+| `{"send msg": {"uname": "UNAME", "msg": "MSG"}}` | Error if invalid, OK if success | Send a message MSG to user UNAME |
+| `{"change pwd": {"old": "OLD", "new": "NEW"}}` | Error if invalid, OK if success | If OLD password is correct, update to NEW string |
+| `{"new key": "PWD"}` | Error if invalid, `index.html` if success | If password PWD is correct, update internal RSA key |
+| `{"expiration timer": SECONDS}` | Error if SECONDS is not in range, OK if success | Update how long to wait until session expires |
+| `{"devmode": ""}` | OK | Toggles the state of developermode status |
+| `{"nuke": "PWD"}` | Fresh `index.html` | Deletes cache if PWD is correct |
+| `{"status": ""}` | Status of app | Gets version, unlock state, developer state |
+| `{"ping": ""}` | pong | ping pong |
+| `{"add friend": {"name": "NAME", "id": "ID"}}` | Redirect to index with completion status | Add a friend with user id ID and give them name NAME |
+| `{"data": "friends"}` | Grabs a list of all friends in the friends list | |
+| `{"data":"recent"}` | Grabs the most recent even for each friend in the friends list | |
+| `{"data": {"allfor": "UNAME"}}` | Grabs all messages sent to and from user UNAME | |
