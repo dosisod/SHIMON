@@ -15,6 +15,7 @@ This is a list of api commands, their functions, and how to call them
 | "nuke" | PWD (string) |  | Deletes cache if PWD is correct |
 | "status" | | Status of app | Gets version and unlock state |
 | "ping" | | pong | ping pong |
+| "add friend" | NAME (string), ID (string) | Redirect to index with completion status | Add a friend with user id ID and give them name NAME |
 
 The `"data"` command is more involved, it can take a string or dictionary depending on the type of request:
 
