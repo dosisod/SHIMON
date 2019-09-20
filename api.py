@@ -31,6 +31,11 @@ def api_handle(self, data): #handles all api requests
 			else:
 				self.cache["developer"]=self.developer
 
+			if "darkmode" in self.cache:
+				self.darkmode=self.cache["darkmode"]
+			else:
+				self.cache["darkmode"]=self.darkmode
+
 			#versions dont match, warn user of possible quirks
 			if self.cache["version"]!=self.VERSION:
 				self.cache["version"]=self.VERSION
@@ -123,6 +128,7 @@ def api_handle(self, data): #handles all api requests
 		#update settings if they were set since last save
 		self.expires=self.cache["expiration"]
 		self.developer=self.cache["developer"]
+		self.darkmode=self.cache["darkmode"]
 
 		return api_error(200, "OK", False, False)
 
@@ -188,6 +194,12 @@ def api_handle(self, data): #handles all api requests
 				return api_error_202()
 
 		return api_error_400()
+
+	elif "darkmode" in data:
+		#if darkmode is true, enable darkmode, else disable
+		self.cache["darkmode"]=(data["darkmode"]=="true")
+
+		return api_error_202()
 
 	elif "devmode" in data:
 		#if devmode is true, enable devmode, else disable

@@ -19,13 +19,16 @@ function setting(e) { //make api calls based off setting type
 		pwd=prompt("Enter password to confirm")
 		if (!pwd) return
 
-		post({"new key":pwd}, true)
+		post({"new key": pwd}, true)
 	}
 	else if (["15 mins", "1 hour", "5 hours", "1 day"].indexOf(str)>-1) {
 		post({"expiration timer": e.value})
 	}
+	else if (str=="darkmode") {
+		post({"darkmode": e.checked}) //darkmode will be set to what is sent here
+	}
 	else if (str=="devmode") {
-		post({"devmode":e.checked}) //developer mode will be set to what is sent here
+		post({"devmode": e.checked}) //developer mode will be set to what is sent here
 	}
 	else if (str=="nuke cache") {
 		if (!confirm("Are you sure you want to delete cache?")) return

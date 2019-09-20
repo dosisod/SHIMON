@@ -31,6 +31,7 @@ class Shimon:
 		self.expires=3600 #(default) time to expire in seconds
 
 		self.developer=False #(default) turns developer mode off
+		self.darkmode=False #(default) turns darkmode off
 
 	def error(self, ex): #redirects after error msg
 		err=500
@@ -65,7 +66,7 @@ class Shimon:
 		ret=check_all(self)
 		if ret: return ret
 
-		return render(self, "settings.html", seconds=self.expires)
+		return render(self, "settings.html", seconds=self.expires, darkmode=self.darkmode)
 
 	def account(self):
 		ret=check_all(self)

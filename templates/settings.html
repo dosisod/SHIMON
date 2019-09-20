@@ -33,6 +33,14 @@
 			<option value="86400" onclick="setting(this)">1 Day</option>
 		</select>
 	</li>
+	<li class="name setting"><span>ENABLE DARKMODE
+		<input type="checkbox" class="dropdown" onclick="setting(this)" id="darkmode"
+		{# based on whether darkmode mode is on, check/uncheck box #}
+		{% if darkmode %}
+			checked="checked"
+		{% endif %}
+		></input>
+	</span></li>
 	<li class="name setting"><span>ENABLE DEVELOPER MODE
 		<input type="checkbox" class="dropdown" onclick="setting(this)" id="devmode"
 		{# based on whether developer mode is on, check/uncheck box #}
