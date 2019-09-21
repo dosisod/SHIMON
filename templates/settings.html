@@ -4,8 +4,8 @@
 <title>SHIMON</title>
 
 <link rel="stylesheet" href={{ url_for("static", filename="font.css") }}>
-<link rel="stylesheet" href={{ url_for("static", filename="msg.css") }}>
-<link rel="stylesheet" href={{ url_for("static", filename="ui.css") }}>
+{% include "msg.css" %}
+{% include "ui.css" %}
 
 </head>
 <body>

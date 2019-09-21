@@ -1,3 +1,4 @@
+<style>
 .block {
 	margin: 5px;
 	padding: 15px;
@@ -13,6 +14,7 @@
 	z-index: 99;
 }
 .receiving {
+	background: white;
 	left: 0;
 	border: 1px solid black;
 }
@@ -26,6 +28,7 @@
 	left: calc(20% - 40px);
 	background: black;
 	color: white;
+	border: 1px solid white;
 }
 #typer {
 	width: 50%;
@@ -34,7 +37,7 @@
 	bottom: 0;
 	left: 25%;
 	border: 1px solid black;
-	box-shadow: 0 0 0 10px white;
+	box-shadow: 0 0 0 10px {% if darkmode %}black{% else %}white{% endif %};
 }
 @media screen and (max-width: 700px) {
 	#typer {
@@ -44,3 +47,4 @@
 		box-shadow: 0;
 	}
 }
+</style>
