@@ -198,14 +198,16 @@ def api_handle(self, data): #handles all api requests
 	elif "darkmode" in data:
 		#if darkmode is true, enable darkmode, else disable
 		self.cache["darkmode"]=(data["darkmode"]=="true")
+		self.darkmode=self.cache["darkmode"]
 
-		return api_error_202()
+		return api_error_200()
 
 	elif "devmode" in data:
 		#if devmode is true, enable devmode, else disable
 		self.cache["developer"]=(data["devmode"]=="true")
+		self.developer=self.cache["developer"]
 
-		return api_error_202()
+		return api_error_200()
 
 	elif "nuke" in data: #user wants to delete cache
 		if correct_pwd(self, data["nuke"]):

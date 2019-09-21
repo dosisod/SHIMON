@@ -25,10 +25,16 @@ function setting(e) { //make api calls based off setting type
 		post({"expiration timer": e.value})
 	}
 	else if (str=="darkmode") {
-		post({"darkmode": e.checked}) //darkmode will be set to what is sent here
+		//darkmode will be set to what is sent here
+		post({"darkmode": e.checked}).then(e=>{
+			window.location.reload(true) //force reload with new css and js files
+		})
 	}
 	else if (str=="devmode") {
-		post({"devmode": e.checked}) //developer mode will be set to what is sent here
+		//devmode will be set to what is sent here
+		post({"devmode": e.checked}).then(e=>{
+			window.location.reload(true) //force reload with new css and js files
+		})
 	}
 	else if (str=="nuke cache") {
 		if (!confirm("Are you sure you want to delete cache?")) return
