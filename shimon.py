@@ -4,8 +4,10 @@ from datetime import datetime, timedelta
 from flask_restful import Resource, Api
 from flask.json import jsonify
 from waitress import serve
+import traceback
 import json
 import os
+
 
 from security import check_all, check_local, check_allowed, check_session
 from session import session_start
@@ -38,6 +40,10 @@ class Shimon:
 		if isinstance(ex, HTTPException):
 			err=ex.code #handle internal error
 
+		tb=""
+		if isinstance(ex, BaseException) and self.developer:
+			tb=traceback.format_exc()
+
 		elif type(ex) is int:
 			if 300<=ex and ex<=417:
 				err=ex #handle self assigned error
@@ -45,7 +51,7 @@ class Shimon:
 			else:
 				err=400 #handle invalid error
 
-		return render(self, "error.html", error=err, url=request.url)
+		return render(self, "error.html", error=err, url=request.url, traceback=tb)
 
 	def index(self): #index page
 		check_local()
