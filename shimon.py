@@ -8,7 +8,6 @@ import traceback
 import json
 import os
 
-
 from security import check_all, check_local, check_allowed, check_session
 from session import session_start
 from storage import unlock, lock
@@ -32,6 +31,7 @@ class Shimon:
 		self.lastcall=datetime.now()
 		self.expires=3600 #(default) time to expire in seconds
 
+		#these are also stored in the cache, but are not available untill the cache is unlocked
 		self.developer=False #(default) turns developer mode off
 		self.darkmode=False #(default) turns darkmode off
 
@@ -40,11 +40,12 @@ class Shimon:
 		if isinstance(ex, HTTPException):
 			err=ex.code #handle internal error
 
-		tb=""
+		tb="" #if there was a traceback and user is a developer, show traceback on screen
 		if isinstance(ex, BaseException) and self.developer:
 			tb=traceback.format_exc()
 
 		elif type(ex) is int:
+			#error must be a valid user-defined int
 			if 300<=ex and ex<=417:
 				err=ex #handle self assigned error
 
