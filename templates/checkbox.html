@@ -1,3 +1,3 @@
-{% macro checkbox(text, id, var) %}<li class="name setting"><span>{{ text }}
-	<input type="checkbox" class="dropdown" onclick="setting(this)" id="{{ id }}" {% if var %}checked="checked"{% endif %}></input>
+{% macro checkbox(text, id, var) %}<li class="name setting nopoint"><span>{{ text }}
+	<input type="checkbox" class="dropdown point" onclick="setting(this)" id="{{ id }}" {% if var %}checked="checked"{% endif %}></input>
 </span></li>{% endmacro %}

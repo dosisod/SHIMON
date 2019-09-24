@@ -11,10 +11,10 @@
 <body>
 <div class="container">
 <ol class="content" id="tray">
-	<li class="name setting"><span onclick="setting(this)">CHANGE PASSWORD</span></li>
-	<li class="name setting warn"><span onclick="setting(this)">GENERATE NEW KEY</span></li>
-	<li class="name setting">EXPIRATION TIMER
-		<select class="dropdown">
+	<li class="name setting"><span class="point" onclick="setting(this)">CHANGE PASSWORD</span></li>
+	<li class="name setting warn"><span class="point"onclick="setting(this)">GENERATE NEW KEY</span></li>
+	<li class="name setting nopoint">EXPIRATION TIMER
+		<select class="dropdown point">
 			{# based on the number of seconds, display the current expiration timeout #}
 			<option value={{ seconds }} disabled="disabled" selected="selected">
 			{% if seconds==900 %}
@@ -36,11 +36,10 @@
 	{% from "checkbox.html" import checkbox %}
 	{{ checkbox("ENABLE DARKMODE", "darkmode", darkmode) }}
 	{{ checkbox("ENABLE DEVELOPER MODE", "devmode", developer) }}
-	<li class="name setting warn"><span onclick="setting(this)">NUKE CACHE</span></li>
+	<li class="name setting warn"><span class="point" onclick="setting(this)">NUKE CACHE</span></li>
 </ol>
 <span class="warn error" id="error"></span>
 
-</div>
 </div>
 
 {% include "headers.html" %}

@@ -82,6 +82,7 @@ textarea {
 	background: white;
 	color: black;
 	{% endif %}
+	cursor: pointer;
 }
 div > img {
 	vertical-align: top;
@@ -147,5 +148,11 @@ div > img {
 	left: 50%;
 	transform: translate(-50%);
 	position: fixed;
+}
+.point {
+	cursor: pointer;
+}
+.nopoint {
+	cursor: default;
 }
 </style>

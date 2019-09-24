@@ -41,6 +41,10 @@ input {
 	border-left: 0;
 	color: black;
 	background: white;
+	cursor: pointer;
+}
+.nopoint {
+	cursor: default;
 }
 #msg {
 	color: red;

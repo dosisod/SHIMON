@@ -12,6 +12,7 @@
 	position: absolute;
 	right: calc(20% - 35px);
 	z-index: 99;
+	cursor: pointer;
 }
 .receiving {
 	background: white;
@@ -23,6 +24,7 @@
 	position: absolute;
 	right: 5px;
 	z-index: 99;
+	cursor: pointer;
 }
 .sending {
 	left: calc(20% - 40px);

@@ -70,7 +70,7 @@ async function reload_msgs() {
 		},
 		data, //parameters to feed the template
 		nu("span", { //ending element
-			"className": "center name",
+			"className": "center name point",
 			"innerText": "RELOAD",
 			"id": "reload",
 			"onclick": ()=>reload_msgs()
@@ -91,12 +91,14 @@ async function reload_index() {
 				arr["hash"], //hash of user id
 				realname(arr["id"]), //realname of id
 				arr["msgs"][arr["msgs"].length-1]["msg"], //last message
-				true
+				true,
+				false,
+				true //use default cursor when hovering
 			)
 		},
 		raw,
 		nu("span", { //ending element
-			"className": "center name",
+			"className": "center name point",
 			"innerText": "RELOAD",
 			"onclick": ()=>reload_index()
 		})
@@ -116,7 +118,7 @@ async function replace_template(start, template, params, end) { //replace tray w
 
 	nu("span", {
 		"innerText": "ADD FRIEND",
-		"className": "rightitem name",
+		"className": "rightitem name point",
 		"onclick": (e)=>window.location="/add"
 	}, div)
 
@@ -124,7 +126,7 @@ async function replace_template(start, template, params, end) { //replace tray w
 
 	nu("span", {
 		"innerText": "ACCOUNT",
-		"className": "rightitem name",
+		"className": "rightitem name point",
 		"onclick": (e)=>window.location="/account"
 	}, div)
 
@@ -132,7 +134,7 @@ async function replace_template(start, template, params, end) { //replace tray w
 
 	nu("span", {
 		"innerText": "SAVE",
-		"className": "rightitem name",
+		"className": "rightitem name point",
 		"onclick": (e)=>save(e)
 	}, div)
 
@@ -149,8 +151,8 @@ async function replace_template(start, template, params, end) { //replace tray w
 	if (end) tray.appendChild(end)
 }
 
-function new_card(u, n, m, r, d) { //returns or appends a new card
-	//uuid, name, message, return (card), disable (click)
+function new_card(u, n, m, r, d, p) { //returns or appends a new card
+	//uuid, name, message, return (card), disable (click), pointer
 
 	var ol=nu("ol")
 	ol.appendChild(
@@ -167,7 +169,7 @@ function new_card(u, n, m, r, d) { //returns or appends a new card
 	)
 
 	var div=nu("div", {
-		"className": "holder"
+		"className": p?"holder point":"holder"
 	})
 	//if disable is set, onclick wont be added
 	if (!d) div.onclick=()=>window.location="/msg/"+uname(n)

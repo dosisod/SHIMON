@@ -8,7 +8,7 @@
 <body>
 
 <pre>
-<span style="font-size: 35px">SHIMON</span>
+<span class="nopoint" style="font-size: 35px">SHIMON</span>
 <span style="font-size: 15px">ERROR {{ error }} -&gt; {{ url }}</span>
 {% if traceback %}
 <span style="font-size: 15px; color: grey">{{ traceback }}</span>
@@ -18,6 +18,9 @@
 </pre>
 
 <style>
+.nopoint {
+	cursor: default;
+}
 a {
 	font-size: 15px;
 	color: black;
