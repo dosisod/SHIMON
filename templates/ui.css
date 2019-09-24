@@ -105,6 +105,11 @@ div > img {
 	font-size: 16px;
 }
 .msg {
+	{% if darkmode %}
+	color: white;
+	{% else %}
+	color: black;
+	{% endif %}
 	font-size: 14px;
 }
 .rightbar {
