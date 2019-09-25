@@ -31,6 +31,8 @@ class Shimon:
 		self.lastcall=datetime.now()
 		self.expires=3600 #(default) time to expire in seconds
 
+		self.redraw=False #stores whether or not the msg page should redraw
+
 		#these are also stored in the cache, but are not available untill the cache is unlocked
 		self.developer=False #(default) turns developer mode off
 		self.darkmode=False #(default) turns darkmode off
@@ -91,6 +93,7 @@ class Shimon:
 				res=make_response(render(self, "msg.html"))
 				res.set_cookie("uname", uuid)
 
+				self.redraw=True
 				return res
 
 		#400 bad request

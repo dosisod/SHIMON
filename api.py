@@ -87,6 +87,7 @@ def api_handle(self, data): #handles all api requests
 								"msg": message["msg"]
 							})
 
+							self.redraw=True
 							return api_error(200, "OK", False, False)
 
 		return api_error_400() #user didnt set something/made an invalid request
@@ -114,6 +115,8 @@ def api_handle(self, data): #handles all api requests
 
 							else:
 								self.cache["history"][i]["msgs"].pop(index)
+
+								self.redraw=True
 								return api_error(200, "Message deleted", False, False)
 
 		return api_error_400()
@@ -260,12 +263,17 @@ def api_handle(self, data): #handles all api requests
 		elif "allfor" in data["data"]:
 			for user in self.cache["history"]:
 				if user["id"]==data["data"]["allfor"]:
-					#return all messages from user
-					return api_error(200, {
-						"id": user["id"],
-						"msgs": user["msgs"],
-						"hash": sha256hex(user["id"])
-					}, False, False)
+					if self.redraw: #only return data if there was a change
+						self.redraw=False
+						#return all messages from user
+						return api_error(200, {
+							"id": user["id"],
+							"msgs": user["msgs"],
+							"hash": sha256hex(user["id"])
+						}, False, False)
+
+					else: #else return empty
+						return api_error(200, [], False, False)
 
 		return api_error_400()
 

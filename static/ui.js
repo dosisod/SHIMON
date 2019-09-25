@@ -28,6 +28,9 @@ async function reload_msgs() {
 
 	raw=await post({"data":{"allfor":user}})
 	raw=raw["msg"]
+	if (raw.length==0) return
+
+	rawid=raw["id"] //must be stored like this as raw can change over time
 	data=raw["msgs"]
 
 	replace_template(
@@ -46,8 +49,8 @@ async function reload_msgs() {
 					if(!confirm("Are you sure you want to delete this message?")) return
 
 					post({"delete msg":{
-						"id":raw["id"],
-						"index":arr["index"]
+						"id": rawid,
+						"index": arr["index"]
 					}})
 
 					//reload the indexs of messages by refreshiNg
