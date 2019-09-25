@@ -104,7 +104,7 @@ div > img {
 	font-weight: bold;
 	font-size: 16px;
 }
-.msg {
+ol > .msg {
 	{% if darkmode %}
 	color: white;
 	{% else %}
