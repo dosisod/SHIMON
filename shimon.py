@@ -7,6 +7,7 @@ from waitress import serve
 import traceback
 import json
 import os
+import re
 
 from security import check_all, check_local, check_allowed, check_session
 from session import session_start
@@ -39,8 +40,11 @@ class Shimon:
 
 	def error(self, ex): #redirects after error msg
 		err=500
+		msg=""
 		if isinstance(ex, HTTPException):
-			err=ex.code #handle internal error
+			#grabs error code name from class name, grabs http error code
+			msg=" ".join(re.findall("[A-Z][a-z]*", ex.__class__.__name__))
+			err=ex.code
 
 		tb="" #if there was a traceback and user is a developer, show traceback on screen
 		if isinstance(ex, BaseException) and self.developer:
@@ -54,7 +58,7 @@ class Shimon:
 			else:
 				err=400 #handle invalid error
 
-		return render(self, "error.html", error=err, url=request.url, traceback=tb)
+		return render(self, "error.html", error=err, url=request.url, traceback=tb, msg=msg)
 
 	def index(self): #index page
 		check_local()
