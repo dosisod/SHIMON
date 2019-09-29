@@ -6,7 +6,7 @@ from flask import render_template
 #when darkmode is on, style sheets will use darker colors and patterns
 #when off (default), normal white theme is used
 
-def render(self, name, **kwargs): #automatically add devmode and darkmode state to all render_templates
+def render(self, name: str, **kwargs) -> str: #automatically add devmode and darkmode state to all render_templates
 	kwargs["developer"]=self.developer
 	kwargs["darkmode"]=self.darkmode
 	return render_template(name, **kwargs)

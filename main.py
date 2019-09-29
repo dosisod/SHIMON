@@ -1,9 +1,14 @@
 from werkzeug.exceptions import HTTPException
 from flask_restful import Resource, Api
+from flask import Flask, Response
 from waitress import serve
-from flask import Flask
 
 from shimon import Shimon
+
+from typing import Union
+
+Page=Union[Response, str] #can be a flask response or raw html response
+Json=Response #json returned from api_error is still a Response, alias it to make sense
 
 IP="127.0.0.1"
 PORT=1717
@@ -13,35 +18,35 @@ shimon=Shimon()
 
 @app.route("/error/<int:ex>")
 @app.errorhandler(Exception)
-def error(ex):
+def error(ex: Union[int, Exception]) -> Page:
 	return shimon.error(ex)
 
 @app.route("/")
-def index():
+def index() -> Page:
 	return shimon.index()
 
 @app.route("/settings")
-def settings():
+def settings() -> Page:
 	return shimon.settings()
 
 @app.route("/account")
-def account():
+def account() -> Page:
 	return shimon.account()
 
 @app.route("/msg/<uuid>")
-def msg(uuid):
+def msg(uuid: str) -> Page:
 	return shimon.msg(uuid)
 
 @app.route("/add")
-def add():
+def add() -> Page:
 	return shimon.add()
 
 @app.route("/login")
-def login():
+def login() -> Page:
 	return shimon.login()
 
 @app.route("/api/", methods=["POST"])
-def api():
+def api() -> Union[Page, Json]:
 	return shimon.api()
 
 if __name__=="__main__":

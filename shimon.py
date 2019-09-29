@@ -1,4 +1,4 @@
-from flask import Flask, request, make_response, abort
+from flask import Flask, request, make_response, abort, Response
 from werkzeug.exceptions import HTTPException
 from datetime import datetime, timedelta
 from flask_restful import Resource, Api
@@ -15,8 +15,13 @@ from storage import unlock, lock
 from renderer import render
 from api import api_handle
 
+from typing import Union
+
+Page=Union[Response, str] #can be a flask response or raw html response
+Json=Response #json returned from api_error is still a Response, alias it to make sense
+
 class Shimon:
-	def __init__(self):
+	def __init__(self) -> None:
 		self.VERSION="0.0.21"
 
 		self.cache=None #stores cached data after decryption
@@ -38,7 +43,7 @@ class Shimon:
 		self.developer=False #(default) turns developer mode off
 		self.darkmode=False #(default) turns darkmode off
 
-	def error(self, ex): #redirects after error msg
+	def error(self, ex: Union[int, Exception]) -> str: #redirects after error msg
 		err=500
 		msg=""
 		if isinstance(ex, HTTPException):
@@ -60,7 +65,7 @@ class Shimon:
 
 		return render(self, "error.html", error=err, url=request.url, traceback=tb, msg=msg)
 
-	def index(self): #index page
+	def index(self) -> Page: #index page
 		check_local()
 
 		if not os.path.isfile("data.gpg"): #if cache doesnt exist create and then open page
@@ -75,19 +80,19 @@ class Shimon:
 
 		return res
 
-	def settings(self):
+	def settings(self) -> Page:
 		ret=check_all(self)
 		if ret: return ret
 
 		return render(self, "settings.html", seconds=self.expires, darkmode=self.darkmode)
 
-	def account(self):
+	def account(self) -> Page:
 		ret=check_all(self)
 		if ret: return ret
 
 		return render(self, "account.html", version=self.VERSION)
 
-	def msg(self, uuid):
+	def msg(self, uuid: str) -> Page:
 		ret=check_all(self)
 		if ret: return ret
 
@@ -103,18 +108,19 @@ class Shimon:
 		#400 bad request
 		abort(400)
 
-	def add(self):
+	def add(self) -> Page:
 		ret=check_all(self)
 		if ret: return ret
 
 		return render(self, "add.html")
 
-	def login(self): #handles login page
+	def login(self) -> Page: #handles login page
 		check_local()
 
 		return render(self, "login.html")
 
-	def api(self): #api method
+	#api can return json, or an HTML page, it depends on the call made
+	def api(self) -> Union[Json, Page]:
 		check_local()
 
 		return api_handle(self, request.form.to_dict()) #sends data to seperate method to handle

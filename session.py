@@ -1,5 +1,5 @@
+from flask import make_response, Response
 from datetime import datetime, timedelta
-from flask import make_response
 from flask.json import jsonify
 import base64 as b64
 from kee import kee
@@ -10,7 +10,11 @@ from error import api_error
 from renderer import render
 from storage import lock
 
-def session_start(self, fresh=False, target="index.html"):
+from typing import Union, Dict
+
+Page=Union[Response, str] #can be a flask response or raw html response
+
+def session_start(self, fresh: bool=False, target: str="index.html") -> Page:
 	res=make_response(render(self, target))
 
 	#creates session id
@@ -39,7 +43,7 @@ def session_start(self, fresh=False, target="index.html"):
 
 	return res
 
-def session_check(self, data):
+def session_check(self, data: Dict) -> Union[Page]:
 	if "session" in data:
 		if datetime.now()>(self.lastcall+timedelta(seconds=self.expires)):
 			#if session has expired, clear it
@@ -57,10 +61,10 @@ def session_check(self, data):
 		True
 	)
 
-def session_keepalive(self):
+def session_keepalive(self) -> None:
 	self.lastcall=datetime.now()
 
-def session_kill(self):
+def session_kill(self) -> None:
 	self.session=None
 	self.cache=None
 	self.lastcall=datetime.min

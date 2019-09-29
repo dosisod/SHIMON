@@ -1,4 +1,4 @@
-from flask import make_response, abort, redirect
+from flask import make_response, abort, redirect, Response
 from datetime import datetime, timedelta
 from flask.json import jsonify
 from hashlib import sha256
@@ -14,7 +14,12 @@ from renderer import render
 from error import api_error
 from kee import kee
 
-def api_handle(self, data): #handles all api requests
+from typing import Union, Dict, Any
+
+Page=Union[Response, str] #can be a flask response or raw html response
+Json=Response #json returned from api_error is still a Response, alias it to make sense
+
+def api_handle(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 	for attr in data: #loop through and convert to json
 		data[attr]=api_decode(data[attr])
 
@@ -308,7 +313,7 @@ def api_handle(self, data): #handles all api requests
 
 	abort(500) #if anything above exits and gets to here, make sure the user knows of the error
 
-def api_decode(s): #decodes json if possible
+def api_decode(s: str) -> Union[Dict, str]: #decodes json if possible
 	try:
 		if s.startswith("[") or s.startswith("{"):
 			return json.loads(s) #potentialy json, try to parse
@@ -318,10 +323,10 @@ def api_decode(s): #decodes json if possible
 
 	return s #return if not json or if the json was malformed
 
-def time():
+def time() -> int:
 	return round(datetime.today().timestamp(), 1)
 
-def sha256hex(data): #returns the sha256 hex digest for given data
+def sha256hex(data: Union[str, bytes]) -> str: #returns the sha256 hex digest for given data
 	if type(data) is str:
 		return sha256(data.encode()).hexdigest()
 
@@ -329,24 +334,14 @@ def sha256hex(data): #returns the sha256 hex digest for given data
 		return sha256(data).hexdigest()
 
 #below is a bunch of api_error wrappers for common calls
-#data is a place holder for passing
+#data stores default message for the given error type, it can be changed
 
-def api_error_wrapper(num, s, data, rethrow):
-	ret=False
-	if type(data) is bool:
-		ret=data
-
-	elif type(data) is dict:
-		if "redirect" in data:
-			ret=data["redirect"]
-
-	return api_error(num, s, data, rethrow)
-
-def api_error_400(error="Invalid Request", data=False):
+def api_error_400(error: str="Invalid Request", data: Any=False) -> Page:
 	return api_error(400, error, data, rethrow=False)
 
-def api_error_202(error="Lock or save to apply changes", data=False): #usually used when the user needs to save/lock to fulfill request
+#usually used when the user needs to save/lock to fulfill request
+def api_error_202(error: str="Lock or save to apply changes", data: Any=False) -> Page:
 	return api_error(202, error, data, rethrow=False)
 
-def api_error_200(error="OK", data=False):
+def api_error_200(error: str="OK", data: Any=False) -> Page:
 	return api_error(200, error, data, rethrow=False)

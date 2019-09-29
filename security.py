@@ -1,14 +1,19 @@
+from flask import request, abort, Response
 from session import session_check
-from flask import request, abort
 from hashlib import sha512
 
-def check_all(self): #errors if any of the below tests fails
+from typing import Union, Dict
+
+Page=Union[Response, str] #can be a flask response or raw html response
+
+#errors if any of the below tests fails
+def check_all(self) -> Union[Page]:
 	check_local()
 	check_allowed(self.cache)
 	return check_session(self)
 
-def check_session(self):
-	#make sure session exists before setting is
+def check_session(self) -> Union[Page]:
+	#make sure session exists before setting it
 	session=""
 	if "session" in request.cookies:
 		session=request.cookies["session"]
@@ -18,21 +23,25 @@ def check_session(self):
 		"redirect": True #true since the request is coming from a click (not fetch)
 	})
 
-def check_local(): #errors if inbound IP isnt localhost
+#errors if inbound IP isnt localhost
+def check_local() -> None:
 	if not request.remote_addr=="127.0.0.1":
 		abort(403)
 
-def check_allowed(cache): #errors if cache is locked
+#errors if cache is locked
+def check_allowed(cache: Union[Dict]) -> None:
 	if cache=={} or not cache:
 		abort(401)
 
-def correct_pwd(self, plain): #returns true if plain matches cache hash
+#returns true if plain matches cache hash
+def correct_pwd(self, plain: str) -> bool:
 	if type(plain) is str:
 		plain=plain.encode()
 
 	return self.cache["sha512"]==sha512(plain).hexdigest()
 
-def update_pwd(self, plain, new): #updates hash to new if old is correct, else return false
+#updates hash to new if old is correct, else return false
+def update_pwd(self, plain: str, new: Union[str, bytes]) -> bool:
 	if correct_pwd(self, plain):
 		if type(new) is str:
 			new=new.encode()
