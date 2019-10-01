@@ -1,3 +1,6 @@
 __pycache__/
 todo
 *.swp
+*test*
+data.gpg
+_mod.py
