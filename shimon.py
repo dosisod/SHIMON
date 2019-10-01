@@ -16,9 +16,7 @@ from renderer import render
 from api import api_handle
 
 from typing import Union
-
-Page=Union[Response, str] #can be a flask response or raw html response
-Json=Response #json returned from api_error is still a Response, alias it to make sense
+from __init__ import Page, Json
 
 class Shimon:
 	def __init__(self) -> None:

@@ -6,9 +6,7 @@ from waitress import serve
 from shimon import Shimon
 
 from typing import Union
-
-Page=Union[Response, str] #can be a flask response or raw html response
-Json=Response #json returned from api_error is still a Response, alias it to make sense
+from __init__ import Page, Json
 
 IP="127.0.0.1"
 PORT=1717

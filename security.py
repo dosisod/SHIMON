@@ -3,8 +3,7 @@ from session import session_check
 from hashlib import sha512
 
 from typing import Union, Dict
-
-Page=Union[Response, str] #can be a flask response or raw html response
+from __init__ import Stringish, Page
 
 #errors if any of the below tests fails
 def check_all(self) -> Union[Page]:
@@ -41,7 +40,7 @@ def correct_pwd(self, plain: str) -> bool:
 	return self.cache["sha512"]==sha512(plain).hexdigest()
 
 #updates hash to new if old is correct, else return false
-def update_pwd(self, plain: str, new: Union[str, bytes]) -> bool:
+def update_pwd(self, plain: str, new: Stringish) -> bool:
 	if correct_pwd(self, plain):
 		if type(new) is str:
 			new=new.encode()

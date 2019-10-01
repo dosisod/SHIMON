@@ -1,10 +1,7 @@
 from flask.json import jsonify
 
-from typing import Union, Dict, List, Any
-
-#Complex can be many things, including dict, list, str
-#technically Complex could be anything, but preferably it is one of the above ones
-Complex=Union[Dict, List, str, Any]
+from typing import Union
+from __init__ import Complex
 
 def api_error(code: Union[int, str], data: Complex, redirect: bool, rethrow: bool) -> Complex:
 	if type(redirect) is str:

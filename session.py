@@ -11,8 +11,7 @@ from renderer import render
 from storage import lock
 
 from typing import Union, Dict
-
-Page=Union[Response, str] #can be a flask response or raw html response
+from __init__ import Page
 
 def session_start(self, fresh: bool=False, target: str="index.html") -> Page:
 	res=make_response(render(self, target))

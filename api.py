@@ -15,9 +15,7 @@ from error import api_error
 from kee import kee
 
 from typing import Union, Dict, Any
-
-Page=Union[Response, str] #can be a flask response or raw html response
-Json=Response #json returned from api_error is still a Response, alias it to make sense
+from __init__ import Page, Json
 
 def api_handle(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 	for attr in data: #loop through and convert to json
