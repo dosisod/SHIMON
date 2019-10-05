@@ -14,7 +14,7 @@
 	{% include "sidebar.html" %}
 	<span class="center name point" id="reload" onclick="reload_msgs()">RELOAD</span>
 </ol>
-<span class="warn error" id="error"></span>
+{% include "error-msg.html" %}
 <input id="typer" onkeydown="send(event)"></input>
 </div>
 

@@ -14,7 +14,7 @@
 	{% include "sidebar.html" %}
 	<span class="center name point" id="reload" onclick="reload_index()">RELOAD</span>
 </ol>
-<span class="warn error" id="error">{{ error }}</span>
+{% include "error-msg.html" %}
 </div>
 
 {% include "headers.html" %}

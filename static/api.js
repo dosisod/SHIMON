@@ -50,12 +50,14 @@ async function post(arr, redirect) { //construct api call from dictionary
 			.catch(e=>{
 				console.log({"error":e.message})
 				if (e.message=="NetworkError when attempting to fetch resource.") {
+					document.getElementById("error").style.display="block"
 					document.getElementById("error").innerText="Network Disconnected"
 				}
 			})
 			.then(e=>{
 				//if the request is to be rethrown, make the same request with redirects on
 				if (e["code"]!=200) { //if error occurs, print it to the screen
+					document.getElementById("error").style.display="block"
 					document.getElementById("error").innerText=e["msg"]
 				}
 				if (e["rethrow"]=="") {
