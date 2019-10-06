@@ -97,6 +97,10 @@ div > img {
 	width: 100%;
 	text-align: center;
 }
+.white {
+	color: black !important;
+	background: white;
+}
 .name {
 	{% if darkmode %}
 	color: white;
