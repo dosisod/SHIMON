@@ -7,7 +7,6 @@ from waitress import serve
 import traceback
 import json
 import os
-import re
 
 from security import check_all, check_local, check_allowed, check_session
 from session import session_start
@@ -42,11 +41,21 @@ class Shimon:
 		self.darkmode=False #(default) turns darkmode off
 
 	def error(self, ex: Union[int, Exception]) -> str: #redirects after error msg
+		codes={
+			301: "Moved Permanently",
+			400: "Invalid Request",
+			401: "Unauthorized",
+			404: "Not Found",
+			500: "Server Error"
+		}
+
 		err=500
 		msg=""
 		if isinstance(ex, HTTPException):
 			#grabs error code name from class name, grabs http error code
-			msg=" ".join(re.findall("[A-Z][a-z]*", ex.__class__.__name__))
+			if ex.code in coes:
+				msg=codes[ex.code]
+
 			err=ex.code
 
 		tb="" #if there was a traceback and user is a developer, show traceback on screen
@@ -56,6 +65,9 @@ class Shimon:
 		elif type(ex) is int:
 			#error must be a valid user-defined int
 			if 300<=ex and ex<=417:
+				if ex in codes:
+					msg=codes[ex]
+
 				err=ex #handle self assigned error
 
 			else:
