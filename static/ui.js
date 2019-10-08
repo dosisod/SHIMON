@@ -114,34 +114,8 @@ async function replace_template(start, template, params, end) { //replace tray w
 	//template is a template to build items in the middle off of
 	//params is an array of the params for the template
 
-	tray.innerHTML="" //clear old tray
-
-	//always add the right bar (settings and lock buttons)
-	div=nu("div", {"className": "rightbar"})
-
-	nu("span", {
-		"innerText": "ADD FRIEND",
-		"className": "rightitem name point",
-		"onclick": (e)=>window.location="/add"
-	}, div)
-
-	nu("br", {}, div)
-
-	nu("span", {
-		"innerText": "ACCOUNT",
-		"className": "rightitem name point",
-		"onclick": (e)=>window.location="/account"
-	}, div)
-
-	nu("br", {}, div)
-
-	nu("span", {
-		"innerText": "SAVE",
-		"className": "rightitem name point",
-		"onclick": (e)=>save(e)
-	}, div)
-
-	tray.appendChild(div)
+	//clear tray, add right bar
+	tray.innerHTML=`<div class="rightbar"><span class="rightitem name point" onclick="window.location='/add'">ADD FRIEND</span></br><span class="rightitem name point" onclick="window.location='/account'">ACCOUNT</span></br><span class="rightitem name point" onclick="save(event)">SAVE</span></div>`
 
 	if (start) tray.appendChild(start)
 
