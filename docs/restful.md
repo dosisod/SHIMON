@@ -1,6 +1,6 @@
 # RESTful Components Overview
 
-Aside from the API calls, simple RESTful requests can for tasks such as redirects
+Aside from API calls, RESTful components can be used for certain actions:
 
 | URL | DESC |
 | --- | ---- |

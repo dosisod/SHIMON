@@ -53,7 +53,7 @@ class Shimon:
 		msg=""
 		if isinstance(ex, HTTPException):
 			#grabs error code name from class name, grabs http error code
-			if ex.code in coes:
+			if ex.code in codes:
 				msg=codes[ex.code]
 
 			err=ex.code
