@@ -23,6 +23,8 @@
 <script>
 url("msg/"+document.cookie.replace(/(?:(?:^|.*;\s*)uname\s*\=\s*([^;]*).*$)|^.*$/, "$1")) //set url
 
+preload={{ preload|safe()|default("[]") }}
+
 reload_msgs() //reload
 
 setInterval(reload_msgs, 5000) //reload again every 5 seconds

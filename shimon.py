@@ -9,10 +9,10 @@ import json
 import os
 
 from security import check_all, check_local, check_allowed, check_session
+from api import api_handle, api_friends, api_recent, api_allfor
 from session import session_start
 from storage import unlock, lock
 from renderer import render
-from api import api_handle
 
 from typing import Union
 from __init__ import Page, Json
@@ -109,7 +109,13 @@ class Shimon:
 		#make sure requested user is in friends list
 		for friend in self.cache["friends"]:
 			if friend["id"]==uuid:
-				res=make_response(render(self, "msg.html"))
+				self.redraw=True
+
+				res=make_response(render(
+					self,
+					"msg.html",
+					preload=json.dumps(api_allfor(self, uuid))
+				))
 				res.set_cookie("uname", uuid)
 
 				self.redraw=True

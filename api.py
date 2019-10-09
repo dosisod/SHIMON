@@ -338,13 +338,11 @@ def api_allfor(self, id: str) -> Union[List, Dict]:
 			if self.redraw: #only return data if there was a change
 				self.redraw=False
 				#return all messages from user
-				tmp={
+				return {
 					"id": user["id"],
 					"msgs": user["msgs"],
 					"hash": sha256hex(user["id"])
 				}
-				print(tmp)
-				return tmp
 
 			else: #else return empty
 				return []

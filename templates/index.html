@@ -22,6 +22,8 @@
 <script>
 url("") //set url
 
+preload={{ preload|safe()|default("[]") }}
+
 {% if not error|length %}
 reload_index() //load recents if there is no error
 {% endif %}
