@@ -14,7 +14,7 @@ from renderer import render
 from error import api_error
 from kee import kee
 
-from typing import Union, Dict, Any
+from typing import Union, Dict, Any, List
 from __init__ import Page, Json
 
 def api_handle(self, data: Dict) -> Union[Page, Json]: #handles all api requests
@@ -234,50 +234,20 @@ def api_handle(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 
 	elif "data" in data: #requesting data from cache
 		if data["data"]=="friends":
-			ret=deepcopy(self.cache["friends"])
-			for i in ret:
-				i["hash"]=sha256hex(i["id"])
-
-			return api_error(200, ret, False, False)
+			return api_error(200, api_friends(self), False, False)
 
 		elif data["data"]=="recent":
-			ret=[]
 
-			for user in self.cache["history"]:
-				tmp={
-					"id": user["id"],
-					"hash": sha256hex(user["id"]),
-				}
-
-				if len(user["msgs"]) > 0: #if there are msgs to get, get most recent one
-					tmp["msgs"]=[user["msgs"][-1]]
-
-				else: #if this is a new user, show must recent msg as blank
-					tmp["msgs"]=[{
-						"sending": False,
-						"msg": ""
-					}]
-
-				ret.append(tmp)
-
-			return api_error(200, ret, False, False)
+			return api_error(200, api_recent(self), False, False)
 
 		#returns all data for specified id
 		elif "allfor" in data["data"]:
-			for user in self.cache["history"]:
-				if user["id"]==data["data"]["allfor"]:
-					if self.redraw: #only return data if there was a change
-						self.redraw=False
-						#return all messages from user
-						return api_error(200, {
-							"id": user["id"],
-							"msgs": user["msgs"],
-							"hash": sha256hex(user["id"])
-						}, False, False)
+			ret=api_allfor(self, data["data"]["allfor"])
 
-					else: #else return empty
-						return api_error(200, [], False, False)
+			if ret or ret==[]:
+				return api_error(200, ret, False, False)
 
+		#if data is not set/other error happens, 400
 		return api_error_400()
 
 	elif "add friend" in data:
@@ -330,6 +300,56 @@ def sha256hex(data: Union[str, bytes]) -> str: #returns the sha256 hex digest fo
 
 	else:
 		return sha256(data).hexdigest()
+
+#below are functions which are used by both the api and shimon
+
+def api_friends(self) -> List:
+	ret=deepcopy(self.cache["friends"])
+	for i in ret:
+		i["hash"]=sha256hex(i["id"])
+
+	return ret
+
+def api_recent(self) -> List:
+	ret=[]
+
+	for user in self.cache["history"]:
+		tmp={
+			"id": user["id"],
+			"hash": sha256hex(user["id"]),
+		}
+
+		if len(user["msgs"]) > 0: #if there are msgs to get, get most recent one
+			tmp["msgs"]=[user["msgs"][-1]]
+
+		else: #if this is a new user, show must recent msg as blank
+			tmp["msgs"]=[{
+				"sending": False,
+				"msg": ""
+			}]
+
+		ret.append(tmp)
+
+	return ret
+
+def api_allfor(self, id: str) -> Union[List, Dict]:
+	for user in self.cache["history"]:
+		if user["id"]==id:
+			if self.redraw: #only return data if there was a change
+				self.redraw=False
+				#return all messages from user
+				tmp={
+					"id": user["id"],
+					"msgs": user["msgs"],
+					"hash": sha256hex(user["id"])
+				}
+				print(tmp)
+				return tmp
+
+			else: #else return empty
+				return []
+
+	return False
 
 #below is a bunch of api_error wrappers for common calls
 #data stores default message for the given error type, it can be changed
