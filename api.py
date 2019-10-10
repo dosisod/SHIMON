@@ -80,6 +80,10 @@ def api_handle(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 	if "send msg" in data:
 		message=data["send msg"]
 
+		if type(message) is not dict:
+			#message contains illegal characters if it was unable to be parsed
+			return api_error_400()
+
 		if "uname" in message and "msg" in message: #make sure data is set
 			for friend in self.cache["friends"]:
 				if message["uname"]==friend["id"]: #make sure friend is in friends list
