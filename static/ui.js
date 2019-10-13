@@ -115,7 +115,7 @@ async function replace_template(start, template, params, end) { //replace tray w
 	//params is an array of the params for the template
 
 	//clear tray, add right bar
-	tray.innerHTML=`<div class="rightbar"><span class="rightitem name point" onclick="window.location='/add'">ADD FRIEND</span></br><span class="rightitem name point" onclick="window.location='/account'">ACCOUNT</span></br><span class="rightitem name point" onclick="save(event)">SAVE</span></div>`
+	tray.innerHTML=`<div class="rightbar"><a class="rightitem name point" href="/add">ADD FRIEND</a><br><a class="rightitem name point" href="/account">ACCOUNT</a><br><span class="rightitem name point" onclick="save(event)">SAVE</span></div>`
 
 	if (start) tray.appendChild(start)
 

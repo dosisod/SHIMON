@@ -45,6 +45,7 @@ ol {
 	list-style-type: none;
 }
 a {
+	outline: 0;
 	color: {% if darkmode %}white{% else %}black{% endif %};
 }
 textarea {
