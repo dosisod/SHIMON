@@ -22,7 +22,7 @@
 <script>
 url("") //set url
 
-preload={{ preload|safe()|default("[]") }}
+preload={{ preload|default("[]")|safe() }}
 
 {% if not error|length %}
 reload_index() //load recents if there is no error
