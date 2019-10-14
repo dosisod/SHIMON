@@ -8,18 +8,18 @@ import traceback
 import json
 import os
 
-from security import check_all, check_local, check_allowed, check_session
-from api import api_handle, api_friends, api_recent, api_allfor
-from session import session_start
-from storage import unlock, lock
-from renderer import render
+from SHIMON.security import check_all, check_local, check_allowed, check_session
+from SHIMON.api import api_handle, api_friends, api_recent, api_allfor
+from SHIMON.session import session_start
+from SHIMON.storage import unlock, lock
+from SHIMON.renderer import render
 
 from typing import Union
-from __init__ import Page, Json
+from SHIMON.__init__ import Page, Json
 
 class Shimon:
 	def __init__(self) -> None:
-		self.VERSION="0.0.21"
+		self.VERSION="0.0.22"
 
 		self.cache=None #stores cached data after decryption
 

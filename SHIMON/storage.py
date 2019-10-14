@@ -4,8 +4,8 @@ from flask import Response
 import json
 import os
 
-from error import api_error
-from renderer import render
+from SHIMON.error import api_error
+from SHIMON.renderer import render
 
 from typing import Union
 
