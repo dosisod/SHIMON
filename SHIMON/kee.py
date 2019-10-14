@@ -4,7 +4,7 @@ from Cryptodome.PublicKey import RSA
 from Cryptodome.Hash import SHA512
 
 from typing import Union
-from __init__ import Stringish
+from SHIMON.__init__ import Stringish
 
 class kee(): #allows proper padding with OAEP and signing via crypto signature
 	def __init__(self, bits: Union[int]=None) -> None:

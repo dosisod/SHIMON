@@ -3,10 +3,10 @@ from flask_restful import Resource, Api
 from flask import Flask, Response
 from waitress import serve
 
-from shimon import Shimon
+from SHIMON.shimon import Shimon
 
 from typing import Union
-from __init__ import Page, Json
+from SHIMON.__init__ import Page, Json
 
 IP="127.0.0.1"
 PORT=1717

@@ -1,9 +1,9 @@
 from flask import request, abort, Response
-from session import session_check
+from SHIMON.session import session_check
 from hashlib import sha512
 
 from typing import Union, Dict
-from __init__ import Stringish, Page
+from SHIMON.__init__ import Stringish, Page
 
 #errors if any of the below tests fails
 def check_all(self) -> Union[Page]:
