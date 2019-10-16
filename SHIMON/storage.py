@@ -40,8 +40,7 @@ def lock(self, pwd: str) -> Union[Page]: #tries and locks with given password
 		return api_error(401, render(
 			self,
 			"account.html",
-			error="Cache could not be locked",
-			version=self.VERSION
+			error="Cache could not be locked"
 		), True, False)
 
 	else:

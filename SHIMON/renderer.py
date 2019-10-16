@@ -9,4 +9,5 @@ from flask import render_template
 def render(self, name: str, **kwargs) -> str: #automatically add devmode and darkmode state to all render_templates
 	kwargs["developer"]=self.developer
 	kwargs["darkmode"]=self.darkmode
+	kwargs["version"]=self.VERSION
 	return render_template(name, **kwargs)

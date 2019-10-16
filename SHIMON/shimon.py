@@ -100,7 +100,7 @@ class Shimon:
 		ret=check_all(self)
 		if ret: return ret
 
-		return render(self, "account.html", version=self.VERSION)
+		return render(self, "account.html")
 
 	def msg(self, uuid: str) -> Page:
 		ret=check_all(self)
