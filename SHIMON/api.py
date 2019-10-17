@@ -100,6 +100,10 @@ def api_handle(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 		return api_error_400() #user didnt set something/made an invalid request
 
 	elif "delete msg" in data:
+		if type(data["delete msg"]) is not dict:
+			#message contains illegal characters if it was unable to be parsed
+			return api_error_400()
+
 		if "id" in data["delete msg"] and "index" in data["delete msg"]:
 			index=0
 			if type(data["delete msg"]["index"]) is int:
@@ -167,6 +171,10 @@ def api_handle(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 			return api_error(303, "", False, True)
 
 	elif "change pwd" in data:
+		if type(data["change pwd"]) is not dict:
+			#message contains illegal characters if it was unable to be parsed
+			return api_error_400()
+
 		if "old" in data["change pwd"] and "new" in data["change pwd"]:
 			tmp=update_pwd(self, data["change pwd"]["old"], data["change pwd"]["new"])
 			if tmp:
@@ -244,17 +252,23 @@ def api_handle(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 
 			return api_error(200, api_recent(self), False, False)
 
-		#returns all data for specified id
-		elif "allfor" in data["data"]:
-			ret=api_allfor(self, data["data"]["allfor"])
+		#make sure that data is dict
+		elif type(data["data"]) is dict:
+			#returns all data for specified id
+			if "allfor" in data["data"]:
+				ret=api_allfor(self, data["data"]["allfor"])
 
-			if ret or ret==[]:
-				return api_error(200, ret, False, False)
+				if ret or ret==[]:
+					return api_error(200, ret, False, False)
 
 		#if data is not set/other error happens, 400
 		return api_error_400()
 
 	elif "add friend" in data:
+		if type(data["add friend"]) is not dict:
+			#message contains illegal characters if it was unable to be parsed
+			return api_error_400()
+
 		if "name" in data["add friend"] and "id" in data["add friend"]:
 			#make sure that name and id are not blank
 			if data["add friend"]["name"] and data["add friend"]["id"]:
