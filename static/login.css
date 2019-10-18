@@ -9,10 +9,16 @@
 	left: 50%;
 	transform: translate(-50%, -50%);
 }
+#prompt::after {
+	content: "Type in password to unlock cache";
+}
 @media screen and (max-width: 700px) {
 	.content {
 		left: 5px;
 		transform: translate(0%, -50%);
+	}
+	#prompt::after {
+		content: "Enter password to unlock";
 	}
 }
 .title {
