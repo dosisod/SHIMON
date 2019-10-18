@@ -275,7 +275,7 @@ def api_handle(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 				#make sure id is not already taken
 				for friend in self.cache["friends"]:
 					if friend["id"]==data["add friend"]["id"]:
-						return api_error(400, render(self, "index.html", error="Friend already exists"), True, False)
+						return api_error(400, render(self, "index.html", error="Friend already exists"), True)
 
 				#only append the names and ids, dont let user add extra data
 				self.cache["friends"].append({
@@ -289,9 +289,9 @@ def api_handle(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 					"msgs": []
 				})
 
-				return api_error(200, render(self, "index.html"), True, False)
+				return api_error(200, render(self, "index.html"), True)
 
-		return api_error(400, render(self, "index.html", error="Invalid request"), True, False)
+		return api_error(400, render(self, "index.html", error="Invalid request"), True)
 
 	else:
 		#if the call is not recognized, throw a 400 error

@@ -3,7 +3,7 @@ from flask.json import jsonify
 from typing import Union
 from .__init__ import Complex
 
-def api_error(code: Union[int, str], data: Complex, redirect: bool, rethrow: bool) -> Complex:
+def api_error(code: Union[int, str], data: Complex, redirect: bool, rethrow: bool=None) -> Complex:
 	if type(redirect) is str:
 		redirect=(redirect=="true") #convert JS true to python True
 
