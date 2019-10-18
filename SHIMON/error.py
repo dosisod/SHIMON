@@ -1,7 +1,7 @@
 from flask.json import jsonify
 
 from typing import Union
-from SHIMON.__init__ import Complex
+from .__init__ import Complex
 
 def api_error(code: Union[int, str], data: Complex, redirect: bool, rethrow: bool) -> Complex:
 	if type(redirect) is str:

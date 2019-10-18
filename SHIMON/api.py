@@ -6,16 +6,16 @@ from copy import deepcopy
 import base64 as b64
 import json
 
-from SHIMON.session import session_start, session_check, session_keepalive, session_kill
-from SHIMON.security import correct_pwd, update_pwd
-from SHIMON.storage import unlock, lock
-from SHIMON.security import check_all
-from SHIMON.renderer import render
-from SHIMON.error import api_error
-from SHIMON.kee import kee
+from .session import session_start, session_check, session_keepalive, session_kill
+from .security import correct_pwd, update_pwd
+from .storage import unlock, lock
+from .security import check_all
+from .renderer import render
+from .error import api_error
+from .kee import kee
 
 from typing import Union, Dict, Any, List
-from SHIMON.__init__ import Page, Json
+from .__init__ import Page, Json
 
 def api_handle(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 	for attr in data: #loop through and convert to json

@@ -5,13 +5,13 @@ import base64 as b64
 import json
 import os
 
-from SHIMON.error import api_error
-from SHIMON.renderer import render
-from SHIMON.storage import lock
-from SHIMON.kee import kee
+from .error import api_error
+from .renderer import render
+from .storage import lock
+from .kee import kee
 
 from typing import Union, Dict
-from SHIMON.__init__ import Page
+from .__init__ import Page
 
 def session_start(self, fresh: bool=False, target: str="index.html") -> Page:
 	res=make_response(render(self, target))
