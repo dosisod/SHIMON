@@ -22,7 +22,8 @@
 <script>
 url("") //set url
 
-preload={{ preload|default("[]")|safe() }}
+preload={{ preload|default("false")|safe() }}
+friends={{ friends|default("false")|safe() }}
 
 {% if not error|length %}
 reload_index() //load recents if there is no error

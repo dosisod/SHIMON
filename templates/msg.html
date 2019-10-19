@@ -23,7 +23,8 @@
 <script>
 url("msg/"+document.cookie.replace(/(?:(?:^|.*;\s*)uname\s*\=\s*([^;]*).*$)|^.*$/, "$1")) //set url
 
-preload={{ preload|default("[]")|safe() }}
+preload={{ preload|default("false")|safe() }}
+friends={{ friends|default("false")|safe() }}
 
 reload_msgs() //reload
 

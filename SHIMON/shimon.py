@@ -85,7 +85,12 @@ class Shimon:
 		if not self.cache or ret: #make sure that the user is allowed to see the index page
 			return render(self, "login.html")
 
-		res=make_response(render(self, "index.html"))
+		res=make_response(render(
+			self,
+			"index.html",
+			preload=json.dumps(api_recent(self)),
+			friends=json.dumps(api_friends(self))
+		))
 		res.set_cookie("uname", "", expires=0) #uname not needed, clear it
 
 		return res
@@ -114,7 +119,8 @@ class Shimon:
 				res=make_response(render(
 					self,
 					"msg.html",
-					preload=json.dumps(api_allfor(self, uuid))
+					preload=json.dumps(api_allfor(self, uuid)),
+					friends=json.dumps(api_friends(self))
 				))
 				res.set_cookie("uname", uuid)
 

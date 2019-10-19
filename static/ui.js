@@ -26,8 +26,15 @@ async function reload_msgs() {
 	//from MDN docs
 	user=document.cookie.replace(/(?:(?:^|.*;\s*)uname\s*\=\s*([^;]*).*$)|^.*$/, "$1")
 
-	raw=await post({"data":{"allfor":user}})
-	raw=raw["msg"]
+	if (!preload) {
+		raw=await post({"data":{"allfor":user}})
+		raw=raw["msg"]
+	}
+	else {
+		raw=preload
+		preload=false
+	}
+
 	if (raw.length==0) return
 
 	rawid=raw["id"] //must be stored like this as raw can change over time
@@ -84,8 +91,14 @@ async function reload_msgs() {
 async function reload_index() {
 	await check_friends()
 
-	raw=await post({"data":"recent"})
-	raw=raw["msg"]
+	if (!preload) {
+		raw=await post({"data":"recent"})
+		raw=raw["msg"]
+	}
+	else {
+		raw=preload
+		preload=false
+	}
 
 	replace_template(
 		undefined,
