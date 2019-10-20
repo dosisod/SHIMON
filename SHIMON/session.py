@@ -5,6 +5,7 @@ import base64 as b64
 import json
 import os
 
+from .api_external import api_friends, api_recent
 from .error import api_error
 from .renderer import render
 from .storage import lock
@@ -14,7 +15,12 @@ from typing import Union, Dict
 from .__init__ import Page
 
 def session_start(self, fresh: bool=False, target: str="index.html") -> Page:
-	res=make_response(render(self, target))
+	res=make_response(render(
+		self,
+		target,
+		preload=json.dumps(api_recent(self)),
+		friends=json.dumps(api_friends(self))
+	))
 
 	#creates session id
 	self.session=b64.urlsafe_b64encode(os.urandom(32)).decode().replace("=","")

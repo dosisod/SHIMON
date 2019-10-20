@@ -9,10 +9,11 @@ import json
 import os
 
 from .security import check_all, check_local, check_allowed, check_session
-from .api import api_handle, api_friends, api_recent, api_allfor
+from .api_external import api_recent, api_friends, api_allfor
 from .session import session_start
 from .storage import unlock, lock
 from .renderer import render
+from .api import api_handle
 
 from typing import Union
 from .__init__ import Page, Json
@@ -72,6 +73,7 @@ class Shimon:
 
 			else:
 				err=400 #handle invalid error
+				msg=codes[400]
 
 		return render(self, "error.html", error=err, url=request.url, traceback=tb, msg=msg)
 
