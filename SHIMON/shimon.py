@@ -41,6 +41,12 @@ class Shimon:
 		self.developer=False #(default) turns developer mode off
 		self.darkmode=False #(default) turns darkmode off
 
+		#changes which method of deletion to use when deleting msgs
+		#0 confirm before delete (default)
+		#1 require password
+		#2 never ask
+		self.msg_policy=0
+
 	def error(self, ex: Union[int, Exception]) -> str: #redirects after error msg
 		codes={
 			301: "Moved Permanently",
@@ -51,7 +57,7 @@ class Shimon:
 		}
 
 		err=500
-		msg=""
+		msg="Server Error"
 		if isinstance(ex, HTTPException):
 			#grabs error code name from class name, grabs http error code
 			if ex.code in codes:
@@ -101,7 +107,11 @@ class Shimon:
 		ret=check_all(self)
 		if ret: return ret
 
-		return render(self, "settings.html", seconds=self.expires, darkmode=self.darkmode)
+		return render(self, "settings.html",
+			seconds=self.expires,
+			darkmode=self.darkmode,
+			msg_policy=self.msg_policy
+		)
 
 	def account(self) -> Page:
 		ret=check_all(self)

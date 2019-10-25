@@ -24,6 +24,9 @@ function setting(e) { //make api calls based off setting type
 	else if (["15 mins", "1 hour", "5 hours", "1 day"].indexOf(str)>-1) {
 		post({"expiration timer": e.value})
 	}
+	else if (["ask first", "require password", "dont ask"].indexOf(str)>-1) {
+		post({"msg policy": e.value})
+	}
 	else if (str=="darkmode") {
 		//darkmode will be set to what is sent here
 		post({"darkmode": e.checked}).then(e=>{

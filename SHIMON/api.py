@@ -27,8 +27,12 @@ def api_handle(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 			self.cache=json.loads(plain) #cache decrypted, save to shimon
 			self.expires=self.cache["expiration"]
 
-			#if cache has developer set, override default
-			#if not, put default value into cache
+			#replace each setting with default if not set, replace current with cache if it is set
+			if "msg policy" in self.cache:
+				self.msg_policy=self.cache["msg policy"]
+			else:
+				self.cache["msg policy"]=self.msg_policy
+
 			if "developer" in self.cache:
 				self.developer=self.cache["developer"]
 			else:
@@ -140,6 +144,7 @@ def api_handle(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 			return ret
 
 		#update settings if they were set since last save
+		self.msg_policy=self.cache["msg policy"]
 		self.expires=self.cache["expiration"]
 		self.developer=self.cache["developer"]
 		self.darkmode=self.cache["darkmode"]
@@ -187,6 +192,7 @@ def api_handle(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 			return api_error_400(data=data) #invalid request
 
 	elif "new key" in data:
+		#pwd cannot be blank
 		if data["new key"]:
 			#password required to change key
 			if correct_pwd(self, data["new key"]):
@@ -197,6 +203,17 @@ def api_handle(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 				return render(self, "index.html")
 
 			return api_error(401, "Incorrect password", False, False)
+
+		return api_error_400()
+
+	elif "msg policy" in data:
+		if data["msg policy"].isdigit():
+			tmp=int(data["msg policy"])
+			if 0 <= tmp and tmp <= 2:
+				self.cache["msg policy"]=tmp
+				self.msg_policy=tmp
+
+				return api_error_202()
 
 		return api_error_400()
 
