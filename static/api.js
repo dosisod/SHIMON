@@ -3,7 +3,7 @@ async function post(arr, redirect) { //construct api call from dictionary
 	document.getElementById("error").innerText=""
 
 	//grab session cookie if available
-	session=document.cookie.replace(/(?:(?:^|.*;\s*)session\s*\=\s*([^;]*).*$)|^.*$/, "$1")
+	var session=document.cookie.replace(/(?:(?:^|.*;\s*)session\s*\=\s*([^;]*).*$)|^.*$/, "$1")
 
 	if (session) arr["session"]=session
 	arr["redirect"]=!!redirect
@@ -25,7 +25,7 @@ async function post(arr, redirect) { //construct api call from dictionary
 			"method": "POST"
 		})
 	
-		for (i in arr) {
+		for (var i in arr) {
 			nu("input", { //for each element make a nu hidden feild
 				"type": "hidden",
 				"name": i,
@@ -43,7 +43,7 @@ async function post(arr, redirect) { //construct api call from dictionary
 	}
 	else { //only grab data from api
 		var fd=new FormData()
-		for (i in arr) fd.append(i, encode(arr[i])) //fill formdata
+		for (var i in arr) fd.append(i, encode(arr[i])) //fill formdata
 	
 		return fetch("/api/", {method:"POST", body:fd})
 			.then(e=>e.json())

@@ -9,13 +9,13 @@ async function check_friends() { //get friends list if list is empty
 }
 
 function realname(id) { //find name from id
-	for (i of friends) {
+	for (var i of friends) {
 		if (i["id"]==id) return i["name"]
 	}
 }
 
 function uname(name) { //find id from name
-	for (i of friends) {
+	for (var i of friends) {
 		if (i["name"]==name) return i["id"]
 	}
 }
@@ -24,21 +24,21 @@ async function reload_msgs() {
 	await check_friends() //make sure friends list is set
 
 	//from MDN docs
-	user=document.cookie.replace(/(?:(?:^|.*;\s*)uname\s*\=\s*([^;]*).*$)|^.*$/, "$1")
+	var user=document.cookie.replace(/(?:(?:^|.*;\s*)uname\s*\=\s*([^;]*).*$)|^.*$/, "$1")
 
 	if (!preload) {
-		raw=await post({"data":{"allfor":user}})
+		var raw=await post({"data":{"allfor":user}})
 		raw=raw["msg"]
 	}
 	else {
-		raw=preload
+		var raw=preload
 		preload=false
 	}
 
 	if (raw.length==0) return
 
-	rawid=raw["id"] //must be stored like this as raw can change over time
-	data=raw["msgs"]
+	var rawid=raw["id"] //must be stored like this as raw can change over time
+	var data=raw["msgs"]
 
 	replace_template(
 		new_card(
@@ -49,7 +49,7 @@ async function reload_msgs() {
 			true //disable clicking of user card
 		),
 		(arr)=>{ //function template for creating cards
-			ret=nu("span", {
+			var ret=nu("span", {
 				"className": arr["sending"]?"x-sending":"x-receiving",
 				"innerText": "x",
 				"onclick": (e)=>{
@@ -92,11 +92,11 @@ async function reload_index() {
 	await check_friends()
 
 	if (!preload) {
-		raw=await post({"data":"recent"})
+		var raw=await post({"data":"recent"})
 		raw=raw["msg"]
 	}
 	else {
-		raw=preload
+		var raw=preload
 		preload=false
 	}
 
@@ -118,7 +118,6 @@ async function reload_index() {
 			"innerText": "RELOAD",
 			"onclick": ()=>reload_index()
 		})
-
 	)
 }
 
@@ -188,13 +187,13 @@ function new_img(uuid) { //converts uuid to b64 img of hash
 	})
 	var draw=canv.getContext("2d")
 
-	bin=""
-	for (i of uuid) {
-		tmp=parseInt(i,16).toString(2) //hex to binary string
+	var bin=""
+	for (var i of uuid) {
+		var tmp=parseInt(i,16).toString(2) //hex to binary string
 		bin+="0".repeat(4-tmp.length)+tmp
 	}
 
-	for (i=0;i<256;i++) { //16*16=256 pixels
+	for (var i=0;i<256;i++) { //16*16=256 pixels
 		//set black or white pixel
 		draw.fillStyle=(bin[i]=="1")?"rgb(255,255,255)":"rgb(0,0,0)"
 		draw.fillRect(i%16, ~~(i/16), 1, 1) //draw single pixel
