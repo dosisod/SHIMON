@@ -53,15 +53,28 @@ async function reload_msgs() {
 				"className": arr["sending"]?"x-sending":"x-receiving",
 				"innerText": "x",
 				"onclick": (e)=>{
-					if(!confirm("Are you sure you want to delete this message?")) return
+					post({"status":""}).then(e=>{
+						var pwd=undefined //only used by msg policy 2
+						if (e.msg["msg policy"]==0) {
+							if (!confirm("Are you sure you want to delete this message?")) return
+						}
+						else if (e.msg["msg policy"]==1) {
+							pwd=prompt("Enter Password")
+							if (!pwd) return
+						}
+						else if (e.msg["msg policy"]!=2) {
+							return
+						}
 
-					post({"delete msg":{
-						"id": rawid,
-						"index": arr["index"]
-					}})
+						post({"delete msg":{
+							"id": rawid,
+							"index": arr["index"],
+							"pwd": pwd
+						}})
 
-					//reload the indexs of messages by refreshiNg
-					reload_msgs()
+						//reload the indexs of messages by refreshiNg
+						reload_msgs()
+					})
 				}
 			}, nu("li", {
 				"className": "item"

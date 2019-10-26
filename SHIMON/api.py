@@ -255,7 +255,8 @@ def api_handle(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 		return api_error(200, {
 			"version": self.VERSION,
 			"unlocked": bool(self.cache),
-			"developer": self.developer
+			"developer": self.developer,
+			"msg policy": self.msg_policy
 		}, data["redirect"], False)
 
 	elif "ping" in data:
