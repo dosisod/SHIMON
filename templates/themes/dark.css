@@ -1,0 +1,24 @@
+:root {
+	--x-receiving-fg: black;
+	--receiving-bg: white;
+	--receiving-bd: black;
+	--x-sending-fg: white;
+	--sending-bg: black;
+	--sending-bd: white;
+	--typer-bd: black;
+	--typer-sd: black;
+	--container-bg: black;
+	--a-fg: white;
+	--input-bd: #333;
+	--input-bg: black;
+	--input-fg: white;
+	--click-bg: black;
+	--click-fg: white;
+	--name-fg: white;
+	--msg-fg: white;
+	--rightbar-fg: white;
+	--rightitem-bg: black;
+	--warn-fg: red;
+	--info-fg: grey;
+	--error-bg: black;
+}

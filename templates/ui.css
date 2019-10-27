@@ -8,9 +8,7 @@ html, body {
 	height: 100%;
 }
 .container {
-	{% if darkmode %}
-	background: black;
-	{% endif %}
+	background: var(--container-bg);
 	position: relative;
 	width: 100%;
 	height: 100%;
@@ -48,43 +46,28 @@ ol {
 }
 a {
 	outline: 0;
-	color: {% if darkmode %}white{% else %}black{% endif %};
+	color: var(--a-fg);
 }
 textarea {
 	width: 100%;
 	resize: none;
-	border: 1px solid #333;
+	border: 1px solid var(--input-bd);
 	box-sizing: border-box;
 	vertical-align: middle;
-	{% if darkmode %}
-	background: black;
-	color: white;
-	{% else %}
-	background: white;
-	color: black;
-	{% endif %}
+	background: var(--input-bg);
+	color: var(--input-fg);
 }
 .input {
-	border: 1px solid #333;
+	border: 1px solid var(--input-bd);
 	box-sizing: border-box;
 	vertical-align: middle;
 	height: 20px;
-	{% if darkmode %}
-	background: black;
-	color: white;
-	{% else %}
-	background: white;
-	color: black;
-	{% endif %}
+	background: var(--input-bg);
+	color: var(--input-fg);
 }
 #click {
-	{% if darkmode %}
-	background: black;
-	color: white;
-	{% else %}
-	background: white;
-	color: black;
-	{% endif %}
+	background: var(--click-bg);
+	color: var(--click-fg);
 	cursor: pointer;
 }
 div > img {
@@ -100,36 +83,28 @@ div > img {
 	width: 100%;
 	text-align: center;
 }
-.white {
+.white { /* this name will need to be changed */
 	color: black !important;
 	background: white;
 }
 .name {
-	{% if darkmode %}
-	color: white;
-	{% endif %}
+	color: var(--name-fg);
 	font-weight: bold;
 	font-size: 16px;
 }
 ol > .msg {
-	{% if darkmode %}
-	color: white;
-	{% else %}
-	color: black;
-	{% endif %}
+	color: var(--msg-fg);
 	font-size: 14px;
 }
 .rightbar {
-	{% if darkmode %}
-	background: black;
-	color: white;
-	{% endif %}
+	background: var(--container-bg);
+	color: var(--rightbar-fg);
 	position: absolute;
 	right: 0;
 	text-align: right;
 }
 .rightitem {
-	background: {% if darkmode %}black{% else %}white{% endif %};
+	background: var(--rightitem-bg);
 	position: relative;
 	padding-top: 3px;
 	padding-left: 5px;
@@ -148,14 +123,14 @@ ol > .msg {
 	right: 0;
 }
 .warn {
-	color: red;
+	color: var(--warn-fg);
 }
 .info {
-	color: grey;
+	color: var(--info-fg);
 }
 .error {
 	padding: 5px;
-	background: {% if darkmode %}black{% else %}white{% endif %};
+	background: var(--error-bg);
 	text-align: center;
 	left: 50%;
 	transform: translate(-50%);

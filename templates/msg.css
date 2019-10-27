@@ -13,19 +13,19 @@
 	position: relative;
 }
 .x-receiving {
-	color: black;
+	color: var(--x-receiving-fg);
 	position: absolute;
 	right: calc(20% - 35px);
 	z-index: 99;
 	cursor: pointer;
 }
 .receiving {
-	background: white;
+	background: var(--receiving-bg);
 	left: 0;
-	border: 1px solid black;
+	border: 1px solid var(--receiving-bd);
 }
 .x-sending {
-	color: white;
+	color: var(--x-sending-fg);
 	position: absolute;
 	right: 5px;
 	z-index: 99;
@@ -33,9 +33,9 @@
 }
 .sending {
 	left: calc(20% - 40px);
-	background: black;
+	background: var(--sending-bg);
 	color: white;
-	border: 1px solid white;
+	border: 1px solid var(--sending-bd);
 }
 #typer {
 	width: 50%;
@@ -43,8 +43,8 @@
 	position: fixed;
 	bottom: 0;
 	left: 25%;
-	border: 1px solid black;
-	box-shadow: 0 0 0 10px {% if darkmode %}black{% else %}white{% endif %};
+	border: 1px solid var(--typer-bd);
+	box-shadow: 0 0 0 10px var(--typer-sd);
 }
 @media screen and (max-width: 700px) {
 	#typer {
