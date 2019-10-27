@@ -1,4 +1,6 @@
 <style>
+{% include "load.css" %}
+
 .msg {
 	font-size: 14px;
 }

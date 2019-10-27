@@ -41,6 +41,9 @@ class Shimon:
 		self.developer=False #(default) turns developer mode off
 		self.darkmode=False #(default) turns darkmode off
 
+		#theme is current theme
+		self.theme="default.css"
+
 		#changes which method of deletion to use when deleting msgs
 		#0 confirm before delete (default)
 		#1 require password
