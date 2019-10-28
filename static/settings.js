@@ -1,4 +1,7 @@
 function setting(e) { //make api calls based off setting type
+	var type=e.attributes["data-type"] //this is only set for dropdowns
+	if (type) type=type.value
+
 	var str=e.innerText.toLowerCase()||e.id
 
 	if (str=="change password") {
@@ -21,17 +24,14 @@ function setting(e) { //make api calls based off setting type
 
 		post({"new key": pwd}, true)
 	}
-	else if (["15 mins", "1 hour", "5 hours", "1 day"].indexOf(str)>-1) {
+	else if (type=="EXPIRATION TIMER") {
 		post({"expiration timer": e.value})
 	}
-	else if (["ask first", "require password", "dont ask"].indexOf(str)>-1) {
+	else if (type=="MSG DELETION") {
 		post({"msg policy": e.value})
 	}
-	else if (str=="darkmode") {
-		//darkmode will be set to what is sent here
-		post({"darkmode": e.checked}).then(e=>{
-			window.location.reload(true) //force reload with new css and js files
-		})
+	else if (type=="THEME") {
+		post({"theme": e.value})
 	}
 	else if (str=="devmode") {
 		//devmode will be set to what is sent here

@@ -42,7 +42,7 @@ class Shimon:
 		self.darkmode=False #(default) turns darkmode off
 
 		#theme is current theme
-		self.theme="default.css"
+		self.theme="default"
 
 		#changes which method of deletion to use when deleting msgs
 		#0 confirm before delete (default)
@@ -110,10 +110,17 @@ class Shimon:
 		ret=check_all(self)
 		if ret: return ret
 
+		themes=[] #finds and displays all available themes
+		for file in os.listdir(os.getcwd()+"/templates/themes/"):
+			if os.path.isfile(os.getcwd()+"/templates/themes/"+file) and file.endswith(".css"):
+				#becaue of the way the dropdown renderer works, the value and the innertext will be the same
+				themes.append((file[:-4], file[:-4]))
+
 		return render(self, "settings.html",
 			seconds=self.expires,
 			darkmode=self.darkmode,
-			msg_policy=self.msg_policy
+			msg_policy=self.msg_policy,
+			themes=themes
 		)
 
 	def account(self) -> Page:

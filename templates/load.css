@@ -1,1 +1,1 @@
-{% include("themes/"+theme) %}
+{% include("themes/"+theme+".css") %}

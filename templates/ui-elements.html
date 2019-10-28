@@ -6,7 +6,7 @@
 	<select class="dropdown point">
 		<option disabled="disabled" selected="selected">{% for i in data %}{% if i[0]==default %}{{ i[1] }}{% endif %}{% endfor %}</option>
 		{% for i in data %}
-		<option value="{{ i[0] }}" onclick="setting(this)">{{ i[1] }}</option>
+		<option value="{{ i[0] }}" onclick="setting(this)" data-type="{{ text }}">{{ i[1] }}</option>
 		{% endfor %}
 	</select>
 </li>{% endmacro %}
