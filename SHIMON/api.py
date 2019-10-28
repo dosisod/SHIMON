@@ -4,6 +4,7 @@ from flask.json import jsonify
 from copy import deepcopy
 import base64 as b64
 import json
+import os
 
 from .session import session_start, session_check, session_keepalive, session_kill
 from .api_external import api_recent, api_friends, api_allfor
@@ -37,11 +38,6 @@ def api_handle(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 				self.developer=self.cache["developer"]
 			else:
 				self.cache["developer"]=self.developer
-
-			if "darkmode" in self.cache:
-				self.darkmode=self.cache["darkmode"]
-			else:
-				self.cache["darkmode"]=self.darkmode
 
 			#versions dont match, warn user of possible quirks
 			if self.cache["version"]!=self.VERSION:
@@ -147,7 +143,6 @@ def api_handle(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 		self.msg_policy=self.cache["msg policy"]
 		self.expires=self.cache["expiration"]
 		self.developer=self.cache["developer"]
-		self.darkmode=self.cache["darkmode"]
 
 		return api_error(200, "OK", False, False)
 
@@ -230,12 +225,18 @@ def api_handle(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 
 		return api_error_400()
 
-	elif "darkmode" in data:
-		#if darkmode is true, enable darkmode, else disable
-		self.cache["darkmode"]=(data["darkmode"]=="true")
-		self.darkmode=self.cache["darkmode"]
+	elif "theme" in data:
+		if type(data["theme"]) is str:
+			clean=os.path.abspath("templates/themes/"+data["theme"])
 
-		return api_error_200()
+			if clean.startswith(os.getcwd()+"/templates/themes/"): #dont allow reverse file traversal
+				if os.path.isfile(clean+".css"):
+					self.cache["theme"]=clean.split("/")[-1]
+					self.theme=self.cache["theme"]
+
+					return api_error_202()
+
+		return api_error_400()
 
 	elif "devmode" in data:
 		#if devmode is true, enable devmode, else disable

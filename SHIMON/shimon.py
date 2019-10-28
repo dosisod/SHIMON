@@ -39,7 +39,6 @@ class Shimon:
 
 		#these are also stored in the cache, but are not available untill the cache is unlocked
 		self.developer=False #(default) turns developer mode off
-		self.darkmode=False #(default) turns darkmode off
 
 		#theme is current theme
 		self.theme="default"
@@ -118,7 +117,6 @@ class Shimon:
 
 		return render(self, "settings.html",
 			seconds=self.expires,
-			darkmode=self.darkmode,
 			msg_policy=self.msg_policy,
 			themes=themes
 		)

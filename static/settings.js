@@ -31,7 +31,10 @@ function setting(e) { //make api calls based off setting type
 		post({"msg policy": e.value})
 	}
 	else if (type=="THEME") {
-		post({"theme": e.value})
+		post({"theme": e.value}).then(e=>{
+			//force reload, show new colorscheme
+			window.location.reload(true)
+		})
 	}
 	else if (str=="devmode") {
 		//devmode will be set to what is sent here
