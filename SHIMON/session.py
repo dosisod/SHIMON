@@ -15,17 +15,6 @@ from typing import Union, Dict
 from .__init__ import Page
 
 def session_start(self, fresh: bool=False, target: str="index.html") -> Page:
-	res=make_response(render(
-		self,
-		target,
-		preload=json.dumps(api_recent(self)),
-		friends=json.dumps(api_friends(self))
-	))
-
-	#creates session id
-	self.session=b64.urlsafe_b64encode(os.urandom(32)).decode().replace("=","")
-	res.set_cookie("session", self.session)
-
 	if fresh: #if starting with a fresh (new) cache, set it up
 		self.cache={ #fill cache with these default values
 			"friends": [],
@@ -44,6 +33,16 @@ def session_start(self, fresh: bool=False, target: str="index.html") -> Page:
 		}
 		lock(self, "123") #save default cache right away
 
+	res=make_response(render(
+		self,
+		target,
+		preload=json.dumps(api_recent(self)),
+		friends=json.dumps(api_friends(self))
+	))
+
+	#creates session id
+	self.session=b64.urlsafe_b64encode(os.urandom(32)).decode().replace("=","")
+	res.set_cookie("session", self.session)
 	session_keepalive(self)
 
 	return res
