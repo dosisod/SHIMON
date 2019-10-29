@@ -1,9 +1,11 @@
 :root {
 	--x-receiving-fg: black;
 	--receiving-bg: white;
+	--receiving-fg: black;
 	--receiving-bd: black;
 	--x-sending-fg: white;
 	--sending-bg: black;
+	--sending-fg: white;
 	--sending-bd: white;
 	--typer-bd: black;
 	--typer-sd: white;
@@ -14,11 +16,13 @@
 	--input-fg: black;
 	--click-bg: white;
 	--click-fg: black;
-	--name-fg: black;
+	--title-fg: black;
 	--msg-fg: black;
 	--rightbar-fg: black;
 	--rightitem-bg: white;
 	--warn-fg: red;
 	--info-fg: grey;
+	--setting-fg: black;
+	--reload-fg: black;
 	--error-bg: white;
 }

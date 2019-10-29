@@ -21,6 +21,7 @@
 }
 .receiving {
 	background: var(--receiving-bg);
+	color: var(--receiving-fg);
 	left: 0;
 	border: 1px solid var(--receiving-bd);
 }
@@ -34,7 +35,7 @@
 .sending {
 	left: calc(20% - 40px);
 	background: var(--sending-bg);
-	color: white;
+	color: var(--sending-fg);
 	border: 1px solid var(--sending-bd);
 }
 #typer {

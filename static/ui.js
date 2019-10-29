@@ -128,6 +128,7 @@ async function reload_index() {
 		raw,
 		nu("span", { //ending element
 			"className": "center name point",
+			"id": "reload",
 			"innerText": "RELOAD",
 			"onclick": ()=>reload_index()
 		})
@@ -159,7 +160,7 @@ function new_card(u, n, m, r, d, p) { //returns or appends a new card
 	var ol=nu("ol")
 	ol.appendChild(
 		nu("li", {
-			"className": "name hide",
+			"className": "name title hide",
 			"innerText": n
 		})
 	)

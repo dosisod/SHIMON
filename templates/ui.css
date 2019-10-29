@@ -88,9 +88,11 @@ div > img {
 	background: white;
 }
 .name {
-	color: var(--name-fg);
 	font-weight: bold;
 	font-size: 16px;
+}
+.title {
+	color: var(--title-fg);
 }
 ol > .msg {
 	color: var(--msg-fg);
@@ -116,11 +118,15 @@ ol > .msg {
 	text-align: left;
 	padding-top: 5px;
 	padding-bottom: 5px;
+	color: var(--setting-fg);
 }
 .dropdown {
 	vertical-align: middle;
 	position: absolute;
 	right: 0;
+}
+#reload {
+	color: var(--reload-fg);
 }
 .warn {
 	color: var(--warn-fg);
