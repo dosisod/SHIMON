@@ -10,7 +10,6 @@
 	--typer-bd: black;
 	--typer-sd: white;
 	--container-bg: white;
-	--a-fg: black;
 	--input-bd: #333;
 	--input-bg: white;
 	--input-fg: black;
@@ -18,8 +17,7 @@
 	--click-fg: black;
 	--title-fg: black;
 	--msg-fg: black;
-	--rightbar-fg: black;
-	--rightitem-bg: white;
+	--rightitem-fg: black;
 	--warn-fg: red;
 	--info-fg: grey;
 	--setting-fg: black;

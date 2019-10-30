@@ -47,7 +47,6 @@ ol {
 }
 a {
 	outline: 0;
-	color: var(--a-fg);
 }
 textarea {
 	width: 100%;
@@ -101,13 +100,13 @@ ol > .msg {
 }
 .rightbar {
 	background: var(--container-bg);
-	color: var(--rightbar-fg);
 	position: absolute;
 	right: 0;
 	text-align: right;
 }
 .rightitem {
-	background: var(--rightitem-bg);
+	background: var(--container-bg);
+	color: var(--rightitem-fg);
 	position: relative;
 	padding-top: 3px;
 	padding-left: 5px;
@@ -128,7 +127,7 @@ ol > .msg {
 }
 #reload {
 	color: var(--reload-fg);
-	margin-bottom: 10px;
+	padding-bottom: 50px;
 }
 .warn {
 	color: var(--warn-fg);
