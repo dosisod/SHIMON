@@ -12,6 +12,7 @@ html, body {
 	position: relative;
 	width: 100%;
 	height: 100%;
+	overflow: auto;
 	text-align: center;
 }
 .content {
@@ -127,6 +128,7 @@ ol > .msg {
 }
 #reload {
 	color: var(--reload-fg);
+	margin-bottom: 10px;
 }
 .warn {
 	color: var(--warn-fg);
