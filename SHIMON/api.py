@@ -39,6 +39,11 @@ def api_handle(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 			else:
 				self.cache["developer"]=self.developer
 
+			if "theme" in self.cache:
+				self.theme=self.cache["theme"]
+			else:
+				self.cache["theme"]=self.theme
+
 			#versions dont match, warn user of possible quirks
 			if self.cache["version"]!=self.VERSION:
 				self.cache["version"]=self.VERSION
@@ -105,6 +110,15 @@ def api_handle(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 			return api_error_400()
 
 		if "id" in data["delete msg"] and "index" in data["delete msg"]:
+			#verify password if msg policy requires password
+			if "pwd" in data["delete msg"] and self.msg_policy==1:
+				if correct_pwd(data["delete msg"]["pwd"]):
+					pass
+
+				else:
+					#user typed in wrong password
+					return api_error_401()
+
 			index=0
 			if type(data["delete msg"]["index"]) is int:
 				index=data["delete msg"]["index"]

@@ -29,7 +29,10 @@ def session_start(self, fresh: bool=False, target: str="index.html") -> Page:
 			"expiration": 3600,
 			"developer": False,
 
-			"version": self.VERSION
+			"version": self.VERSION,
+
+			#default theme is default (light) theme
+			"theme": "default"
 		}
 		lock(self, "123") #save default cache right away
 
