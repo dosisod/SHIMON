@@ -99,6 +99,8 @@ async function reload_msgs() {
 			"onclick": ()=>reload_msgs()
 		})
 	)
+	//scrolls to bottom of page
+	document.getElementById("reload").scrollIntoView()
 }
 
 async function reload_index() {
