@@ -1,5 +1,6 @@
 async function post(arr, redirect) { //construct api call from dictionary
 	//if there is an error being displayed, clear it
+	document.getElementById("error").style.display="none"
 	document.getElementById("error").innerText=""
 
 	//grab session cookie if available
