@@ -123,13 +123,12 @@ def api_handle(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 			if type(data["delete msg"]["index"]) is int:
 				index=data["delete msg"]["index"]
 
-			else:
-				try:
-					#try and get index of msg to be deleted
-					index=int(data["delete msg"])
+			elif type(data["delete msg"]["index"]) is str:
+				if data["delete msg"]["index"].isdigit():
+					index=int(data["delete msg"]["index"])
 
-				except:
-					return api_error_400("Index is not an integer")
+			else:
+				return api_error_400("Index is not an integer")
 
 			for friend in self.cache["friends"]:
 				if friend["id"]==data["delete msg"]["id"]:
@@ -333,12 +332,11 @@ def api_handle(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 	abort(500) #if anything above exits and gets to here, make sure the user knows of the error
 
 def api_decode(s: str) -> Union[Dict, str]: #decodes json if possible
-	try:
-		if s.startswith("[") or s.startswith("{"):
+	if s.startswith("[") or s.startswith("{"):
+		try:
 			return json.loads(s) #potentialy json, try to parse
-
-	except:
-		pass
+		except:
+			pass
 
 	return s #return if not json or if the json was malformed
 
