@@ -85,7 +85,7 @@ class Shimon:
 
 		return render(self, "error.html", error=err, url=request.url, traceback=tb, msg=msg)
 
-	def index(self) -> Page: #index page
+	def index(self, error: str="") -> Page: #index page
 		check_local()
 
 		if not os.path.isfile("data.gpg"): #if cache doesnt exist create and then open page
@@ -98,6 +98,7 @@ class Shimon:
 		res=make_response(render(
 			self,
 			"index.html",
+			error=error,
 			preload=json.dumps(api_recent(self)),
 			friends=json.dumps(api_friends(self))
 		))
@@ -159,7 +160,12 @@ class Shimon:
 	def login(self) -> Page: #handles login page
 		check_local()
 
-		return render(self, "login.html")
+		#if user is already logged in, return index
+		if self.cache:
+			return self.index(error="Already logged in")
+
+		else:
+			return render(self, "login.html")
 
 	#api can return json, or an HTML page, it depends on the call made
 	def api(self) -> Union[Json, Page]:

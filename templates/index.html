@@ -25,11 +25,10 @@ url("") //set url
 preload={{ preload|default("false")|safe() }}
 friends={{ friends|default("false")|safe() }}
 
-{% if not error|length %}
 reload_index() //load recents if there is no error
-{% endif %}
 
 setInterval(reload_index, 5000) //reload again every 5 seconds
+
 </script>
 
 </body>
