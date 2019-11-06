@@ -10,15 +10,15 @@ def api_error(code: Union[int, str], data: Complex, redirect: bool, rethrow: boo
 	if redirect:
 		#ret is some json object then jsonify first
 		if type(data) is dict or type(data) is list:
-			return jsonify(data)
+			return jsonify(data), code
 
 		#ret is probably a render_template, just return (render returns a string)
 		else:
-			return data
+			return data, code
 
 	else:
 		if rethrow: #force user to make the same call with redirect on
-			return jsonify({"rethrow":""})
+			return jsonify({"rethrow":""}), code
 
 		else: #dont rethrow this error, let the user handle the error
 			if type(data) is not dict and type(data) is not list and type(data) is not str:
@@ -27,4 +27,4 @@ def api_error(code: Union[int, str], data: Complex, redirect: bool, rethrow: boo
 			return jsonify({
 				"code": code,
 				"msg": data
-			})
+			}), code

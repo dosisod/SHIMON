@@ -83,7 +83,7 @@ class Shimon:
 				err=400 #handle invalid error
 				msg=codes[400]
 
-		return render(self, "error.html", error=err, url=request.url, traceback=tb, msg=msg)
+		return render(self, "error.html", error=err, url=request.url, traceback=tb, msg=msg), err
 
 	def index(self, error: str="") -> Page: #index page
 		check_local()
@@ -162,7 +162,7 @@ class Shimon:
 
 		#if user is already logged in, return index
 		if self.cache:
-			return self.index(error="Already logged in")
+			return self.index(error="Already logged in"), 301
 
 		else:
 			return render(self, "login.html")
