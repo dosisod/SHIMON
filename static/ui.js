@@ -156,32 +156,30 @@ async function replace_template(start, template, params, end) { //replace tray w
 	if (end) tray.appendChild(end)
 }
 
-function new_card(u, n, m, r, d, p) { //returns or appends a new card
-	//uuid, name, message, return (card), disable (click), pointer
-
+function new_card(uuid, name, message, ret, disable, pointer) { //returns or appends a new card
 	var ol=nu("ol")
 	ol.appendChild(
 		nu("li", {
 			"className": "name title hide",
-			"innerText": n
+			"innerText": name
 		})
 	)
 	ol.appendChild(
 		nu("li", {
 			"className": "msg hide",
-			"innerText": m
+			"innerText": message
 		})
 	)
 
 	var div=nu("div", {
-		"className": p?"holder point":"holder"
+		"className": pointer?"holder point":"holder"
 	})
 	//if disable is set, onclick wont be added
-	if (!d) div.onclick=()=>window.location="/msg/"+uname(n)
+	if (!disable) div.onclick=()=>window.location="/msg/"+uname(name)
 
 	div.appendChild(
 		nu("img", {
-			"src": new_img(u)
+			"src": new_img(uuid)
 		})
 	)
 	div.appendChild(document.createTextNode("\n"))
@@ -192,10 +190,11 @@ function new_card(u, n, m, r, d, p) { //returns or appends a new card
 	})
 	card.appendChild(div)
 	
-	if (r) return card //stop here if you want to return it
+	if (ret) return card //stop here if you want to return it
 	
 	tray.appendChild(card) //else just append it
 }
+
 function new_img(uuid) { //converts uuid to b64 img of hash
 	var canv=nu("canvas", {
 		"width": 16,
