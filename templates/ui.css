@@ -125,6 +125,10 @@ ol > .msg {
 	position: absolute;
 	right: 0;
 }
+select.dropdown {
+	border: 3px solid white;
+	width: 50%;
+}
 #reload {
 	color: var(--reload-fg);
 	padding-bottom: 50px;
