@@ -58,7 +58,7 @@ def api_handle(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 			self.attempts+=1 #if there is an error, add one to attempts
 
 			if time()-self.start<self.cooldown: #if user hasnt waited long enough let them know
-				return render(self, "login.html", msg="Try again in "+str(round(self.start-time()+self.cooldown, 1))+" seconds")
+				return render(self, "login.html", error="Try again in "+str(round(self.start-time()+self.cooldown, 1))+" seconds")
 
 			else: #restart timer if user has waited long enough
 				self.start=0
@@ -67,13 +67,13 @@ def api_handle(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 				self.start=time() #start cooldown timer
 				self.attempts=0 #reset attempt timer
 
-				return render(self, "login.html", msg="Try again in "+str(self.cooldown)+" seconds")
+				return render(self, "login.html", error="Try again in "+str(self.cooldown)+" seconds")
 
 			elif plain=="{}":
 				return session_start(self, True)
 
 			else:
-				return render(self, "login.html", msg="Incorrect password")
+				return render(self, "login.html", error="Incorrect password")
 
 	elif "unlock" in data and self.cache: #user requested unlock but the cache is unlocked
 		#cache is logged in, handle as if the user is trying to access index
@@ -176,7 +176,7 @@ def api_handle(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 
 			session_kill(self)
 
-			res=make_response(render(self, "login.html", msg="Cache has been locked"))
+			res=make_response(render(self, "login.html", error="Cache has been locked"))
 			res.set_cookie("uname", "", expires=0) #clear uname cookie
 			res.set_cookie("session", "", expires=0) #clear session cookie
 
