@@ -1,4 +1,4 @@
-var tray=document.getElementById("tray")
+var tray=nu("tray")
 var friends=[]
 
 async function check_friends() { //get friends list if list is empty
@@ -100,7 +100,7 @@ async function reload_msgs() {
 		})
 	)
 	//scrolls to bottom of page
-	document.getElementById("reload").scrollIntoView()
+	nu("reload").scrollIntoView()
 }
 
 async function reload_index() {
@@ -157,7 +157,7 @@ async function replace_template(start, template, params, end) { //replace tray w
 }
 
 function new_card(uuid, name, message, ret, disable, pointer) { //returns or appends a new card
-	var ol=nu("ol")
+	var ol=nu("ol", {})
 	ol.appendChild(
 		nu("li", {
 			"className": "name title hide",
