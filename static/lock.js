@@ -21,8 +21,7 @@ function save(e) {
 	post({"save": str})
 		.then(e=>{
 			if (e["code"]==200) {
-				nu("error").style.display="block"
-				nu("error").innerText="Cache was successfully saved"
+				error("Cache was successfully saved")
 			}
 		})
 }

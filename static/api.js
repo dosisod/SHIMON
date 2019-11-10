@@ -1,7 +1,9 @@
+//time in ms when last error was set
+var added_at=0
+
 async function post(arr, redirect) { //construct api call from dictionary
-	//if there is an error being displayed, clear it
-	nu("error").style.display="none"
-	nu("error").innerText=""
+	//if there is an error and it is able to be deleted, clear it
+	error(false)
 
 	//grab session cookie if available
 	var session=document.cookie.replace(/(?:(?:^|.*;\s*)session\s*\=\s*([^;]*).*$)|^.*$/, "$1")
@@ -51,20 +53,33 @@ async function post(arr, redirect) { //construct api call from dictionary
 			.catch(e=>{
 				console.log({"error":e.message})
 				if (e.message=="NetworkError when attempting to fetch resource.") {
-					nu("error").style.display="block"
-					nu("error").innerText="Network Disconnected"
+					error("Network Disconnected")
 				}
 			})
 			.then(e=>{
 				//if the request is to be rethrown, make the same request with redirects on
 				if (e["code"]!=200) { //if error occurs, print it to the screen
-					nu("error").style.display="block"
-					nu("error").innerText=e["msg"]
+					error(e["msg"])
 				}
 				if (e["rethrow"]=="") {
 					post(arr, true)
 				}
 				else return e //return data
 			})
+	}
+}
+
+//if false, try to clear error, else, set error msg
+function error(msg) {
+	if (msg) {
+		added_at=Date.now()
+		nu("error").style.display="block"
+		nu("error").innerText=msg
+	}
+	else {
+		if (Date.now()>(added_at+5000)) {
+			nu("error").style.display="none"
+			nu("error").innerText=""
+		}
 	}
 }
