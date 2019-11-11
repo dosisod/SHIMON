@@ -21,6 +21,10 @@
 	--warn-fg: red;
 	--info-fg: grey;
 	--setting-fg: white;
+	--dropdown-bg: black;
+	--dropdown-fg: white;
+	--dropdown-bd: white;
+	--dropdown-src: url("dropdown-white.png");
 	--reload-fg: white;
 	--error-bg: black;
 }

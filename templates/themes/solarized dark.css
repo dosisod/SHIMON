@@ -24,6 +24,10 @@
 	--warn-fg: #dc322f;
 	--info-fg: #657b83;
 	--setting-fg: #fdf6e3;
+	--dropdown-bg: #fdf6e3;
+	--dropdown-bd: #fdf6e3;
+	--dropdown-fg: #002b36;
+	--dropdown-src: url("dropdown-black.png");
 	--reload-fg: #d33682;
 	--error-bg: #002b36;
 }
