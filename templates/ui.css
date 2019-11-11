@@ -32,6 +32,11 @@ html, body {
 .holder {
 	overflow: hidden;
 }
+.blank {
+	height: 128px;
+	display: flex;
+	align-items: center;
+}
 img {
 	image-rendering: -webkit-optimize-contrast;
 	image-rendering: -webkit-crisp-edges;

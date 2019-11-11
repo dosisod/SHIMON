@@ -40,6 +40,23 @@ async function reload_msgs() {
 	var rawid=raw["id"] //must be stored like this as raw can change over time
 	var data=raw["msgs"]
 
+	//there is no data to loop through, sho default msg
+	if (!data.length) {
+		replace_template(
+			`<div class="holder nopoint blank"><span class="title center">Say Hi!</span></div>`,
+			undefined,
+			undefined,
+			nu("span", { //ending element
+				"className": "center name point",
+				"id": "reload",
+				"innerText": "RELOAD",
+				"onclick": ()=>reload_msgs()
+			})
+		)
+
+		return
+	}
+
 	replace_template(
 		new_card(
 			raw["hash"],
@@ -106,6 +123,7 @@ async function reload_msgs() {
 async function reload_index() {
 	await check_friends()
 
+	//load from preload if available, else make api call
 	if (!preload) {
 		var raw=await post({"data":"recent"})
 		raw=raw["msg"]
@@ -113,6 +131,23 @@ async function reload_index() {
 	else {
 		var raw=preload
 		preload=false
+	}
+
+	//if there are no msgs to display, display welcome msg
+	if (!raw.length) {
+		replace_template(
+			`<div class="holder nopoint blank"><span class="title center">Add a friend to start talking!</span></div>`,
+			undefined,
+			undefined,
+			nu("span", { //ending element
+				"className": "center name point",
+				"id": "reload",
+				"innerText": "RELOAD",
+				"onclick": ()=>reload_index()
+			})
+		)
+
+		return
 	}
 
 	replace_template(
@@ -145,13 +180,16 @@ async function replace_template(start, template, params, end) { //replace tray w
 	//clear tray, add right bar
 	tray.innerHTML=`<div class="rightbar"><a class="rightitem name point" href="/add">ADD FRIEND</a><br><a class="rightitem name point" href="/account">ACCOUNT</a><br><span class="rightitem name point" onclick="save(event)">SAVE</span></div>`
 
-	if (start) tray.appendChild(start)
+	if (typeof start==="string") tray.innerHTML+=start
+	else if (start) tray.appendChild(start)
 
-	params.forEach((e,i)=>{
-		e["index"]=i
-		//append new item given params for template
-		tray.appendChild(template(e))
-	})
+	if (params) {
+		params.forEach((e,i)=>{
+			e["index"]=i
+			//append new item given params for template
+			tray.appendChild(template(e))
+		})
+	}
 
 	if (end) tray.appendChild(end)
 }
