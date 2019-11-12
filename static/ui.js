@@ -43,7 +43,7 @@ async function reload_msgs() {
 	//there is no data to loop through, sho default msg
 	if (!data.length) {
 		replace_template(
-			`<div class="holder nopoint blank"><span class="title center">Say Hi!</span></div>`,
+			`<div class="holder nopoint blank"><span class="title center">Say hi to ${realname(user)}!</span></div>`,
 			undefined,
 			undefined,
 			nu("span", { //ending element
