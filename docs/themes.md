@@ -32,6 +32,11 @@ Variables can be suffixed with: `-fg` (foreground/text), `-bg` (background), `bd
 	--warn-fg: red;             /* error msg text color */
 	--info-fg: grey;            /* text color for info (verson in account page) */
 	--setting-fg: black;        /* text color for settings */
+	--dropdown-bg: white;       /* background color for dropdown */
+	--dropdown-bd: black;       /* border color for dropdown */
+	--dropdown-fg: black;       /* text color for dropdowns */
+	--dropdown-src: url("dropdown-black.png");
+		/* src for arrow image for dropdowns */
 	--reload-fg: black;         /* text color for reload */
 	--error-bg: white;          /* background color for warning msgs */
 }
