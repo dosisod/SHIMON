@@ -20,7 +20,7 @@ from .__init__ import Page, Json
 
 class Shimon:
 	def __init__(self) -> None:
-		self.VERSION="0.0.24"
+		self.VERSION="0.0.25"
 
 		self.cache=None #stores cached data after decryption
 
