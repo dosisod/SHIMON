@@ -43,9 +43,13 @@ async function reload_msgs() {
 	//there is no data to loop through, sho default msg
 	if (!data.length) {
 		replace_template(
-			`<div class="holder nopoint blank"><span class="title center">Say hi to ${realname(user)}!</span></div>`,
-			undefined,
-			undefined,
+			new_card(
+				raw["hash"],
+				realname(user),
+				"",
+				true,
+				true
+			).outerHTML+blank("Say hi to "+realname(user)+"!"),
 			nu("span", { //ending element
 				"className": "center name point",
 				"id": "reload",
@@ -65,6 +69,13 @@ async function reload_msgs() {
 			true, //return the card instead of appending
 			true //disable clicking of user card
 		),
+		nu("span", { //ending element
+			"className": "center name point",
+			"innerText": "RELOAD",
+			"id": "reload",
+			"onclick": ()=>reload_msgs()
+		}),
+		data, //parameters to feed the template
 		(arr)=>{ //function template for creating cards
 			var ret=nu("span", {
 				"className": arr["sending"]?"x-sending":"x-receiving",
@@ -107,14 +118,7 @@ async function reload_msgs() {
 				ret
 			])
 			return ret
-		},
-		data, //parameters to feed the template
-		nu("span", { //ending element
-			"className": "center name point",
-			"innerText": "RELOAD",
-			"id": "reload",
-			"onclick": ()=>reload_msgs()
-		})
+		}
 	)
 	//scrolls to bottom of page
 	nu("reload").scrollIntoView()
@@ -136,9 +140,7 @@ async function reload_index() {
 	//if there are no msgs to display, display welcome msg
 	if (!raw.length) {
 		replace_template(
-			`<div class="holder nopoint blank"><span class="title center">Add a friend to start talking!</span></div>`,
-			undefined,
-			undefined,
+			blank("Add a friend to start talking!"),
 			nu("span", { //ending element
 				"className": "center name point",
 				"id": "reload",
@@ -152,6 +154,13 @@ async function reload_index() {
 
 	replace_template(
 		undefined,
+		nu("span", { //ending element
+			"className": "center name point",
+			"id": "reload",
+			"innerText": "RELOAD",
+			"onclick": ()=>reload_index()
+		}),
+		raw,
 		(arr)=>{
 			return new_card(
 				arr["hash"], //hash of user id
@@ -161,18 +170,11 @@ async function reload_index() {
 				false,
 				true //use default cursor when hovering
 			)
-		},
-		raw,
-		nu("span", { //ending element
-			"className": "center name point",
-			"id": "reload",
-			"innerText": "RELOAD",
-			"onclick": ()=>reload_index()
-		})
+		}
 	)
 }
 
-async function replace_template(start, template, params, end) { //replace tray with nu elements
+async function replace_template(start, end, params, template) { //replace tray with nu elements
 	//start and end are put at the start and end of the tray
 	//template is a template to build items in the middle off of
 	//params is an array of the params for the template
@@ -254,4 +256,8 @@ function new_img(uuid) { //converts uuid to b64 img of hash
 
 	//return b64 for image src
 	return canv.toDataURL()
+}
+
+function blank(msg) { //prints welcome msg
+	return `<div class="holder nopoint blank"><span class="title center">${msg}</span></div>`
 }
