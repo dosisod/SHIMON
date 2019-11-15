@@ -62,6 +62,15 @@ textarea {
 	background: var(--input-bg);
 	color: var(--input-fg);
 }
+.checkbox {
+	min-width: 16px;
+	min-height: 16px;
+	display: inline-block;
+	background: var(--checkbox-bg);
+	color: var(--checkbox-fg);
+	border: 1px solid var(--checkbox-bd);
+	padding-left: 6px;
+}
 .input {
 	border: 1px solid var(--input-bd);
 	box-sizing: border-box;

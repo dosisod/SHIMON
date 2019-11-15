@@ -10,3 +10,7 @@
 		{% endfor %}
 	</select>
 </li>{% endmacro %}
+
+{% macro checkbox2(text, id, var) %}<li class="name setting nopoint"><span>{{ text }}
+	<div class="checkbox dropdown point{% if var %} checkbox-checked{% endif %}" onclick="setting(this)" id="{{ id }}">x</div>
+</span></li>{% endmacro %}
