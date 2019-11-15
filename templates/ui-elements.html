@@ -1,5 +1,5 @@
 {% macro checkbox(text, id, var) %}<li class="name setting nopoint"><span>{{ text }}
-	<input type="checkbox" class="dropdown point" onclick="setting(this)" id="{{ id }}" {% if var %}checked="checked"{% endif %}></input>
+	<div class="checkbox dropdown point checkbox-{% if var %}checked{% else %}unchecked{% endif %}" data-type="{{ text }}" onclick="setting(this)" id="{{ id }}"></div>
 </span></li>{% endmacro %}
 
 {% macro dropdown(text, default, data) %}<li class="name setting nopoint">{{ text }}
@@ -10,7 +10,3 @@
 		{% endfor %}
 	</select>
 </li>{% endmacro %}
-
-{% macro checkbox2(text, id, var) %}<li class="name setting nopoint"><span>{{ text }}
-	<div class="checkbox dropdown point{% if var %} checkbox-checked{% endif %}" onclick="setting(this)" id="{{ id }}">x</div>
-</span></li>{% endmacro %}

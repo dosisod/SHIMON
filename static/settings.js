@@ -36,9 +36,9 @@ function setting(e) { //make api calls based off setting type
 			window.location.reload(true)
 		})
 	}
-	else if (str=="devmode") {
+	else if (type=="ENABLE DEVELOPER MODE") {
 		//devmode will be set to what is sent here
-		post({"devmode": e.checked}).then(e=>{
+		post({"devmode": e.className.includes("-unchecked")}).then(e=>{
 			window.location.reload(true) //force reload with new css and js files
 		})
 	}

@@ -70,6 +70,13 @@ textarea {
 	color: var(--checkbox-fg);
 	border: 1px solid var(--checkbox-bd);
 	padding-left: 6px;
+	white-space: pre;
+}
+.checkbox-checked::after {
+	content: "x";
+}
+.checkbox-unchecked::after {
+	content: " ";
 }
 .input {
 	border: 1px solid var(--input-bd);
