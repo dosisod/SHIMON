@@ -141,6 +141,9 @@ ol > .msg {
 	padding-bottom: 5px;
 	color: var(--setting-fg);
 }
+li > a.setting {
+	display: table;
+}
 .dropdown {
 	vertical-align: middle;
 	position: absolute;
