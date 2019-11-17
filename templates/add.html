@@ -29,6 +29,8 @@
 <script>
 url("add")
 
+setInterval(heartbeat, 5000)
+
 function send() {
 	post({"add friend": {
 		"id":nu("id").value,

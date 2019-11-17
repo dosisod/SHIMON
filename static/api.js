@@ -69,6 +69,16 @@ async function post(arr, redirect) { //construct api call from dictionary
 	}
 }
 
+//pings the server, checks for connection
+async function heartbeat() {
+	var e=await post({"ping":""})
+
+	if (e.message=="NetworkError when attempting to fetch resource.") {
+		error("Network Disconnected")
+	}
+	else error()
+}
+
 //if false, try to clear error, else, set error msg
 function error(msg) {
 	if (msg) {
