@@ -20,6 +20,7 @@
 
 {% include "headers.html" %}
 
+<script src={{ url_for("static", filename="msg.js") }}></script>
 <script>
 url("msg/"+document.cookie.replace(/(?:(?:^|.*;\s*)uname\s*\=\s*([^;]*).*$)|^.*$/, "$1")) //set url
 
@@ -29,24 +30,6 @@ friends={{ friends|default("false")|safe() }}
 reload_msgs() //reload
 
 setInterval(reload_msgs, 5000) //reload again every 5 seconds
-
-async function send(e) { //send msg to user
-	//only send if enter was pressed
-	if (e.key!="Enter"||!e.target.value) return
-
-	//wait for message to send before procceding
-	await post({"send msg":{
-		"uname": document.cookie.replace(/(?:(?:^|.*;\s*)uname\s*\=\s*([^;]*).*$)|^.*$/, "$1"),
-		"msg": e.target.value
-	}}).then(e=>{
-		if (e.code!=400) {
-			//reload and scroll to bottom of page if msg was valid
-			reload_msgs()
-		}
-	})
-
-	e.target.value="" //reset input box
-}
 
 </script>
 
