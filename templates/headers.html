@@ -1,10 +1,10 @@
 {% if developer %}
-<script src={{ url_for("static", filename="api.js") }}></script>
-<script src={{ url_for("static", filename="lock.js") }}></script>
-<script src={{ url_for("static", filename="nu.min.js") }}></script>
-<script src={{ url_for("static", filename="settings.js") }}></script>
-<script src={{ url_for("static", filename="ui.js") }}></script>
-<script src={{ url_for("static", filename="url.js") }}></script>
+<script src={{ url_for("static", filename="js/api.js") }}></script>
+<script src={{ url_for("static", filename="js/lock.js") }}></script>
+<script src={{ url_for("static", filename="js/nu.min.js") }}></script>
+<script src={{ url_for("static", filename="js/settings.js") }}></script>
+<script src={{ url_for("static", filename="js/ui.js") }}></script>
+<script src={{ url_for("static", filename="js/url.js") }}></script>
 {% else %}
-<script src={{ url_for("static", filename="shimon.min.js") }}></script>
+<script src={{ url_for("static", filename="js/shimon.min.js") }}></script>
 {% endif %}

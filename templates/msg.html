@@ -2,7 +2,7 @@
 <head>
 <meta name="viewport" content="width=device-width">
 <title>SHIMON</title>
-<link rel="stylesheet" href={{ url_for("static", filename="font.css") }}>
+<link rel="stylesheet" href={{ url_for("static", filename="css/font.css") }}>
 {% include "msg.css" %}
 {% include "ui.css" %}
 
@@ -20,7 +20,7 @@
 
 {% include "headers.html" %}
 
-<script src={{ url_for("static", filename="msg.js") }}></script>
+<script src={{ url_for("static", filename="js/msg.js") }}></script>
 <script>
 url("msg/"+document.cookie.replace(/(?:(?:^|.*;\s*)uname\s*\=\s*([^;]*).*$)|^.*$/, "$1")) //set url
 
