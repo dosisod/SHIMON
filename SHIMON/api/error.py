@@ -1,9 +1,9 @@
 from flask.json import jsonify
 
-from typing import Union
-from .__init__ import Complex
+from typing import Union, Any
+from ..__init__ import Complex
 
-def api_error(code: Union[int, str], data: Complex, redirect: bool, rethrow: bool=None) -> Complex:
+def error(code: Union[int, str], data: Complex, redirect: bool, rethrow: bool=None) -> Complex:
 	if type(redirect) is str:
 		redirect=(redirect=="true") #convert JS true to python True
 
@@ -28,3 +28,16 @@ def api_error(code: Union[int, str], data: Complex, redirect: bool, rethrow: boo
 				"code": code,
 				"msg": data
 			}), code
+
+#below is a bunch of error() wrappers for common calls
+#data stores default message for the given error type, it can be changed
+
+def error_200(error: str="OK", data: Any=False) -> Complex:
+	return error(200, error, data, rethrow=False)
+
+#usually used when the user needs to save/lock to fulfill request
+def error_202(error: str="Lock or save to apply changes", data: Any=False) -> Complex:
+	return error(202, error, data, rethrow=False)
+
+def error_400(error: str="Invalid Request", data: Any=False) -> Complex:
+	return error(400, error, data, rethrow=False)

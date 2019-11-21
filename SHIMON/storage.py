@@ -4,8 +4,8 @@ from flask import Response
 import json
 import os
 
-from .error import api_error
 from .renderer import render
+from .api.error import error
 
 from typing import Union
 
@@ -37,7 +37,7 @@ def lock(self, pwd: str) -> Union[Page]: #tries and locks with given password
 				return
 
 		#if sha512 doesnt exist or doesnt match passed pwd, 401
-		return api_error(401, render(
+		return error(401, render(
 			self,
 			"account.html",
 			error="Cache could not be locked"
@@ -45,7 +45,7 @@ def lock(self, pwd: str) -> Union[Page]: #tries and locks with given password
 
 	else:
 		#go back to login if cache doesnt exist
-		return api_error(
+		return error(
 			400,
 			render(self, "login.html", msg="Please re-open cache"),
 			False,

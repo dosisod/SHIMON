@@ -12,8 +12,9 @@ from ..security import correct_pwd, update_pwd
 from ..storage import unlock, lock
 from ..security import check_all
 from ..renderer import render
-from ..error import api_error
 from ..kee import kee
+
+from .error import error, error_200, error_202, error_400
 
 from typing import Union, Dict, Any, List
 from ..__init__ import Page, Json
@@ -87,7 +88,7 @@ def handler(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 
 		if type(message) is not dict:
 			#message contains illegal characters if it was unable to be parsed
-			return api_error_400()
+			return error_400()
 
 		if "uname" in message and "msg" in message: #make sure data is set
 			#make sure that the message is not only whitespace
@@ -102,14 +103,14 @@ def handler(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 								})
 
 								self.redraw=True
-								return api_error(200, "OK", False, False)
+								return error(200, "OK", False, False)
 
-		return api_error_400() #user didnt set something/made an invalid request
+		return error_400() #user didnt set something/made an invalid request
 
 	elif "delete msg" in data:
 		if type(data["delete msg"]) is not dict:
 			#message contains illegal characters if it was unable to be parsed
-			return api_error_400()
+			return error_400()
 
 		if "id" in data["delete msg"] and "index" in data["delete msg"]:
 			#verify password if msg policy requires password
@@ -119,7 +120,7 @@ def handler(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 
 				else:
 					#user typed in wrong password
-					return api_error_401()
+					return error_401()
 
 			index=0
 			if type(data["delete msg"]["index"]) is int:
@@ -130,22 +131,22 @@ def handler(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 					index=int(data["delete msg"]["index"])
 
 			else:
-				return api_error_400("Index is not an integer")
+				return error_400("Index is not an integer")
 
 			for friend in self.cache["friends"]:
 				if friend["id"]==data["delete msg"]["id"]:
 					for i, hist in enumerate(self.cache["history"]):
 						if hist["id"]==data["delete msg"]["id"]:
 							if index<0 or index>=len(hist["msgs"]):
-								return api_error_400("Index is out of bounds")
+								return error_400("Index is out of bounds")
 
 							else:
 								self.cache["history"][i]["msgs"].pop(index)
 
 								self.redraw=True
-								return api_error(200, "Message deleted", False, False)
+								return error(200, "Message deleted", False, False)
 
-		return api_error_400()
+		return error_400()
 
 	elif "save" in data: #user only wants to encrypt cache
 		ret=lock(self, data["save"])
@@ -159,7 +160,7 @@ def handler(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 		self.expires=self.cache["expiration"]
 		self.developer=self.cache["developer"]
 
-		return api_error(200, "OK", False, False)
+		return error(200, "OK", False, False)
 
 	elif "lock" in data: #user wants to encrypt cache and log out
 		if data["redirect"]=="true": #dont kill session unless user will be directed to login
@@ -183,23 +184,23 @@ def handler(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 			return res
 
 		else:
-			return api_error(303, "", False, True)
+			return error(303, "", False, True)
 
 	elif "change pwd" in data:
 		if type(data["change pwd"]) is not dict:
 			#message contains illegal characters if it was unable to be parsed
-			return api_error_400()
+			return error_400()
 
 		if "old" in data["change pwd"] and "new" in data["change pwd"]:
 			tmp=update_pwd(self, data["change pwd"]["old"], data["change pwd"]["new"])
 			if tmp:
-				return api_error_202() #password was updated successfull
+				return error_202() #password was updated successfull
 
 			else:
-				return api_error(401, "Password could not be updated", data["redirect"], False) #incorrect info was given
+				return error(401, "Password could not be updated", data["redirect"], False) #incorrect info was given
 
 		else:
-			return api_error_400(data=data) #invalid request
+			return error_400(data=data) #invalid request
 
 	elif "new key" in data:
 		#pwd cannot be blank
@@ -212,9 +213,9 @@ def handler(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 
 				return self.index()
 
-			return api_error(401, "Incorrect password", False, False)
+			return error(401, "Incorrect password", False, False)
 
-		return api_error_400()
+		return error_400()
 
 	elif "msg policy" in data:
 		if data["msg policy"].isdigit():
@@ -223,9 +224,9 @@ def handler(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 				self.cache["msg policy"]=tmp
 				self.msg_policy=tmp
 
-				return api_error_202()
+				return error_202()
 
-		return api_error_400()
+		return error_400()
 
 	elif "expiration timer" in data:
 		num=data["expiration timer"]
@@ -236,9 +237,9 @@ def handler(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 				self.expires=num
 				self.cache["expiration"]=num
 
-				return api_error_202()
+				return error_202()
 
-		return api_error_400()
+		return error_400()
 
 	elif "theme" in data:
 		if type(data["theme"]) is str:
@@ -249,26 +250,26 @@ def handler(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 					self.cache["theme"]=clean.split("/")[-1]
 					self.theme=self.cache["theme"]
 
-					return api_error_202()
+					return error_202()
 
-		return api_error_400()
+		return error_400()
 
 	elif "devmode" in data:
 		#if devmode is true, enable devmode, else disable
 		self.cache["developer"]=(data["devmode"]=="true")
 		self.developer=self.cache["developer"]
 
-		return api_error_200()
+		return error_200()
 
 	elif "nuke" in data: #user wants to delete cache
 		if correct_pwd(self, data["nuke"]):
 			#start a new session as if it is booting for the first time
 			return session_start(self, True)
 
-		return api_error(401, "Invalid password", False, False)
+		return error(401, "Invalid password", False, False)
 
 	elif "status" in data:
-		return api_error(200, {
+		return error(200, {
 			"version": self.VERSION,
 			"unlocked": bool(self.cache),
 			"developer": self.developer,
@@ -276,15 +277,15 @@ def handler(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 		}, data["redirect"], False)
 
 	elif "ping" in data:
-		return api_error(200, "pong", data["redirect"], False)
+		return error(200, "pong", data["redirect"], False)
 
 	elif "data" in data: #requesting data from cache
 		if data["data"]=="friends":
-			return api_error(200, api_friends(self), False, False)
+			return error(200, api_friends(self), False, False)
 
 		elif data["data"]=="recent":
 
-			return api_error(200, api_recent(self), False, False)
+			return error(200, api_recent(self), False, False)
 
 		#make sure that data is dict
 		elif type(data["data"]) is dict:
@@ -293,15 +294,15 @@ def handler(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 				ret=api_allfor(self, data["data"]["allfor"])
 
 				if ret or ret==[]:
-					return api_error(200, ret, False, False)
+					return error(200, ret, False, False)
 
 		#if data is not set/other error happens, 400
-		return api_error_400()
+		return error_400()
 
 	elif "add friend" in data:
 		if type(data["add friend"]) is not dict:
 			#message contains illegal characters if it was unable to be parsed
-			return api_error_400()
+			return error_400()
 
 		if "name" in data["add friend"] and "id" in data["add friend"]:
 			#make sure that name and id are not blank
@@ -329,7 +330,7 @@ def handler(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 
 	else:
 		#if the call is not recognized, throw a 400 error
-		return api_error_400()
+		return error_400()
 
 	abort(500) #if anything above exits and gets to here, make sure the user knows of the error
 
@@ -345,15 +346,15 @@ def api_decode(s: str) -> Union[Dict, str]: #decodes json if possible
 def time() -> int:
 	return round(datetime.today().timestamp(), 1)
 
-#below is a bunch of api_error wrappers for common calls
+#below is a bunch of error wrappers for common calls
 #data stores default message for the given error type, it can be changed
 
-def api_error_400(error: str="Invalid Request", data: Any=False) -> Page:
-	return api_error(400, error, data, rethrow=False)
+def error_400(error: str="Invalid Request", data: Any=False) -> Page:
+	return error(400, error, data, rethrow=False)
 
 #usually used when the user needs to save/lock to fulfill request
-def api_error_202(error: str="Lock or save to apply changes", data: Any=False) -> Page:
-	return api_error(202, error, data, rethrow=False)
+def error_202(error: str="Lock or save to apply changes", data: Any=False) -> Page:
+	return error(202, error, data, rethrow=False)
 
-def api_error_200(error: str="OK", data: Any=False) -> Page:
-	return api_error(200, error, data, rethrow=False)
+def error_200(error: str="OK", data: Any=False) -> Page:
+	return error(200, error, data, rethrow=False)

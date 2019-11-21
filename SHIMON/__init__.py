@@ -5,7 +5,7 @@ from typing import Union, Dict, List, Any
 #can be a flask response or raw html response
 Page=Union[Response, str]
 
-#json returned from api_error is still a Response, just alias it to make more sense
+#json returned from api.error is still a Response, just alias it to make more sense
 Json=Response
 
 #Complex can be many things, including dict, list, str
