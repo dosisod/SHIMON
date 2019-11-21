@@ -2,7 +2,7 @@ from hashlib import sha256
 from copy import deepcopy
 
 from typing import Union, List, Dict
-from .__init__ import Page
+from ..__init__ import Page
 
 #below are functions which are used by both the api and shimon
 def api_friends(self) -> List:

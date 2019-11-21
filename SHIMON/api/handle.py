@@ -6,19 +6,19 @@ import base64 as b64
 import json
 import os
 
-from .session import session_start, session_check, session_keepalive, session_kill
-from .api_external import api_recent, api_friends, api_allfor
-from .security import correct_pwd, update_pwd
-from .storage import unlock, lock
-from .security import check_all
-from .renderer import render
-from .error import api_error
-from .kee import kee
+from ..session import session_start, session_check, session_keepalive, session_kill
+from .external import api_recent, api_friends, api_allfor
+from ..security import correct_pwd, update_pwd
+from ..storage import unlock, lock
+from ..security import check_all
+from ..renderer import render
+from ..error import api_error
+from ..kee import kee
 
 from typing import Union, Dict, Any, List
-from .__init__ import Page, Json
+from ..__init__ import Page, Json
 
-def api_handle(self, data: Dict) -> Union[Page, Json]: #handles all api requests
+def handler(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 	for attr in data: #loop through and convert to json
 		data[attr]=api_decode(data[attr])
 

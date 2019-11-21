@@ -5,7 +5,7 @@ import base64 as b64
 import json
 import os
 
-from .api_external import api_friends, api_recent
+from .api.external import api_friends, api_recent
 from .error import api_error
 from .renderer import render
 from .storage import lock

@@ -9,11 +9,11 @@ import json
 import os
 
 from .security import check_all, check_local, check_allowed, check_session
-from .api_external import api_recent, api_friends, api_allfor
+from .api.external import api_recent, api_friends, api_allfor
+from .api.handle import handler
 from .session import session_start
 from .storage import unlock, lock
 from .renderer import render
-from .api import api_handle
 
 from typing import Union
 from .__init__ import Page, Json
@@ -38,7 +38,7 @@ class Shimon:
 		self.redraw=False #stores whether or not the msg page should redraw
 
 		#these are also stored in the cache, but are not available untill the cache is unlocked
-		self.developer=False #(default) turns developer mode off
+		self.developer=True #(default) turns developer mode off
 
 		#theme is current theme
 		self.theme="default"
@@ -171,4 +171,4 @@ class Shimon:
 	def api(self) -> Union[Json, Page]:
 		check_local()
 
-		return api_handle(self, request.form.to_dict()) #sends data to seperate method to handle
+		return handler(self, request.form.to_dict()) #sends data to seperate method to handle
