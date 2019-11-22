@@ -55,6 +55,9 @@ async function post(arr, redirect) { //construct api call from dictionary
 				if (e.message=="NetworkError when attempting to fetch resource.") {
 					error("Network Disconnected")
 				}
+				else if (e.message=="JSON.parse: unexpected character at line 1 column 1 of the JSON data") {
+					error("Could Not Handle Request")
+				}
 			})
 			.then(e=>{
 				//if the request is to be rethrown, make the same request with redirects on
