@@ -8,8 +8,7 @@ from .renderer import render
 from .api.error import error
 
 from typing import Union
-
-Page=Union[Response, str] #can be a flask response or raw html response
+from .__init__ import Page
 
 #fixes 'DECRYPTION_COMPLIANCE_MODE' '23' error
 from pretty_bad_protocol import gnupg
