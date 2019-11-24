@@ -55,6 +55,7 @@ class Shimon:
 			400: "Invalid Request",
 			401: "Unauthorized",
 			404: "Not Found",
+			403: "Forbidden",
 			500: "Server Error"
 		}
 
@@ -67,21 +68,24 @@ class Shimon:
 
 			err=ex.code
 
-		tb="" #if there was a traceback and user is a developer, show traceback on screen
-		if isinstance(ex, BaseException) and self.developer:
-			tb=traceback.format_exc()
-
 		elif type(ex) is int:
 			#error must be a valid user-defined int
 			if 300<=ex and ex<=417:
 				if ex in codes:
 					msg=codes[ex]
 
+				else:
+					msg=""
+
 				err=ex #handle self assigned error
 
 			else:
 				err=400 #handle invalid error
 				msg=codes[400]
+
+		tb="" #if there was a traceback and user is a developer, show traceback on screen
+		if isinstance(ex, BaseException) and self.developer:
+			tb=traceback.format_exc()
 
 		return render(self, "error.html", error=err, url=request.url, traceback=tb, msg=msg), err
 
