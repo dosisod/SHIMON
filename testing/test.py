@@ -6,18 +6,19 @@ from SHIMON.storage import unlock, lock, locker
 from SHIMON.api.handle import handler
 from SHIMON.renderer import render
 from SHIMON.api.error import error
-from SHIMON.shimon import Shimon
+
+from SHIMON.app import App
 
 class Test:
 	pwd="123"
-	ss=Shimon()
-	app=Flask(__name__, static_url_path="")
+
+	app=App()
 
 	def test_storage(self):
 		assert unlock(self.pwd)!="{}"
 
 	def test_error(self):
-		with self.app.app_context():
+		with self.app.app.app_context():
 			#test that True and "true" are treated the same
 			#assert strings are returned as-is
 			assert error(200, "test1", True)[0]=="test1"
