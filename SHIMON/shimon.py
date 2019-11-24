@@ -59,14 +59,14 @@ class Shimon:
 			500: "Server Error"
 		}
 
-		err=500
+		code=500
 		msg="Server Error"
 		if isinstance(ex, HTTPException):
 			#grabs error code name from class name, grabs http error code
 			if ex.code in codes:
 				msg=codes[ex.code]
 
-			err=ex.code
+			code=ex.code
 
 		elif type(ex) is int:
 			#error must be a valid user-defined int
@@ -77,17 +77,17 @@ class Shimon:
 				else:
 					msg=""
 
-				err=ex #handle self assigned error
+				code=ex #handle self assigned error
 
 			else:
-				err=400 #handle invalid error
+				code=400 #handle invalid error
 				msg=codes[400]
 
 		tb="" #if there was a traceback and user is a developer, show traceback on screen
 		if isinstance(ex, BaseException) and self.developer:
 			tb=traceback.format_exc()
 
-		return render(self, "error.html", error=err, url=request.url, traceback=tb, msg=msg), err
+		return render(self, "error.html", error=code, url=request.url, traceback=tb, msg=msg), code
 
 	def index(self, error: str="") -> Page: #index page
 		check_local()
