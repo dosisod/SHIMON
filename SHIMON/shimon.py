@@ -20,7 +20,7 @@ from .__init__ import Page, Json
 
 class Shimon:
 	def __init__(self) -> None:
-		self.VERSION="0.0.25"
+		self.VERSION="0.0.26"
 
 		self.cache=None #stores cached data after decryption
 
@@ -38,7 +38,7 @@ class Shimon:
 		self.redraw=False #stores whether or not the msg page should redraw
 
 		#these are also stored in the cache, but are not available untill the cache is unlocked
-		self.developer=True #(default) turns developer mode off
+		self.developer=False #(default) turns developer mode off
 
 		#theme is current theme
 		self.theme="default"
