@@ -20,9 +20,12 @@ class App:
 		def error(ex: Union[int, Exception]) -> Page:
 			return self.shimon.error(ex)
 
+		#using @user syntax the msg page will be rendered
+		#if nothing is added, then the index will be rendered as normal
 		@self.app.route("/")
-		def index() -> Page:
-			return self.shimon.index()
+		@self.app.route("/<uuid>")
+		def index(uuid: str="") -> Page:
+			return self.shimon.index(uuid=uuid)
 
 		@self.app.route("/settings")
 		def settings() -> Page:
@@ -31,10 +34,6 @@ class App:
 		@self.app.route("/account")
 		def account() -> Page:
 			return self.shimon.account()
-
-		@self.app.route("/msg/<uuid>")
-		def msg(uuid: str) -> Page:
-			return self.shimon.msg(uuid)
 
 		@self.app.route("/add")
 		def add() -> Page:
@@ -47,18 +46,3 @@ class App:
 		@self.app.route("/api/", methods=["POST"])
 		def api() -> Union[Page, Json]:
 			return self.shimon.api()
-
-"""
-if __name__=="__main__":
-	a=App()
-
-	print("starting SHIMON v"+a.shimon.VERSION+" -> github.com/dosisod/SHIMON")
-	print("")
-
-	try:
-		serve(a.app, host=a.IP, port=a.PORT, threads=6)
-
-	except OSError:
-		print("Could not bind to port "+str(a.PORT))
-		print("Is SHIMON already running? if not, check port "+str(a.PORT)+" availability")
-"""

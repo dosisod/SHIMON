@@ -22,7 +22,8 @@
 
 <script src={{ url_for("static", filename="js/msg.js") }}></script>
 <script>
-url("msg/"+document.cookie.replace(/(?:(?:^|.*;\s*)uname\s*\=\s*([^;]*).*$)|^.*$/, "$1")) //set url
+
+url("@"+document.cookie.replace(/(?:(?:^|.*;\s*)uname\s*\=\s*([^;]*).*$)|^.*$/, "$1")) //set url
 
 preload={{ preload|default("false")|safe() }}
 friends={{ friends|default("false")|safe() }}

@@ -89,8 +89,11 @@ class Shimon:
 
 		return render(self, "error.html", error=code, url=request.url, traceback=tb, msg=msg), code
 
-	def index(self, error: str="") -> Page: #index page
+	def index(self, error: str="", uuid: str="") -> Page: #index page
 		check_local()
+
+		if uuid.startswith("@"):
+			return self.msg(uuid[1:])
 
 		if not os.path.isfile("data.gpg"): #if cache doesnt exist create and then open page
 			return session_start(self, True)
@@ -152,8 +155,8 @@ class Shimon:
 				self.redraw=True
 				return res
 
-		#400 bad request
-		abort(400)
+		#user not in friends list, return 404
+		abort(404)
 
 	def add(self) -> Page:
 		ret=check_all(self)

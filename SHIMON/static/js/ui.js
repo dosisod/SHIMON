@@ -215,7 +215,7 @@ function new_card(uuid, name, message, ret, disable, pointer) { //returns or app
 		"className": pointer?"holder point":"holder"
 	})
 	//if disable is set, onclick wont be added
-	if (!disable) div.onclick=()=>window.location="/msg/"+uname(name)
+	if (!disable) div.onclick=()=>window.location="/@"+uname(name)
 
 	div.appendChild(
 		nu("img", {
