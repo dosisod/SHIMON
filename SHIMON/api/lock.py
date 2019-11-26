@@ -4,6 +4,8 @@ from ..session import session_kill
 from ..renderer import render
 from .. import storage
 
+from .error import error
+
 from typing import Union, Dict
 from ..__init__ import Page, Json
 
@@ -29,4 +31,4 @@ def lock(self, data: Dict) -> Union[Page, Json]:
 		return res
 
 	else:
-		return error(303, "", False, True)
+		return error(303, "")

@@ -1,6 +1,6 @@
 from copy import deepcopy
 
-from .error import error, error_400, error_401
+from .error import error_200, error_400, error_401
 from ..security import correct_pwd
 
 from typing import Dict
@@ -43,6 +43,6 @@ def delete_msg(self, data: Dict) -> Json:
 							self.cache["history"][i]["msgs"].pop(index)
 
 							self.redraw=True
-							return error(200, "Message deleted", False, False)
+							return error_200("Message deleted")
 
 	return error_400()

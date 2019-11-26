@@ -5,7 +5,7 @@ import json
 import os
 
 from .renderer import render
-from .api.error import error
+from .api.error import error_400, error_401
 
 from typing import Union
 from .__init__ import Page
@@ -36,7 +36,7 @@ def lock(self, pwd: str) -> Union[Page]: #tries and locks with given password
 				return
 
 		#if sha512 doesnt exist or doesnt match passed pwd, 401
-		return error(401, render(
+		return error_401(render(
 			self,
 			"account.html",
 			error="Cache could not be locked"
@@ -44,8 +44,7 @@ def lock(self, pwd: str) -> Union[Page]: #tries and locks with given password
 
 	else:
 		#go back to login if cache doesnt exist
-		return error(
-			400,
+		return error_400(
 			render(self, "login.html", msg="Please re-open cache"),
 			False,
 			True

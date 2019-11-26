@@ -1,6 +1,6 @@
 from .. import storage
 
-from .error import error
+from .error import error_200
 
 from typing import Union, Dict
 from ..__init__ import Json, Page
@@ -17,4 +17,4 @@ def save(self, data: Dict) -> Union[Json, Page]:
 	self.expires=self.cache["expiration"]
 	self.developer=self.cache["developer"]
 
-	return error(200, "OK", False, False)
+	return error_200()

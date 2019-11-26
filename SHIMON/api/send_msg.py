@@ -1,6 +1,6 @@
 from ..renderer import render
 
-from .error import error, error_400
+from .error import error_200, error_400
 
 from typing import Dict
 from ..__init__ import Json
@@ -25,6 +25,6 @@ def send_msg(self, data: Dict) -> Json:
 							})
 
 							self.redraw=True
-							return error(200, "OK", False, False)
+							return error_200()
 
 	return error_400() #user didnt set something/made an invalid request

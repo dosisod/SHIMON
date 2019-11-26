@@ -4,7 +4,7 @@ from ..security import correct_pwd
 from ..storage import lock
 from ..kee import kee
 
-from .error import error, error_400
+from .error import error_400, error_401
 
 from typing import Union, Dict, Any, List
 from ..__init__ import Page, Json
@@ -20,6 +20,6 @@ def new_key(self, data: Dict) -> Union[Page, Json]:
 
 			return self.index()
 
-		return error(401, "Incorrect password", False, False)
+		return error_401()
 
 	return error_400()

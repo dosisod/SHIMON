@@ -3,7 +3,9 @@ from flask.json import jsonify
 from typing import Union, Any
 from ..__init__ import Complex
 
-def error(code: Union[int, str], data: Complex, redirect: bool, rethrow: bool=None) -> Complex:
+Boolish=Union[bool, str]
+
+def error(code: Union[int, str], data: Complex, redirect: Boolish, rethrow: bool=None) -> Complex:
 	if type(redirect) is str:
 		redirect=(redirect=="true") #convert JS true to python True
 
@@ -32,15 +34,15 @@ def error(code: Union[int, str], data: Complex, redirect: bool, rethrow: bool=No
 #below is a bunch of error() wrappers for common calls
 #data stores default message for the given error type, it can be changed
 
-def error_200(msg: str="OK", data: Any=False) -> Complex:
-	return error(200, msg, data, rethrow=False)
+def error_200(msg: str="OK", redirect: Boolish=False) -> Complex:
+	return error(200, msg, redirect, rethrow=False)
 
 #usually used when the user needs to save/lock to fulfill request
-def error_202(msg: str="Lock or save to apply changes", data: Any=False) -> Complex:
-	return error(202, msg, data, rethrow=False)
+def error_202(msg: str="Lock or save to apply changes", redirect: Boolish=False) -> Complex:
+	return error(202, msg, redirect, rethrow=False)
 
-def error_400(msg: str="Invalid Request", data: Any=False) -> Complex:
-	return error(400, msg, data, rethrow=False)
+def error_400(msg: str="Invalid Request", redirect: Boolish=False) -> Complex:
+	return error(400, msg, redirect, rethrow=False)
 
-def error_401(msg: str="Invalid Password", data: Any=False) -> Complex:
-	return error(401, msg, data, rethrow=False)
+def error_401(msg: str="Invalid Password", redirect: Boolish=False) -> Complex:
+	return error(401, msg, redirect, rethrow=False)

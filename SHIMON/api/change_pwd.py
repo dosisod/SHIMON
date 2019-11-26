@@ -1,4 +1,4 @@
-from .error import error, error_202, error_400
+from .error import error_202, error_400, error_401
 from ..security import update_pwd
 
 from typing import Dict
@@ -15,7 +15,7 @@ def change_pwd(self, data: Dict) -> Json:
 			return error_202() #password was updated successfull
 
 		else:
-			return error(401, "Password could not be updated", data["redirect"], False) #incorrect info was given
+			return error_401("Password could not be updated", data["redirect"], False) #incorrect info was given
 
 	else:
 		return error_400(data=data) #invalid request
