@@ -90,6 +90,7 @@ textarea {
 	background: var(--click-bg);
 	color: var(--click-fg);
 	cursor: pointer;
+	outline: 0;
 }
 div > img {
 	vertical-align: top;
@@ -161,6 +162,11 @@ select.dropdown {
 	background-size: 16px;
 	-moz-appearance: none;
 	-webkit-appearance: none;
+	outline: 0;
+}
+select:-moz-focusring {
+	color: transparent;
+	text-shadow: 0 0 0 var(--dropdown-fg);
 }
 #reload {
 	color: var(--reload-fg);
