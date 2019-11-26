@@ -38,7 +38,7 @@ class Shimon:
 		self.redraw=False #stores whether or not the msg page should redraw
 
 		#these are also stored in the cache, but are not available untill the cache is unlocked
-		self.developer=False #(default) turns developer mode off
+		self.developer=True #(default) turns developer mode off
 
 		#theme is current theme
 		self.theme="default"
@@ -118,8 +118,8 @@ class Shimon:
 		if ret: return ret
 
 		themes=[] #finds and displays all available themes
-		for file in os.listdir(os.getcwd()+"/templates/themes/"):
-			if os.path.isfile(os.getcwd()+"/templates/themes/"+file) and file.endswith(".css"):
+		for file in os.listdir(os.getcwd()+"/SHIMON/templates/themes/"):
+			if os.path.isfile(os.getcwd()+"/SHIMON/templates/themes/"+file) and file.endswith(".css"):
 				#becaue of the way the dropdown renderer works, the value and the innertext will be the same
 				themes.append((file[:-4], file[:-4]))
 

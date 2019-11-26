@@ -6,7 +6,7 @@ import json
 import os
 
 from .api.external import api_friends, api_recent
-from .api.error import error_401
+from .api.error import error
 from .renderer import render
 from .storage import lock
 from .kee import kee
@@ -61,7 +61,8 @@ def session_check(self, data: Dict) -> Union[Page]:
 			return
 
 	#if the session is no longer valid go back to the login page
-	return error_401(
+	return error(
+		401,
 		render(self, "login.html", msg="Session is no longer valid"),
 		data["redirect"],
 		True
