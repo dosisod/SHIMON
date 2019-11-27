@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ESNEXT",
+	"lib": ["es5", "dom"],
+    "module": "commonjs",
+    "outDir": "SHIMON/static/js/",
+    "rootDir": "ts/",
+
+	"strictNullChecks": false,
+    "baseUrl": "./",
+    "esModuleInterop": true,
+
+    "forceConsistentCasingInFileNames": true
+  }
+}
