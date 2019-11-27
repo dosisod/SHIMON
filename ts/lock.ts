@@ -1,4 +1,6 @@
-function lock(e) {
+import { post, error } from "./api";
+
+function lock(e: MouseEvent) {
 	e.preventDefault()
 
 	var str=prompt("Re-enter password to lock")
@@ -10,7 +12,7 @@ function lock(e) {
 	post({"lock": str}, true)
 }
 
-function save(e) {
+function save(e: MouseEvent) {
 	e.preventDefault()
 
 	var str=prompt("Re-enter password to save")

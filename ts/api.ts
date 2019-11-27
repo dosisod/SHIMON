@@ -3,7 +3,7 @@ import { nu } from "./nu";
 //time in ms when last error was set
 var added_at=0
 
-async function post(arr: {[key: string]: any}, redirect: boolean=false) { //construct api call from dictionary
+export async function post(arr: {[key: string]: any}, redirect: boolean=false) { //construct api call from dictionary
 	//if there is an error and it is able to be deleted, clear it
 	error(false)
 
@@ -85,7 +85,7 @@ async function heartbeat(): Promise<void> {
 }
 
 //if false, try to clear error, else, set error msg
-function error(msg: string | boolean): void {
+export function error(msg: string | boolean): void {
 	if (typeof msg==="string") {
 		added_at=Date.now()
 		nu("error").style.display="block"
