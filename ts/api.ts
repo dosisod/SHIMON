@@ -1,7 +1,9 @@
+import { nu } from "./nu";
+
 //time in ms when last error was set
 var added_at=0
 
-async function post(arr, redirect) { //construct api call from dictionary
+async function post(arr: {[key: string]: any}, redirect: boolean=false) { //construct api call from dictionary
 	//if there is an error and it is able to be deleted, clear it
 	error(false)
 
@@ -73,18 +75,18 @@ async function post(arr, redirect) { //construct api call from dictionary
 }
 
 //pings the server, checks for connection
-async function heartbeat() {
+async function heartbeat(): Promise<void> {
 	var e=await post({"ping":""})
 
 	if (e.message=="NetworkError when attempting to fetch resource.") {
 		error("Network Disconnected")
 	}
-	else error()
+	else error(false)
 }
 
 //if false, try to clear error, else, set error msg
-function error(msg) {
-	if (msg) {
+function error(msg: string | boolean): void {
+	if (typeof msg==="string") {
 		added_at=Date.now()
 		nu("error").style.display="block"
 		nu("error").innerText=msg
