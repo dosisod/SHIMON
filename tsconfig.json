@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ESNEXT",
+    "lib": ["ES2015", "dom"],
+    "module": "none",
+    "outDir": "SHIMON/static/js/",
+    "rootDir": "ts/",
+
+    "strictNullChecks": false,
+    "baseUrl": "./",
+    "esModuleInterop": true,
+    "removeComments": true,
+
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [
+    "./ts/*"
+  ]
+}
