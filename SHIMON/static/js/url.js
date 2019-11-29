@@ -1,3 +1,3 @@
-function url(s) { //change url to proper location eg /api -> /login
-	history.replaceState({}, "", "/"+s)
+function url(s) {
+    history.replaceState({}, "", "/" + s);
 }
