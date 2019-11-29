@@ -4,9 +4,9 @@
 //Complex can also be an array of complex elements
 
 type _Complex=( HTMLElement | string ) //_Complex is the either HTMLElement or string
-export type Complex=( _Complex[] | _Complex ) //Complex can be an array or a single _Complex
+type Complex=( _Complex[] | _Complex ) //Complex can be an array or a single _Complex
 
-export function nu(name: string, attribs?: {[attrib: string]: any}, append?: Complex, keep?: boolean): HTMLElement | null {
+function nu(name: string, attribs?: {[attrib: string]: any}, append?: Complex, keep?: boolean): HTMLElement | null {
 	if (!attribs) { //by using nu() without params, you will just get an elemnt by id
 		return document.getElementById(name)
 	}

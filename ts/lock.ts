@@ -1,5 +1,3 @@
-import { post, error } from "./api";
-
 function lock(e: MouseEvent) {
 	e.preventDefault()
 

@@ -1,5 +1,9 @@
+type Dict={[key: string]: any}
+
 var tray=nu("tray")
 var friends=[]
+
+declare var preload: Dict | boolean
 
 async function check_friends() { //get friends list if list is empty
 	if (!friends.length) {
@@ -26,16 +30,17 @@ async function reload_msgs() {
 	//from MDN docs
 	var user=document.cookie.replace(/(?:(?:^|.*;\s*)uname\s*\=\s*([^;]*).*$)|^.*$/, "$1")
 
+	var raw: Dict | boolean
 	if (!preload) {
-		var raw=await post({"data":{"allfor":user}})
+		raw=await post({"data":{"allfor":user}})
 		raw=raw["msg"]
 	}
 	else {
-		var raw=preload
+		raw=preload
 		preload=false
 	}
 
-	if (raw.length==0) return
+	if ((raw as Dict).length==0) return
 
 	var rawid=raw["id"] //must be stored like this as raw can change over time
 	var data=raw["msgs"]
@@ -127,18 +132,19 @@ async function reload_msgs() {
 async function reload_index() {
 	await check_friends()
 
+	var raw: Dict | boolean
 	//load from preload if available, else make api call
 	if (!preload) {
-		var raw=await post({"data":"recent"})
+		raw=await post({"data":"recent"})
 		raw=raw["msg"]
 	}
 	else {
-		var raw=preload
+		raw=preload
 		preload=false
 	}
 
 	//if there are no msgs to display, display welcome msg
-	if (!raw.length) {
+	if (!(raw as Dict).length) {
 		replace_template(
 			blank("Add a friend to start talking!"),
 			nu("span", { //ending element
@@ -174,7 +180,7 @@ async function reload_index() {
 	)
 }
 
-async function replace_template(start, end, params, template) { //replace tray with nu elements
+async function replace_template(start: Complex, end?: Complex, params?: Dict | boolean, template?: Function) { //replace tray with nu elements
 	//start and end are put at the start and end of the tray
 	//template is a template to build items in the middle off of
 	//params is an array of the params for the template
@@ -183,20 +189,21 @@ async function replace_template(start, end, params, template) { //replace tray w
 	tray.innerHTML=`<div class="rightbar"><a class="rightitem name point" href="/add">ADD FRIEND</a><br><a class="rightitem name point" href="/account">ACCOUNT</a><br><span class="rightitem name point" onclick="save(event)">SAVE</span></div>`
 
 	if (typeof start==="string") tray.innerHTML+=start
-	else if (start) tray.appendChild(start)
+	else if (start) tray.appendChild(<Node>start)
 
 	if (params) {
-		params.forEach((e,i)=>{
+		(params as Dict).forEach((e,i)=>{
 			e["index"]=i
 			//append new item given params for template
 			tray.appendChild(template(e))
 		})
 	}
 
-	if (end) tray.appendChild(end)
+	if (typeof end==="string") tray.innerHTML+=end
+	else if (end) tray.appendChild(<Node>end)
 }
 
-function new_card(uuid, name, message, ret, disable, pointer) { //returns or appends a new card
+function new_card(uuid: string, name: string, message: string, ret: boolean=false, disable: boolean=true, pointer: boolean=false) { //returns or appends a new card
 	var ol=nu("ol", {})
 	ol.appendChild(
 		nu("li", {
@@ -215,7 +222,7 @@ function new_card(uuid, name, message, ret, disable, pointer) { //returns or app
 		"className": pointer?"holder point":"holder"
 	})
 	//if disable is set, onclick wont be added
-	if (!disable) div.onclick=()=>window.location="/@"+uname(name)
+	if (!disable) div.onclick=()=>window.location.href="/@"+uname(name)
 
 	div.appendChild(
 		nu("img", {
@@ -235,20 +242,21 @@ function new_card(uuid, name, message, ret, disable, pointer) { //returns or app
 	tray.appendChild(card) //else just append it
 }
 
-function new_img(uuid) { //converts uuid to b64 img of hash
-	var canv=nu("canvas", {
+function new_img(uuid: string) { //converts uuid to b64 img of hash
+	var canv=<HTMLCanvasElement>(nu("canvas", {
 		"width": 16,
 		"height": 16
-	})
-	var draw=canv.getContext("2d")
+	}))
+
+	var draw: CanvasRenderingContext2D=canv.getContext("2d")
 
 	var bin=""
-	for (var i of uuid) {
+	for (let i of uuid) {
 		var tmp=parseInt(i,16).toString(2) //hex to binary string
 		bin+="0".repeat(4-tmp.length)+tmp
 	}
 
-	for (var i=0;i<256;i++) { //16*16=256 pixels
+	for (let i=0;i<256;i++) { //16*16=256 pixels
 		//set black or white pixel
 		draw.fillStyle=(bin[i]=="1")?"rgb(255,255,255)":"rgb(0,0,0)"
 		draw.fillRect(i%16, ~~(i/16), 1, 1) //draw single pixel
@@ -258,6 +266,6 @@ function new_img(uuid) { //converts uuid to b64 img of hash
 	return canv.toDataURL()
 }
 
-function blank(msg) { //prints welcome msg
+function blank(msg: string) { //prints welcome msg
 	return `<div class="holder nopoint blank"><span class="title center">${msg}</span></div>`
 }
