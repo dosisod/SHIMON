@@ -37,9 +37,8 @@ function setting(e) { //make api calls based off setting type
 		})
 	}
 	else if (type=="ENABLE DEVELOPER MODE") {
-		//devmode will be set to what is sent here
 		post({"devmode": e.className.includes("-unchecked")}).then(e=>{
-			window.location.reload(true) //force reload with new css and js files
+			window.location.reload(true) //reload with dev mode settings loaded
 		})
 	}
 	else if (str=="nuke cache") {
@@ -50,5 +49,10 @@ function setting(e) { //make api calls based off setting type
 		if (!pwd) return
 
 		post({"nuke": pwd}, true)
+	}
+	else if (str=="fresh js") {
+		post({"fresh js": e.className.includes("-unchecked")}).then(e=>{
+			window.location.reload(true) //force reload with new js files
+		})
 	}
 }

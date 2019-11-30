@@ -29,6 +29,9 @@
 	{{ dropdown("THEME", theme, themes) }}
 	{{ checkbox("ENABLE DEVELOPER MODE", "devmode", developer) }}
 	<li class="name setting warn"><span class="point" onclick="setting(this)">NUKE CACHE</span></li>
+	{% if developer %}
+	{{ checkbox("USE FRESH JS", "fresh js", fresh_js) }}
+	{% endif %}
 </ol>
 {% include "error-msg.html" %}
 

@@ -30,6 +30,11 @@ def unlock(self, data: Dict) -> Page:
 		else:
 			self.cache["theme"]=self.theme
 
+		if "fresh js" in self.cache:
+			self.fresh_js=self.cache["fresh js"]
+		else:
+			self.cache["fresh js"]=self.fresh_js
+
 		#versions dont match, warn user of possible quirks
 		if self.cache["version"]!=self.VERSION:
 			self.cache["version"]=self.VERSION

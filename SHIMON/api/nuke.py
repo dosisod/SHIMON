@@ -1,5 +1,5 @@
 from ..session import session_start
-from .security import correct_pwd
+from ..security import correct_pwd
 from .error import error_401
 
 from typing import Union, Dict

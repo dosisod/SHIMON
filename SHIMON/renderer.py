@@ -8,4 +8,5 @@ from flask import render_template
 def render(self, name: str, **kwargs) -> str: #automatically add devmode and other variables to all render_templates
 	kwargs["developer"]=self.developer
 	kwargs["theme"]=self.theme
+	kwargs["fresh_js"]=self.fresh_js
 	return render_template(name, **kwargs)

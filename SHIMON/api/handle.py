@@ -17,6 +17,8 @@ from .msg_policy import msg_policy
 from .expiration_timer import expiration_timer
 from .theme import theme
 from .devmode import devmode
+from .nuke import nuke
+from .fresh_js import fresh_js
 from .status import status
 from ._data import _data
 from .add_friend import add_friend
@@ -66,6 +68,9 @@ def handler(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 
 	elif "nuke" in data: #user wants to delete cache
 		return nuke(self, data)
+
+	elif "fresh js" in data:
+		return fresh_js(self, data)
 
 	elif "status" in data:
 		return status(self, data)

@@ -40,6 +40,9 @@ class Shimon:
 		#these are also stored in the cache, but are not available untill the cache is unlocked
 		self.developer=True #(default) turns developer mode off
 
+		#when this flag is set, the fresh (TS compiled) js is used
+		self.fresh_js=False
+
 		#theme is current theme
 		self.theme="default"
 

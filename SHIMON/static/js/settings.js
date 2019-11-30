@@ -47,4 +47,9 @@ function setting(e) {
             return;
         post({ "nuke": pwd }, true);
     }
+    else if (str == "fresh js") {
+        post({ "fresh js": e.className.includes("-unchecked") }).then(e => {
+            window.location.reload(true);
+        });
+    }
 }
