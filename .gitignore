@@ -1,9 +1,22 @@
+# hide temp or object files
 __pycache__/
-todo
-*.swp
 *test*
+*.bak
+
+# hide all js files except certain files
+SHIMON/static/js/*
+!SHIMON/static/js/shimon.min.js
+!SHIMON/static/js/msg.js
+
+# hide personal files
 data.gpg*
-_mod.py
+todo
+
+# hide vim related files
+*.swp
 .vim
+
+# hide helper files
 m
+_mod.py
 run
