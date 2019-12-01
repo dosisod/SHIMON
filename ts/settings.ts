@@ -31,13 +31,13 @@ function setting(e) { //make api calls based off setting type
 		post({"msg policy": e.value})
 	}
 	else if (type=="THEME") {
-		post({"theme": e.value}).then(e=>{
+		post({"theme": e.value}).then(()=>{
 			//force reload, show new colorscheme
 			window.location.reload(true)
 		})
 	}
 	else if (type=="ENABLE DEVELOPER MODE") {
-		post({"devmode": e.className.includes("-unchecked")}).then(e=>{
+		post({"devmode": e.className.includes("-unchecked")}).then(()=>{
 			window.location.reload(true) //reload with dev mode settings loaded
 		})
 	}
@@ -51,7 +51,7 @@ function setting(e) { //make api calls based off setting type
 		post({"nuke": pwd}, true)
 	}
 	else if (str=="fresh js") {
-		post({"fresh js": e.className.includes("-unchecked")}).then(e=>{
+		post({"fresh js": e.className.includes("-unchecked")}).then(()=>{
 			window.location.reload(true) //force reload with new js files
 		})
 	}

@@ -10,6 +10,9 @@
     "baseUrl": "./",
     "esModuleInterop": true,
     "removeComments": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
 
     "forceConsistentCasingInFileNames": true
   },

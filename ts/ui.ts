@@ -85,7 +85,7 @@ async function reload_msgs() {
 			var ret=nu("span", {
 				"className": arr["sending"]?"x-sending":"x-receiving",
 				"innerText": "x",
-				"onclick": (e)=>{
+				"onclick": ()=>{
 					post({"status":""}).then(e=>{
 						var pwd=undefined //only used by msg policy 2
 						if (e.msg["msg policy"]==0) {
@@ -203,7 +203,7 @@ async function replace_template(start: Complex, end?: Complex, params?: Dict | b
 	else if (end) tray.appendChild(<Node>end)
 }
 
-function new_card(uuid: string, name: string, message: string, ret: boolean=false, disable: boolean=true, pointer: boolean=false) { //returns or appends a new card
+function new_card(uuid: string, name: string, message: string, ret: boolean=false, disable: boolean=true, pointer: boolean=false): HTMLElement | undefined { //returns or appends a new card
 	var ol=nu("ol", {})
 	ol.appendChild(
 		nu("li", {
@@ -237,9 +237,12 @@ function new_card(uuid: string, name: string, message: string, ret: boolean=fals
 	})
 	card.appendChild(div)
 	
-	if (ret) return card //stop here if you want to return it
+	if (ret) {
+		return card //stop here if you want to return it
+	}
 	
 	tray.appendChild(card) //else just append it
+	return undefined
 }
 
 function new_img(uuid: string) { //converts uuid to b64 img of hash
