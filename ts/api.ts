@@ -1,6 +1,8 @@
 //time in ms when last error was set
 var added_at=0
 
+const api_wait=5000 //time to wait between api calls in ms
+
 async function post(arr: {[key: string]: any}, redirect: boolean=false) { //construct api call from dictionary
 	//if there is an error and it is able to be deleted, clear it
 	error(false)
@@ -90,7 +92,7 @@ function error(msg: string | boolean): void {
 		nu("error").innerText=msg
 	}
 	else {
-		if (Date.now()>(added_at+5000)) {
+		if (Date.now()>(added_at+api_wait)) {
 			nu("error").style.display="none"
 			nu("error").innerText=""
 		}
