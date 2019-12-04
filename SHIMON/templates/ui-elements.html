@@ -3,10 +3,10 @@
 </span></li>{% endmacro %}
 
 {% macro dropdown(text, default, data) %}<li class="name setting nopoint">{{ text }}
-	<select class="dropdown point">
+	<select class="dropdown point" onchange="setting(this)" data-type="{{ text }}">
 		<option disabled="disabled" selected="selected">{% for i in data %}{% if i[0]==default %}{{ i[1] }}{% endif %}{% endfor %}</option>
 		{% for i in data %}
-		<option value="{{ i[0] }}" onclick="setting(this)" data-type="{{ text }}">{{ i[1] }}</option>
+		<option value="{{ i[0] }}">{{ i[1] }}</option>
 		{% endfor %}
 	</select>
 </li>{% endmacro %}
