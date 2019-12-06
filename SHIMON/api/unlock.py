@@ -12,28 +12,12 @@ def unlock(self, data: Dict) -> Page:
 	plain=storage.unlock(data["unlock"])
 	if not time()-self.start<self.cooldown and plain: #if not in cooldown and the cache was decrypted
 		self.cache=json.loads(plain) #cache decrypted, save to shimon
-		self.expires=self.cache["expiration"]
 
-		#replace each setting with default if not set, replace current with cache if it is set
-		if "msg policy" in self.cache:
-			self.msg_policy=self.cache["msg policy"]
-		else:
-			self.cache["msg policy"]=self.msg_policy
-
-		if "developer" in self.cache:
-			self.developer=self.cache["developer"]
-		else:
-			self.cache["developer"]=self.developer
-
-		if "theme" in self.cache:
-			self.theme=self.cache["theme"]
-		else:
-			self.cache["theme"]=self.theme
-
-		if "fresh js" in self.cache:
-			self.fresh_js=self.cache["fresh js"]
-		else:
-			self.cache["fresh js"]=self.fresh_js
+		cache_to_self(self, "expiration", "expires")
+		cache_to_self(self, "msg policy", "msg_policy")
+		cache_to_self(self, "developer")
+		cache_to_self(self, "theme")
+		cache_to_self(self, "fresh js", "fresh_js")
 
 		#versions dont match, warn user of possible quirks
 		if self.cache["version"]!=self.VERSION:
@@ -68,3 +52,14 @@ def unlock(self, data: Dict) -> Page:
 
 def time() -> int:
 	return round(datetime.today().timestamp(), 1)
+
+def cache_to_self(self, cached: str, stored: str=None) -> None:
+	#use same name if there is no 3rd param
+	if stored is None:
+		stored=cached
+
+	#replace each setting with default if not set, replace current with cache if it is set
+	if cached in self.cache:
+		self.__dict__[stored]=self.cache[cached]
+	else:
+		self.cache[cached]=self.__dict__[stored]
