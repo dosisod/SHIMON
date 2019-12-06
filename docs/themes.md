@@ -21,6 +21,9 @@ Variables can be suffixed with: `-fg` (foreground/text), `-bg` (background), `bd
 	--typer-bd: black;          /* border color for typing in msg box */
 	--typer-sd: white;          /* shadow border (trim) color around typing box */
 	--container-bg: white;      /* the main background color for all the pages */
+	--checkbox-bg: white;       /* background color for checkbox components*/
+	--checkbox-fg: black;       /* text color for "x" in checkboxes */
+	--checkbox-bd: black;       /* border color for checkbox */
 	--input-bd: #333;           /* generic border color for input boxes and textareas */
 	--input-bg: white;          /* generic background color for input boxes and textareas */
 	--input-fg: black;          /* generic text color for input boxes and textareas */
