@@ -23,7 +23,7 @@ class App:
 		#using @user syntax the msg page will be rendered
 		#if nothing is added, then the index will be rendered as normal
 		@self.app.route("/")
-		@self.app.route("/<uuid>")
+		@self.app.route("/@<uuid>")
 		def index(uuid: str="") -> Page:
 			return self.shimon.index(uuid=uuid)
 

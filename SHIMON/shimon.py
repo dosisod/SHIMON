@@ -95,8 +95,8 @@ class Shimon:
 	def index(self, error: str="", uuid: str="") -> Page: #index page
 		check_local()
 
-		if uuid.startswith("@"):
-			return self.msg(uuid[1:])
+		if uuid:
+			return self.msg(uuid)
 
 		if not os.path.isfile("data.gpg"): #if cache doesnt exist create and then open page
 			return session_start(self, True)
