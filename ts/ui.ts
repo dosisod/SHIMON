@@ -226,7 +226,8 @@ function new_card(uuid: string, name: string, message: string, ret: boolean=fals
 
 	div.appendChild(
 		nu("img", {
-			"src": new_img(uuid)
+			"src": new_img(uuid),
+			"alt": name+"'s profile img"
 		})
 	)
 	div.appendChild(document.createTextNode("\n"))
