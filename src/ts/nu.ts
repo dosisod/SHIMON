@@ -1,3 +1,5 @@
+/*! MIT Licnse for nu available at -> https://github.com/dosisod/nu */
+
 //Complex is a "smart" way to pass/get HTML objects:
 //it can handle HTMLElements, other nu elements, and strings
 //if a string is passed, it is assumed to be an id, so document.getElementById is called
