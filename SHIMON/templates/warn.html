@@ -4,8 +4,9 @@
 <meta name="description" content="SHIMON has been updated since last opened">
 <meta name="viewport" content="width=device-width">
 <title>WARNING</title>
-<link rel="stylesheet" href={{ url_for("static", filename="css/font.css") }}>
+
 {% include "ui.css" %}
+{% include "headers-css.html" %}
 
 </head>
 
@@ -35,7 +36,8 @@
 }
 </style>
 
-<script src={{ url_for("static", filename="js/url.js") }}></script>
+{% include "headers.html" %}
+
 <script>url("")</script>
 
 </body>

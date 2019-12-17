@@ -6,7 +6,7 @@
 <title>LOGIN</title>
 
 <link rel="stylesheet" href={{ url_for("static", filename="css/login.css") }}>
-<link rel="stylesheet" href={{ url_for("static", filename="css/font.css") }}>
+{% include "headers-css.html" %}
 
 </head>
 
@@ -23,7 +23,7 @@
 </div>
 </div>
 
-<script src={{ url_for("static", filename="js/url.js") }}></script>
+{% include "headers.html" %}
 <script>url("login")</script>
 
 </body>

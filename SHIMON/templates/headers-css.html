@@ -1,0 +1,6 @@
+{% if developer and fresh_css %}
+<link rel="stylesheet" href={{ url_for("static", filename="css/font.css") }}>
+<link rel="stylesheet" href={{ url_for("static", filename="css/index.css") }}>
+{% else %}
+<link rel="stylesheet" href={{ url_for("static", filename="css/bundle.css") }}>
+{% endif %}

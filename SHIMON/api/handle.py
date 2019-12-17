@@ -73,7 +73,7 @@ def handler(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 	elif "fresh js" in data:
 		return fresh_js(self, data)
 
-	elif "fresh_css" in data:
+	elif "fresh css" in data:
 		return fresh_css(self, data)
 
 	elif "status" in data:

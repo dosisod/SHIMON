@@ -1,6 +1,3 @@
 .hide {
 	white-space: nowrap;
 }
-.name, .msg {
-	max-width: 0;
-}

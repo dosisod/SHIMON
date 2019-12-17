@@ -17,8 +17,8 @@ cp src/css/* SHIMON/static/css/
 
 if [ -z "$@" ]; then
 	echo "minifiying:"
-	ls src/css/ | grep -F ".css" | grep -v "bundle.css"
+	ls src/css/ | grep -F ".css" | grep -v "bundle.css" | grep -v "login.css"
 
 	#minify all css into a single bundle
-	minify $(tree -fi src/css/ | head -n -2 | grep -F ".css" | grep -v "bundle.css") > "SHIMON/static/css/bundle.css"
+	minify $(tree -fi src/css/ | head -n -2 | grep -F ".css" | grep -v "bundle.css" | grep -v "login.css") > "SHIMON/static/css/bundle.css"
 fi

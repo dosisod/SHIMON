@@ -4,7 +4,8 @@
 <meta name="description" content="Add a friend">
 <meta name="viewport" content="width=device-width">
 <title>SHIMON</title>
-<link rel="stylesheet" href={{ url_for("static", filename="css/font.css") }}>
+
+{% include "headers-css.html" %}
 {% include "ui.css" %}
 
 </head>
@@ -35,7 +36,7 @@ setInterval(heartbeat, api_wait)
 
 function send() {
 	post({"add friend": {
-		"id":nu("id").value,
+		"id": nu("id").value,
 		"name": nu("name").value
 	}}, true)
 }
