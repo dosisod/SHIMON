@@ -1,6 +1,3 @@
-<style>
-{% include "load.css" %}
-
 .msg {
 	font-size: 14px;
 }
@@ -56,4 +53,3 @@
 		box-shadow: 0;
 	}
 }
-</style>

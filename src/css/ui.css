@@ -1,6 +1,3 @@
-<style>
-{% include "load.css" %}
-
 html, body {
 	padding: 0;
 	margin: 0;
@@ -192,4 +189,3 @@ select:-moz-focusring {
 .nopoint {
 	cursor: default;
 }
-</style>

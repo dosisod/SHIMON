@@ -1,6 +1,11 @@
+<style>
+{% include "load.css" %}
+</style>
 {% if developer and fresh_css %}
-<link rel="stylesheet" href={{ url_for("static", filename="css/font.css") }}>
 <link rel="stylesheet" href={{ url_for("static", filename="css/index.css") }}>
+<link rel="stylesheet" href={{ url_for("static", filename="css/font.css") }}>
+<link rel="stylesheet" href={{ url_for("static", filename="css/msg.css") }}>
+<link rel="stylesheet" href={{ url_for("static", filename="css/ui.css") }}>
 {% else %}
 <link rel="stylesheet" href={{ url_for("static", filename="css/bundle.css") }}>
 {% endif %}
