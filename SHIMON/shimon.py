@@ -43,6 +43,9 @@ class Shimon:
 		#when this flag is set, the fresh (TS compiled) js is used
 		self.fresh_js=False
 
+		#stores whether css should be taken from minified file or "fresh" files
+		self.fresh_css=False
+
 		#theme is current theme
 		self.theme="default"
 

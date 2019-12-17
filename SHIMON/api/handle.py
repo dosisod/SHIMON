@@ -19,6 +19,7 @@ from .theme import theme
 from .devmode import devmode
 from .nuke import nuke
 from .fresh_js import fresh_js
+from .fresh_css import fresh_css
 from .status import status
 from ._data import _data
 from .add_friend import add_friend
@@ -71,6 +72,9 @@ def handler(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 
 	elif "fresh js" in data:
 		return fresh_js(self, data)
+
+	elif "fresh_css" in data:
+		return fresh_css(self, data)
 
 	elif "status" in data:
 		return status(self, data)

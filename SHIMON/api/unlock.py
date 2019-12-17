@@ -18,6 +18,7 @@ def unlock(self, data: Dict) -> Page:
 		cache_to_self(self, "developer")
 		cache_to_self(self, "theme")
 		cache_to_self(self, "fresh js", "fresh_js")
+		cache_to_self(self, "fresh css", "fresh_css")
 
 		#versions dont match, warn user of possible quirks
 		if self.cache["version"]!=self.VERSION:

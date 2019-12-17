@@ -42,6 +42,11 @@ button: function(e: HTMLElement): void { //make api calls based off setting type
 			window.location.reload(true) //force reload with new js files
 		})
 	}
+	else if (str=="fresh css") {
+		post({"fresh css": e.className.includes("-unchecked")}).then(()=>{
+			window.location.reload(true) //force reload with new css files
+		})
+	}
 },
 
 dropdown: function(e: HTMLSelectElement): void {

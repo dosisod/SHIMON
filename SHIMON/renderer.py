@@ -9,4 +9,5 @@ def render(self, name: str, **kwargs) -> str: #automatically add devmode and oth
 	kwargs["developer"]=self.developer
 	kwargs["theme"]=self.theme
 	kwargs["fresh_js"]=self.fresh_js
+	kwargs["fresh css"]=self.fresh_css
 	return render_template(name, **kwargs)

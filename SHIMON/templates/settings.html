@@ -33,6 +33,7 @@
 	<li class="name setting warn"><span class="point" onclick="setting.button(this)">NUKE CACHE</span></li>
 	{% if developer %}
 	{{ checkbox("USE FRESH JS", "fresh js", fresh_js) }}
+	{{ checkbox("USE FRESH CSS", "fresh css", fresh_css) }}
 	{% endif %}
 </ol>
 {% include "error-msg.html" %}
