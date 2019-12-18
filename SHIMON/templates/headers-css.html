@@ -6,6 +6,6 @@
 <link rel="stylesheet" href={{ url_for("static", filename="css/font.css") }}>
 <link rel="stylesheet" href={{ url_for("static", filename="css/msg.css") }}>
 <link rel="stylesheet" href={{ url_for("static", filename="css/ui.css") }}>
-{% else %}
+{%- else -%}
 <link rel="stylesheet" href={{ url_for("static", filename="css/bundle.css") }}>
-{% endif %}
+{%- endif %}

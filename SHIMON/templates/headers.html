@@ -1,10 +1,10 @@
-{% if developer and fresh_js %}
+{% if developer and fresh_js -%}
 <script src={{ url_for("static", filename="js/api.js") }}></script>
 <script src={{ url_for("static", filename="js/lock.js") }}></script>
 <script src={{ url_for("static", filename="js/nu.js") }}></script>
 <script src={{ url_for("static", filename="js/settings.js") }}></script>
 <script src={{ url_for("static", filename="js/ui.js") }}></script>
 <script src={{ url_for("static", filename="js/url.js") }}></script>
-{% else %}
+{%- else -%}
 <script src={{ url_for("static", filename="js/shimon.min.js") }}></script>
-{% endif %}
+{%- endif %}

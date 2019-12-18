@@ -7,7 +7,7 @@
 
 {% include "headers-css.html" %}
 
-{% from "ui-elements.html" import dropdown, checkbox %}
+{%- from "ui-elements.html" import dropdown, checkbox -%}
 
 </head>
 <body>
@@ -29,10 +29,10 @@
 	{{ dropdown("THEME", theme, themes) }}
 	{{ checkbox("ENABLE DEVELOPER MODE", "devmode", developer) }}
 	<li class="name setting warn"><span class="point" onclick="setting.button(this)">NUKE CACHE</span></li>
-	{% if developer %}
+	{% if developer -%}
 	{{ checkbox("USE FRESH JS", "fresh js", fresh_js) }}
 	{{ checkbox("USE FRESH CSS", "fresh css", fresh_css) }}
-	{% endif %}
+	{% endif -%}
 </ol>
 {% include "error-msg.html" %}
 
