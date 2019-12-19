@@ -1,13 +1,19 @@
 {% macro checkbox(text, id, var) -%}
 <li class="name setting nopoint"><span>{{ text }}
-	<div class="checkbox dropdown point checkbox-{% if var %}checked{% else %}unchecked{% endif %}" data-type="{{ text }}" onclick="setting.button(this)" id="{{ id }}"></div>
+	<div class="checkbox dropdown point checkbox-{{ "checked" if var else "unchecked" }}" data-type="{{ text }}" onclick="setting.button(this)" id="{{ id }}"></div>
 </span></li>
 {%- endmacro %}
 
 {% macro dropdown(text, default, data) -%}
 <li class="name setting nopoint">{{ text }}
 	<select class="dropdown point" onchange="setting.dropdown(this)" data-type="{{ text }}">
-		<option disabled="disabled" selected="selected">{% for i in data %}{% if i[0]==default %}{{ i[1] }}{% endif %}{% endfor %}</option>
+		<option disabled="disabled" selected="selected">
+		{%- for i in data -%}
+			{%- if i[0]==default -%}
+				{{ i[1] }}
+			{%- endif -%}
+		{%- endfor -%}
+		</option>
 		{%- for i in data %}
 		<option value="{{ i[0] }}">{{ i[1] }}</option>
 		{%- endfor %}
