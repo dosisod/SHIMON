@@ -27,7 +27,7 @@
 	--dropdown-bg: black;
 	--dropdown-fg: white;
 	--dropdown-bd: white;
-	--dropdown-src: url("img/dropdown-white.png");
+	--dropdown-src: url("/img/dropdown-white.png");
 	--reload-fg: white;
 	--error-bg: black;
 }
