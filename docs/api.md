@@ -18,6 +18,8 @@ Any below text wrapped in `""` is a string variable, else it is an integer value
 | `{"theme": "THEME"}` | Error if THEME is not found, OK if it is | Changes theme to THEME |
 | `{"devmode": ""}` | OK | Toggles the state of developermode status |
 | `{"nuke": "PWD"}` | Fresh `index.html` | Deletes cache if PWD is correct |
+| `{"fresh js": "BOOL"}` | OK | Switches from `shimon.min.js` to using compiled TS files |
+| `{"fresh css": "BOOL"}` | OK | Switches from `bundle.css` to css from ./src/css` |
 | `{"status": ""}` | Status of app | Gets version, unlock state, developer state, msg policy |
 | `{"ping": ""}` | pong | ping pong |
 | `{"add friend": {"name": "NAME", "id": "ID"}}` | Redirect to index with completion status | Add a friend with user id ID and give them name NAME |
