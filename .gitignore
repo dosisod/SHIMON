@@ -6,7 +6,6 @@ __pycache__/
 # hide all js files except certain files
 SHIMON/static/js/*
 !SHIMON/static/js/shimon.min.js
-!SHIMON/static/js/msg.js
 
 # hide personal files
 data.gpg*
