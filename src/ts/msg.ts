@@ -1,11 +1,13 @@
-async function send(e) { //send msg to user
-	//only send if enter was pressed
-	if (e.key!="Enter"||!e.target.value) return
+async function send(e: KeyboardEvent): Promise<any> { //send msg to user
+	const target=<HTMLInputElement>e.target
+
+	if (e.key!="Enter") return
+	if (!target.value) return
 
 	//wait for message to send before procceding
 	await post({"send msg":{
 		"uname": document.cookie.replace(/(?:(?:^|.*;\s*)uname\s*\=\s*([^;]*).*$)|^.*$/, "$1"),
-		"msg": e.target.value
+		"msg": target.value
 	}}).then(e=>{
 		if (e.code!=400) {
 			//reload and scroll to bottom of page if msg was valid
@@ -13,5 +15,5 @@ async function send(e) { //send msg to user
 		}
 	})
 
-	e.target.value="" //reset input box
+	target.value=""
 }

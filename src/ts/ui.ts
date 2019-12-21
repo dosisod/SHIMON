@@ -5,30 +5,32 @@ var friends=[]
 
 declare var preload: Dict | boolean
 
-async function check_friends() { //get friends list if list is empty
+async function check_friends(): Promise<void> { //get friends list if list is empty
 	if (!friends.length) {
 		friends=await post({"data":"friends"}) //wait for response
 		friends=friends["msg"]
 	}
 }
 
-function realname(id) { //find name from id
-	for (var i of friends) {
+function realname(id: string): string | undefined { //find name from id
+	for (const i of friends) {
 		if (i["id"]==id) return i["name"]
 	}
+	return undefined
 }
 
-function uname(name) { //find id from name
-	for (var i of friends) {
+function uname(name: string): string | undefined { //find id from name
+	for (const i of friends) {
 		if (i["name"]==name) return i["id"]
 	}
+	return undefined
 }
 
-async function reload_msgs() {
+async function reload_msgs(): Promise<void> {
 	await check_friends() //make sure friends list is set
 
 	//from MDN docs
-	var user=document.cookie.replace(/(?:(?:^|.*;\s*)uname\s*\=\s*([^;]*).*$)|^.*$/, "$1")
+	const user=document.cookie.replace(/(?:(?:^|.*;\s*)uname\s*\=\s*([^;]*).*$)|^.*$/, "$1")
 
 	var raw: Dict | boolean
 	if (!preload) {
@@ -40,10 +42,10 @@ async function reload_msgs() {
 		preload=false
 	}
 
-	if ((raw as Dict).length==0) return
+	if ((<Dict>raw).length==0) return
 
-	var rawid=raw["id"] //must be stored like this as raw can change over time
-	var data=raw["msgs"]
+	const rawid=raw["id"] //must be stored like this as raw can change over time
+	const data=raw["msgs"]
 
 	//there is no data to loop through, sho default msg
 	if (!data.length) {
@@ -129,7 +131,7 @@ async function reload_msgs() {
 	nu("reload").scrollIntoView()
 }
 
-async function reload_index() {
+async function reload_index(): Promise<void> {
 	await check_friends()
 
 	var raw: Dict | boolean
@@ -144,7 +146,7 @@ async function reload_index() {
 	}
 
 	//if there are no msgs to display, display welcome msg
-	if (!(raw as Dict).length) {
+	if (!(<Dict>raw).length) {
 		replace_template(
 			blank("Add a friend to start talking!"),
 			nu("span", { //ending element
@@ -180,7 +182,7 @@ async function reload_index() {
 	)
 }
 
-async function replace_template(start: Complex, end?: Complex, params?: Dict | boolean, template?: Function) { //replace tray with nu elements
+async function replace_template(start: Complex, end?: Complex, params?: Dict | boolean, template?: Function): Promise<void> { //replace tray with nu elements
 	//start and end are put at the start and end of the tray
 	//template is a template to build items in the middle off of
 	//params is an array of the params for the template
@@ -192,7 +194,7 @@ async function replace_template(start: Complex, end?: Complex, params?: Dict | b
 	else if (start) tray.appendChild(<Node>start)
 
 	if (params) {
-		(params as Dict).forEach((e,i)=>{
+		(<Dict>params).forEach((e,i)=>{
 			e["index"]=i
 			//append new item given params for template
 			tray.appendChild(template(e))
@@ -246,7 +248,7 @@ function new_card(uuid: string, name: string, message: string, ret: boolean=fals
 	return undefined
 }
 
-function new_img(uuid: string) { //converts uuid to b64 img of hash
+function new_img(uuid: string): string { //converts uuid to b64 img of hash
 	var canv=<HTMLCanvasElement>(nu("canvas", {
 		"width": 16,
 		"height": 16
@@ -255,8 +257,8 @@ function new_img(uuid: string) { //converts uuid to b64 img of hash
 	var draw: CanvasRenderingContext2D=canv.getContext("2d")
 
 	var bin=""
-	for (let i of uuid) {
-		var tmp=parseInt(i,16).toString(2) //hex to binary string
+	for (const i of uuid) {
+		const tmp=parseInt(i,16).toString(2) //hex to binary string
 		bin+="0".repeat(4-tmp.length)+tmp
 	}
 
@@ -270,6 +272,6 @@ function new_img(uuid: string) { //converts uuid to b64 img of hash
 	return canv.toDataURL()
 }
 
-function blank(msg: string) { //prints welcome msg
+function blank(msg: string): string { //prints welcome msg
 	return `<div class="holder nopoint blank"><span class="title center">${msg}</span></div>`
 }

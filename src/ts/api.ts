@@ -3,41 +3,41 @@ var added_at=0
 
 const api_wait=5000 //time to wait between api calls in ms
 
-async function post(arr: {[key: string]: any}, redirect: boolean=false) { //construct api call from dictionary
+async function post(arr: {[key: string]: any}, redirect: boolean=false): Promise<any> { //construct api call from dictionary
 	//if there is an error and it is able to be deleted, clear it
 	error(false)
 
 	//grab session cookie if available
-	var session=document.cookie.replace(/(?:(?:^|.*;\s*)session\s*\=\s*([^;]*).*$)|^.*$/, "$1")
+	const session=document.cookie.replace(/(?:(?:^|.*;\s*)session\s*\=\s*([^;]*).*$)|^.*$/, "$1")
 
 	if (session) arr["session"]=session
 	arr["redirect"]=!!redirect
 
-	var encode=(s)=>{ //if any param passed is an object, jsonify it
-		if (typeof s=="object") {
+	const encode=function(str: string): string { //if any param passed is an object, jsonify it
+		if (typeof str==="object") {
 			try {
-				return JSON.stringify(s)
+				return JSON.stringify(str)
 			}
 			catch {}
 		}
-		return s
+		return str
 	}
 
 	if (redirect) { //create form, submit and follow it
-		var form=nu("form", { //make nu empty form
+		const form=nu("form", { //make nu empty form
 			"id": "api-form",
 			"action": "/api/",
 			"method": "POST"
 		})
 	
-		for (var i in arr) {
+		for (const i in arr) {
 			nu("input", { //for each element make a nu hidden feild
 				"type": "hidden",
 				"name": i,
 				"value": encode(arr[i])
 			}, form)
 		}
-		var submit=nu("input", { //make nu submit button
+		const submit=nu("input", { //make nu submit button
 			"type": "submit",
 			"style": "visibility: hidden;"
 		}, [form, document.body], true)
@@ -48,7 +48,7 @@ async function post(arr: {[key: string]: any}, redirect: boolean=false) { //cons
 	}
 	else { //only grab data from api
 		var fd=new FormData()
-		for (var i in arr) fd.append(i, encode(arr[i])) //fill formdata
+		for (const i in arr) fd.append(i, encode(arr[i])) //fill formdata
 	
 		return fetch("/api/", {method:"POST", body:fd})
 			.then(e=>e.json())
@@ -76,9 +76,9 @@ async function post(arr: {[key: string]: any}, redirect: boolean=false) { //cons
 
 //pings the server, checks for connection
 async function heartbeat(): Promise<void> {
-	var e=await post({"ping":""})
+	const pulse=await post({"ping":""})
 
-	if (e.message=="NetworkError when attempting to fetch resource.") {
+	if (pulse.message=="NetworkError when attempting to fetch resource.") {
 		error("Network Disconnected")
 	}
 	else error(false)
