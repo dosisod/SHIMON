@@ -5,7 +5,7 @@ import json
 import os
 
 from .renderer import render
-from .api.error import error_400, error_401
+from .api.error import error, error_401
 
 from typing import Union
 from .__init__ import Page
@@ -24,28 +24,61 @@ def unlock(pwd: str) -> str: #given password, try and return plaintext
 
 	return "{}" #return blank if file doesnt exist
 
-def locker(data: str, pwd: str) -> None: #encrypt data with password, send to "data.gpg"
+#encrypt data with password, send to "data.gpg"
+def locker(data: str, pwd: str) -> None:
 	gpg.encrypt(data, passphrase=pwd, symmetric=True, encrypt=False, output="data.gpg")
 
-def lock(self, pwd: str) -> Union[Page]: #tries and locks with given password
-	if self.cache or self.cache=={}:
-		if self.cache["sha512"]:
-			if self.cache["sha512"]==sha512(pwd.encode()).hexdigest():
-				#only lock if the pwd is the same as the cache
-				locker(json.dumps(self.cache), pwd)
-				return
-
-		#if sha512 doesnt exist or doesnt match passed pwd, 401
-		return error_401(render(
-			self,
-			"pages/account.html",
-			error="Cache could not be locked"
-		), True, False)
-
-	else:
+#tries and locks with given password
+def attempt_lock(self, pwd: str) -> Union[Page]:
+	if not self.cache or self.cache=={}:
 		#go back to login if cache doesnt exist
-		return error_400(
-			render(self, "pages/login.html", msg="Please re-open cache"),
+		return error(
+			400,
+			render(
+				self,
+				"pages/login.html",
+				msg="Please re-open cache"
+			),
 			False,
 			True
 		)
+
+	if self.cache["sha512"]:
+		if self.cache["sha512"]==sha512(pwd.encode()).hexdigest():
+			#only lock if the pwd is the same as the cache
+			locker(json.dumps(self.cache), pwd)
+			return None
+
+	#if sha512 doesnt exist or doesnt match passed pwd, 401
+	return "fail"
+
+def lock(self, pwd: str) -> Union[Page]:
+	error_status=attempt_lock(self, pwd)
+
+	if error_status=="fail":
+		return error(
+			401,
+			render(
+				self,
+				"pages/account.html",
+				error="Cache could not be locked"
+			),
+			True,
+			False
+		)
+
+	if not error_status:
+		return
+	else:
+		return error_status
+
+def save(self, pwd: str) ->Union[Page]:
+	error_status=attempt_lock(self, pwd)
+
+	if error_status=="fail":
+		return error_401()
+
+	if not error_status:
+		return
+	else:
+		return error_status

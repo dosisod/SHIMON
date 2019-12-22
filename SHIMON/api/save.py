@@ -6,7 +6,7 @@ from typing import Union, Dict
 from ..__init__ import Json, Page
 
 def save(self, data: Dict) -> Union[Json, Page]:
-	ret=storage.lock(self, data["save"])
+	ret=storage.save(self, data["save"])
 
 	#if the lock returns an error, re-return it
 	if ret:
