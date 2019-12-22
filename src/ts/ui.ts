@@ -12,16 +12,16 @@ async function check_friends(): Promise<void> { //get friends list if list is em
 	}
 }
 
-function realname(id: string): string | undefined { //find name from id
-	for (const i of friends) {
-		if (i["id"]==id) return i["name"]
+function realname(id: string): string | undefined {
+	for (const friend of friends) {
+		if (friend["id"]==id) return friend["name"]
 	}
 	return undefined
 }
 
-function uname(name: string): string | undefined { //find id from name
-	for (const i of friends) {
-		if (i["name"]==name) return i["id"]
+function uname(name: string): string | undefined {
+	for (const friend of friends) {
+		if (friend["name"]==name) return friend["id"]
 	}
 	return undefined
 }
@@ -29,12 +29,11 @@ function uname(name: string): string | undefined { //find id from name
 async function reload_msgs(): Promise<void> {
 	await check_friends() //make sure friends list is set
 
-	//from MDN docs
 	const user=document.cookie.replace(/(?:(?:^|.*;\s*)uname\s*\=\s*([^;]*).*$)|^.*$/, "$1")
 
 	var raw: Dict | boolean
 	if (!preload) {
-		raw=await post({"data":{"allfor":user}})
+		raw=await post({"data": {"allfor": user}})
 		raw=raw["msg"]
 	}
 	else {
@@ -137,7 +136,7 @@ async function reload_index(): Promise<void> {
 	var raw: Dict | boolean
 	//load from preload if available, else make api call
 	if (!preload) {
-		raw=await post({"data":"recent"})
+		raw=await post({"data": "recent"})
 		raw=raw["msg"]
 	}
 	else {
@@ -205,7 +204,7 @@ async function replace_template(start: Complex, end?: Complex, params?: Dict | b
 	else if (end) tray.appendChild(<Node>end)
 }
 
-function new_card(uuid: string, name: string, message: string, ret: boolean=false, disable: boolean=true, pointer: boolean=false): HTMLElement | undefined { //returns or appends a new card
+function new_card(uuid: string, name: string, message: string, doReturnCard: boolean=false, disable: boolean=true, pointer: boolean=false): HTMLElement | undefined {
 	var ol=nu("ol", {})
 	ol.appendChild(
 		nu("li", {
@@ -240,7 +239,7 @@ function new_card(uuid: string, name: string, message: string, ret: boolean=fals
 	})
 	card.appendChild(div)
 	
-	if (ret) {
+	if (doReturnCard) {
 		return card //stop here if you want to return it
 	}
 	
@@ -249,29 +248,29 @@ function new_card(uuid: string, name: string, message: string, ret: boolean=fals
 }
 
 function new_img(uuid: string): string { //converts uuid to b64 img of hash
-	var canv=<HTMLCanvasElement>(nu("canvas", {
+	var canvas=<HTMLCanvasElement>(nu("canvas", {
 		"width": 16,
 		"height": 16
 	}))
 
-	var draw: CanvasRenderingContext2D=canv.getContext("2d")
+	var draw: CanvasRenderingContext2D=canvas.getContext("2d")
 
-	var bin=""
-	for (const i of uuid) {
-		const tmp=parseInt(i,16).toString(2) //hex to binary string
-		bin+="0".repeat(4-tmp.length)+tmp
+	var binary=""
+	for (const character of uuid) {
+		const bits=parseInt(character, 16).toString(2) //hex to binary string
+		binary+="0".repeat(4-bits.length)+bits
 	}
 
 	for (let i=0;i<256;i++) { //16*16=256 pixels
 		//set black or white pixel
-		draw.fillStyle=(bin[i]=="1")?"rgb(255,255,255)":"rgb(0,0,0)"
+		draw.fillStyle=(binary[i]=="1")?"rgb(255,255,255)":"rgb(0,0,0)"
 		draw.fillRect(i%16, ~~(i/16), 1, 1) //draw single pixel
 	}
 
 	//return b64 for image src
-	return canv.toDataURL()
+	return canvas.toDataURL()
 }
 
-function blank(msg: string): string { //prints welcome msg
+function blank(msg: string): string {
 	return `<div class="holder nopoint blank"><span class="title center">${msg}</span></div>`
 }

@@ -3,15 +3,12 @@ var added_at=0
 
 const api_wait=5000 //time to wait between api calls in ms
 
-async function post(arr: {[key: string]: any}, redirect: boolean=false): Promise<any> { //construct api call from dictionary
+async function post(dict: {[key: string]: any}, doRedirect: boolean=false): Promise<any> {
 	//if there is an error and it is able to be deleted, clear it
 	error(false)
 
-	//grab session cookie if available
-	const session=document.cookie.replace(/(?:(?:^|.*;\s*)session\s*\=\s*([^;]*).*$)|^.*$/, "$1")
-
-	if (session) arr["session"]=session
-	arr["redirect"]=!!redirect
+	dict["session"]=document.cookie.replace(/(?:(?:^|.*;\s*)session\s*\=\s*([^;]*).*$)|^.*$/, "$1")
+	dict["redirect"]=!!doRedirect
 
 	const encode=function(str: string): string { //if any param passed is an object, jsonify it
 		if (typeof str==="object") {
@@ -23,18 +20,18 @@ async function post(arr: {[key: string]: any}, redirect: boolean=false): Promise
 		return str
 	}
 
-	if (redirect) { //create form, submit and follow it
+	if (doRedirect) { //create form, submit and follow it
 		const form=nu("form", { //make nu empty form
 			"id": "api-form",
 			"action": "/api/",
 			"method": "POST"
 		})
 	
-		for (const i in arr) {
+		for (const key in dict) {
 			nu("input", { //for each element make a nu hidden feild
 				"type": "hidden",
-				"name": i,
-				"value": encode(arr[i])
+				"name": key,
+				"value": encode(dict[key])
 			}, form)
 		}
 		const submit=nu("input", { //make nu submit button
@@ -47,10 +44,12 @@ async function post(arr: {[key: string]: any}, redirect: boolean=false): Promise
 		nu("api-form").remove()
 	}
 	else { //only grab data from api
-		var fd=new FormData()
-		for (const i in arr) fd.append(i, encode(arr[i])) //fill formdata
+		var formData=new FormData()
+		for (const key in dict) {
+			formData.append(key, encode(dict[key])) //fill formdata
+		}
 	
-		return fetch("/api/", {method:"POST", body:fd})
+		return fetch("/api/", {method:"POST", body: formData})
 			.then(e=>e.json())
 			.catch(e=>{
 				console.log({"error":e.message})
@@ -67,7 +66,7 @@ async function post(arr: {[key: string]: any}, redirect: boolean=false): Promise
 					error(e["msg"])
 				}
 				if (e["rethrow"]=="") {
-					post(arr, true)
+					post(dict, true)
 				}
 				else return e //return data
 			})
