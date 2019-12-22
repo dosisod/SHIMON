@@ -38,14 +38,14 @@ def lock(self, pwd: str) -> Union[Page]: #tries and locks with given password
 		#if sha512 doesnt exist or doesnt match passed pwd, 401
 		return error_401(render(
 			self,
-			"account.html",
+			"pages/account.html",
 			error="Cache could not be locked"
 		), True, False)
 
 	else:
 		#go back to login if cache doesnt exist
 		return error_400(
-			render(self, "login.html", msg="Please re-open cache"),
+			render(self, "pages/login.html", msg="Please re-open cache"),
 			False,
 			True
 		)

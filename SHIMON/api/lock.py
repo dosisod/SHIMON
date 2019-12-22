@@ -24,7 +24,7 @@ def lock(self, data: Dict) -> Union[Page, Json]:
 
 		session_kill(self)
 
-		res=make_response(render(self, "login.html", error="Cache has been locked"))
+		res=make_response(render(self, "pages/login.html", error="Cache has been locked"))
 		res.set_cookie("uname", "", expires=0) #clear uname cookie
 		res.set_cookie("session", "", expires=0) #clear session cookie
 

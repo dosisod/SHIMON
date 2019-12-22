@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width">
 <title>SHIMON</title>
 
-{% include "headers-css.html" %}
+{% include "utils/headers-css.html" %}
 
-{%- from "ui-elements.html" import dropdown, checkbox -%}
+{%- from "utils/ui-elements.html" import dropdown, checkbox -%}
 
 </head>
 <body>
@@ -34,11 +34,11 @@
 	{{ checkbox("USE FRESH CSS", "fresh css", fresh_css) }}
 	{% endif -%}
 </ol>
-{% include "error-msg.html" %}
+{% include "utils/error-msg.html" %}
 
 </div>
 
-{% include "headers.html" %}
+{% include "utils/headers.html" %}
 
 <script>
 url("settings")

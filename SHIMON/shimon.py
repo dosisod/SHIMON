@@ -93,7 +93,7 @@ class Shimon:
 		if isinstance(ex, BaseException) and self.developer:
 			tb=traceback.format_exc()
 
-		return render(self, "error.html", error=code, url=request.url, traceback=tb, msg=msg), code
+		return render(self, "pages/error.html", error=code, url=request.url, traceback=tb, msg=msg), code
 
 	def index(self, error: str="", uuid: str="") -> Page: #index page
 		check_local()
@@ -106,11 +106,11 @@ class Shimon:
 
 		ret=check_session(self)
 		if not self.cache or ret: #make sure that the user is allowed to see the index page
-			return render(self, "login.html")
+			return render(self, "pages/login.html")
 
 		res=make_response(render(
 			self,
-			"index.html",
+			"pages/index.html",
 			error=error,
 			preload=json.dumps(api_recent(self)),
 			friends=json.dumps(api_friends(self))
@@ -129,7 +129,7 @@ class Shimon:
 				#becaue of the way the dropdown renderer works, the value and the innertext will be the same
 				themes.append((file[:-4], file[:-4]))
 
-		return render(self, "settings.html",
+		return render(self, "pages/settings.html",
 			seconds=self.expires,
 			msg_policy=self.msg_policy,
 			themes=themes
@@ -139,7 +139,7 @@ class Shimon:
 		ret=check_all(self)
 		if ret: return ret
 
-		return render(self, "account.html", version=self.VERSION)
+		return render(self, "pages/account.html", version=self.VERSION)
 
 	def msg(self, uuid: str) -> Page:
 		ret=check_all(self)
@@ -152,7 +152,7 @@ class Shimon:
 
 				res=make_response(render(
 					self,
-					"msg.html",
+					"pages/msg.html",
 					preload=json.dumps(api_allfor(self, uuid)),
 					friends=json.dumps(api_friends(self))
 				))
@@ -168,7 +168,7 @@ class Shimon:
 		ret=check_all(self)
 		if ret: return ret
 
-		return render(self, "add.html")
+		return render(self, "pages/add.html")
 
 	def login(self) -> Page: #handles login page
 		check_local()
@@ -178,7 +178,7 @@ class Shimon:
 			return self.index(error="Already logged in"), 301
 
 		else:
-			return render(self, "login.html")
+			return render(self, "pages/login.html")
 
 	#api can return json, or an HTML page, it depends on the call made
 	def api(self) -> Union[Json, Page]:

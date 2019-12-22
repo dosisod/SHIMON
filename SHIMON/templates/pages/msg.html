@@ -5,21 +5,21 @@
 <meta name="viewport" content="width=device-width">
 <title>SHIMON</title>
 
-{% include "headers-css.html" %}
+{% include "utils/headers-css.html" %}
 
 </head>
 <body>
 
 <div class="container">
 <ol class="content" id="tray">
-	{% include "sidebar.html" %}
+	{% include "utils/sidebar.html" %}
 	<span class="center name point" id="reload" onclick="reload_msgs()">RELOAD</span>
 </ol>
-{% include "error-msg.html" %}
+{% include "utils/error-msg.html" %}
 <input id="typer" placeholder="Type away!" onkeydown="send(event)" />
 </div>
 
-{% include "headers.html" %}
+{% include "utils/headers.html" %}
 
 <script>
 

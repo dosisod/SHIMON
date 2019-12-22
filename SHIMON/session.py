@@ -14,7 +14,7 @@ from .kee import kee
 from typing import Union, Dict
 from .__init__ import Page
 
-def session_start(self, fresh: bool=False, target: str="index.html") -> Page:
+def session_start(self, fresh: bool=False, target: str="pages/index.html") -> Page:
 	if fresh: #if starting with a fresh (new) cache, set it up
 		self.cache={ #fill cache with these default values
 			"friends": [],
@@ -63,7 +63,7 @@ def session_check(self, data: Dict) -> Union[Page]:
 	#if the session is no longer valid go back to the login page
 	return error(
 		401,
-		render(self, "login.html", msg="Session is no longer valid"),
+		render(self, "pages/login.html", msg="Session is no longer valid"),
 		data["redirect"],
 		True
 	)
