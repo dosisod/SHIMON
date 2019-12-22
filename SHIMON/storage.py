@@ -61,7 +61,8 @@ def lock(self, pwd: str) -> Union[Page]:
 			render(
 				self,
 				"pages/account.html",
-				error="Cache could not be locked"
+				error="Cache could not be locked",
+				version=self.VERSION
 			),
 			True,
 			False
