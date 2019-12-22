@@ -21,6 +21,7 @@ from .nuke import nuke
 from .fresh_js import fresh_js
 from .fresh_css import fresh_css
 from .status import status
+from .ping import ping
 from ._data import _data
 from .add_friend import add_friend
 
@@ -80,7 +81,7 @@ def handler(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 		return status(self, data)
 
 	elif "ping" in data:
-		return error(200, "pong", data["redirect"], False)
+		return ping(self, data)
 
 	elif "data" in data: #requesting data from cache
 		return _data(self, data)
