@@ -9,7 +9,7 @@ def expiration_timer(self, data: Dict) -> Json:
 	if num.isdigit():
 		num=int(num)
 		if num>=900 and num<=86400:
-			self.expires=num
+			self.session.expires=num
 			self.cache["expiration"]=num
 
 			return error_202()

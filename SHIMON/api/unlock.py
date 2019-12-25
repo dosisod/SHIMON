@@ -2,7 +2,6 @@ from datetime import datetime
 import json
 
 from ..renderer import render
-from ..session import session_start
 from .. import storage
 
 from typing import Dict
@@ -13,28 +12,34 @@ def unlock(self, data: Dict) -> Page:
 	if not time()-self.start<self.cooldown and plain: #if not in cooldown and the cache was decrypted
 		self.cache=json.loads(plain) #cache decrypted, save to shimon
 
-		cache_to_self(self, "expiration", "expires")
 		cache_to_self(self, "msg policy", "msg_policy")
 		cache_to_self(self, "developer")
 		cache_to_self(self, "theme")
 		cache_to_self(self, "fresh js", "fresh_js")
 		cache_to_self(self, "fresh css", "fresh_css")
 
-		#versions dont match, warn user of possible quirks
+		if "expiration" in self.cache:
+			self.session.expires=self.cache["expiration"]
+		else:
+			self.cache["expiration"]=self.session.expires
+
 		if self.cache["version"]!=self.VERSION:
 			self.cache["version"]=self.VERSION
-			return session_start(self, target="pages/warn.html")
+			return self.session.create(self, target="pages/warn.html")
 
-		#if not, procceed like normal
 		else:
 			self.cache["version"]=self.VERSION
-			return session_start(self)
+			return self.session.create(self)
 
 	else:
 		self.attempts+=1 #if there is an error, add one to attempts
 
 		if time()-self.start<self.cooldown: #if user hasnt waited long enough let them know
-			return render(self, "pages/login.html", error="Try again in "+str(round(self.start-time()+self.cooldown, 1))+" seconds")
+			return render(
+				self,
+				"pages/login.html",
+				error="Try again in "+str(round(self.start-time()+self.cooldown, 1))+" seconds"
+			)
 
 		else: #restart timer if user has waited long enough
 			self.start=0
@@ -43,10 +48,14 @@ def unlock(self, data: Dict) -> Page:
 			self.start=time() #start cooldown timer
 			self.attempts=0 #reset attempt timer
 
-			return render(self, "pages/login.html", error="Try again in "+str(self.cooldown)+" seconds")
+			return render(
+				self,
+				"pages/login.html",
+				error="Try again in "+str(self.cooldown)+" seconds"
+			)
 
 		elif plain=="{}":
-			return session_start(self, True)
+			return self.session.create(self, fresh=True)
 
 		else:
 			return render(self, "pages/login.html", error="Incorrect password")

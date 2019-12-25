@@ -1,6 +1,5 @@
 from flask import make_response
 
-from ..session import session_kill
 from ..renderer import render
 from .. import storage
 
@@ -22,7 +21,7 @@ def lock(self, data: Dict) -> Union[Page, Json]:
 		self.attempts=0
 		self.start=0
 
-		session_kill(self)
+		self.session.kill()
 
 		res=make_response(render(self, "pages/login.html", error="Cache has been locked"))
 		res.set_cookie("uname", "", expires=0) #clear uname cookie

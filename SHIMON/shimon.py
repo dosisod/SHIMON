@@ -11,7 +11,7 @@ import os
 from .security import check_all, check_local, check_allowed, check_session
 from .api.external import api_recent, api_friends, api_allfor
 from .api.handle import handler
-from .session import session_start
+from .session import Session
 from .storage import unlock, lock
 from .renderer import render
 
@@ -31,9 +31,7 @@ class Shimon:
 		self.cooldown=10
 
 		#session related vars
-		self.session=None
-		self.lastcall=datetime.now()
-		self.expires=3600 #(default) time to expire in seconds
+		self.session=Session()
 
 		self.redraw=False #stores whether or not the msg page should redraw
 
@@ -102,7 +100,7 @@ class Shimon:
 			return self.msg(uuid)
 
 		if not os.path.isfile("data.gpg"): #if cache doesnt exist create and then open page
-			return session_start(self, True)
+			return self.session.create(self, fresh=True)
 
 		ret=check_session(self)
 		if not self.cache or ret: #make sure that the user is allowed to see the index page
@@ -130,7 +128,7 @@ class Shimon:
 				themes.append((file[:-4], file[:-4]))
 
 		return render(self, "pages/settings.html",
-			seconds=self.expires,
+			seconds=self.session.expires,
 			msg_policy=self.msg_policy,
 			themes=themes
 		)

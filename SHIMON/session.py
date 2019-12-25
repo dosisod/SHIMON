@@ -14,64 +14,72 @@ from .kee import kee
 from typing import Union, Dict
 from .__init__ import Page
 
-def session_start(self, fresh: bool=False, target: str="pages/index.html") -> Page:
-	if fresh: #if starting with a fresh (new) cache, set it up
-		self.cache={ #fill cache with these default values
-			"friends": [],
-			"history": [],
+class Session:
+	def __init__(self):
+		self.session=None
+		self.lastcall=datetime.now()
+		self.expires=3600
 
-			#sha512 for password "123", this will change when password is reset
-			"sha512": "3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2",
+	def create(self, external_self, fresh: bool=False, target: str="pages/index.html") -> Page:
+		if fresh: #if starting with a fresh (new) cache, set it up
+			external_self.cache={ #fill cache with these default values
+				"friends": [],
+				"history": [],
 
-			#base64 encoded private key for user
-			"key": b64.b64encode(kee(2048).private()).decode(),
+				#sha512 for password "123", this will change when password is reset
+				"sha512": "3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2",
 
-			"expiration": 3600,
-			"developer": False,
+				#base64 encoded private key for user
+				"key": b64.b64encode(kee(2048).private()).decode(),
 
-			"version": self.VERSION,
+				"expiration": 3600,
+				"developer": False,
 
-			#default theme is default (light) theme
-			"theme": "default"
-		}
-		lock(self, "123") #save default cache right away
+				"version": external_self.VERSION,
 
-	res=make_response(render(
-		self,
-		target,
-		preload=json.dumps(api_recent(self)),
-		friends=json.dumps(api_friends(self))
-	))
+				#default theme is default (light) theme
+				"theme": "default"
+			}
+			lock(self, "123") #save default cache right away
 
-	#creates session id
-	self.session=b64.urlsafe_b64encode(os.urandom(32)).decode().replace("=","")
-	res.set_cookie("session", self.session)
-	session_keepalive(self)
+		res=make_response(render(
+			external_self,
+			target,
+			preload=json.dumps(api_recent(external_self)),
+			friends=json.dumps(api_friends(external_self))
+		))
 
-	return res
+		#creates session id
+		self.session=b64.urlsafe_b64encode(os.urandom(32)).decode().replace("=","")
+		res.set_cookie("session", self.session)
+		self.keepalive()
 
-def session_check(self, data: Dict) -> Union[Page]:
-	if "session" in data:
-		if datetime.now()>(self.lastcall+timedelta(seconds=self.expires)):
-			#if session has expired, clear it
-			session_kill(self)
+		return res
 
-		elif self.session==data["session"]:
-			session_keepalive(self)
-			return
+	def check(self, external_self, data: Dict) -> Union[Page]:
+		if "session" in data:
+			if datetime.now()>(self.lastcall+timedelta(seconds=self.expires)):
+				self.kill()
 
-	#if the session is no longer valid go back to the login page
-	return error(
-		401,
-		render(self, "pages/login.html", msg="Session is no longer valid"),
-		data["redirect"],
-		True
-	)
+			elif self.session==data["session"]:
+				self.keepalive()
+				return
 
-def session_keepalive(self) -> None:
-	self.lastcall=datetime.now()
+		return error(
+			401,
+			render(
+				external_self,
+				"pages/login.html",
+				msg="Session is no longer valid"
+			),
+			data["redirect"],
+			True
+		)
 
-def session_kill(self) -> None:
-	self.session=None
-	self.cache=None
-	self.lastcall=datetime.min
+	def keepalive(self) -> None:
+		self.lastcall=datetime.now()
+
+	def kill(self) -> None:
+		self.session=None
+		self.cache=None
+		self.lastcall=datetime.min

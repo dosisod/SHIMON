@@ -1,11 +1,10 @@
 from flask import request, abort, Response
-from .session import session_check
 from hashlib import sha512
 
 from typing import Union, Dict
 from .__init__ import Stringish, Page
 
-#errors if any of the below tests fails
+#aborts if any of the checks below fails
 def check_all(self) -> Union[Page]:
 	check_local()
 	check_allowed(self.cache)
@@ -17,7 +16,7 @@ def check_session(self) -> Union[Page]:
 	if "session" in request.cookies:
 		session=request.cookies["session"]
 
-	return session_check(self, {
+	return self.session.check(self, {
 		"session": session, #grab cookie from page
 		"redirect": True #true since the request is coming from a click (not fetch)
 	})
