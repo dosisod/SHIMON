@@ -13,7 +13,7 @@ def delete_msg(self, data: Dict) -> Json:
 	if "id" in data["delete msg"] and "index" in data["delete msg"]:
 		#verify password if msg policy requires password
 		if "pwd" in data["delete msg"] and self.msg_policy==1:
-			if self.security.correct_pwd(self, data["delete msg"]["pwd"]):
+			if self.security.correct_pwd(data["delete msg"]["pwd"]):
 				pass
 
 			else:

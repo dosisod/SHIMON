@@ -9,7 +9,7 @@ def change_pwd(self, data: Dict) -> Json:
 		return error_400()
 
 	if "old" in data["change pwd"] and "new" in data["change pwd"]:
-		success=self.security.update_pwd(self, data["change pwd"]["old"], data["change pwd"]["new"])
+		success=self.security.update_pwd(data["change pwd"]["old"], data["change pwd"]["new"])
 		if not success:
 			return error_401("Password could not be updated", data["redirect"])
 

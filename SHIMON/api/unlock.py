@@ -25,11 +25,11 @@ def unlock(self, data: Dict) -> Page:
 
 		if self.cache["version"]!=self.VERSION:
 			self.cache["version"]=self.VERSION
-			return self.session.create(self, target="pages/warn.html")
+			return self.session.create(target="pages/warn.html")
 
 		else:
 			self.cache["version"]=self.VERSION
-			return self.session.create(self)
+			return self.session.create()
 
 	else:
 		self.attempts+=1 #if there is an error, add one to attempts
@@ -55,7 +55,7 @@ def unlock(self, data: Dict) -> Page:
 			)
 
 		elif plain=="{}":
-			return self.session.create(self, fresh=True)
+			return self.session.create(fresh=True)
 
 		else:
 			return render(self, "pages/login.html", error="Incorrect password")

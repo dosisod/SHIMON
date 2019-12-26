@@ -13,7 +13,7 @@ def handler(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 	if "unlock" in data and not self.cache: #try and unlock cache (if cache is not unlocked)
 		return unlock(self, data)
 
-	ret=self.security.check_all(self)
+	ret=self.security.check_all()
 	if ret: return ret
 
 	for callname, func in calls.items():

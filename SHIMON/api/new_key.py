@@ -12,7 +12,7 @@ def new_key(self, data: Dict) -> Union[Page, Json]:
 	#pwd cannot be blank
 	if data["new key"]:
 		#password required to change key
-		if self.security.correct_pwd(self, data["new key"]):
+		if self.security.correct_pwd(data["new key"]):
 			self.cache["key"]=b64.b64encode(kee(2048).private()).decode()
 
 			lock(self, data["new key"]) #makes sure changes are saved

@@ -30,8 +30,8 @@ class Shimon:
 		self.start=0
 		self.cooldown=10
 
-		self.session=Session()
-		self.security=Security()
+		self.session=Session(self)
+		self.security=Security(self)
 
 		self.redraw=False #stores whether or not the msg page should redraw
 
@@ -100,9 +100,9 @@ class Shimon:
 			return self.msg(uuid)
 
 		if not os.path.isfile("data.gpg"): #if cache doesnt exist create and then open page
-			return self.session.create(self, fresh=True)
+			return self.session.create(fresh=True)
 
-		ret=self.security.check_session(self)
+		ret=self.security.check_session()
 		if not self.cache or ret: #make sure that the user is allowed to see the index page
 			return render(self, "pages/login.html")
 
@@ -118,7 +118,7 @@ class Shimon:
 		return res
 
 	def settings(self) -> Page:
-		ret=self.security.check_all(self)
+		ret=self.security.check_all()
 		if ret: return ret
 
 		themes=[] #finds and displays all available themes
@@ -134,13 +134,13 @@ class Shimon:
 		)
 
 	def account(self) -> Page:
-		ret=self.security.check_all(self)
+		ret=self.security.check_all()
 		if ret: return ret
 
 		return render(self, "pages/account.html", version=self.VERSION)
 
 	def msg(self, uuid: str) -> Page:
-		ret=self.security.check_all(self)
+		ret=self.security.check_all()
 		if ret: return ret
 
 		#make sure requested user is in friends list
@@ -163,7 +163,7 @@ class Shimon:
 		abort(404)
 
 	def add(self) -> Page:
-		ret=self.security.check_all(self)
+		ret=self.security.check_all()
 		if ret: return ret
 
 		return render(self, "pages/add.html")

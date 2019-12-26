@@ -15,14 +15,16 @@ from typing import Union, Dict
 from .__init__ import Page
 
 class Session:
-	def __init__(self):
+	def __init__(self, shimon_ref):
 		self.session=None
 		self.lastcall=datetime.now()
 		self.expires=3600
 
-	def create(self, external_self, fresh: bool=False, target: str="pages/index.html") -> Page:
+		self.shimon=shimon_ref
+
+	def create(self, fresh: bool=False, target: str="pages/index.html") -> Page:
 		if fresh: #if starting with a fresh (new) cache, set it up
-			external_self.cache={ #fill cache with these default values
+			self.shimon.cache={ #fill cache with these default values
 				"friends": [],
 				"history": [],
 
@@ -35,7 +37,7 @@ class Session:
 				"expiration": 3600,
 				"developer": False,
 
-				"version": external_self.VERSION,
+				"version": self.shimon.VERSION,
 
 				#default theme is default (light) theme
 				"theme": "default"
@@ -43,10 +45,10 @@ class Session:
 			lock(self, "123") #save default cache right away
 
 		res=make_response(render(
-			external_self,
+			self.shimon,
 			target,
-			preload=json.dumps(api_recent(external_self)),
-			friends=json.dumps(api_friends(external_self))
+			preload=json.dumps(api_recent(self.shimon)),
+			friends=json.dumps(api_friends(self.shimon))
 		))
 
 		#creates session id
@@ -56,7 +58,7 @@ class Session:
 
 		return res
 
-	def check(self, external_self, data: Dict) -> Union[Page]:
+	def check(self, data: Dict) -> Union[Page]:
 		if "session" in data:
 			if datetime.now()>(self.lastcall+timedelta(seconds=self.expires)):
 				self.kill()
@@ -68,7 +70,7 @@ class Session:
 		return error(
 			401,
 			render(
-				external_self,
+				self.shimon,
 				"pages/login.html",
 				msg="Session is no longer valid"
 			),
