@@ -4,47 +4,46 @@ from hashlib import sha512
 from typing import Union, Dict
 from .__init__ import Stringish, Page
 
-#aborts if any of the checks below fails
-def check_all(self) -> Union[Page]:
-	check_local()
-	check_allowed(self.cache)
-	return check_session(self)
+class Security:
+	def __init__(self):
+		pass
 
-def check_session(self) -> Union[Page]:
-	#make sure session exists before setting it
-	session=""
-	if "session" in request.cookies:
-		session=request.cookies["session"]
+	def check_all(self, external_self) -> Union[Page]:
+		self.check_local()
+		self.check_allowed(external_self.cache)
+		return self.check_session(external_self)
 
-	return self.session.check(self, {
-		"session": session, #grab cookie from page
-		"redirect": True #true since the request is coming from a click (not fetch)
-	})
+	def check_session(self, external_self) -> Union[Page]:
+		session=""
+		if "session" in request.cookies:
+			session=request.cookies["session"]
 
-#errors if inbound IP isnt localhost
-def check_local() -> None:
-	if not request.remote_addr=="127.0.0.1":
-		abort(403)
+		return external_self.session.check(external_self, {
+			"session": session,
+			"redirect": True
+		})
 
-#errors if cache is locked
-def check_allowed(cache: Union[Dict]) -> None:
-	if cache=={} or not cache:
-		abort(401)
+	def check_local(self) -> None:
+		if not request.remote_addr=="127.0.0.1":
+			abort(403)
 
-#returns true if plain matches cache hash
-def correct_pwd(self, plain: str) -> bool:
-	if type(plain) is str:
-		plain=plain.encode()
+	def check_allowed(self, cache: Union[Dict]) -> None:
+		if cache=={} or not cache:
+			abort(401)
 
-	return self.cache["sha512"]==sha512(plain).hexdigest()
+	def correct_pwd(self, external_self, plain: Stringish) -> bool:
+		if type(plain) is str:
+			plain=plain.encode()
 
-#updates hash to new if old is correct, else return false
-def update_pwd(self, plain: str, new: Stringish) -> bool:
-	if correct_pwd(self, plain):
-		if type(new) is str:
-			new=new.encode()
+		return external_self.cache["sha512"]==sha512(plain).hexdigest()
 
-		self.cache["sha512"]=sha512(new).hexdigest()
-		return True
+	#updates hash to new if old is correct, else return false
+	def update_pwd(self, external_self, plain: Stringish, new: Stringish) -> bool:
+		if self.correct_pwd(external_self, plain):
+			if type(new) is str:
+				new=new.encode()
 
-	return False
+			external_self.cache["sha512"]=sha512(new).hexdigest()
+			return True
+
+		return False

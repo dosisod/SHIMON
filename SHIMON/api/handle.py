@@ -1,8 +1,6 @@
 from flask import abort
 import json
 
-from ..security import check_all
-
 from .api_calls import *
 
 from typing import Union, Dict
@@ -15,7 +13,7 @@ def handler(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 	if "unlock" in data and not self.cache: #try and unlock cache (if cache is not unlocked)
 		return unlock(self, data)
 
-	ret=check_all(self)
+	ret=self.security.check_all(self)
 	if ret: return ret
 
 	for callname, func in calls.items():

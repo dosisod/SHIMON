@@ -8,11 +8,11 @@ import traceback
 import json
 import os
 
-from .security import check_all, check_local, check_allowed, check_session
 from .api.external import api_recent, api_friends, api_allfor
-from .api.handle import handler
-from .session import Session
 from .storage import unlock, lock
+from .api.handle import handler
+from .security import Security
+from .session import Session
 from .renderer import render
 
 from typing import Union
@@ -30,8 +30,8 @@ class Shimon:
 		self.start=0
 		self.cooldown=10
 
-		#session related vars
 		self.session=Session()
+		self.security=Security()
 
 		self.redraw=False #stores whether or not the msg page should redraw
 
@@ -94,7 +94,7 @@ class Shimon:
 		return render(self, "pages/error.html", error=code, url=request.url, traceback=tb, msg=msg), code
 
 	def index(self, error: str="", uuid: str="") -> Page: #index page
-		check_local()
+		self.security.check_local()
 
 		if uuid:
 			return self.msg(uuid)
@@ -102,7 +102,7 @@ class Shimon:
 		if not os.path.isfile("data.gpg"): #if cache doesnt exist create and then open page
 			return self.session.create(self, fresh=True)
 
-		ret=check_session(self)
+		ret=self.security.check_session(self)
 		if not self.cache or ret: #make sure that the user is allowed to see the index page
 			return render(self, "pages/login.html")
 
@@ -118,7 +118,7 @@ class Shimon:
 		return res
 
 	def settings(self) -> Page:
-		ret=check_all(self)
+		ret=self.security.check_all(self)
 		if ret: return ret
 
 		themes=[] #finds and displays all available themes
@@ -134,13 +134,13 @@ class Shimon:
 		)
 
 	def account(self) -> Page:
-		ret=check_all(self)
+		ret=self.security.check_all(self)
 		if ret: return ret
 
 		return render(self, "pages/account.html", version=self.VERSION)
 
 	def msg(self, uuid: str) -> Page:
-		ret=check_all(self)
+		ret=self.security.check_all(self)
 		if ret: return ret
 
 		#make sure requested user is in friends list
@@ -163,13 +163,13 @@ class Shimon:
 		abort(404)
 
 	def add(self) -> Page:
-		ret=check_all(self)
+		ret=self.security.check_all(self)
 		if ret: return ret
 
 		return render(self, "pages/add.html")
 
 	def login(self) -> Page: #handles login page
-		check_local()
+		self.security.check_local()
 
 		#if user is already logged in, return index
 		if self.cache:
@@ -180,6 +180,6 @@ class Shimon:
 
 	#api can return json, or an HTML page, it depends on the call made
 	def api(self) -> Union[Json, Page]:
-		check_local()
+		self.security.check_local()
 
 		return handler(self, request.form.to_dict()) #sends data to seperate method to handle

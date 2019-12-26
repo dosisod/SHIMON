@@ -1,7 +1,6 @@
 from copy import deepcopy
 
 from .error import error_200, error_400, error_401
-from ..security import correct_pwd
 
 from typing import Dict
 from ..__init__ import Page, Json
@@ -14,7 +13,7 @@ def delete_msg(self, data: Dict) -> Json:
 	if "id" in data["delete msg"] and "index" in data["delete msg"]:
 		#verify password if msg policy requires password
 		if "pwd" in data["delete msg"] and self.msg_policy==1:
-			if correct_pwd(self, data["delete msg"]["pwd"]):
+			if self.security.correct_pwd(self, data["delete msg"]["pwd"]):
 				pass
 
 			else:
