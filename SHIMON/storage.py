@@ -19,8 +19,12 @@ gpg=pbp.GPG()
 
 def unlock(pwd: str) -> str:
 	data=raw_unlock("data.gpg", pwd)
-	if not data:
+
+	if data==None:
 		return "{}"
+
+	if data=="":
+		return
 
 	return data
 
@@ -28,6 +32,8 @@ def raw_unlock(filepath: str, pwd: str) -> str:
 	if os.path.isfile(filepath):
 		with open(filepath, "rb") as f:
 			return gpg.decrypt_file(f, passphrase=pwd).data.decode()
+
+	return None
 
 def lock(self, pwd: str) -> Union[Page]:
 	error_status=attempt_lock(self, pwd)

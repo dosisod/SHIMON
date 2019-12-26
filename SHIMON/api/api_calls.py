@@ -33,7 +33,7 @@ calls={
 "devmode": devmode,
 "nuke": nuke,
 "fresh js": fresh_js,
-"fresh_css": fresh_css,
+"fresh css": fresh_css,
 "status": status,
 "ping": ping,
 "data": _data,

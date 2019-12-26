@@ -42,7 +42,7 @@ class Session:
 				#default theme is default (light) theme
 				"theme": "default"
 			}
-			lock(self, "123") #save default cache right away
+			lock(self.shimon, "123") #save default cache right away
 
 		res=make_response(render(
 			self.shimon,
