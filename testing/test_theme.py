@@ -5,11 +5,12 @@ from SHIMON import api
 
 from testing.base import BaseTest
 
+from flask.json import jsonify
 class TestTheme(BaseTest):
+	@BaseTest.request_context
 	def test_theme(self):
-		with self.app_context, self.request_context:
-			api.unlock.unlock(self.test_app.shimon, {"unlock":self.pwd})
-			assert api.theme.theme(self.test_app.shimon, {"theme": "default"})[1]==202
-			assert self.test_app.shimon.theme=="default"
-			assert api.theme.theme(self.test_app.shimon, {"theme": "not a theme"})[1]==400
-			assert self.test_app.shimon.theme=="default"
+		api.unlock.unlock(self.shimon, {"unlock":self.pwd})
+		assert api.theme.theme(self.shimon, {"theme": "default"})[1]==202
+		assert self.shimon.theme=="default"
+		assert api.theme.theme(self.shimon, {"theme": "not a theme"})[1]==400
+		assert self.shimon.theme=="default"

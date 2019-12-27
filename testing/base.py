@@ -6,5 +6,17 @@ class BaseTest:
 	test_app=App()
 	shimon=test_app.shimon
 
-	app_context=test_app.app.app_context()
-	request_context=test_app.app.test_request_context()
+	_app_context=test_app.app.app_context()
+	_request_context=test_app.app.test_request_context()
+
+	def app_context(func):
+		def with_app_context(self):
+			with self._app_context:
+				func(self)
+		return with_app_context
+	
+	def request_context(func):
+		def with_request_context(self):
+			with self._request_context:
+				func(self)
+		return with_request_context
