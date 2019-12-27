@@ -14,7 +14,7 @@ class BaseTest:
 			with self._app_context:
 				func(self)
 		return with_app_context
-	
+
 	def request_context(func):
 		def with_request_context(self):
 			with self._request_context:
