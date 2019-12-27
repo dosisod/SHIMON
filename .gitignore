@@ -1,6 +1,5 @@
 # hide temp or object files
 __pycache__/
-*test*
 *.bak
 
 # hide all js files except certain files
