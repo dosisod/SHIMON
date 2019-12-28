@@ -1,11 +1,11 @@
 from flask import Flask, Response
+from flask.json import jsonify
 import os
 
 from SHIMON import api
 
 from testing.base import BaseTest
 
-from flask.json import jsonify
 class TestTheme(BaseTest):
 	@classmethod
 	@BaseTest.request_context
