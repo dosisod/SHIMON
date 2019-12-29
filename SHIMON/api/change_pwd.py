@@ -16,4 +16,4 @@ def change_pwd(self, data: Dict) -> Json:
 		return error_202()
 
 	else:
-		return error_400(data=data)
+		return error_400()
