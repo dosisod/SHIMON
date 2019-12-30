@@ -1,6 +1,7 @@
 from SHIMON.app import App
 
 from SHIMON.api.unlock import unlock
+from SHIMON.api.lock import lock
 
 class BaseTest:
 	pwd="123"
@@ -27,4 +28,5 @@ class BaseTest:
 		def while_unlocked(self):
 			unlock(self.shimon, {"unlock": self.pwd})
 			func(self)
+			lock(self.shimon, {"lock": self.pwd, "redirect": "true"})
 		return while_unlocked

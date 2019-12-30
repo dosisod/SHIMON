@@ -12,19 +12,22 @@ def send_msg(self, data: Dict) -> Json:
 		#message contains illegal characters if it was unable to be parsed
 		return error_400()
 
-	if "uname" in message and "msg" in message: #make sure data is set
-		#make sure that the message is not only whitespace
-		if not message["msg"].isspace():
-			for friend in self.cache["friends"]:
-				if message["uname"]==friend["id"]: #make sure friend is in friends list
-					for i, hist in enumerate(self.cache["history"]):
-						if hist["id"]==message["uname"]: #find friend in history
-							self.cache["history"][i]["msgs"].append({
-								"sending": True,
-								"msg": message["msg"]
-							})
+	if "uname" not in message or "msg" not in message:
+		return error_400()
 
-							self.redraw=True
-							return error_200()
+	if message["msg"].isspace():
+		return error_400()
 
-	return error_400() #user didnt set something/made an invalid request
+	for friend in self.cache["friends"]:
+		if message["uname"]==friend["id"]:
+			for index, current in enumerate(self.cache["history"]):
+				if current["id"]==message["uname"]:
+					self.cache["history"][index]["msgs"].append({
+						"sending": True,
+						"msg": message["msg"]
+					})
+
+					self.redraw=True
+					return error_200()
+
+	return error_400()
