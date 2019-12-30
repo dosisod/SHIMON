@@ -13,11 +13,7 @@ def delete_msg(self, data: Dict) -> Json:
 	if "id" in data["delete msg"] and "index" in data["delete msg"]:
 		#verify password if msg policy requires password
 		if "pwd" in data["delete msg"] and self.msg_policy==1:
-			if self.security.correct_pwd(data["delete msg"]["pwd"]):
-				pass
-
-			else:
-				#user typed in wrong password
+			if not self.security.correct_pwd(data["delete msg"]["pwd"]):
 				return error_401()
 
 		index=0
@@ -27,19 +23,24 @@ def delete_msg(self, data: Dict) -> Json:
 		elif type(data["delete msg"]["index"]) is str:
 			if data["delete msg"]["index"].isdigit():
 				index=int(data["delete msg"]["index"])
+			else:
+				return error_400("Index is not a valid integer")
 
 		else:
-			return error_400("Index is not an integer")
+			return error_400("Index is not a valid integer")
+
+		if index<0:
+			return error_400("Index is out of bounds")
 
 		for friend in self.cache["friends"]:
 			if friend["id"]==data["delete msg"]["id"]:
-				for i, hist in enumerate(self.cache["history"]):
-					if hist["id"]==data["delete msg"]["id"]:
-						if index<0 or index>=len(hist["msgs"]):
-							return error_400("Index is out of bounds")
+				for history_id, current in enumerate(self.cache["history"]):
+					if current["id"]==data["delete msg"]["id"]:
+						if index>=len(current["msgs"]):
+							return error_400("Index is not a valid integer")
 
 						else:
-							self.cache["history"][i]["msgs"].pop(index)
+							self.cache["history"][history_id]["msgs"].pop(index)
 
 							self.redraw=True
 							return error_200("Message deleted")

@@ -27,7 +27,7 @@ def lock(self, data: Dict) -> Union[Page, Json]:
 		res.set_cookie("uname", "", expires=0) #clear uname cookie
 		res.set_cookie("session", "", expires=0) #clear session cookie
 
-		return res
+		return res, 200
 
 	else:
-		return error(303, "")
+		return error(303, "", False), 303
