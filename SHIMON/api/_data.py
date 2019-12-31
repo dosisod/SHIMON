@@ -9,17 +9,16 @@ def _data(self, data: Dict) -> Json:
 		return error_200(api_friends(self))
 
 	elif data["data"]=="recent":
-
 		return error_200(api_recent(self))
 
-	#make sure that data is dict
 	elif type(data["data"]) is dict:
-		#returns all data for specified id
 		if "allfor" in data["data"]:
 			ret=api_allfor(self, data["data"]["allfor"])
 
-			if ret or ret==[]:
+			if ret==False:
+				return error_400()
+
+			elif ret or ret==[]:
 				return error_200(ret)
 
-	#if data is not set/other error happens, 400
 	return error_400()
