@@ -16,7 +16,9 @@ from .fresh_js import fresh_js
 from .fresh_css import fresh_css
 from .status import status
 from .ping import ping
-from ._data import _data
+from .friends import friends
+from .recent import recent
+from .allfor import allfor
 from .add_friend import add_friend
 
 calls={
@@ -36,7 +38,9 @@ calls={
 "fresh css": fresh_css,
 "status": status,
 "ping": ping,
-"data": _data,
+"friends": friends,
+"recent": recent,
+"allfor": allfor,
 "add friend": add_friend
 
 }

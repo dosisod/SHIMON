@@ -7,7 +7,7 @@ declare var preload: Dict | boolean
 
 async function check_friends(): Promise<void> { //get friends list if list is empty
 	if (!friends.length) {
-		friends=await post({"data":"friends"}) //wait for response
+		friends=await post({"friends": ""})
 		friends=friends["msg"]
 	}
 }
@@ -33,7 +33,7 @@ async function reload_msgs(): Promise<void> {
 
 	var raw: Dict | boolean
 	if (!preload) {
-		raw=await post({"data": {"allfor": user}})
+		raw=await post({"allfor": user})
 		raw=raw["msg"]
 	}
 	else {
@@ -134,9 +134,9 @@ async function reload_index(): Promise<void> {
 	await check_friends()
 
 	var raw: Dict | boolean
-	//load from preload if available, else make api call
+
 	if (!preload) {
-		raw=await post({"data": "recent"})
+		raw=await post({"recent": ""})
 		raw=raw["msg"]
 	}
 	else {
