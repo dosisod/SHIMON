@@ -1,7 +1,6 @@
 from flask import make_response
 
 from ..renderer import render
-from .. import storage
 
 from .error import error
 
@@ -10,7 +9,7 @@ from ..__init__ import Page, Json
 
 def lock(self, data: Dict) -> Union[Page, Json]:
 	if data["redirect"]=="true": #dont kill session unless user will be directed to login
-		ret=storage.lock(self, data["lock"])
+		ret=self.storage.lock(data["lock"])
 
 		#if the lock returns an error, goto error page
 		if ret:

@@ -8,7 +8,6 @@ import os
 from .api.external import api_friends, api_recent
 from .api.error import error
 from .renderer import render
-from .storage import lock
 from .kee import kee
 
 from typing import Union, Dict
@@ -42,7 +41,9 @@ class Session:
 				#default theme is default (light) theme
 				"theme": "default"
 			}
-			lock(self.shimon, "123") #save default cache right away
+
+			#save default cache right away
+			self.storage.lock(self.shimon, "123")
 
 		res=make_response(render(
 			self.shimon,

@@ -9,10 +9,10 @@ import json
 import os
 
 from .api.external import api_recent, api_friends, api_allfor
-from .storage import unlock, lock
 from .api.handle import handler
 from .security import Security
 from .session import Session
+from .storage import Storage
 from .renderer import render
 
 from typing import Union
@@ -32,6 +32,7 @@ class Shimon:
 
 		self.session=Session(self)
 		self.security=Security(self)
+		self.storage=Storage(self)
 
 		self.redraw=False #stores whether or not the msg page should redraw
 
@@ -99,7 +100,7 @@ class Shimon:
 		if uuid:
 			return self.msg(uuid)
 
-		if not os.path.isfile("data.gpg"): #if cache doesnt exist create and then open page
+		if not self.storage.cache_file_exists():
 			return self.session.create(fresh=True)
 
 		ret=self.security.check_session()

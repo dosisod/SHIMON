@@ -15,86 +15,94 @@ from pretty_bad_protocol import gnupg
 import pretty_bad_protocol._parsers
 gnupg._parsers.Verify.TRUST_LEVELS["DECRYPTION_COMPLIANCE_MODE"] = 23
 
-gpg=pbp.GPG()
+class Storage:
+	def __init__(self, shimon_ref, filepath: str="data.gpg"):
+		self.shimon=shimon_ref
 
-def unlock(pwd: str) -> str:
-	data=raw_unlock("data.gpg", pwd)
+		self.filepath=filepath
+		self.gpg=pbp.GPG()
 
-	if data==None:
-		return "{}"
+	def unlock(self, pwd: str) -> str:
+		data=self.raw_unlock(self.filepath, pwd)
 
-	if data=="":
-		return
+		if data==None:
+			return "{}"
 
-	return data
+		if data=="":
+			return
 
-def raw_unlock(filepath: str, pwd: str) -> str:
-	if os.path.isfile(filepath):
-		with open(filepath, "rb") as f:
-			return gpg.decrypt_file(f, passphrase=pwd).data.decode()
+		return data
 
-	return None
+	def raw_unlock(self, filepath: str, pwd: str) -> str:
+		if self.cache_file_exists(filepath):
+			with open(filepath, "rb") as f:
+				return self.gpg.decrypt_file(f, passphrase=pwd).data.decode()
 
-def lock(self, pwd: str) -> Union[Page]:
-	error_status=attempt_lock(self, pwd)
+		return None
 
-	if error_status=="fail":
-		return error(
-			401,
-			render(
-				self,
-				"pages/account.html",
-				error="Cache could not be locked",
-				version=self.VERSION
-			),
-			True,
-			False
+	def cache_file_exists(self, filepath: str="") -> bool:
+		if filepath=="":
+			filepath=self.filepath
+
+		return os.path.isfile(filepath)
+
+	def lock(self, pwd: str) -> Union[Page]:
+		error_status=self.attempt_lock(pwd)
+
+		if error_status=="fail":
+			return error(
+				401,
+				render(
+					self.shimon,
+					"pages/account.html",
+					error="Cache could not be locked",
+					version=self.shimon.VERSION
+				),
+				True,
+				False
+			)
+
+		if not error_status:
+			return
+		else:
+			return error_status
+
+	def save(self, pwd: str) -> Union[Page, Json]:
+		error_status=self.attempt_lock(pwd)
+
+		if error_status=="fail":
+			return error_401()
+
+		if not error_status:
+			return
+		else:
+			return error_status
+
+	def attempt_lock(self, pwd: str) -> Union[Page]:
+		if not self.shimon.cache or self.shimon.cache=={}:
+			return error(
+				400,
+				render(
+					self.shimon,
+					"pages/login.html",
+					msg="Please re-open cache"
+				),
+				False,
+				True
+			)
+
+		if self.shimon.cache["sha512"]:
+			if self.shimon.cache["sha512"]==sha512(pwd.encode()).hexdigest():
+				self.raw_lock(self.filepath, json.dumps(self.shimon.cache), pwd)
+				return None
+
+		return "fail"
+
+	def raw_lock(self, filepath: str, data: str, pwd: str) -> None:
+		self.gpg.encrypt(
+			data,
+			passphrase=pwd,
+			symmetric=True,
+			encrypt=False,
+			output=filepath
 		)
-
-	if not error_status:
-		return
-	else:
-		return error_status
-
-def save(self, pwd: str) -> Union[Page, Json]:
-	error_status=attempt_lock(self, pwd)
-
-	if error_status=="fail":
-		return error_401()
-
-	if not error_status:
-		return
-	else:
-		return error_status
-
-def attempt_lock(self, pwd: str) -> Union[Page]:
-	if not self.cache or self.cache=={}:
-		#go back to login if cache doesnt exist
-		return error(
-			400,
-			render(
-				self,
-				"pages/login.html",
-				msg="Please re-open cache"
-			),
-			False,
-			True
-		)
-
-	if self.cache["sha512"]:
-		if self.cache["sha512"]==sha512(pwd.encode()).hexdigest():
-			#only lock if the pwd is the same as the cache
-			raw_lock("data.gpg", json.dumps(self.cache), pwd)
-			return None
-
-	#if sha512 doesnt exist or doesnt match passed pwd, 401
-	return "fail"
-
-def raw_lock(filepath: str, data: str, pwd: str) -> None:
-	gpg.encrypt(
-		data,
-		passphrase=pwd,
-		symmetric=True,
-		encrypt=False,
-		output=filepath
-	)

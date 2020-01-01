@@ -1,12 +1,10 @@
-from .. import storage
-
 from .error import error_200
 
 from typing import Union, Dict
 from ..__init__ import Json, Page
 
 def save(self, data: Dict) -> Union[Json, Page]:
-	ret=storage.save(self, data["save"])
+	ret=self.storage.save(data["save"])
 
 	#if the lock returns an error, re-return it
 	if ret:

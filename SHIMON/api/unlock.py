@@ -2,13 +2,12 @@ from datetime import datetime
 import json
 
 from ..renderer import render
-from .. import storage
 
 from typing import Dict
 from ..__init__ import Page
 
 def unlock(self, data: Dict) -> Page:
-	plain=storage.unlock(data["unlock"])
+	plain=self.storage.unlock(data["unlock"])
 	if not time()-self.start<self.cooldown and plain: #if not in cooldown and the cache was decrypted
 		self.cache=json.loads(plain) #cache decrypted, save to shimon
 
