@@ -22,16 +22,18 @@
 {% include "utils/headers.html" %}
 
 <script>
+window.addEventListener("load", function(){
 
 url("@"+document.cookie.replace(/(?:(?:^|.*;\s*)uname\s*\=\s*([^;]*).*$)|^.*$/, "$1")) //set url
 
 preload={{ preload|default("false")|safe() }}
 friends={{ friends|default("false")|safe() }}
 
-reload_msgs() //reload
+reload_msgs()
 
 setInterval(reload_msgs, api_wait)
 
+})
 </script>
 
 </body>

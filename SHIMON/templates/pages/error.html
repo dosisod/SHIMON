@@ -34,7 +34,13 @@ pre {
 </style>
 
 {% include "utils/headers.html" %}
-<script>url("error/{{ error }}")</script>
+<script>
+window.addEventListener("load", function(){
+
+url("error/{{ error }}")
+
+})
+</script>
 
 </body>
 </html>

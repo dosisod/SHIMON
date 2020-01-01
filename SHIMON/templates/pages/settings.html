@@ -41,8 +41,12 @@
 {% include "utils/headers.html" %}
 
 <script>
+window.addEventListener("load", function(){
+
 url("settings")
 setInterval(heartbeat, api_wait)
+
+})
 </script>
 
 </body>

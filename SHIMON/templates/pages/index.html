@@ -21,8 +21,9 @@
 {% include "utils/headers.html" %}
 
 <script>
+window.addEventListener("load", function(){
 
-url("") //set url
+url("")
 
 preload={{ preload|default("false")|safe() }}
 friends={{ friends|default("false")|safe() }}
@@ -31,6 +32,7 @@ reload_index() //load recents if there is no error
 
 setInterval(reload_index, api_wait)
 
+})
 </script>
 
 </body>
