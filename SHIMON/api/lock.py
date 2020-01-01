@@ -9,17 +9,14 @@ from ..__init__ import Page, Json
 
 def lock(self, data: Dict) -> Union[Page, Json]:
 	if data["redirect"]=="true": #dont kill session unless user will be directed to login
-		ret=self.storage.lock(data["lock"])
+		returned_error=self.storage.lock(data["lock"])
 
-		#if the lock returns an error, goto error page
-		if ret:
-			return ret
+		if returned_error: return returned_error
 
-		#allow user to unlock afterwards
+		#clean up object states
 		self.cache=None
-		self.attempts=0
-		self.start=0
 
+		self.login_limiter.reset()
 		self.session.kill()
 
 		res=make_response(render(self, "pages/login.html", error="Cache has been locked"))

@@ -1,4 +1,3 @@
-from datetime import datetime
 import json
 
 from ..renderer import render
@@ -8,7 +7,8 @@ from ..__init__ import Page
 
 def unlock(self, data: Dict) -> Page:
 	plain=self.storage.unlock(data["unlock"])
-	if not time()-self.start<self.cooldown and plain: #if not in cooldown and the cache was decrypted
+
+	if not self.login_limiter.in_cooldown() and plain:
 		self.cache=json.loads(plain) #cache decrypted, save to shimon
 
 		cache_to_self(self, "msg policy", "msg_policy")
@@ -31,26 +31,25 @@ def unlock(self, data: Dict) -> Page:
 			return self.session.create()
 
 	else:
-		self.attempts+=1 #if there is an error, add one to attempts
+		self.login_limiter.attempts+=1
 
-		if time()-self.start<self.cooldown: #if user hasnt waited long enough let them know
+		if self.login_limiter.in_cooldown():
 			return render(
 				self,
 				"pages/login.html",
-				error="Try again in "+str(round(self.start-time()+self.cooldown, 1))+" seconds"
+				error="Try again in "+str(self.login_limiter.time_to_wait())+" seconds"
 			)
 
-		else: #restart timer if user has waited long enough
-			self.start=0
+		else:
+			self.login_limiter.stop_cooldown()
 
-		if self.attempts>=self.maxtries: #if the user has attempted too many times
-			self.start=time() #start cooldown timer
-			self.attempts=0 #reset attempt timer
+		if self.login_limiter.exceeded_max():
+			self.login_limiter.start_cooldown()
 
 			return render(
 				self,
 				"pages/login.html",
-				error="Try again in "+str(self.cooldown)+" seconds"
+				error="Try again in "+str(self.login_limiter.cooldown_duration)+" seconds"
 			)
 
 		elif plain=="{}":
@@ -58,9 +57,6 @@ def unlock(self, data: Dict) -> Page:
 
 		else:
 			return render(self, "pages/login.html", error="Incorrect password")
-
-def time() -> int:
-	return round(datetime.today().timestamp(), 1)
 
 def cache_to_self(self, cached: str, stored: str=None) -> None:
 	#use same name if there is no 3rd param

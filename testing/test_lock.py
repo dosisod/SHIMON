@@ -9,8 +9,8 @@ class TestLock(BaseTest):
 		lock(self.shimon, {"lock": self.pwd, "redirect": "true"})
 
 		assert self.shimon.cache==None
-		assert self.shimon.attempts==0
-		assert self.shimon.start==0
+		assert self.shimon.login_limiter.attempts==0
+		assert self.shimon.login_limiter.cooldown_start==0
 
 	@BaseTest.request_context
 	@BaseTest.unlocked

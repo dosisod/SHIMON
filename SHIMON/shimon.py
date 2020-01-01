@@ -10,6 +10,7 @@ import os
 
 from .api.external import api_recent, api_friends, api_allfor
 from .api.handle import handler
+from .login import LoginLimiter
 from .security import Security
 from .session import Session
 from .storage import Storage
@@ -24,12 +25,7 @@ class Shimon:
 
 		self.cache=None #stores cached data after decryption
 
-		#stuff related to login timeouts
-		self.attempts=0
-		self.maxtries=3
-		self.start=0
-		self.cooldown=10
-
+		self.login_limiter=LoginLimiter(self)
 		self.session=Session(self)
 		self.security=Security(self)
 		self.storage=Storage(self)
