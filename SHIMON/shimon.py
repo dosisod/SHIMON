@@ -9,6 +9,7 @@ import json
 import os
 
 from .api.external import api_recent, api_friends, api_allfor
+from .cache_map import CacheMapper
 from .api.handle import handler
 from .login import LoginLimiter
 from .security import Security
@@ -23,7 +24,8 @@ class Shimon:
 	def __init__(self) -> None:
 		self.VERSION="0.0.26"
 
-		self.cache=None #stores cached data after decryption
+		self.cache=None
+		self.cache_mapper=CacheMapper(self, {})
 
 		self.login_limiter=LoginLimiter(self)
 		self.session=Session(self)
