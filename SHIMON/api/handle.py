@@ -10,8 +10,12 @@ def handler(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 	for attr in data: #loop through and convert to json
 		data[attr]=api_decode(data[attr])
 
-	if "unlock" in data and not self.cache: #try and unlock cache (if cache is not unlocked)
-		return unlock(self, data)
+	if "unlock" in data:
+		if not self.cache:
+			return unlock(self, data)
+
+		else:
+			return self.index(error="Already logged in"), 301
 
 	ret=self.security.check_all()
 	if ret: return ret
