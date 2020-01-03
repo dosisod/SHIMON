@@ -24,17 +24,25 @@ class Shimon:
 	def __init__(self) -> None:
 		self.VERSION="0.0.26"
 
-		self.cache=None
-		self.cache_mapper=CacheMapper(self, {})
-
 		self.login_limiter=LoginLimiter(self)
 		self.session=Session(self)
 		self.security=Security(self)
 		self.storage=Storage(self)
 
+		self.cache=None
+		self.cache_mapper=CacheMapper(self, {
+			"msg policy": "msg_policy",
+			"expiration": (self.session, "expires"),
+			"developer": "developer",
+			"fresh js": "fresh_js",
+			"fresh css": "fresh_css",
+			"theme": "theme",
+			"version": "VERSION"
+		})
+
 		self.redraw=False #stores whether or not the msg page should redraw
 
-		#these are also stored in the cache, but are not available untill the cache is unlocked
+		#these are also stored in the cache, but are not available until the cache is unlocked
 		self.developer=True #(default) turns developer mode off
 
 		#when this flag is set, the fresh (TS compiled) js is used

@@ -11,16 +11,12 @@ def unlock(self, data: Dict) -> Page:
 	if not self.login_limiter.in_cooldown() and plain:
 		self.cache=json.loads(plain) #cache decrypted, save to shimon
 
-		cache_to_self(self, "msg policy", "msg_policy")
-		cache_to_self(self, "developer")
-		cache_to_self(self, "theme")
-		cache_to_self(self, "fresh js", "fresh_js")
-		cache_to_self(self, "fresh css", "fresh_css")
-
-		if "expiration" in self.cache:
-			self.session.expires=self.cache["expiration"]
-		else:
-			self.cache["expiration"]=self.session.expires
+		self.cache_mapper.update("msg policy")
+		self.cache_mapper.update("developer")
+		self.cache_mapper.update("theme")
+		self.cache_mapper.update("fresh js")
+		self.cache_mapper.update("fresh css")
+		self.cache_mapper.update("expiration")
 
 		if self.cache["version"]!=self.VERSION:
 			self.cache["version"]=self.VERSION
@@ -57,14 +53,3 @@ def unlock(self, data: Dict) -> Page:
 
 		else:
 			return render(self, "pages/login.html", error="Incorrect password")
-
-def cache_to_self(self, cached: str, stored: str=None) -> None:
-	#use same name if there is no 3rd param
-	if stored is None:
-		stored=cached
-
-	#replace each setting with default if not set, replace current with cache if it is set
-	if cached in self.cache:
-		self.__dict__[stored]=self.cache[cached]
-	else:
-		self.cache[cached]=self.__dict__[stored]

@@ -9,10 +9,10 @@ def theme(self, data: Dict) -> Json:
 	if type(data["theme"]) is str:
 		clean=os.path.abspath("SHIMON/templates/themes/"+data["theme"])
 
-		if clean.startswith(os.getcwd()+"/SHIMON/templates/themes/"): #dont allow reverse file traversal
+		#dont allow reverse file traversal
+		if clean.startswith(os.getcwd()+"/SHIMON/templates/themes/"):
 			if os.path.isfile(clean+".css"):
-				self.cache["theme"]=clean.split("/")[-1]
-				self.theme=self.cache["theme"]
+				self.cache_mapper["theme"]=clean.split("/")[-1]
 
 				return error_202()
 

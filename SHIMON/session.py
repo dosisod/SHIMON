@@ -43,7 +43,7 @@ class Session:
 			}
 
 			#save default cache right away
-			self.storage.lock(self.shimon, "123")
+			self.shimon.storage.lock("123")
 
 		res=make_response(render(
 			self.shimon,

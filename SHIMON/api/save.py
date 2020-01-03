@@ -11,8 +11,8 @@ def save(self, data: Dict) -> Union[Json, Page]:
 		return ret
 
 	#update settings if they were set since last save
-	self.msg_policy=self.cache["msg policy"]
-	self.session.expires=self.cache["expiration"]
-	self.developer=self.cache["developer"]
+	self.cache_mapper.update("msg policy")
+	self.cache_mapper.update("expiration")
+	self.cache_mapper.update("developer")
 
 	return error_200()
