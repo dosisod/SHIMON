@@ -15,7 +15,7 @@ def new_key(self, data: Dict) -> Union[Page, Json]:
 			#makes sure changes are saved
 			self.storage.lock(data["new key"])
 
-			return self.index()
+			return self.index(), 200
 
 		return error_401()
 
