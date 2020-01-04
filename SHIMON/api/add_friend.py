@@ -14,7 +14,7 @@ def add_friend(self, data: Dict) -> Page:
 			#make sure id is not already taken
 			for friend in self.cache["friends"]:
 				if friend["id"]==data["add friend"]["id"]:
-					return self.index(error="Friend already exists")
+					return self.index(error="Friend already exists"), 400
 
 			#only append the names and ids, dont let user add extra data
 			self.cache["friends"].append({
@@ -28,6 +28,6 @@ def add_friend(self, data: Dict) -> Page:
 				"msgs": []
 			})
 
-			return self.index()
+			return self.index(), 200
 
-	return self.index(error="Invalid Request")
+	return self.index(error="Invalid Request"), 400

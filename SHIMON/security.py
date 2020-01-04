@@ -8,6 +8,8 @@ class Security:
 	def __init__(self, shimon_ref):
 		self.shimon=shimon_ref
 
+		self._testing=False
+
 	def check_all(self) -> Union[Page]:
 		self.check_local()
 		self.check_allowed()
@@ -24,6 +26,9 @@ class Security:
 		})
 
 	def check_local(self) -> None:
+		if self._testing:
+			return
+
 		if not request.remote_addr=="127.0.0.1":
 			abort(403)
 

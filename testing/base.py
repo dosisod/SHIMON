@@ -30,3 +30,15 @@ class BaseTest:
 			func(self)
 			lock(self.shimon, {"lock": self.pwd, "redirect": "true"})
 		return while_unlocked
+
+	def allow_local(func):
+		def while_local(self):
+			self.shimon.security._testing=True
+			try:
+				func(self)
+			except AssertionError:
+				self.shimon.security._testing=False
+				raise
+
+			self.shimon.security._testing=False
+		return while_local
