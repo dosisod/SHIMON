@@ -35,7 +35,7 @@ url("add")
 
 setInterval(heartbeat, api_wait)
 
-function send() {
+window["send"]=function() {
 	post({"add friend": {
 		"id": nu("id").value,
 		"name": nu("name").value

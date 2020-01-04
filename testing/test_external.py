@@ -21,7 +21,6 @@ class TestApiRecent(BaseTest):
 		raw=api_recent(self.shimon)
 
 		for recent in raw:
-			print(recent)
 			assert "id" in recent
 			assert recent["id"]
 			assert "hash" in recent
@@ -31,7 +30,6 @@ class TestApiRecent(BaseTest):
 			assert "sending" in recent["msgs"][0]
 			assert recent["msgs"][0]["sending"]!=None
 			assert "msg" in recent["msgs"][0]
-			assert recent["msgs"][0]["msg"]
 
 class TestApiAllfor(BaseTest):
 	@classmethod
