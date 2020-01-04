@@ -6,7 +6,7 @@ class TestDevmode(BaseTest):
 	@BaseTest.request_context
 	@BaseTest.unlocked
 	def test_true_enables_devmode(self):
-		self.shimon.cache["developer"]=self.developer=False
+		self.shimon.cache_mapper["developer"]=False
 
 		devmode(self.shimon, {"devmode": "true"})
 
@@ -16,7 +16,7 @@ class TestDevmode(BaseTest):
 	@BaseTest.request_context
 	@BaseTest.unlocked
 	def test_non_true_string_disables_devmode(self):
-		self.shimon.cache["developer"]=self.developer=True
+		self.shimon.cache_mapper["developer"]=False
 
 		devmode(self.shimon, {"devmode": "false"})
 

@@ -21,6 +21,7 @@ class TestTheme(BaseTest):
 	def test_valid_theme_sets_new_theme(self):
 		self.reset()
 		theme(self.shimon, {"theme": "solarized dark"})
+		assert self.shimon.cache["theme"]=="solarized dark"
 		assert self.shimon.theme=="solarized dark"
 
 	@BaseTest.request_context
@@ -31,7 +32,9 @@ class TestTheme(BaseTest):
 	def test_invalid_theme_keeps_last_theme(self):
 		self.reset()
 		theme(self.shimon, {"theme": "not a theme"})
+
 		assert self.shimon.theme=="default"
+		assert self.shimon.cache["theme"]=="default"
 
 	def reset(self):
-		self.shimon.theme="default"
+		self.shimon.cache_mapper["theme"]="default"

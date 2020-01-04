@@ -11,8 +11,7 @@ class TestFreshCSS(BaseTest):
 	@BaseTest.request_context
 	@BaseTest.unlocked
 	def test_enabled_when_set_to_true(self):
-		self.shimon.fresh_css=False
-		self.shimon.cache["fresh css"]=False
+		self.shimon.cache_mapper["fresh css"]=False
 
 		fresh_css(self.shimon, {"fresh css": "true"})
 
@@ -22,8 +21,7 @@ class TestFreshCSS(BaseTest):
 	@BaseTest.request_context
 	@BaseTest.unlocked
 	def test_disabled_when_set_to_non_true(self):
-		self.shimon.fresh_css=True
-		self.shimon.cache["fresh css"]=True
+		self.shimon.cache_mapper["fresh css"]=False
 
 		fresh_css(self.shimon, {"fresh css": "false"})
 
