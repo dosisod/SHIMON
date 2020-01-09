@@ -1,5 +1,3 @@
-#this file contains functions which are used by both the api and shimon
-
 from hashlib import sha256
 from copy import deepcopy
 
@@ -7,35 +5,34 @@ from typing import Union, List, Dict
 from ..__init__ import Page
 
 def api_friends(self) -> List:
-	ret=deepcopy(self.cache["friends"])
-	for i in ret:
-		i["hash"]=sha256hex(i["id"])
+	friends=deepcopy(self.cache["friends"])
+	for friend in friend:
+		friend["hash"]=sha256hex(friend["id"])
 
-	return ret
+	return friends
 
 def api_recent(self) -> List:
-	ret=[]
+	recent=[]
 
 	for user in self.cache["history"]:
-		tmp={
+		recent_user={
 			"id": user["id"],
 			"hash": sha256hex(user["id"]),
 		}
 
-		#if there are msgs to get, get most recent one
 		if len(user["msgs"]) > 0:
-			tmp["msgs"]=[user["msgs"][-1]]
+			recent_user["msgs"]=[user["msgs"][-1]]
 
-		#if this is a new user, show must recent msg as blank
 		else:
-			tmp["msgs"]=[{
+			#if this is a new user, use blank message
+			recent_user["msgs"]=[{
 				"sending": False,
 				"msg": ""
 			}]
 
-		ret.append(tmp)
+		recent.append(recent_user)
 
-	return ret
+	return recent
 
 def api_allfor(self, id: str) -> Union[List, Dict]:
 	for user in self.cache["history"]:

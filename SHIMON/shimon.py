@@ -40,10 +40,10 @@ class Shimon:
 			"version": "VERSION"
 		})
 
-		self.redraw=False #stores whether or not the msg page should redraw
+		#stores whether or not the msg page should redraw
+		self.redraw=False
 
-		#these are also stored in the cache, but are not available until the cache is unlocked
-		self.developer=True #(default) turns developer mode off
+		self.developer=True
 
 		#when this flag is set, the fresh (TS compiled) js is used
 		self.fresh_js=False
@@ -51,7 +51,6 @@ class Shimon:
 		#stores whether css should be taken from minified file or "fresh" files
 		self.fresh_css=False
 
-		#theme is current theme
 		self.theme="default"
 
 		#changes which method of deletion to use when deleting msgs
@@ -60,7 +59,7 @@ class Shimon:
 		#2 never ask
 		self.msg_policy=0
 
-	def error(self, ex: Union[int, Exception]) -> str: #redirects after error msg
+	def error(self, ex: Union[int, Exception]) -> str:
 		codes={
 			301: "Moved Permanently",
 			400: "Invalid Request",
@@ -73,14 +72,13 @@ class Shimon:
 		code=500
 		msg="Server Error"
 		if isinstance(ex, HTTPException):
-			#grabs error code name from class name, grabs http error code
 			if ex.code in codes:
 				msg=codes[ex.code]
 
 			code=ex.code
 
 		elif type(ex) is int:
-			#error must be a valid user-defined int
+			#client can only set certain http codes
 			if 300<=ex and ex<=417:
 				if ex in codes:
 					msg=codes[ex]
@@ -88,19 +86,26 @@ class Shimon:
 				else:
 					msg=""
 
-				code=ex #handle self assigned error
+				code=ex
 
 			else:
-				code=400 #handle invalid error
+				code=400
 				msg=codes[400]
 
-		tb="" #if there was a traceback and user is a developer, show traceback on screen
+		tb=""
 		if isinstance(ex, BaseException) and self.developer:
 			tb=traceback.format_exc()
 
-		return render(self, "pages/error.html", error=code, url=request.url, traceback=tb, msg=msg), code
+		return render(
+			self,
+			"pages/error.html",
+			error=code,
+			url=request.url,
+			traceback=tb,
+			msg=msg
+		), code
 
-	def index(self, error: str="", uuid: str="") -> Page: #index page
+	def index(self, error: str="", uuid: str="") -> Page:
 		self.security.check_local()
 
 		if uuid:
@@ -109,8 +114,8 @@ class Shimon:
 		if not self.storage.cache_file_exists():
 			return self.session.create(fresh=True)
 
-		ret=self.security.check_session()
-		if not self.cache or ret: #make sure that the user is allowed to see the index page
+		had_error=self.security.check_session()
+		if not self.cache or had_error:
 			return render(self, "pages/login.html")
 
 		res=make_response(render(
@@ -120,7 +125,9 @@ class Shimon:
 			preload=json.dumps(api_recent(self)),
 			friends=json.dumps(api_friends(self))
 		))
-		res.set_cookie("uname", "", expires=0) #uname not needed, clear it
+
+		#clear uname cookie if set
+		res.set_cookie("uname", "", expires=0)
 
 		return res
 
@@ -128,11 +135,17 @@ class Shimon:
 		ret=self.security.check_all()
 		if ret: return ret
 
-		themes=[] #finds and displays all available themes
-		for file in os.listdir(os.getcwd()+"/SHIMON/templates/themes/"):
-			if os.path.isfile(os.getcwd()+"/SHIMON/templates/themes/"+file) and file.endswith(".css"):
-				#becaue of the way the dropdown renderer works, the value and the innertext will be the same
-				themes.append((file[:-4], file[:-4]))
+		themes=[]
+
+		theme_folder=os.getcwd()+"/SHIMON/templates/themes/"
+		for filename in os.listdir(theme_folder):
+			if os.path.isfile(theme_folder+filename) and filename.endswith(".css"):
+				pretty_name=filename[:-4]
+
+				themes.append((
+					pretty_name,
+					pretty_name
+				))
 
 		return render(self, "pages/settings.html",
 			seconds=self.session.expires,
@@ -144,7 +157,11 @@ class Shimon:
 		ret=self.security.check_all()
 		if ret: return ret
 
-		return render(self, "pages/account.html", version=self.VERSION)
+		return render(
+			self,
+			"pages/account.html",
+			version=self.VERSION
+		)
 
 	def msg(self, uuid: str) -> Page:
 		ret=self.security.check_all()
@@ -166,7 +183,6 @@ class Shimon:
 				self.redraw=True
 				return res
 
-		#user not in friends list, return 404
 		abort(404)
 
 	def add(self) -> Page:
@@ -175,18 +191,16 @@ class Shimon:
 
 		return render(self, "pages/add.html")
 
-	def login(self) -> Page: #handles login page
+	def login(self) -> Page:
 		self.security.check_local()
 
-		#if user is already logged in, return index
 		if self.cache:
 			return self.index(error="Already logged in"), 301
 
 		else:
 			return render(self, "pages/login.html")
 
-	#api can return json, or an HTML page, it depends on the call made
 	def api(self) -> Union[Json, Page]:
 		self.security.check_local()
 
-		return handler(self, request.form.to_dict()) #sends data to seperate method to handle
+		return handler(self, request.form.to_dict())

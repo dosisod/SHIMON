@@ -22,15 +22,15 @@ class Session:
 		self.shimon=shimon_ref
 
 	def create(self, fresh: bool=False, target: str="pages/index.html") -> Page:
-		if fresh: #if starting with a fresh (new) cache, set it up
-			self.shimon.cache={ #fill cache with these default values
+		if fresh:
+			#fill cache with default values
+			self.shimon.cache={
 				"friends": [],
 				"history": [],
 
-				#sha512 for password "123", this will change when password is reset
+				#hash for "123", can be changed in settings
 				"sha512": "3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2",
 
-				#base64 encoded private key for user
 				"key": b64.b64encode(kee(2048).private()).decode(),
 
 				"expiration": 3600,
@@ -38,7 +38,6 @@ class Session:
 
 				"version": self.shimon.VERSION,
 
-				#default theme is default (light) theme
 				"theme": "default"
 			}
 
@@ -52,7 +51,6 @@ class Session:
 			friends=json.dumps(api_friends(self.shimon))
 		))
 
-		#creates session id
 		self.session=b64.urlsafe_b64encode(os.urandom(32)).decode().replace("=","")
 		res.set_cookie("session", self.session)
 		self.keepalive()
