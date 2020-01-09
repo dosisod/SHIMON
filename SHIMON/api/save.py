@@ -4,13 +4,10 @@ from typing import Union, Dict
 from ..__init__ import Json, Page
 
 def save(self, data: Dict) -> Union[Json, Page]:
-	ret=self.storage.save(data["save"])
+	storage_error=self.storage.save(data["save"])
 
-	#if the lock returns an error, re-return it
-	if ret:
-		return ret
+	if storage_error: return storage_error
 
-	#update settings if they were set since last save
 	self.cache_mapper.update("msg policy")
 	self.cache_mapper.update("expiration")
 	self.cache_mapper.update("developer")

@@ -4,12 +4,12 @@ from typing import Dict
 from ..__init__ import Json
 
 def expiration_timer(self, data: Dict) -> Json:
-	num=data["expiration timer"]
-	#timer was within acceptable range
-	if num.isdigit():
-		num=int(num)
-		if num>=900 and num<=86400:
-			self.cache_mapper["expiration"]=num
+	seconds=data["expiration timer"]
+
+	if seconds.isdigit():
+		seconds=int(seconds)
+		if seconds>=900 and seconds<=86400:
+			self.cache_mapper["expiration"]=seconds
 
 			return error_202()
 

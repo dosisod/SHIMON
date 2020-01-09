@@ -92,8 +92,13 @@ class Storage:
 			)
 
 		if self.shimon.cache["sha512"]:
-			if self.shimon.cache["sha512"]==sha512(pwd.encode()).hexdigest():
-				self.raw_lock(self.filepath, json.dumps(self.shimon.cache), pwd)
+			if self.shimon.security.correct_pwd(pwd):
+				self.raw_lock(
+					self.filepath,
+					json.dumps(self.shimon.cache),
+					pwd
+				)
+
 				return None
 
 		return "fail"

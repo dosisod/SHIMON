@@ -5,9 +5,9 @@ from ..__init__ import Page, Json
 
 def msg_policy(self, data: Dict) -> Json:
 	if data["msg policy"].isdigit():
-		tmp=int(data["msg policy"])
-		if 0 <= tmp and tmp <= 2:
-			self.cache_mapper["msg policy"]=tmp
+		policy=int(data["msg policy"])
+		if 0 <= policy and policy <= 2:
+			self.cache_mapper["msg policy"]=policy
 
 			return error_202()
 

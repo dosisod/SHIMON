@@ -6,7 +6,7 @@ from ..__init__ import Page
 
 def api_friends(self) -> List:
 	friends=deepcopy(self.cache["friends"])
-	for friend in friend:
+	for friend in friends:
 		friend["hash"]=sha256hex(friend["id"])
 
 	return friends

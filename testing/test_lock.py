@@ -19,5 +19,5 @@ class TestLock(BaseTest):
 
 	@BaseTest.request_context
 	@BaseTest.unlocked
-	def test_not_redirecting_returns_http_303(self):
-		assert lock(self.shimon, {"lock": self.pwd, "redirect": "false"})[1]==303
+	def test_not_redirecting_returns_http_400(self):
+		assert lock(self.shimon, {"lock": self.pwd, "redirect": "false"})[1]==400

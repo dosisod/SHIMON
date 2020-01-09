@@ -55,7 +55,7 @@ class Session:
 		res.set_cookie("session", self.session)
 		self.keepalive()
 
-		return res
+		return res, 200
 
 	def check(self, data: Dict) -> Union[Page]:
 		if "session" in data:
