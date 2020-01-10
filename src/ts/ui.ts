@@ -5,7 +5,7 @@ var friends=[]
 
 declare var preload: Dict | boolean
 
-async function check_friends(): Promise<void> { //get friends list if list is empty
+async function check_friends(): Promise<void> {
 	if (!friends.length) {
 		friends=await post({"friends": ""})
 		friends=friends["msg"]
@@ -27,7 +27,7 @@ function uname(name: string): string | undefined {
 }
 
 async function reload_msgs(): Promise<void> {
-	await check_friends() //make sure friends list is set
+	await check_friends()
 
 	const user=document.cookie.replace(/(?:(?:^|.*;\s*)uname\s*\=\s*([^;]*).*$)|^.*$/, "$1")
 
@@ -42,11 +42,12 @@ async function reload_msgs(): Promise<void> {
 	}
 
 	if ((<Dict>raw).length==0) return
-
-	const rawid=raw["id"] //must be stored like this as raw can change over time
 	const data=raw["msgs"]
 
-	//there is no data to loop through, sho default msg
+	//must be stored like this as raw can change over time
+	const rawid=raw["id"]
+
+	//there is no data to loop through, show default msg
 	if (!data.length) {
 		replace_template(
 			new_card(
@@ -87,17 +88,19 @@ async function reload_msgs(): Promise<void> {
 				"className": arr["sending"]?"x-sending":"x-receiving",
 				"innerText": "x",
 				"onclick": ()=>{
-					post({"status":""}).then(e=>{
-						var pwd=undefined //only used by msg policy 2
-						if (e.msg["msg policy"]==0) {
+					post({"status": ""}).then((response)=>{
+						//only used by msg policy 2
+						var pwd=undefined
+
+						if (response.msg["msg policy"]==0) {
 							if (!confirm("Are you sure you want to delete this message?")) return
 						}
-						else if (e.msg["msg policy"]==1) {
+						else if (response.msg["msg policy"]==1) {
 							pwd=prompt("Enter Password")
 							if (!pwd) return
 						}
-						else if (e.msg["msg policy"]!=2) {
-							return
+						else if (response.msg["msg policy"]!=2) {
+							error("Invalid Request")
 						}
 
 						post({"delete msg":{
@@ -106,7 +109,6 @@ async function reload_msgs(): Promise<void> {
 							"pwd": pwd
 						}})
 
-						//reload the indexs of messages by refreshiNg
 						reload_msgs()
 					})
 				}
@@ -126,7 +128,6 @@ async function reload_msgs(): Promise<void> {
 			return ret
 		}
 	)
-	//scrolls to bottom of page
 	nu("reload").scrollIntoView()
 }
 
@@ -181,7 +182,8 @@ async function reload_index(): Promise<void> {
 	)
 }
 
-async function replace_template(start: Complex, end?: Complex, params?: Dict | boolean, template?: Function): Promise<void> { //replace tray with nu elements
+//replace tray with nu elements
+async function replace_template(start: Complex, end?: Complex, params?: Dict | boolean, template?: Function): Promise<void> {
 	//start and end are put at the start and end of the tray
 	//template is a template to build items in the middle off of
 	//params is an array of the params for the template
@@ -193,10 +195,11 @@ async function replace_template(start: Complex, end?: Complex, params?: Dict | b
 	else if (start) tray.appendChild(<Node>start)
 
 	if (params) {
-		(<Dict>params).forEach((e,i)=>{
-			e["index"]=i
+		(<Dict>params).forEach((param, index)=>{
+			param["index"]=index
+
 			//append new item given params for template
-			tray.appendChild(template(e))
+			tray.appendChild(template(param))
 		})
 	}
 
@@ -222,8 +225,12 @@ function new_card(uuid: string, name: string, message: string, doReturnCard: boo
 	var div=nu("div", {
 		"className": pointer?"holder point":"holder"
 	})
-	//if disable is set, onclick wont be added
-	if (!disable) div.onclick=()=>window.location.href="/@"+uname(name)
+
+	if (!disable) {
+		div.onclick=()=>{
+			window.location.href="/@"+uname(name)
+		}
+	}
 
 	div.appendChild(
 		nu("img", {
@@ -240,14 +247,15 @@ function new_card(uuid: string, name: string, message: string, doReturnCard: boo
 	card.appendChild(div)
 	
 	if (doReturnCard) {
-		return card //stop here if you want to return it
+		return card
 	}
 	
-	tray.appendChild(card) //else just append it
+	tray.appendChild(card)
 	return undefined
 }
 
-function new_img(uuid: string): string { //converts uuid to b64 img of hash
+//converts uuid to b64 img of hash
+function new_img(uuid: string): string {
 	var canvas=<HTMLCanvasElement>(nu("canvas", {
 		"width": 16,
 		"height": 16
@@ -261,13 +269,14 @@ function new_img(uuid: string): string { //converts uuid to b64 img of hash
 		binary+="0".repeat(4-bits.length)+bits
 	}
 
-	for (let i=0;i<256;i++) { //16*16=256 pixels
+	for (let i=0;i<256;i++) {
 		//set black or white pixel
 		draw.fillStyle=(binary[i]=="1")?"rgb(255,255,255)":"rgb(0,0,0)"
-		draw.fillRect(i%16, ~~(i/16), 1, 1) //draw single pixel
+
+		//draw single pixel
+		draw.fillRect(i%16, ~~(i/16), 1, 1)
 	}
 
-	//return b64 for image src
 	return canvas.toDataURL()
 }
 

@@ -1,5 +1,5 @@
-function lock(e: MouseEvent) {
-	e.preventDefault()
+function lock(click: MouseEvent) {
+	click.preventDefault()
 
 	const pwd=prompt("Re-enter password to lock")
 	if (!pwd) return
@@ -8,15 +8,15 @@ function lock(e: MouseEvent) {
 	post({"lock": pwd}, true)
 }
 
-function save(e: MouseEvent) {
-	e.preventDefault()
+function save(click: MouseEvent) {
+	click.preventDefault()
 
 	const pwd=prompt("Re-enter password to save")
 	if (!pwd) return
 
 	post({"save": pwd})
-		.then(e=>{
-			if (e["code"]==200) {
+		.then((response)=>{
+			if (response["code"]==200) {
 				error("Cache was successfully saved")
 			}
 		})
