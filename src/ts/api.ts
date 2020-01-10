@@ -1,16 +1,15 @@
-//time in ms when last error was set
-var added_at=0
+var last_error=0
 
-const api_wait=5000 //time to wait between api calls in ms
+const api_wait=5000
 
-async function post(dict: {[key: string]: any}, doRedirect: boolean=false): Promise<any> {
-	//if there is an error and it is able to be deleted, clear it
-	error(false)
+async function post(param: {[key: string]: any}, doRedirect: boolean=false): Promise<any> {
+	clear_error()
 
-	dict["session"]=document.cookie.replace(/(?:(?:^|.*;\s*)session\s*\=\s*([^;]*).*$)|^.*$/, "$1")
-	dict["redirect"]=!!doRedirect
+	param["session"]=document.cookie.replace(/(?:(?:^|.*;\s*)session\s*\=\s*([^;]*).*$)|^.*$/, "$1")
+	param["redirect"]=!!doRedirect
 
-	const encode=function(str: string): string { //if any param passed is an object, jsonify it
+	//if any param passed is an object, jsonify it
+	const encode=function(str: string): string {
 		if (typeof str==="object") {
 			try {
 				return JSON.stringify(str)
@@ -20,78 +19,86 @@ async function post(dict: {[key: string]: any}, doRedirect: boolean=false): Prom
 		return str
 	}
 
-	if (doRedirect) { //create form, submit and follow it
-		const form=nu("form", { //make nu empty form
+	if (doRedirect) {
+		const form=nu("form", {
 			"id": "api-form",
 			"action": "/api/",
 			"method": "POST"
 		})
 	
-		for (const key in dict) {
-			nu("input", { //for each element make a nu hidden feild
+		for (const key in param) {
+			nu("input", {
 				"type": "hidden",
 				"name": key,
-				"value": encode(dict[key])
+				"value": encode(param[key])
 			}, form)
 		}
-		const submit=nu("input", { //make nu submit button
+		const submit=nu("input", {
 			"type": "submit",
 			"style": "visibility: hidden;"
 		}, [form, document.body], true)
 		
-		submit.click() //send form
+		submit.click()
 
 		nu("api-form").remove()
 	}
-	else { //only grab data from api
+	else {
 		var formData=new FormData()
-		for (const key in dict) {
-			formData.append(key, encode(dict[key])) //fill formdata
+		for (const key in param) {
+			formData.append(
+				key,
+				encode(param[key])
+			)
 		}
 	
-		return fetch("/api/", {method:"POST", body: formData})
+		return fetch("/api/", {method: "POST", body: formData})
 			.then(e=>e.json())
-			.catch(e=>{
-				console.log({"error":e.message})
-				if (e.message=="NetworkError when attempting to fetch resource.") {
+			.catch((response)=>{
+				console.log({"error": response.message})
+				if (response.message=="NetworkError when attempting to fetch resource.") {
 					error("Network Disconnected")
 				}
-				else if (e.message=="JSON.parse: unexpected character at line 1 column 1 of the JSON data") {
+				else if (response.message=="JSON.parse: unexpected character at line 1 column 1 of the JSON data") {
 					error("Could Not Handle Request")
 				}
 			})
-			.then(e=>{
-				//if the request is to be rethrown, make the same request with redirects on
-				if (e["code"]!=200) { //if error occurs, print it to the screen
-					error(e["msg"])
+			.then((response)=>{
+				if (response["code"]!=200) {
+					error(response["msg"])
 				}
-				if (e["rethrow"]=="") {
-					post(dict, true)
+				if (response["rethrow"]=="") {
+					post(param, true)
 				}
-				else return e //return data
+				else {
+					return response
+				}
 			})
 	}
 }
 
-//pings the server, checks for connection
 async function heartbeat(): Promise<void> {
-	const pulse=await post({"ping":""})
+	const pulse=await post({"ping": ""})
 
 	if (pulse.message=="NetworkError when attempting to fetch resource.") {
 		error("Network Disconnected")
 	}
-	else error(false)
+	else {
+		clear_error()
+	}
 }
 
-//if false, try to clear error, else, set error msg
+function clear_error(): void {
+	error(false)
+}
+
 function error(msg: string | boolean): void {
 	if (typeof msg==="string") {
-		added_at=Date.now()
+		last_error=Date.now()
 		nu("error").style.display="block"
 		nu("error").innerText=msg
 	}
 	else {
-		if (Date.now()>(added_at+api_wait)) {
+		if (Date.now()>(last_error+api_wait)) {
 			nu("error").style.display="none"
 			nu("error").innerText=""
 		}
