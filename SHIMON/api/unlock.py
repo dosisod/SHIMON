@@ -9,14 +9,16 @@ def unlock(self, data: Dict) -> Page:
 	plain=self.storage.unlock(data["unlock"])
 
 	if not self.login_limiter.in_cooldown() and plain:
-		self.cache=json.loads(plain) #cache decrypted, save to shimon
+		self.cache=json.loads(plain)
 
-		self.cache_mapper.update("msg policy")
-		self.cache_mapper.update("developer")
-		self.cache_mapper.update("theme")
-		self.cache_mapper.update("fresh js")
-		self.cache_mapper.update("fresh css")
-		self.cache_mapper.update("expiration")
+		self.cache_mapper.update([
+			"msg policy",
+			"developer",
+			"theme",
+			"fresh js",
+			"fresh css",
+			"expiration"
+		])
 
 		if self.cache["version"]!=self.VERSION:
 			self.cache["version"]=self.VERSION
@@ -34,7 +36,7 @@ def unlock(self, data: Dict) -> Page:
 				self,
 				"pages/login.html",
 				error="Try again in "+str(self.login_limiter.time_to_wait())+" seconds"
-			)
+			), 401
 
 		else:
 			self.login_limiter.stop_cooldown()
@@ -46,10 +48,14 @@ def unlock(self, data: Dict) -> Page:
 				self,
 				"pages/login.html",
 				error="Try again in "+str(self.login_limiter.cooldown_duration)+" seconds"
-			)
+			), 401
 
 		elif plain=="{}":
 			return self.session.create(fresh=True)
 
 		else:
-			return render(self, "pages/login.html", error="Incorrect password")
+			return render(
+				self,
+				"pages/login.html",
+				error="Incorrect password"
+			), 401

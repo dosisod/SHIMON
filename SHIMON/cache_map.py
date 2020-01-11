@@ -1,3 +1,5 @@
+from typing import Union
+
 class CacheMapper:
 	shimon=None
 	cache_names={}
@@ -14,7 +16,13 @@ class CacheMapper:
 		self.shimon.cache[cache_name]=value
 		self._update(cache_name, value)
 
-	def update(self, cache_name: str) -> None:
+	def update(self, cache_name: Union[str, list]) -> None:
+		if type(cache_name) is list:
+			for name in cache_name:
+				self.update(name)
+
+			return
+
 		cache_val=self.cache_names[cache_name]
 
 		if cache_name not in self.cache_names:

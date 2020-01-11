@@ -8,8 +8,10 @@ def save(self, data: Dict) -> Union[Json, Page]:
 
 	if storage_error: return storage_error
 
-	self.cache_mapper.update("msg policy")
-	self.cache_mapper.update("expiration")
-	self.cache_mapper.update("developer")
+	self.cache_mapper.update([
+		"msg policy",
+		"expiration",
+		"developer"
+	])
 
 	return error_200()
