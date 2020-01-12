@@ -16,8 +16,6 @@ def lock(self, data: Dict) -> Union[Page, Json]:
 
 		#clean up object states
 		self.cache=None
-
-		self.login_limiter.reset()
 		self.session.kill()
 
 		res=make_response(render(

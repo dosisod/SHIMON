@@ -57,8 +57,10 @@ class TestApiAllfor(BaseTest):
 
 		assert "id" in raw
 		assert raw["id"]
+
 		assert "msgs" in raw
-		assert raw["msgs"]
+		assert raw["msgs"] or raw["msgs"]==[]
+
 		assert "hash" in raw
 		assert raw["hash"]
 

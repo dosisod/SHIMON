@@ -51,6 +51,7 @@ def unlock(self, data: Dict) -> Page:
 			), 401
 
 		elif plain=="{}":
+			self.login_limiter.reset()
 			return self.session.create(fresh=True)
 
 		else:

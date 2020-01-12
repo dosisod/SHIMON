@@ -5,12 +5,10 @@ from testing.base import BaseTest
 class TestLock(BaseTest):
 	@BaseTest.request_context
 	@BaseTest.unlocked
-	def test_variables_cleared_after_lock(self):
+	def test_cache_cleared_after_lock(self):
 		lock(self.shimon, {"lock": self.pwd, "redirect": "true"})
 
 		assert self.shimon.cache==None
-		assert self.shimon.login_limiter.attempts==0
-		assert self.shimon.login_limiter.cooldown_start==0
 
 	@BaseTest.request_context
 	@BaseTest.unlocked
