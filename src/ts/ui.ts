@@ -89,15 +89,11 @@ async function reload_msgs(): Promise<void> {
 				"innerText": "x",
 				"onclick": ()=>{
 					post({"status": ""}).then((response)=>{
-						//only used by msg policy 2
-						var pwd=undefined
-
 						if (response.msg["msg policy"]==0) {
-							if (!confirm("Are you sure you want to delete this message?")) return
+							askForConfirmation("Are you sure you want to delete this message?")
 						}
 						else if (response.msg["msg policy"]==1) {
-							pwd=prompt("Enter Password")
-							if (!pwd) return
+							var pwd=askForPassword("Enter Password")
 						}
 						else if (response.msg["msg policy"]!=2) {
 							error("Invalid Request")
@@ -106,7 +102,7 @@ async function reload_msgs(): Promise<void> {
 						post({"delete msg":{
 							"id": rawid,
 							"index": arr["index"],
-							"pwd": pwd
+							"pwd": pwd || ""
 						}})
 
 						reload_msgs()

@@ -1,23 +1,20 @@
 function lock(click: MouseEvent) {
 	click.preventDefault()
 
-	const pwd=prompt("Re-enter password to lock")
-	if (!pwd) return
-
-	//redirect after lock
-	post({"lock": pwd}, true)
+	post({
+		"lock": askForPassword("Re-enter password to lock")
+	}, true)
 }
 
 function save(click: MouseEvent) {
 	click.preventDefault()
 
-	const pwd=prompt("Re-enter password to save")
-	if (!pwd) return
-
-	post({"save": pwd})
-		.then((response)=>{
-			if (response["code"]==200) {
-				error("Cache was successfully saved")
-			}
-		})
+	post({
+		"save": askForPassword("Re-enter password to save")
+	})
+	.then((response)=>{
+		if (response["code"]==200) {
+			error("Cache was successfully saved")
+		}
+	})
 }
