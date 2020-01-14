@@ -179,7 +179,7 @@ async function reload_index(): Promise<void> {
 }
 
 //replace tray with nu elements
-async function replace_template(start: Complex, end?: Complex, params?: Dict | boolean, template?: Function): Promise<void> {
+async function replace_template(start: Appendable, end?: Appendable, params?: Dict | boolean, template?: Function): Promise<void> {
 	//start and end are put at the start and end of the tray
 	//template is a template to build items in the middle off of
 	//params is an array of the params for the template
