@@ -6,9 +6,9 @@ from .api_calls import *
 from typing import Union, Dict
 from ..__init__ import Page, Json
 
-def handler(self, data: Dict) -> Union[Page, Json]: #handles all api requests
-	for attr in data: #loop through and convert to json
-		data[attr]=api_decode(data[attr])
+def handler(self, data: Dict) -> Union[Page, Json]:
+	for attr in data:
+		data[attr]=try_json_convert(data[attr])
 
 	if "unlock" in data:
 		if not self.cache:
@@ -24,14 +24,17 @@ def handler(self, data: Dict) -> Union[Page, Json]: #handles all api requests
 		if callname in data:
 			return func(self, data)
 
-	#if anything above exits and gets to here, make sure the user knows of the error
-	abort(500)
+	redirect="false"
+	if "redirect" in data:
+		redirect=data["redirect"]
 
-def api_decode(s: str) -> Union[Dict, str]: #decodes json if possible
-	if s.startswith("[") or s.startswith("{"):
+	return error_400(redirect=redirect)
+
+def try_json_convert(string: str) -> Union[Dict, str]:
+	if string.startswith("[") or string.startswith("{"):
 		try:
-			return json.loads(s) #potentialy json, try to parse
+			return json.loads(string)
 		except:
 			pass
 
-	return s #return if not json or if the json was malformed
+	return string
