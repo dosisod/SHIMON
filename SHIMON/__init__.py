@@ -1,16 +1,23 @@
 from flask import Response
 
-from typing import Union, Dict, List, Any
+from typing import Union, Dict, List, Any, Tuple
 
-#can be a flask response or raw html response
-Page=Union[Response, str]
+#can be a flask response or str, with or without an HTTP code (int)
+Page=Union[
+	Response,
+	str,
+	Tuple[
+		Union[Response, str],
+		int
+	]
+]
 
-#json returned from api.error is still a Response, just alias it to make more sense
+#returned json is just a response, added for clarity
 Json=Response
 
 #Complex can be many things, including dict, list, str
 #technically Complex could be anything, but preferably it is one of the above ones
 Complex=Union[Dict, List, str, Any]
 
-#methods where a string or bytes can be automatically converted is "Stringish"
+#used when a function can take a string-like type
 Stringish=Union[str, bytes]

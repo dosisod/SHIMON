@@ -22,18 +22,18 @@ class Storage:
 		self.filepath=filepath
 		self.gpg=pbp.GPG()
 
-	def unlock(self, pwd: str) -> str:
+	def unlock(self, pwd: str) -> Union[str, None]:
 		data=self.raw_unlock(self.filepath, pwd)
 
 		if data==None:
 			return "{}"
 
 		if data=="":
-			return
+			return None
 
 		return data
 
-	def raw_unlock(self, filepath: str, pwd: str) -> str:
+	def raw_unlock(self, filepath: str, pwd: str) -> Union[str, None]:
 		if self.cache_file_exists(filepath):
 			with open(filepath, "rb") as f:
 				return self.gpg.decrypt_file(f, passphrase=pwd).data.decode()
@@ -46,7 +46,7 @@ class Storage:
 
 		return os.path.isfile(filepath)
 
-	def lock(self, pwd: str) -> Union[Page]:
+	def lock(self, pwd: str) -> Union[Page, None]:
 		error_status=self.attempt_lock(pwd)
 
 		if error_status=="fail":
@@ -63,18 +63,20 @@ class Storage:
 			)
 
 		if not error_status:
-			return
+			return None
+
 		else:
 			return error_status
 
-	def save(self, pwd: str) -> Union[Page, Json]:
+	def save(self, pwd: str) -> Union[Page, Json, None]:
 		error_status=self.attempt_lock(pwd)
 
 		if error_status=="fail":
 			return error_401()
 
 		if not error_status:
-			return
+			return None
+
 		else:
 			return error_status
 

@@ -57,14 +57,14 @@ class Session:
 
 		return res, 200
 
-	def check(self, data: Dict) -> Union[Page]:
+	def check(self, data: Dict) -> Union[Page, None]:
 		if "session" in data:
 			if datetime.now()>(self.lastcall+timedelta(seconds=self.expires)):
 				self.kill()
 
 			elif self.session==data["session"]:
 				self.keepalive()
-				return
+				return None
 
 		return error(
 			401,

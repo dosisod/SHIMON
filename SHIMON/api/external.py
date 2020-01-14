@@ -1,8 +1,10 @@
 from hashlib import sha256
 from copy import deepcopy
 
+from ..util import encode_stringish
+
 from typing import Union, List, Dict
-from ..__init__ import Page
+from ..__init__ import Page, Stringish
 
 def api_friends(self) -> List:
 	friends=deepcopy(self.cache["friends"])
@@ -34,7 +36,7 @@ def api_recent(self) -> List:
 
 	return recent
 
-def api_allfor(self, id: str) -> Union[List, Dict]:
+def api_allfor(self, id: str) -> Union[List, Dict, bool]:
 	for user in self.cache["history"]:
 		if user["id"]==id:
 			if self.redraw:
@@ -52,9 +54,6 @@ def api_allfor(self, id: str) -> Union[List, Dict]:
 
 	return False
 
-def sha256hex(data: Union[str, bytes]) -> str:
-	if type(data) is str:
-		return sha256(data.encode()).hexdigest()
-
-	else:
-		return sha256(data).hexdigest()
+#def sha256hex(data: Union[str, bytes]) -> str:
+def sha256hex(data: Stringish) -> str:
+	return sha256(encode_stringish(data)).hexdigest()

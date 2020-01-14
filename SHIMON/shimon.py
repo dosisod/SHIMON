@@ -17,7 +17,7 @@ from .session import Session
 from .storage import Storage
 from .renderer import render
 
-from typing import Union
+from typing import Union, cast
 from .__init__ import Page, Json
 
 class Shimon:
@@ -69,27 +69,31 @@ class Shimon:
 			500: "Server Error"
 		}
 
-		code=500
+		return_code=500
 		msg="Server Error"
 		if isinstance(ex, HTTPException):
-			if ex.code in codes:
-				msg=codes[ex.code]
+			code=cast(int, ex.code)
 
-			code=ex.code
+			if code in codes:
+				msg=codes[code]
+
+			return_code=code
 
 		elif type(ex) is int:
 			#client can only set certain http codes
-			if 300<=ex and ex<=417:
-				if ex in codes:
-					msg=codes[ex]
+			code=cast(int, ex)
+
+			if 300<=code and code<=417:
+				if code in codes:
+					msg=codes[code]
 
 				else:
 					msg=""
 
-				code=ex
+				return_code=code
 
 			else:
-				code=400
+				return_code=400
 				msg=codes[400]
 
 		tb=""
@@ -99,7 +103,7 @@ class Shimon:
 		return render(
 			self,
 			"pages/error.html",
-			error=code,
+			error=return_code,
 			url=request.url,
 			traceback=tb,
 			msg=msg

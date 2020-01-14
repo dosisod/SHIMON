@@ -1,10 +1,10 @@
-from typing import Union
+from typing import Union, Dict
 
 class CacheMapper:
 	shimon=None
-	cache_names={}
+	cache_names: Dict[str, any]={}
 
-	def __init__(self, shimon_ref, mapped_vars: dict):
+	def __init__(self, shimon_ref, mapped_vars: Dict[str, any]):
 		self.shimon=shimon_ref
 
 		self.cache_names=mapped_vars
