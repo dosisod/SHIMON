@@ -1,10 +1,10 @@
 from flask import request, abort, Response
 from hashlib import sha512
 
-from .util import encode_stringish
+from .util import encode_anystr
 
-from typing import Union, Dict, cast
-from .__init__ import Stringish, Page
+from typing import Union, Dict, AnyStr, cast
+from .__init__ import Page
 
 class Security:
 	def __init__(self, shimon_ref):
@@ -38,15 +38,15 @@ class Security:
 		if self.shimon.cache=={} or not self.shimon.cache:
 			abort(401)
 
-	def correct_pwd(self, pwd: Stringish) -> bool:
+	def correct_pwd(self, pwd: AnyStr) -> bool:
 		return self.shimon.cache["sha512"]== \
-			sha512(encode_stringish(pwd)).hexdigest()
+			sha512(encode_anystr(pwd)).hexdigest()
 
 	#updates hash to new if old is correct, else return false
-	def update_pwd(self, plain: Stringish, new_pwd: Stringish) -> bool:
+	def update_pwd(self, plain: AnyStr, new_pwd: AnyStr) -> bool:
 		if self.correct_pwd(plain):
 			self.shimon.cache["sha512"]= \
-				sha512(encode_stringish(new_pwd)).hexdigest()
+				sha512(encode_anystr(new_pwd)).hexdigest()
 
 			return True
 

@@ -1,7 +1,6 @@
-from typing import Union, cast
-from .__init__ import Stringish
+from typing import Union, AnyStr, cast
 
-def encode_stringish(data: Stringish) -> bytes:
+def encode_anystr(data: AnyStr) -> bytes:
 	if type(data) is str:
 		return cast(str, data).encode()
 

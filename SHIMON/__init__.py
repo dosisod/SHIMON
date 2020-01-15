@@ -18,6 +18,3 @@ Json=Response
 #Complex can be many things, including dict, list, str
 #technically Complex could be anything, but preferably it is one of the above ones
 Complex=Union[Dict, List, str, Any]
-
-#used when a function can take a string-like type
-Stringish=Union[str, bytes]

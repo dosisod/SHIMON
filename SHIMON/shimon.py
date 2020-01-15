@@ -17,7 +17,7 @@ from .session import Session
 from .storage import Storage
 from .renderer import render
 
-from typing import Union, cast
+from typing import Union, Dict, Any, cast
 from .__init__ import Page, Json
 
 class Shimon:
@@ -29,7 +29,8 @@ class Shimon:
 		self.security=Security(self)
 		self.storage=Storage(self)
 
-		self.cache=None
+		self.cache: Dict[str, Any]
+
 		self.cache_mapper=CacheMapper(self, {
 			"msg policy": "msg_policy",
 			"expiration": (self.session, "expires"),

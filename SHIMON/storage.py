@@ -7,7 +7,7 @@ import os
 from .renderer import render
 from .api.error import error, error_401
 
-from typing import Union
+from typing import Union, Optional
 from .__init__ import Page, Json
 
 #fixes 'DECRYPTION_COMPLIANCE_MODE' '23' error
@@ -80,7 +80,7 @@ class Storage:
 		else:
 			return error_status
 
-	def attempt_lock(self, pwd: str) -> Union[Page]:
+	def attempt_lock(self, pwd: str) -> Optional[Page]:
 		if not self.shimon.cache or self.shimon.cache=={}:
 			return error(
 				400,
