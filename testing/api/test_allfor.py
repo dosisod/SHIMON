@@ -5,11 +5,6 @@ from testing.base import BaseTest
 class TestAllfor(BaseTest):
 	@BaseTest.request_context
 	@BaseTest.unlocked
-	def test_invalid_string_option_returns_http_400(self):
-		assert allfor(self.shimon, {"invalid option": ""})[1]==400
-
-	@BaseTest.request_context
-	@BaseTest.unlocked
 	def test_valid_id_always_returns_http_200(self):
 		user=self.shimon.cache["friends"][0]
 		assert allfor(self.shimon, {"allfor": user["id"]})[1]==200

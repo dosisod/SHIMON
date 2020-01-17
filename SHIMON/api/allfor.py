@@ -5,10 +5,9 @@ from typing import Union, Dict, Any, List
 from ..__init__ import Page, Json
 
 def allfor(self, data: Dict) -> Json:
-	if "allfor" in data:
-		raw=api_allfor(self, data["allfor"])
+	raw=api_allfor(self, data["allfor"])
 
-		if raw!=False:
-			return error_200(raw)
+	if raw==False:
+		return error_400()
 
-	return error_400()
+	return error_200(raw)

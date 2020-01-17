@@ -5,7 +5,4 @@ from typing import Union, Dict, Any, List
 from ..__init__ import Page, Json
 
 def friends(self, data: Dict) -> Json:
-	if "friends" in data:
-		return error_200(api_friends(self))
-
-	return error_400()
+	return error_200(api_friends(self))
