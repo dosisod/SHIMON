@@ -1,7 +1,7 @@
 from flask import Flask, Response
-from SHIMON.renderer import jsonify
 
 from SHIMON.api.unlock import unlock
+from SHIMON.renderer import jsonify
 from SHIMON.api.theme import theme
 
 from testing.base import BaseTest

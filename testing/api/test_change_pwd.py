@@ -1,6 +1,6 @@
-from testing.base import BaseTest
-
 from SHIMON.api.change_pwd import change_pwd
+
+from testing.base import BaseTest
 
 class TestChangePwd(BaseTest):
 	@BaseTest.request_context
