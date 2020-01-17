@@ -39,15 +39,16 @@ class Security:
 			abort(401)
 
 	def correct_pwd(self, pwd: AnyStr) -> bool:
-		return cast(str, self.shimon.cache["sha512"])== \
-			sha512(encode_anystr(pwd)).hexdigest()
+		return cast(str, self.shimon.cache["sha512"])==sha512hex(pwd)
 
 	#updates hash to new if old is correct, else return false
 	def update_pwd(self, plain: AnyStr, new_pwd: AnyStr) -> bool:
 		if self.correct_pwd(plain):
-			self.shimon.cache["sha512"]= \
-				sha512(encode_anystr(new_pwd)).hexdigest()
+			self.shimon.cache["sha512"]=sha512hex(new_pwd)
 
 			return True
 
 		return False
+
+def sha512hex(pwd: AnyStr) -> str:
+	return sha512(encode_anystr(pwd)).hexdigest()
