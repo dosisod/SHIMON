@@ -1,5 +1,5 @@
 from flask import Flask, Response
-from flask.json import jsonify
+from SHIMON.renderer import jsonify
 
 from SHIMON.api.unlock import unlock
 from SHIMON.api.theme import theme

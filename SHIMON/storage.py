@@ -4,10 +4,10 @@ from flask import Response
 import json
 import os
 
-from .renderer import render
 from .api.error import error, error_401
+from .renderer import render
 
-from typing import Union, Optional
+from typing import Union, Optional, cast
 from .__init__ import Page, Json
 
 #fixes 'DECRYPTION_COMPLIANCE_MODE' '23' error
@@ -22,7 +22,7 @@ class Storage:
 		self.filepath=filepath
 		self.gpg=pbp.GPG()
 
-	def unlock(self, pwd: str) -> Union[str, None]:
+	def unlock(self, pwd: str) -> Optional[str]:
 		data=self.raw_unlock(self.filepath, pwd)
 
 		if data==None:
@@ -33,10 +33,16 @@ class Storage:
 
 		return data
 
-	def raw_unlock(self, filepath: str, pwd: str) -> Union[str, None]:
+	def raw_unlock(self, filepath: str, pwd: str) -> Optional[str]:
 		if self.cache_file_exists(filepath):
 			with open(filepath, "rb") as f:
-				return self.gpg.decrypt_file(f, passphrase=pwd).data.decode()
+				return cast(
+					str,
+					self.gpg.decrypt_file(
+						f,
+						passphrase=pwd
+					).data.decode()
+				)
 
 		return None
 
@@ -46,7 +52,7 @@ class Storage:
 
 		return os.path.isfile(filepath)
 
-	def lock(self, pwd: str) -> Union[Page, None]:
+	def lock(self, pwd: str) -> Optional[Page]:
 		error_status=self.attempt_lock(pwd)
 
 		if error_status=="fail":
@@ -81,7 +87,7 @@ class Storage:
 			return error_status
 
 	def attempt_lock(self, pwd: str) -> Optional[Page]:
-		if not self.shimon.cache or self.shimon.cache=={}:
+		if not self.shimon.cache or self.shimon.cache=={"": None}:
 			return error(
 				400,
 				render(

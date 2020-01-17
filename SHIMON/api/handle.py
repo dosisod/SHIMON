@@ -3,7 +3,7 @@ import json
 
 from .api_calls import *
 
-from typing import Union, Dict
+from typing import Union, Dict, List, cast
 from ..__init__ import Page, Json
 
 def handler(self, data: Dict) -> Union[Page, Json]:
@@ -11,7 +11,7 @@ def handler(self, data: Dict) -> Union[Page, Json]:
 		data[attr]=try_json_convert(data[attr])
 
 	if "unlock" in data:
-		if not self.cache:
+		if self.cache=={"": None}:
 			return unlock(self, data)
 
 		else:
@@ -30,10 +30,13 @@ def handler(self, data: Dict) -> Union[Page, Json]:
 
 	return error_400(redirect=redirect)
 
-def try_json_convert(string: str) -> Union[Dict, str]:
+def try_json_convert(string: str) -> Union[Dict, List, str]:
 	if string.startswith("[") or string.startswith("{"):
 		try:
-			return json.loads(string)
+			return cast(
+				Union[Dict, List],
+				json.loads(string)
+			)
 		except:
 			pass
 

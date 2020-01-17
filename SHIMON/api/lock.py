@@ -1,7 +1,6 @@
 from flask import make_response
 
 from ..renderer import render
-
 from .error import error_400
 
 from typing import Union, Dict
@@ -15,7 +14,7 @@ def lock(self, data: Dict) -> Union[Page, Json]:
 		if returned_error: return returned_error
 
 		#clean up object states
-		self.cache=None
+		self.cache={"": None}
 		self.session.kill()
 
 		res=make_response(render(

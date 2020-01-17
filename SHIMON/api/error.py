@@ -1,11 +1,11 @@
-from flask.json import jsonify
+from ..renderer import jsonify
 
 from typing import Union
-from ..__init__ import Complex
+from ..__init__ import Complex, Page
 
 Boolish=Union[bool, str]
 
-def error(code: Union[int, str], data: Complex, redirect: Boolish, rethrow: bool=False) -> Complex:
+def error(code: int, data: Complex, redirect: Boolish, rethrow: bool=False) -> Page:
 	if type(redirect) is str:
 		#convert JS true to python True
 		redirect=(redirect=="true")
@@ -31,14 +31,14 @@ def error(code: Union[int, str], data: Complex, redirect: Boolish, rethrow: bool
 			"msg": data
 		}), code
 
-def error_200(msg: Complex="OK", redirect: Boolish=False) -> Complex:
+def error_200(msg: Complex="OK", redirect: Boolish=False) -> Page:
 	return error(200, msg, redirect, rethrow=False)
 
-def error_202(msg: Complex="Lock or save to apply changes", redirect: Boolish=False) -> Complex:
+def error_202(msg: Complex="Lock or save to apply changes", redirect: Boolish=False) -> Page:
 	return error(202, msg, redirect, rethrow=False)
 
-def error_400(msg: Complex="Invalid Request", redirect: Boolish=False) -> Complex:
+def error_400(msg: Complex="Invalid Request", redirect: Boolish=False) -> Page:
 	return error(400, msg, redirect, rethrow=False)
 
-def error_401(msg: Complex="Invalid Password", redirect: Boolish=False) -> Complex:
+def error_401(msg: Complex="Invalid Password", redirect: Boolish=False) -> Page:
 	return error(401, msg, redirect, rethrow=False)

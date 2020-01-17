@@ -6,10 +6,8 @@ from typing import Union, Dict, List, Any, Tuple
 Page=Union[
 	Response,
 	str,
-	Tuple[
-		Union[Response, str],
-		int
-	]
+	Tuple[Response, int],
+	Tuple[str, int]
 ]
 
 #returned json is just a response, added for clarity

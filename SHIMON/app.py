@@ -1,5 +1,4 @@
 from werkzeug.exceptions import HTTPException
-from flask_restful import Resource, Api
 from flask import Flask, Response
 
 from SHIMON.shimon import Shimon

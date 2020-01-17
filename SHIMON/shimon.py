@@ -1,9 +1,6 @@
 from flask import Flask, request, make_response, abort, Response
 from werkzeug.exceptions import HTTPException
 from datetime import datetime, timedelta
-from flask_restful import Resource, Api
-from flask.json import jsonify
-from waitress import serve
 import traceback
 import json
 import os
@@ -29,7 +26,7 @@ class Shimon:
 		self.security=Security(self)
 		self.storage=Storage(self)
 
-		self.cache: Dict[str, Any]
+		self.cache: Dict[str, Any]={"": None}
 
 		self.cache_mapper=CacheMapper(self, {
 			"msg policy": "msg_policy",
@@ -120,7 +117,7 @@ class Shimon:
 			return self.session.create(fresh=True)
 
 		had_error=self.security.check_session()
-		if not self.cache or had_error:
+		if self.cache=={"": None} or had_error:
 			return render(self, "pages/login.html")
 
 		res=make_response(render(
@@ -199,7 +196,7 @@ class Shimon:
 	def login(self) -> Page:
 		self.security.check_local()
 
-		if self.cache:
+		if self.cache!={"": None}:
 			return self.index(error="Already logged in"), 301
 
 		else:

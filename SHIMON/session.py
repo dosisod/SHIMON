@@ -1,6 +1,5 @@
 from flask import make_response, Response
 from datetime import datetime, timedelta
-from flask.json import jsonify
 import base64 as b64
 import json
 import os
@@ -15,11 +14,11 @@ from .__init__ import Page
 
 class Session:
 	def __init__(self, shimon_ref):
-		self.session=None
+		self.shimon=shimon_ref
+
+		self.session=""
 		self.lastcall=datetime.now()
 		self.expires=3600
-
-		self.shimon=shimon_ref
 
 	def create(self, fresh: bool=False, target: str="pages/index.html") -> Page:
 		if fresh:
@@ -81,6 +80,6 @@ class Session:
 		self.lastcall=datetime.now()
 
 	def kill(self) -> None:
-		self.session=None
-		self.cache=None
+		self.session=""
+		self.cache={"": None}
 		self.lastcall=datetime.min

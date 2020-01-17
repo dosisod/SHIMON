@@ -4,10 +4,10 @@ class LoginLimiter:
 	def __init__(self, shimon_ref):
 		self.shimon=shimon_ref
 
-		self.attempts=0
-		self.max_attempts=3
-		self.cooldown_start=0
-		self.cooldown_duration=10
+		self.attempts: int=0
+		self.max_attempts: int=3
+		self.cooldown_start: float=0.0
+		self.cooldown_duration: int=10
 
 	def in_cooldown(self) -> bool:
 		return self.elapsed_time()<self.cooldown_duration

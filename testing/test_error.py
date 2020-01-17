@@ -1,4 +1,4 @@
-from flask.json import jsonify
+from SHIMON.renderer import jsonify
 
 from SHIMON.api.error import error, error_200
 

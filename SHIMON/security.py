@@ -39,7 +39,7 @@ class Security:
 			abort(401)
 
 	def correct_pwd(self, pwd: AnyStr) -> bool:
-		return self.shimon.cache["sha512"]== \
+		return cast(str, self.shimon.cache["sha512"])== \
 			sha512(encode_anystr(pwd)).hexdigest()
 
 	#updates hash to new if old is correct, else return false
