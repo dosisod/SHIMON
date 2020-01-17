@@ -14,7 +14,7 @@ def lock(self, data: Dict) -> Union[Page, Json]:
 		if returned_error: return returned_error
 
 		#clean up object states
-		self.cache={"": None}
+		self.cache=self.empty_cache
 		self.session.kill()
 
 		res=make_response(render(

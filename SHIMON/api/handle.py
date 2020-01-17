@@ -11,7 +11,7 @@ def handler(self, data: Dict) -> Union[Page, Json]:
 		data[attr]=try_json_convert(data[attr])
 
 	if "unlock" in data:
-		if self.cache=={"": None}:
+		if self.cache==self.empty_cache:
 			return unlock(self, data)
 
 		else:

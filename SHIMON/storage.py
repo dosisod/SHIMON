@@ -1,5 +1,4 @@
 import pretty_bad_protocol as pbp
-from hashlib import sha512
 from flask import Response
 import json
 import os
@@ -87,7 +86,7 @@ class Storage:
 			return error_status
 
 	def attempt_lock(self, pwd: str) -> Optional[Page]:
-		if not self.shimon.cache or self.shimon.cache=={"": None}:
+		if not self.shimon.cache or self.shimon.cache==self.shimon.empty_cache:
 			return error(
 				400,
 				render(
