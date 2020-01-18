@@ -1,5 +1,5 @@
 <style>
-{% include "utils/load.css" %}
+{% include("themes/"+theme+".css") %}
 </style>
 {% if developer and fresh_css %}
 <link rel="stylesheet" href={{ url_for("static", filename="css/index.css") }}>

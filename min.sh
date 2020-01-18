@@ -1,15 +1,15 @@
 #clear old js file
->SHIMON/static/js/shimon.min.js
+>SHIMON/static/js/bundle.js
 >SHIMON/static/css/bundle.css
 >SHIMON/static/css/login.css
 
 if [ -z "$@" ]; then
 	#print files to minify
 	echo "minifiying:"
-	ls SHIMON/static/js/ | grep -F ".js" | grep -v "shimon.min.js"
+	ls SHIMON/static/js/ | grep -F ".js" | grep -v "bundle.js"
 
 	#minify the files
-	minify $(tree -fi SHIMON/static/js/ | head -n -2 | grep -F ".js" | grep -v "shimon.min.js") > SHIMON/static/js/shimon.min.js
+	minify $(tree -fi SHIMON/static/js/ | head -n -2 | grep -F ".js" | grep -v "bundle.js") > SHIMON/static/js/bundle.js
 	echo ""
 fi
 

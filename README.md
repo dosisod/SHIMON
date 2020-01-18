@@ -24,7 +24,7 @@ Build TS files using:
 $ tsc --build tsconfig.json
 ```
 
-To use the emitted JS files over `shimon.min.js`, enable:
+To use the emitted JS files over `bundle.js`, enable:
 
 `ACCOUNT > SETTINGS > ENABLE DEVELOPER MODE > USE FRESH JS`
 
