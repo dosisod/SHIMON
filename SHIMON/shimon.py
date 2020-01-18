@@ -64,13 +64,14 @@ class Shimon:
 			301: "Moved Permanently",
 			400: "Invalid Request",
 			401: "Unauthorized",
-			404: "Not Found",
 			403: "Forbidden",
+			404: "Not Found",
 			500: "Server Error"
 		}
 
 		return_code=500
-		msg="Server Error"
+		msg=""
+
 		if isinstance(ex, HTTPException):
 			code=cast(int, ex.code)
 
@@ -79,10 +80,10 @@ class Shimon:
 
 			return_code=code
 
-		elif type(ex) is int:
-			#client can only set certain http codes
-			code=cast(int, ex)
+		elif isinstance(ex, int):
+			code=ex
 
+			#client can only set certain http codes
 			if 300<=code and code<=417:
 				if code in codes:
 					msg=codes[code]
@@ -107,7 +108,7 @@ class Shimon:
 			url=request.url,
 			traceback=tb,
 			msg=msg
-		), code
+		), return_code
 
 	def index(self, error: str="", uuid: str="") -> Page:
 		self.security.check_local()
