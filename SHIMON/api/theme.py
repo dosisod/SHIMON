@@ -5,9 +5,9 @@ from .error import error_202, error_400
 from typing import Union, Dict, Any, List
 from ..__init__ import Json
 
-def theme(self, data: Dict) -> Json:
-	if type(data["theme"]) is str:
-		clean=os.path.abspath("SHIMON/templates/themes/"+data["theme"])
+def theme(self, theme: str, redirect: bool) -> Json:
+	if type(theme) is str:
+		clean=os.path.abspath("SHIMON/templates/themes/"+theme)
 
 		#dont allow reverse file traversal
 		if clean.startswith(os.getcwd()+"/SHIMON/templates/themes/"):

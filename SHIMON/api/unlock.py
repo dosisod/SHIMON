@@ -5,8 +5,8 @@ from ..renderer import render
 from typing import Dict
 from ..__init__ import Page
 
-def unlock(self, data: Dict) -> Page:
-	plain=self.storage.unlock(data["unlock"])
+def unlock(self, pwd: str, redirect: bool) -> Page:
+	plain=self.storage.unlock(pwd)
 
 	if not self.login_limiter.in_cooldown() and plain:
 		self.cache=json.loads(plain)

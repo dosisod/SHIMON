@@ -21,7 +21,18 @@ from .recent import recent
 from .allfor import allfor
 from .add_friend import add_friend
 
-calls={
+from typing import Callable, Dict, Any, Union
+from ..__init__ import Page, Json
+
+call_type=Dict[
+	str,
+	Callable[
+		[Any, Any, bool],
+		Union[Page, Json]
+	]
+]
+
+calls: call_type={
 
 "send msg": send_msg,
 "delete msg": delete_msg,

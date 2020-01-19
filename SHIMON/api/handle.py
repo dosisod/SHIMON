@@ -12,7 +12,7 @@ def handler(self, data: Dict) -> Union[Page, Json]:
 
 	if "unlock" in data:
 		if self.cache==self.empty_cache:
-			return unlock(self, data)
+			return unlock(self, data["unlock"], True)
 
 		else:
 			return self.index(error="Already logged in"), 301
@@ -22,7 +22,11 @@ def handler(self, data: Dict) -> Union[Page, Json]:
 
 	for callname, func in calls.items():
 		if callname in data:
-			return func(self, data)
+			return func(
+				self,
+				data[callname],
+				data["redirect"]=="true"
+			)
 
 	redirect="false"
 	if "redirect" in data:

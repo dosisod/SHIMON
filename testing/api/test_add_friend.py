@@ -6,19 +6,19 @@ class TestAddFriend(BaseTest):
 	@BaseTest.request_context
 	@BaseTest.unlocked
 	def test_invalid_data_returns_http_400(self):
-		assert add_friend(self.shimon, {"add friend": "invalid"})[1]==400
+		assert self.add_friend("invalid")[1]==400
 
 	@BaseTest.request_context
 	@BaseTest.allow_local
 	@BaseTest.unlocked
 	def test_missing_name_param_returns_http_400(self):
-		assert add_friend(self.shimon, {"add friend": {"id": "user id"}})[1]==400
+		assert self.add_friend({"id": "user id"})[1]==400
 
 	@BaseTest.request_context
 	@BaseTest.allow_local
 	@BaseTest.unlocked
 	def test_missing_id_param_returns_http_400(self):
-		assert add_friend(self.shimon, {"add friend": {"name": "name"}})[1]==400
+		assert self.add_friend({"name": "name"})[1]==400
 
 	@BaseTest.request_context
 	@BaseTest.allow_local
@@ -26,10 +26,10 @@ class TestAddFriend(BaseTest):
 	def test_adding_existing_friend_returns_http_400(self):
 		user=self.shimon.cache["history"][0]
 
-		assert add_friend(self.shimon, {"add friend": {
+		assert self.add_friend({
 			"name": "anything",
 			"id": user["id"]
-		}})[1]==400
+		})[1]==400
 
 	@BaseTest.request_context
 	@BaseTest.allow_local
@@ -38,10 +38,10 @@ class TestAddFriend(BaseTest):
 		self.remove_tmp_friend()
 
 		friends=len(self.shimon.cache["friends"])
-		add_friend(self.shimon, {"add friend": {
+		self.add_friend({
 			"name": "whatever",
 			"id": "test add"
-		}})
+		})
 
 		assert len(self.shimon.cache["friends"])==friends+1
 
@@ -53,10 +53,10 @@ class TestAddFriend(BaseTest):
 	def test_adding_new_friend_returns_http_200(self):
 		self.remove_tmp_friend()
 
-		assert add_friend(self.shimon, {"add friend": {
+		assert self.add_friend({
 			"name": "whatever",
 			"id": "test add"
-		}})[1]==200
+		})[1]==200
 
 	def remove_tmp_friend(self):
 		for i, friend in enumerate(self.shimon.cache["friends"]):
@@ -68,3 +68,6 @@ class TestAddFriend(BaseTest):
 			if history["id"]=="test add":
 				del self.shimon.cache["history"][i]
 				break
+
+	def add_friend(self, obj):
+		return add_friend(self.shimon, obj, False)

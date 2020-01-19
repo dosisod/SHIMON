@@ -5,24 +5,24 @@ from .error import error_200, error_400, error_401
 from typing import Dict
 from ..__init__ import Page, Json
 
-def delete_msg(self, data: Dict) -> Json:
-	if type(data["delete msg"]) is not dict:
+def delete_msg(self, data: Dict, redirect: bool) -> Json:
+	if type(data) is not dict:
 		#message contains illegal characters if it was unable to be parsed
 		return error_400()
 
-	if "id" in data["delete msg"] and "index" in data["delete msg"]:
+	if "id" in data and "index" in data:
 		#verify password if msg policy requires password
-		if "pwd" in data["delete msg"] and self.msg_policy==1:
-			if not self.security.correct_pwd(data["delete msg"]["pwd"]):
+		if "pwd" in data and self.msg_policy==1:
+			if not self.security.correct_pwd(data["pwd"]):
 				return error_401()
 
 		index=0
-		if type(data["delete msg"]["index"]) is int:
-			index=data["delete msg"]["index"]
+		if type(data["index"]) is int:
+			index=data["index"]
 
-		elif type(data["delete msg"]["index"]) is str:
-			if data["delete msg"]["index"].isdigit():
-				index=int(data["delete msg"]["index"])
+		elif type(data["index"]) is str:
+			if data["index"].isdigit():
+				index=int(data["index"])
 			else:
 				return error_400("Index is not a valid integer")
 
@@ -33,9 +33,9 @@ def delete_msg(self, data: Dict) -> Json:
 			return error_400("Index is out of bounds")
 
 		for friend in self.cache["friends"]:
-			if friend["id"]==data["delete msg"]["id"]:
+			if friend["id"]==data["id"]:
 				for history_id, current in enumerate(self.cache["history"]):
-					if current["id"]==data["delete msg"]["id"]:
+					if current["id"]==data["id"]:
 						if index>=len(current["msgs"]):
 							return error_400("Index is not a valid integer")
 

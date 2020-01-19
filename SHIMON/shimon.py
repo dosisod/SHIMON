@@ -59,7 +59,7 @@ class Shimon:
 		#2 never ask
 		self.msg_policy=0
 
-	def error(self, ex: Union[int, Exception]) -> str:
+	def error(self, ex: Union[int, Exception]) -> Page:
 		codes={
 			301: "Moved Permanently",
 			400: "Invalid Request",

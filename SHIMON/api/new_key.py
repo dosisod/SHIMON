@@ -7,12 +7,12 @@ from .error import error_400, error_401
 from typing import Union, Dict, Any, List
 from ..__init__ import Page, Json
 
-def new_key(self, data: Dict) -> Union[Page, Json]:
-	if self.security.correct_pwd(data["new key"]):
+def new_key(self, pwd: str, redirect: bool) -> Union[Page, Json]:
+	if self.security.correct_pwd(pwd):
 		self.cache["key"]=b64.b64encode(kee(2048).private()).decode()
 
 		#makes sure changes are saved
-		self.storage.lock(data["new key"])
+		self.storage.lock(pwd)
 
 		return self.index(), 200
 

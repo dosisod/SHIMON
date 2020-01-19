@@ -40,9 +40,9 @@ class BaseTest:
 
 	def unlocked(func):
 		def while_unlocked(self):
-			unlock(self.shimon, {"unlock": self.pwd})
+			unlock(self.shimon, self.pwd, True)
 			func(self)
-			lock(self.shimon, {"lock": self.pwd, "redirect": "true"})
+			lock(self.shimon, self.pwd, True)
 
 		return while_unlocked
 

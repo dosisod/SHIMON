@@ -6,10 +6,10 @@ from .error import error_400
 from typing import Union, Dict
 from ..__init__ import Page, Json
 
-def lock(self, data: Dict) -> Union[Page, Json]:
+def lock(self, pwd: str, redirect: bool) -> Union[Page, Json]:
 	#dont kill session unless user will be directed to login
-	if data["redirect"]=="true":
-		returned_error=self.storage.lock(data["lock"])
+	if redirect:
+		returned_error=self.storage.lock(pwd)
 
 		if returned_error: return returned_error
 

@@ -5,26 +5,24 @@ from .error import error_200, error_400
 from typing import Dict
 from ..__init__ import Json
 
-def send_msg(self, data: Dict) -> Json:
-	message=data["send msg"]
-
-	if type(message) is not dict:
+def send_msg(self, sending: Dict, redirect: bool) -> Json:
+	if type(sending) is not dict:
 		#message contains illegal characters if it was unable to be parsed
 		return error_400()
 
-	if "uname" not in message or "msg" not in message:
+	if "uname" not in sending or "msg" not in sending:
 		return error_400()
 
-	if message["msg"].isspace():
+	if sending["msg"].isspace():
 		return error_400()
 
 	for friend in self.cache["friends"]:
-		if message["uname"]==friend["id"]:
+		if sending["uname"]==friend["id"]:
 			for index, current in enumerate(self.cache["history"]):
-				if current["id"]==message["uname"]:
+				if current["id"]==sending["uname"]:
 					self.cache["history"][index]["msgs"].append({
 						"sending": True,
-						"msg": message["msg"]
+						"msg": sending["msg"]
 					})
 
 					self.redraw=True

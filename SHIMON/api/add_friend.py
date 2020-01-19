@@ -3,28 +3,28 @@ from .error import error_400
 from typing import Dict
 from ..__init__ import Page
 
-def add_friend(self, data: Dict) -> Page:
-	if type(data["add friend"]) is not dict:
+def add_friend(self, friend: Dict, redirect: bool) -> Page:
+	if type(friend) is not dict:
 		#message contains illegal characters if it was unable to be parsed
 		return error_400()
 
-	if "name" in data["add friend"] and "id" in data["add friend"]:
+	if "name" in friend and "id" in friend:
 		#make sure that name and id are not blank
-		if data["add friend"]["name"] and data["add friend"]["id"]:
+		if friend["name"] and friend["id"]:
 			#make sure id is not already taken
-			for friend in self.cache["friends"]:
-				if friend["id"]==data["add friend"]["id"]:
+			for _friend in self.cache["friends"]:
+				if _friend["id"]==friend["id"]:
 					return self.index(error="Friend already exists"), 400
 
 			#only append the names and ids, dont let user add extra data
 			self.cache["friends"].append({
-				"id": data["add friend"]["id"],
-				"name": data["add friend"]["name"]
+				"id": friend["id"],
+				"name": friend["name"]
 			})
 
 			#add blank msg history to cache history
 			self.cache["history"].append({
-				"id": data["add friend"]["id"],
+				"id": friend["id"],
 				"msgs": []
 			})
 

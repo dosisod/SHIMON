@@ -11,15 +11,15 @@ class TestSendMsg(BaseTest):
 
 	@BaseTest.request_context
 	def test_invalid_data_returns_http_400(self):
-		assert send_msg(self.shimon, {"send msg": "not valid"})[1]==400
+		assert send_msg(self.shimon, "not valid", False)[1]==400
 
 	@BaseTest.request_context
 	def test_missing_uname_param_returns_http_400(self):
-		assert send_msg(self.shimon, {"send msg": {"msg": "hello"}})[1]==400
+		assert send_msg(self.shimon, {"msg": "hello"}, False)[1]==400
 
 	@BaseTest.request_context
 	def test_missing_msg_param_returns_http_400(self):
-		assert send_msg(self.shimon, {"send msg": {"uname": "user"}})[1]==400
+		assert send_msg(self.shimon, {"uname": "user"}, False)[1]==400
 
 	@BaseTest.request_context
 	@BaseTest.unlocked
@@ -45,8 +45,7 @@ class TestSendMsg(BaseTest):
 		if not uname:
 			uname=self.user["id"]
 
-		return send_msg(self.shimon, {"send msg": {
+		return send_msg(self.shimon, {
 			"msg": msg,
-			"uname": uname,
-			"redirect": False
-		}})
+			"uname": uname
+		}, False)

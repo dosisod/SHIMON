@@ -8,7 +8,7 @@ class TestDevmode(BaseTest):
 	def test_true_enables_devmode(self):
 		self.shimon.cache_mapper["developer"]=False
 
-		devmode(self.shimon, {"devmode": "true"})
+		self.devmode("true")
 
 		assert self.shimon.cache["developer"]==True
 		assert self.shimon.developer==True
@@ -18,7 +18,7 @@ class TestDevmode(BaseTest):
 	def test_non_true_string_disables_devmode(self):
 		self.shimon.cache_mapper["developer"]=False
 
-		devmode(self.shimon, {"devmode": "false"})
+		self.devmode("false")
 
 		assert self.shimon.cache["developer"]==False
 		assert self.shimon.developer==False	
@@ -26,4 +26,11 @@ class TestDevmode(BaseTest):
 	@BaseTest.request_context
 	@BaseTest.unlocked
 	def test_always_returns_http_200(self):
-		assert devmode(self.shimon, {"devmode": "true"})[1]==200
+		assert self.devmode("true")[1]==200
+
+	def devmode(self, enable: bool):
+		return devmode(
+			self.shimon,
+			"true" if enable=="true" else "false",
+			False
+		)
