@@ -5,39 +5,40 @@ from Cryptodome.Hash import SHA512
 
 from .util import encode_anystr
 
-from typing import Union, AnyStr
+from typing import Union, AnyStr, Optional
 
-#allows proper padding with OAEP and signing via crypto signature
 class kee():
-	def __init__(self, bits: Union[int]=None) -> None:
-		#if bits isnt set a blank key is made
+	def __init__(self, bits: Optional[int]) -> None:
 		if bits:
-			self.RSA=RSA.generate(bits)
-			self.SIG=PKCS1_PSS.new(self.RSA)
-			self.PAD=PKCS1_OAEP.new(self.RSA, hashAlgo=SHA512)
+			self.key=RSA.generate(bits)
+			self._handle_key()
+
+	def importKey(self, key: AnyStr) -> None:
+		self.key=RSA.importKey(encode_anystr(key))
+		self._handle_key()
+
+	def _handle_key(self) -> None:
+		self.signer=PKCS1_PSS.new(self.key)
+		self.oaep=PKCS1_OAEP.new(
+			self.key,
+			hashAlgo=SHA512 # type: ignore
+		)
 
 	def pub(self) -> bytes:
-		return self.RSA.publickey().exportKey(format="DER")
+		return self.key.publickey().exportKey(format="DER")
 
 	def private(self) -> bytes:
-		return self.RSA.exportKey(format="DER")
+		return self.key.exportKey(format="DER")
 
-	def importKey(self, key: RSA) -> None:
-		self.RSA=RSA.importKey(key)
-		self.SIG=PKCS1_PSS.new(self.RSA)
-		self.PAD=PKCS1_OAEP.new(self.RSA, hashAlgo=SHA512)
-
-	#returns a signed digest using signature obj
 	def sign(self, msg: AnyStr) -> bytes:
-		return self.SIG.sign(SHA512.new(
+		return self.signer.sign(SHA512.new(
 			encode_anystr(msg)
 		))
 
-	#encrypt and decrypt both use oaep obj for padding
 	def encrypt(self, msg: AnyStr) -> bytes:
-		return self.PAD.encrypt(
+		return self.oaep.encrypt(
 			encode_anystr(msg)
 		)
 
 	def decrypt(self, cipher: bytes) -> bytes:
-		return self.PAD.decrypt(cipher)
+		return self.oaep.decrypt(cipher)
