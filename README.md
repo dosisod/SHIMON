@@ -16,7 +16,9 @@ Additional requirements:
 * Command-line version of gpg (check with `whereis gpg`)
 * Access to localhost port 1717
 
-## Building
+## Developers
+
+### Building
 
 Build TS files using:
 
@@ -37,6 +39,20 @@ $ ./min.sh
 Enable use of compiled CSS with:
 
 `ACCOUNT > SETTINGS > ENABLE DEVELOPER MODE > USE FRESH CSS`
+
+### Testing
+
+Install testing requirements:
+
+```
+pip3 install -r test-requirements.txt
+```
+
+Run tests with:
+
+```
+pytest tesing/
+```
 
 ## Running
 
