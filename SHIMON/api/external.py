@@ -39,20 +39,21 @@ def api_recent(self) -> List:
 def api_allfor(self, id: str) -> Union[List, Dict, bool]:
 	for user in self.cache["history"]:
 		if user["id"]==id:
-			if self.redraw:
-				self.redraw=False
+			break
+	else:
+		return False
 
-				return {
-					"id": user["id"],
-					"msgs": user["msgs"],
-					"hash": sha256hex(user["id"])
-				}
+	if self.redraw:
+		self.redraw=False
 
-			#dont return data if we shouldnt redraw
-			else:
-				return []
+		return {
+			"id": user["id"],
+			"msgs": user["msgs"],
+			"hash": sha256hex(user["id"])
+		}
 
-	return False
+	#dont return data if we shouldnt redraw
+	return []
 
 def sha256hex(data: AnyStr) -> str:
 	return sha256(encode_anystr(data)).hexdigest()

@@ -27,7 +27,6 @@ class TestSendMsg(BaseTest):
 		assert self.send_msg_wrapper("hello", uname="not a valid uname")[1]==400
 
 	@BaseTest.request_context
-	@BaseTest.unlocked
 	def test_whitespace_only_msg_returns_http_400(self):
 		assert self.send_msg_wrapper("   ")[1]==400
 

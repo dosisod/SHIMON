@@ -7,12 +7,13 @@ from ..__init__ import Json
 
 def theme(self, theme: str, redirect: bool) -> Json:
 	if type(theme) is str:
-		clean=os.path.abspath("SHIMON/templates/themes/"+theme)
+		path="SHIMON/templates/themes/"
+		dirty=os.path.abspath(path+theme)
 
 		#dont allow reverse file traversal
-		if clean.startswith(os.getcwd()+"/SHIMON/templates/themes/"):
-			if os.path.isfile(clean+".css"):
-				self.cache_mapper["theme"]=clean.split("/")[-1]
+		if dirty.startswith(os.getcwd()+"/"+path):
+			if os.path.isfile(dirty+".css"):
+				self.cache_mapper["theme"]=dirty.split("/")[-1]
 
 				return error_202()
 

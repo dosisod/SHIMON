@@ -13,7 +13,6 @@ class TestHandler(BaseTest):
 		assert handler(self.shimon, {"unlock": self.pwd})[1]==301
 
 	@BaseTest.request_context
-	@BaseTest.unlocked
 	@BaseTest.allow_local
 	def test_invalid_call_returns_http_400(self):
 		@BaseTest.use_cookie("session", self.shimon.session.session)
@@ -25,7 +24,6 @@ class TestHandler(BaseTest):
 		run(self)
 
 	@BaseTest.request_context
-	@BaseTest.unlocked
 	@BaseTest.allow_local
 	def test_invalid_session_returns_http_401(self):
 		assert handler(self.shimon, {"ping": ""})[1]==401

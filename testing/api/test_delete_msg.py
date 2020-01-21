@@ -23,8 +23,9 @@ class TestDeleteMsg(BaseTest):
 
 	@BaseTest.request_context
 	@BaseTest.unlocked
-	def test_missing_password_param_returns_http_401(self):
-		self.shimon.msg_policy=1
+	def test_missing_password_with_policy_1_returns_http_401(self):
+		old_policy=self.shimon.msg_policy
+		self.shimon.cache_mapper["msg policy"]=1
 
 		assert self.delete_msg({
 				"id": self.user["id"],
@@ -32,8 +33,9 @@ class TestDeleteMsg(BaseTest):
 				"pwd": "not the password"
 			})[1]==401
 
+		self.shimon.cache_mapper["msg policy"]=old_policy
+
 	@BaseTest.request_context
-	@BaseTest.unlocked
 	def test_invalid_index_returns_http_400(self):
 		assert self.delete_msg({
 			"id": self.user["id"],

@@ -1,3 +1,4 @@
+from contextlib import suppress
 from flask import abort
 import json
 
@@ -36,12 +37,10 @@ def handler(self, data: Dict) -> Union[Page, Json]:
 
 def try_json_convert(string: str) -> Union[Dict, List, str]:
 	if string.startswith("[") or string.startswith("{"):
-		try:
+		with suppress(json.decoder.JSONDecodeError):
 			return cast(
 				Union[Dict, List],
 				json.loads(string)
 			)
-		except:
-			pass
 
 	return string

@@ -4,12 +4,10 @@ from testing.base import BaseTest
 
 class TestFreshCSS(BaseTest):
 	@BaseTest.request_context
-	@BaseTest.unlocked
 	def test_always_returns_http_200(self):
 		assert self.fresh_css("true")[1]==200
 
 	@BaseTest.request_context
-	@BaseTest.unlocked
 	def test_enabled_when_set_to_true(self):
 		self.shimon.cache_mapper["fresh css"]=False
 
@@ -19,7 +17,6 @@ class TestFreshCSS(BaseTest):
 		assert self.shimon.cache["fresh css"]==True
 
 	@BaseTest.request_context
-	@BaseTest.unlocked
 	def test_disabled_when_set_to_non_true(self):
 		self.shimon.cache_mapper["fresh css"]=False
 

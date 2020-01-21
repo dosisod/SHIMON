@@ -4,19 +4,16 @@ from testing.base import BaseTest
 
 class TestAddFriend(BaseTest):
 	@BaseTest.request_context
-	@BaseTest.unlocked
 	def test_invalid_data_returns_http_400(self):
 		assert self.add_friend("invalid")[1]==400
 
 	@BaseTest.request_context
 	@BaseTest.allow_local
-	@BaseTest.unlocked
 	def test_missing_name_param_returns_http_400(self):
 		assert self.add_friend({"id": "user id"})[1]==400
 
 	@BaseTest.request_context
 	@BaseTest.allow_local
-	@BaseTest.unlocked
 	def test_missing_id_param_returns_http_400(self):
 		assert self.add_friend({"name": "name"})[1]==400
 
@@ -57,6 +54,8 @@ class TestAddFriend(BaseTest):
 			"name": "whatever",
 			"id": "test add"
 		})[1]==200
+
+		self.remove_tmp_friend()
 
 	def remove_tmp_friend(self):
 		for i, friend in enumerate(self.shimon.cache["friends"]):
