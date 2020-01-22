@@ -1,5 +1,5 @@
-import pretty_bad_protocol as pbp
 from flask import Response
+import gnupg as gpg
 import json
 import os
 
@@ -9,17 +9,12 @@ from .renderer import render
 from typing import Union, Optional, cast
 from .__init__ import Page, Json
 
-#fixes 'DECRYPTION_COMPLIANCE_MODE' '23' error
-from pretty_bad_protocol import gnupg
-import pretty_bad_protocol._parsers
-gnupg._parsers.Verify.TRUST_LEVELS["DECRYPTION_COMPLIANCE_MODE"] = 23
-
 class Storage:
 	def __init__(self, shimon_ref, filepath: str="data.gpg"):
 		self.shimon=shimon_ref
 
 		self.filepath=filepath
-		self.gpg=pbp.GPG()
+		self._gpg=gpg.GPG()
 
 	def unlock(self, pwd: str) -> Optional[str]:
 		data=self.raw_unlock(self.filepath, pwd)
@@ -37,7 +32,7 @@ class Storage:
 			with open(filepath, "rb") as f:
 				return cast(
 					str,
-					self.gpg.decrypt_file(
+					self._gpg.decrypt_file(
 						f,
 						passphrase=pwd
 					).data.decode()
@@ -111,10 +106,10 @@ class Storage:
 		return "fail"
 
 	def raw_lock(self, filepath: str, data: str, pwd: str) -> None:
-		self.gpg.encrypt(
+		self._gpg.encrypt(
 			data,
+			recipients=None,
 			passphrase=pwd,
 			symmetric=True,
-			encrypt=False,
 			output=filepath
 		)
