@@ -84,7 +84,7 @@ class Shimon:
 			code=ex
 
 			#client can only set certain http codes
-			if 300<=code and code<=417:
+			if 300 <= code <= 417:
 				if code in codes:
 					msg=codes[code]
 

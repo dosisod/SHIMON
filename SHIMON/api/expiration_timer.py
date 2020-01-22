@@ -6,7 +6,7 @@ from ..__init__ import Json
 def expiration_timer(self, data: str, redirect: bool) -> Json:
 	if data.isdigit():
 		seconds=int(data)
-		if seconds>=900 and seconds<=86400:
+		if 900 <= seconds <= 86400:
 			self.cache_mapper["expiration"]=seconds
 
 			return error_202()
