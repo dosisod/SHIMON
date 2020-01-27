@@ -8,7 +8,7 @@ from .util import encode_anystr
 from typing import Union, AnyStr, Optional
 
 class kee():
-	def __init__(self, bits: Optional[int]) -> None:
+	def __init__(self, bits: Optional[int]=None) -> None:
 		if bits:
 			self.key=RSA.generate(bits)
 			self._handle_key()
