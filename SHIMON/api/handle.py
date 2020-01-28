@@ -5,9 +5,9 @@ import json
 from .api_calls import *
 
 from typing import Union, Dict, List, cast
-from ..__init__ import Page, Json
+from ..__init__ import AnyResponse
 
-def handler(self, data: Dict) -> Union[Page, Json]:
+def handler(self, data: Dict) -> AnyResponse:
 	for attr in data:
 		data[attr]=try_json_convert(data[attr])
 

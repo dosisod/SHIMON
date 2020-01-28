@@ -3,9 +3,9 @@ import json
 from ..renderer import render
 
 from typing import Dict
-from ..__init__ import Page
+from ..__init__ import HttpResponse
 
-def unlock(self, pwd: str, redirect: bool) -> Page:
+def unlock(self, pwd: str, redirect: bool) -> HttpResponse:
 	plain=self.storage.unlock(pwd)
 
 	if not self.login_limiter.in_cooldown() and plain:

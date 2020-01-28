@@ -15,7 +15,7 @@ from .storage import Storage
 from .renderer import render
 
 from typing import Union, Dict, Any
-from .__init__ import Page, Json
+from .__init__ import Page, HttpResponse, AnyResponse
 
 class Shimon:
 	def __init__(self) -> None:
@@ -59,7 +59,7 @@ class Shimon:
 		#2 never ask
 		self.msg_policy=0
 
-	def error(self, ex: Union[int, Exception]) -> Page:
+	def error(self, ex: Union[int, Exception]) -> HttpResponse:
 		codes={
 			301: "Moved Permanently",
 			400: "Invalid Request",
@@ -110,19 +110,19 @@ class Shimon:
 			msg=msg
 		), return_code
 
-	def index(self, error: str="", uuid: str="") -> Page:
+	def index(self, error: str="", uuid: str="") -> HttpResponse:
 		self.security.check_local()
 
 		if uuid:
 			return self.msg(uuid)
 
 		if not self.storage.cache_file_exists():
-			return self.session.create(fresh=True)
+			return self.session.create(fresh=True), 200
 
 		had_error=self.security.check_session()
 
 		if self.cache==self.empty_cache or had_error:
-			return render(self, "pages/login.html")
+			return render(self, "pages/login.html"), 401
 
 		res=make_response(render(
 			self,
@@ -169,9 +169,10 @@ class Shimon:
 			version=self.VERSION
 		)
 
-	def msg(self, uuid: str) -> Page:
+	def msg(self, uuid: str) -> HttpResponse:
 		ret=self.security.check_all()
-		if ret: return ret
+		if ret:
+			return ret, 401
 
 		#make sure requested user is in friends list
 		for friend in self.cache["friends"]:
@@ -204,9 +205,9 @@ class Shimon:
 			return render(self, "pages/login.html")
 
 		else:
-			return self.index(error="Already logged in"), 301
+			return self.index(error="Already logged in"), 301 # type: ignore
 
-	def api(self) -> Union[Json, Page]:
+	def api(self) -> AnyResponse:
 		self.security.check_local()
 
 		return handler(self, request.form.to_dict())

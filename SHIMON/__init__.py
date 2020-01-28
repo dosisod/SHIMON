@@ -2,13 +2,15 @@ from flask import Response
 
 from typing import Union, Dict, List, Any, Tuple
 
-#can be a flask response or str, with or without an HTTP code (int)
 Page=Union[
 	Response,
 	str,
 	Tuple[Response, int],
 	Tuple[str, int]
 ]
+
+HttpResponse=Tuple[Page, int]
+AnyResponse=Union[HttpResponse, Page]
 
 #returned json is just a response, added for clarity
 Json=Page
