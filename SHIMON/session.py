@@ -7,7 +7,7 @@ import os
 from .api.external import api_friends, api_recent
 from .api.error import error
 from .renderer import render
-from .kee import kee
+from .kee import Kee
 
 from typing import Union, Dict
 from .__init__ import Page
@@ -30,7 +30,9 @@ class Session:
 				#hash for "123", can be changed in settings
 				"sha512": "3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2",
 
-				"key": b64.b64encode(kee(2048).private()).decode(),
+				"key": b64.b64encode(
+					Kee(2048).private()
+				).decode(),
 
 				"expiration": 3600,
 				"developer": False,

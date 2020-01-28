@@ -7,15 +7,19 @@ from .util import encode_anystr
 
 from typing import Union, AnyStr, Optional
 
-class kee():
+class Kee:
 	def __init__(self, bits: Optional[int]=None) -> None:
 		if bits:
 			self.key=RSA.generate(bits)
 			self._handle_key()
 
-	def importKey(self, key: AnyStr) -> None:
+	@classmethod
+	def importKey(cls, key: AnyStr) -> "Kee":
+		self=cls()
 		self.key=RSA.importKey(encode_anystr(key))
 		self._handle_key()
+
+		return self
 
 	def _handle_key(self) -> None:
 		self.signer=PKCS1_PSS.new(self.key)
