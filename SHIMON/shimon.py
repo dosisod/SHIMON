@@ -14,7 +14,7 @@ from .session import Session
 from .storage import Storage
 from .renderer import render
 
-from typing import Union, Dict, Any, cast
+from typing import Union, Dict, Any
 from .__init__ import Page, Json
 
 class Shimon:
@@ -73,7 +73,7 @@ class Shimon:
 		msg=""
 
 		if isinstance(ex, HTTPException):
-			code=cast(int, ex.code)
+			code=ex.code or 500
 
 			if code in codes:
 				msg=codes[code]

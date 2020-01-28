@@ -1,4 +1,4 @@
-from typing import Union, Dict, Tuple, Any, cast
+from typing import Union, Dict, Tuple, Any
 
 CacheDictValue=Union[str, Tuple[Any, str]]
 
@@ -28,7 +28,6 @@ class CacheMapper:
 
 			return
 
-		cast(str, cache_name)
 		cache_val=self.cache_names[cache_name]
 
 		if cache_name not in self.cache_names:

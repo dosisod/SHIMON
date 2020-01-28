@@ -11,8 +11,8 @@ Page=Union[
 ]
 
 #returned json is just a response, added for clarity
-Json=Response
+Json=Page
 
 #Complex can be many things, including dict, list, str
 #technically Complex could be anything, but preferably it is one of the above ones
-Complex=Union[Dict, List, str, Any]
+Complex=Union[Dict, List, str, Page]

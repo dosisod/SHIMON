@@ -1,7 +1,7 @@
-from typing import Union, AnyStr, cast
+from typing import Union, AnyStr
 
 def encode_anystr(data: AnyStr) -> bytes:
-	if type(data) is str:
-		return cast(str, data).encode()
+	if isinstance(data, str):
+		return data.encode()
 
-	return cast(bytes, data)
+	return data

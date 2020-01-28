@@ -10,4 +10,4 @@ def allfor(self, user: str, redirect: bool) -> Json:
 	if raw==False:
 		return error_400()
 
-	return error_200(raw)
+	return error_200(raw) # type: ignore

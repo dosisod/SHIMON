@@ -4,6 +4,7 @@ from copy import deepcopy
 from ..util import encode_anystr
 
 from typing import Union, List, Dict, AnyStr
+from typing_extensions import Literal
 from ..__init__ import Page
 
 def api_friends(self) -> List:
@@ -36,7 +37,7 @@ def api_recent(self) -> List:
 
 	return recent
 
-def api_allfor(self, id: str) -> Union[List, Dict, bool]:
+def api_allfor(self, id: str) -> Union[List, Dict, Literal[False]]:
 	for user in self.cache["history"]:
 		if user["id"]==id:
 			break
