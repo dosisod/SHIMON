@@ -1,4 +1,4 @@
-from flask import Flask, request, make_response, abort, Response
+from flask import Flask, request, abort, Response
 from werkzeug.exceptions import HTTPException
 from datetime import datetime, timedelta
 import traceback
@@ -6,13 +6,13 @@ import json
 import os
 
 from .api.external import api_recent, api_friends, api_allfor
+from .renderer import render, make_response
 from .cache_map import CacheMapper
 from .api.handle import handler
 from .login import LoginLimiter
 from .security import Security
 from .session import Session
 from .storage import Storage
-from .renderer import render
 
 from typing import Union, Dict, Any
 from .__init__ import Page, HttpResponse, AnyResponse
@@ -135,7 +135,7 @@ class Shimon:
 		#clear uname cookie if set
 		res.set_cookie("uname", "", expires=0)
 
-		return res
+		return res, 200
 
 	def settings(self) -> Page:
 		ret=self.security.check_all()
@@ -188,7 +188,8 @@ class Shimon:
 				res.set_cookie("uname", uuid)
 
 				self.redraw=True
-				return res
+
+				return res, 200
 
 		abort(404)
 

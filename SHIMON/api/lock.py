@@ -1,6 +1,4 @@
-from flask import make_response
-
-from ..renderer import render
+from ..renderer import render, make_response
 from .error import error_400
 
 from typing import Union, Dict
