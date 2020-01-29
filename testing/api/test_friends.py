@@ -1,12 +1,16 @@
 from SHIMON.api.friends import friends
 
 from testing.base import BaseTest
+from testing.util import assertHttpResponse
 
 class TestFriends(BaseTest):
 	@BaseTest.request_context
 	@BaseTest.unlocked
 	def test_always_returns_http_200(self):
-		assert self.friends()[1]==200
+		assertHttpResponse(
+			self.friends(),
+			200
+		)
 
 	@BaseTest.request_context
 	@BaseTest.unlocked

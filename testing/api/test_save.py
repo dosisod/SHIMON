@@ -1,17 +1,24 @@
 from SHIMON.api.save import save
 
 from testing.base import BaseTest
+from testing.util import assertHttpResponse
 
 class TestSave(BaseTest):
 	@BaseTest.request_context
 	@BaseTest.unlocked
 	def test_invalid_pwd_returns_http_401(self):
-		assert self.save("not the password")[1]==401
+		assertHttpResponse(
+			self.save("not the password"),
+			401
+		)
 
 	@BaseTest.request_context
 	@BaseTest.unlocked
 	def test_valid_password_returns_http_200(self):
-		assert self.save(self.pwd)[1]==200
+		assertHttpResponse(
+			self.save(self.pwd),
+			200
+		)
 
 	@BaseTest.request_context
 	@BaseTest.unlocked

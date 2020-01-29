@@ -1,18 +1,29 @@
 from SHIMON.api.new_key import new_key
 
 from testing.base import BaseTest
+from testing.util import assertHttpResponse
 
 class TestNewKey(BaseTest):
 	@BaseTest.request_context
 	@BaseTest.unlocked
 	def test_invalid_password_returns_http_401(self):
-		assert self.new_key("not the password")[1]==401
+		assertHttpResponse(
+			self.new_key("not the password"),
+			401
+		)
 
 	@BaseTest.request_context
 	@BaseTest.unlocked
 	@BaseTest.allow_local
 	def test_valid_pwd_returns_http_200(self):
-		assert self.new_key(self.pwd)[1]==200
+		@BaseTest.use_cookie("session", self.shimon.session.session)
+		def run(self):
+			assertHttpResponse(
+				self.new_key(self.pwd),
+				200
+			)
+
+		run(self)
 
 	@BaseTest.request_context
 	@BaseTest.unlocked

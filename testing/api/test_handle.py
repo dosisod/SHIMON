@@ -3,30 +3,49 @@ import json
 from SHIMON.api.handle import handler, try_json_convert
 
 from testing.base import BaseTest
+from testing.util import assertHttpResponse
 
 class TestHandler(BaseTest):
 	@BaseTest.request_context
 	@BaseTest.allow_local
+	@BaseTest.unlocked
 	def test_unlocking_while_unlocked_returns_http_301(self):
-		handler(self.shimon, {"unlock": self.pwd})
+		@BaseTest.use_cookie("session", self.shimon.session.session)
+		def run(self):
+			handler(self.shimon, {"unlock": self.pwd})
 
-		assert handler(self.shimon, {"unlock": self.pwd})[1]==301
+			assertHttpResponse(
+				handler(
+					self.shimon, {
+						"unlock": self.pwd
+					}),
+				301
+			)
+
+		run(self)
 
 	@BaseTest.request_context
 	@BaseTest.allow_local
+	@BaseTest.unlocked
 	def test_invalid_call_returns_http_400(self):
 		@BaseTest.use_cookie("session", self.shimon.session.session)
 		def run(self):
-			assert handler(self.shimon, {
-				"not a call": ""
-			})[1]==400
+			assertHttpResponse(
+				handler(self.shimon, {
+					"not a call": ""
+				}),
+				400
+			)
 
 		run(self)
 
 	@BaseTest.request_context
 	@BaseTest.allow_local
 	def test_invalid_session_returns_http_401(self):
-		assert handler(self.shimon, {"ping": ""})[1]==401
+		assertHttpResponse(
+			handler(self.shimon, {"ping": ""}),
+			401
+		)
 
 	def test_json_converter_returns_non_json_as_str(self):
 		output=try_json_convert("testing 123")

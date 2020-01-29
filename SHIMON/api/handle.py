@@ -16,7 +16,7 @@ def handler(self, data: Dict) -> AnyResponse:
 			return unlock(self, data["unlock"], True)
 
 		else:
-			return self.index(error="Already logged in"), 301
+			return self.index(error="Already logged in", code=301)
 
 	ret=self.security.check_all()
 	if ret: return ret

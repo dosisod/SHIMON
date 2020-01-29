@@ -1,18 +1,25 @@
 from SHIMON.api.allfor import allfor
 
 from testing.base import BaseTest
+from testing.util import assertHttpResponse
 
 class TestAllfor(BaseTest):
 	@BaseTest.request_context
 	@BaseTest.unlocked
 	def test_valid_id_always_returns_http_200(self):
 		user=self.shimon.cache["friends"][0]
-		assert self.allfor(user["id"])[1]==200
+		assertHttpResponse(
+			self.allfor(user["id"]),
+			200
+		)
 
 	@BaseTest.request_context
 	@BaseTest.unlocked
 	def test_invalid_id_always_returns_http_400(self):
-		assert self.allfor("not a user id")[1]==400
+		assertHttpResponse(
+			self.allfor("not a user id"),
+			400
+		)
 
 	@BaseTest.request_context
 	@BaseTest.unlocked

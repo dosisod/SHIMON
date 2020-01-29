@@ -110,7 +110,7 @@ class Shimon:
 			msg=msg
 		), return_code
 
-	def index(self, error: str="", uuid: str="") -> HttpResponse:
+	def index(self, error: str="", uuid: str="", code=200) -> HttpResponse:
 		self.security.check_local()
 
 		if uuid:
@@ -135,7 +135,7 @@ class Shimon:
 		#clear uname cookie if set
 		res.set_cookie("uname", "", expires=0)
 
-		return res, 200
+		return res, code
 
 	def settings(self) -> Page:
 		ret=self.security.check_all()

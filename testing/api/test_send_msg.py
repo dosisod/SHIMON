@@ -1,6 +1,7 @@
 from SHIMON.api.send_msg import send_msg
 
 from testing.base import BaseTest
+from testing.util import assertHttpResponse
 
 class TestSendMsg(BaseTest):
 	@classmethod
@@ -11,24 +12,39 @@ class TestSendMsg(BaseTest):
 
 	@BaseTest.request_context
 	def test_invalid_data_returns_http_400(self):
-		assert send_msg(self.shimon, "not valid", False)[1]==400
+		assertHttpResponse(
+			send_msg(self.shimon, "not valid", False),
+			400
+		)
 
 	@BaseTest.request_context
 	def test_missing_uname_param_returns_http_400(self):
-		assert send_msg(self.shimon, {"msg": "hello"}, False)[1]==400
+		assertHttpResponse(
+			send_msg(self.shimon, {"msg": "hello"}, False),
+			400
+		)
 
 	@BaseTest.request_context
 	def test_missing_msg_param_returns_http_400(self):
-		assert send_msg(self.shimon, {"uname": "user"}, False)[1]==400
+		assertHttpResponse(
+			send_msg(self.shimon, {"uname": "user"}, False),
+			400
+		)
 
 	@BaseTest.request_context
 	@BaseTest.unlocked
 	def test_uname_not_in_friend_list_returns_http_400(self):
-		assert self.send_msg_wrapper("hello", uname="not a valid uname")[1]==400
+		assertHttpResponse(
+			self.send_msg_wrapper("hello", uname="not a valid uname"),
+			400
+		)
 
 	@BaseTest.request_context
 	def test_whitespace_only_msg_returns_http_400(self):
-		assert self.send_msg_wrapper("   ")[1]==400
+		assertHttpResponse(
+			self.send_msg_wrapper("   "),
+			400
+		)
 
 	@BaseTest.request_context
 	@BaseTest.unlocked

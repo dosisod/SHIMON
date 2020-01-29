@@ -1,6 +1,7 @@
 from SHIMON.api.devmode import devmode
 
 from testing.base import BaseTest
+from testing.util import assertHttpResponse
 
 class TestDevmode(BaseTest):
 	@BaseTest.request_context
@@ -23,7 +24,10 @@ class TestDevmode(BaseTest):
 
 	@BaseTest.request_context
 	def test_always_returns_http_200(self):
-		assert self.devmode("true")[1]==200
+		assertHttpResponse(
+			self.devmode("true"),
+			200
+		)
 
 	def devmode(self, enable: bool):
 		return devmode(

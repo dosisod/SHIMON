@@ -1,21 +1,41 @@
 from SHIMON.api.add_friend import add_friend
 
 from testing.base import BaseTest
+from testing.util import assertHttpResponse
 
 class TestAddFriend(BaseTest):
 	@BaseTest.request_context
 	def test_invalid_data_returns_http_400(self):
-		assert self.add_friend("invalid")[1]==400
+		assertHttpResponse(
+			self.add_friend("invalid"),
+			400
+		)
 
 	@BaseTest.request_context
 	@BaseTest.allow_local
+	@BaseTest.unlocked
 	def test_missing_name_param_returns_http_400(self):
-		assert self.add_friend({"id": "user id"})[1]==400
+		@BaseTest.use_cookie("session", self.shimon.session.session)
+		def run(self):
+			assertHttpResponse(
+				self.add_friend({"id": "user id"}),
+				400
+			)
+
+		run(self)
 
 	@BaseTest.request_context
 	@BaseTest.allow_local
+	@BaseTest.unlocked
 	def test_missing_id_param_returns_http_400(self):
-		assert self.add_friend({"name": "name"})[1]==400
+		@BaseTest.use_cookie("session", self.shimon.session.session)
+		def run(self):
+			assertHttpResponse(
+				self.add_friend({"name": "name"}),
+				400
+			)
+
+		run(self)
 
 	@BaseTest.request_context
 	@BaseTest.allow_local
@@ -23,10 +43,16 @@ class TestAddFriend(BaseTest):
 	def test_adding_existing_friend_returns_http_400(self):
 		user=self.shimon.cache["history"][0]
 
-		assert self.add_friend({
-			"name": "anything",
-			"id": user["id"]
-		})[1]==400
+		@BaseTest.use_cookie("session", self.shimon.session.session)
+		def run(self):
+			assertHttpResponse(
+				self.add_friend({
+					"name": "anything",
+					"id": user["id"]
+				}
+			), 400)
+
+		run(self)
 
 	@BaseTest.request_context
 	@BaseTest.allow_local
@@ -50,10 +76,16 @@ class TestAddFriend(BaseTest):
 	def test_adding_new_friend_returns_http_200(self):
 		self.remove_tmp_friend()
 
-		assert self.add_friend({
-			"name": "whatever",
-			"id": "test add"
-		})[1]==200
+		@BaseTest.use_cookie("session", self.shimon.session.session)
+		def run(self):
+			assertHttpResponse(
+				self.add_friend({
+					"name": "whatever",
+					"id": "test add"
+				}
+			), code=200)
+
+		run(self)
 
 		self.remove_tmp_friend()
 

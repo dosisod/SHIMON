@@ -1,6 +1,7 @@
 from SHIMON.api.delete_msg import delete_msg
 
 from testing.base import BaseTest
+from testing.util import assertHttpResponse
 
 class TestDeleteMsg(BaseTest):
 	@classmethod
@@ -11,15 +12,24 @@ class TestDeleteMsg(BaseTest):
 
 	@BaseTest.request_context
 	def test_invalid_data_returns_http_400(self):
-		assert self.delete_msg("")[1]==400
+		assertHttpResponse(
+			self.delete_msg(""),
+			400
+		)
 
 	@BaseTest.request_context
 	def test_missing_id_param_returns_http_400(self):
-		assert self.delete_msg({"index": "0"})[1]==400
+		assertHttpResponse(
+			self.delete_msg({"index": "0"}),
+			400
+		)
 
 	@BaseTest.request_context
 	def test_missing_index_param_returns_http_400(self):
-		assert self.delete_msg({"id": "test id"})[1]==400
+		assertHttpResponse(
+			self.delete_msg({"id": "test id"}),
+			400
+		)
 
 	@BaseTest.request_context
 	@BaseTest.unlocked
@@ -27,21 +37,27 @@ class TestDeleteMsg(BaseTest):
 		old_policy=self.shimon.msg_policy
 		self.shimon.cache_mapper["msg policy"]=1
 
-		assert self.delete_msg({
+		assertHttpResponse(
+			self.delete_msg({
 				"id": self.user["id"],
 				"index": "0",
 				"pwd": "not the password"
-			})[1]==401
+			}),
+			401
+		)
 
 		self.shimon.cache_mapper["msg policy"]=old_policy
 
 	@BaseTest.request_context
 	def test_invalid_index_returns_http_400(self):
-		assert self.delete_msg({
-			"id": self.user["id"],
-			"index": "-1",
-			"pwd": self.pwd
-		})[1]==400
+		assertHttpResponse(
+			self.delete_msg({
+				"id": self.user["id"],
+				"index": "-1",
+				"pwd": self.pwd
+			}),
+			400
+		)
 
 	def delete_msg(self, obj):
 		return delete_msg(self.shimon, obj, False)

@@ -2,6 +2,7 @@ from SHIMON.api.msg_policy import msg_policy
 from SHIMON.api.unlock import unlock
 
 from testing.base import BaseTest
+from testing.util import assertHttpResponse
 
 class TestMsgPolict(BaseTest):
 	@classmethod
@@ -11,15 +12,24 @@ class TestMsgPolict(BaseTest):
 
 	@BaseTest.app_context
 	def test_num_too_high_causes_http_400(self):
-		assert self.msg_policy("3")[1]==400
+		assertHttpResponse(
+			self.msg_policy("3"),
+			400
+		)
 
 	@BaseTest.app_context
 	def test_num_too_low_causes_http_400(self):
-		assert self.msg_policy("-1")[1]==400
+		assertHttpResponse(
+			self.msg_policy("-1"),
+			400
+		)
 
 	@BaseTest.app_context
 	def test_non_int_string_causes_http_400(self):
-		assert self.msg_policy("not an int")[1]==400
+		assertHttpResponse(
+			self.msg_policy("not an int"),
+			400
+		)
 
 	@BaseTest.app_context
 	def test_cache_msg_policy_is_set(self):

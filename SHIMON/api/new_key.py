@@ -16,6 +16,6 @@ def new_key(self, pwd: str, redirect: bool) -> Union[Page, Json]:
 		#makes sure changes are saved
 		self.storage.lock(pwd)
 
-		return self.index(), 200
+		return self.index()
 
 	return error_401()

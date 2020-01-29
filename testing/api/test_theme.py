@@ -5,12 +5,16 @@ from SHIMON.renderer import jsonify
 from SHIMON.api.theme import theme
 
 from testing.base import BaseTest
+from testing.util import assertHttpResponse
 
 class TestTheme(BaseTest):
 	@BaseTest.request_context
 	def test_valid_theme_returns_http_202(self):
 		self.reset()
-		assert self.theme("default")[1]==202
+		assertHttpResponse(
+			self.theme("default"),
+			202
+		)
 
 	@BaseTest.request_context
 	def test_valid_theme_sets_new_theme(self):
@@ -22,7 +26,10 @@ class TestTheme(BaseTest):
 
 	@BaseTest.request_context
 	def test_invalid_theme_returns_http_400(self):
-		assert self.theme("not a theme")[1]==400
+		assertHttpResponse(
+			self.theme("not a theme"),
+			400
+		)
 
 	@BaseTest.request_context
 	def test_invalid_theme_keeps_last_theme(self):
@@ -36,7 +43,10 @@ class TestTheme(BaseTest):
 	def test_file_traversal_returns_http_400(self):
 		self.reset()
 
-		assert self.theme("../default")[1]==400
+		assertHttpResponse(
+			self.theme("../default"),
+			400
+		)
 
 	def reset(self):
 		self.shimon.cache_mapper["theme"]="default"
