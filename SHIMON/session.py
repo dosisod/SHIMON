@@ -9,7 +9,7 @@ from .renderer import render, make_response
 from .api.error import error
 from .kee import Kee
 
-from typing import Union, Dict
+from typing import Optional, Dict
 from .__init__ import Page
 
 class Session:
@@ -58,7 +58,7 @@ class Session:
 
 		return res, 200
 
-	def check(self, data: Dict) -> Union[Page, None]:
+	def check(self, data: Dict) -> Optional[Page]:
 		if "session" in data:
 			if datetime.now()>(self.lastcall+timedelta(seconds=self.expires)):
 				self.kill()
