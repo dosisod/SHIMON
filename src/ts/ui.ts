@@ -3,7 +3,7 @@ type Dict={[key: string]: any}
 var tray=nu("tray")
 var friends=[]
 
-declare var preload: Dict | boolean
+declare var preload: Dict | false
 
 async function check_friends(): Promise<void> {
 	if (!friends.length) {
@@ -27,42 +27,26 @@ function uname(name: string): string | undefined {
 }
 
 async function reload_msgs(): Promise<void> {
-	await check_friends()
-
 	const user=document.cookie.replace(/(?:(?:^|.*;\s*)uname\s*\=\s*([^;]*).*$)|^.*$/, "$1")
 
-	var raw: Dict | boolean
-	if (!preload) {
-		raw=await post({"allfor": user})
-		raw=raw["msg"]
-	}
-	else {
-		raw=preload
-		preload=false
-	}
+	const raw=await post_or_preload({"allfor": user})
 
-	if ((<Dict>raw).length==0) return
+	if (raw.length==0) return
 	const data=raw["msgs"]
 
 	//must be stored like this as raw can change over time
-	const rawid=raw["id"]
+	const rawId=raw["id"]
 
-	//there is no data to loop through, show default msg
-	if (!data.length) {
+	if (data.length==0) {
 		replace_template(
 			new_card(
 				raw["hash"],
 				realname(user),
-				"",
-				true,
-				true
-			).outerHTML+blank("Say hi to "+realname(user)+"!"),
-			nu("span", { //ending element
-				"className": "center name point",
-				"id": "reload",
-				"innerText": "RELOAD",
-				"onclick": ()=>reload_msgs()
-			})
+				"", //message
+				true, //doReturnCard
+				false //isClickable
+			).outerHTML + blank("Say hi to " + realname(user) + "!"),
+			reload_button(reload_msgs)
 		)
 
 		return
@@ -72,85 +56,70 @@ async function reload_msgs(): Promise<void> {
 		new_card(
 			raw["hash"],
 			realname(user),
-			"",
-			true, //return the card instead of appending
-			true //disable clicking of user card
+			"", //message
+			true, //doReturnCard
+			false //isClickable
 		),
-		nu("span", { //ending element
-			"className": "center name point",
-			"innerText": "RELOAD",
-			"id": "reload",
-			"onclick": ()=>reload_msgs()
-		}),
-		data, //parameters to feed the template
-		(arr)=>{ //function template for creating cards
-			var ret=nu("span", {
-				"className": arr["sending"]?"x-sending":"x-receiving",
-				"innerText": "x",
-				"onclick": ()=>{
-					post({"status": ""}).then((response)=>{
-						if (response.msg["msg policy"]==0) {
-							askForConfirmation("Are you sure you want to delete this message?")
-						}
-						else if (response.msg["msg policy"]==1) {
-							var pwd=askForPassword("Enter Password")
-						}
-						else if (response.msg["msg policy"]!=2) {
-							error("Invalid Request")
-						}
-
-						post({"delete msg":{
-							"id": rawid,
-							"index": arr["index"],
-							"pwd": pwd || ""
-						}})
-
-						reload_msgs()
-					})
-				}
-			}, nu("li", {
-				"className": "item"
-			}))
-
-			nu("span", {
-				"className": "msg",
-				"innerText": arr["msg"]
-			}, [
-				nu("div", {
-					"className": "holder block "+(arr["sending"]?"sending":"receiving")
-				}),
-				ret
-			])
-			return ret
+		reload_button(reload_msgs),
+		data,
+		(user)=>{
+			return create_msg(user, rawId)
 		}
 	)
 	nu("reload").scrollIntoView()
 }
 
+function create_msg(user, userId) {
+	var box=nu("span", {
+		"className": user["sending"] ? "x-sending" : "x-receiving",
+		"innerText": "x",
+		"onclick": ()=>{
+			post({"status": ""}).then((response)=>{
+				if (response.msg["msg policy"]==0) {
+					askForConfirmation("Are you sure you want to delete this message?")
+				}
+				else if (response.msg["msg policy"]==1) {
+					var pwd=askForPassword("Enter Password")
+				}
+				else if (response.msg["msg policy"]!=2) {
+					error("Invalid Request")
+				}
+
+				post({"delete msg":{
+					"id": userId,
+					"index": user["index"],
+					"pwd": pwd || ""
+				}})
+
+				reload_msgs()
+			})
+		}
+	}, nu("li", {
+		"className": "item"
+	}))
+
+	nu("span", {
+		"className": "msg",
+		"innerText": user["msg"]
+	}, [
+		nu("div", {
+			"className": "holder block " + (
+				user["sending"] ? "sending" : "receiving"
+			)
+		}),
+		box
+	])
+	return box
+}
+
 async function reload_index(): Promise<void> {
-	await check_friends()
+	const recent=await post_or_preload({"recent": ""})
 
-	var raw: Dict | boolean
-
-	if (!preload) {
-		raw=await post({"recent": ""})
-		raw=raw["msg"]
-	}
-	else {
-		raw=preload
-		preload=false
-	}
-
-	//if there are no msgs to display, display welcome msg
-	if (!(<Dict>raw).length) {
+	if (recent.length==0) {
+		//if there are no msgs to display, display welcome msg
 		replace_template(
 			blank("Add a friend to start talking!"),
-			nu("span", { //ending element
-				"className": "center name point",
-				"id": "reload",
-				"innerText": "RELOAD",
-				"onclick": ()=>reload_index()
-			})
+			reload_button(reload_index)
 		)
 
 		return
@@ -158,52 +127,65 @@ async function reload_index(): Promise<void> {
 
 	replace_template(
 		undefined,
-		nu("span", { //ending element
-			"className": "center name point",
-			"id": "reload",
-			"innerText": "RELOAD",
-			"onclick": ()=>reload_index()
-		}),
-		raw,
-		(arr)=>{
+		reload_button(reload_index),
+		recent,
+		(user)=>{
 			return new_card(
-				arr["hash"], //hash of user id
-				realname(arr["id"]), //realname of id
-				arr["msgs"][arr["msgs"].length-1]["msg"], //last message
-				true,
-				false,
-				true //use default cursor when hovering
+				user["hash"],
+				realname(user["id"]),
+				user["msgs"][user["msgs"].length-1]["msg"],
+				true, //doReturnCard
+				true, //isClickable
+				true //usePointer
 			)
 		}
 	)
 }
 
-//replace tray with nu elements
-async function replace_template(start: Appendable, end?: Appendable, params?: Dict | boolean, template?: Function): Promise<void> {
-	//start and end are put at the start and end of the tray
-	//template is a template to build items in the middle off of
-	//params is an array of the params for the template
+async function post_or_preload(data: Dict): Promise<Dict> {
+	await check_friends()
 
+	if (preload) {
+		const raw=<Dict>preload
+		preload=false
+
+		return raw
+	}
+	else {
+		return (
+			await post(data)
+		)["msg"]
+	}
+}
+
+async function replace_template(start: Appendable, end?: Appendable, params?: Dict | false, template?: Function): Promise<void> {
 	//clear tray, add right bar
 	tray.innerHTML=`<div class="rightbar"><a class="rightitem name point" href="/add">ADD FRIEND</a><br><a class="rightitem name point" href="/account">ACCOUNT</a><br><span class="rightitem name point" onclick="save(event)">SAVE</span></div>`
 
-	if (typeof start==="string") tray.innerHTML+=start
-	else if (start) tray.appendChild(<Node>start)
+	if (typeof start==="string") {
+		tray.innerHTML+=start
+	}
+	else if (start) {
+		tray.appendChild(<Node>start)
+	}
 
 	if (params) {
-		(<Dict>params).forEach((param, index)=>{
+		params.forEach((param, index)=>{
 			param["index"]=index
 
-			//append new item given params for template
 			tray.appendChild(template(param))
 		})
 	}
 
-	if (typeof end==="string") tray.innerHTML+=end
-	else if (end) tray.appendChild(<Node>end)
+	if (typeof end==="string") {
+		tray.innerHTML+=end
+	}
+	else if (end) {
+		tray.appendChild(<Node>end)
+	}
 }
 
-function new_card(uuid: string, name: string, message: string, doReturnCard: boolean=false, disable: boolean=true, pointer: boolean=false): HTMLElement | undefined {
+function new_card(uuid: string, name: string, message: string, doReturnCard: boolean=false, isClickable: boolean=false, usePointer: boolean=false): HTMLElement | undefined {
 	var ol=nu("ol", {})
 	ol.appendChild(
 		nu("li", {
@@ -219,10 +201,10 @@ function new_card(uuid: string, name: string, message: string, doReturnCard: boo
 	)
 
 	var div=nu("div", {
-		"className": pointer?"holder point":"holder"
+		"className": usePointer ? "holder point" : "holder"
 	})
 
-	if (!disable) {
+	if (isClickable) {
 		div.onclick=()=>{
 			window.location.href="/@"+uname(name)
 		}
@@ -250,7 +232,15 @@ function new_card(uuid: string, name: string, message: string, doReturnCard: boo
 	return undefined
 }
 
-//converts uuid to b64 img of hash
+function reload_button(func) {
+	return nu("span", {
+		"className": "center name point",
+		"id": "reload",
+		"innerText": "RELOAD",
+		"onclick": ()=>func()
+	})
+}
+
 function new_img(uuid: string): string {
 	var canvas=<HTMLCanvasElement>(nu("canvas", {
 		"width": 16,
@@ -261,16 +251,18 @@ function new_img(uuid: string): string {
 
 	var binary=""
 	for (const character of uuid) {
-		const bits=parseInt(character, 16).toString(2) //hex to binary string
+		const bits=parseInt(character, 16)
+			.toString(2)
+
 		binary+="0".repeat(4-bits.length)+bits
 	}
 
-	for (let i=0;i<256;i++) {
-		//set black or white pixel
-		draw.fillStyle=(binary[i]=="1")?"rgb(255,255,255)":"rgb(0,0,0)"
+	for (let i=0; i<256; i++) {
+		draw.fillStyle=(binary[i]=="1") ?
+			"rgb(255,255,255)" :
+			"rgb(0,0,0)"
 
-		//draw single pixel
-		draw.fillRect(i%16, ~~(i/16), 1, 1)
+		draw.fillRect(i%16, ~~(i / 16), 1, 1)
 	}
 
 	return canvas.toDataURL()

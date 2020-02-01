@@ -18,7 +18,6 @@ button: function(checkbox: HTMLElement): void {
 	}
 	else if (selected=="devmode") {
 		post({"devmode": checkbox.className.includes("-unchecked")}).then(()=>{
-			//reload with dev mode settings loaded
 			window.location.reload(true)
 		})
 	}
@@ -31,13 +30,11 @@ button: function(checkbox: HTMLElement): void {
 	}
 	else if (selected=="fresh js") {
 		post({"fresh js": isChecked(checkbox)}).then(()=>{
-			//force reload with new js files
 			window.location.reload(true)
 		})
 	}
 	else if (selected=="fresh css") {
 		post({"fresh css": isChecked(checkbox)}).then(()=>{
-			//force reload with new css files
 			window.location.reload(true)
 		})
 	}
@@ -54,7 +51,6 @@ dropdown: function(select: HTMLSelectElement): void {
 	}
 	else if (selected=="theme") {
 		post({"theme": select.value}).then(()=>{
-			//force reload, show new colorscheme
 			window.location.reload(true)
 		})
 	}

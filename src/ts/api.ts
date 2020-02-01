@@ -8,7 +8,6 @@ async function post(param: {[key: string]: any}, doRedirect: boolean=false): Pro
 	param["session"]=document.cookie.replace(/(?:(?:^|.*;\s*)session\s*\=\s*([^;]*).*$)|^.*$/, "$1")
 	param["redirect"]=!!doRedirect
 
-	//if any param passed is an object, jsonify it
 	const encode=function(str: string): string {
 		if (typeof str==="object") {
 			try {
@@ -98,7 +97,7 @@ function error(msg: string | boolean): void {
 		nu("error").innerText=msg
 	}
 	else {
-		if (Date.now()>(last_error+api_wait)) {
+		if (Date.now() > (last_error + api_wait)) {
 			nu("error").style.display="none"
 			nu("error").innerText=""
 		}
