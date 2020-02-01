@@ -172,7 +172,7 @@ class Shimon:
 	def msg(self, uuid: str) -> HttpResponse:
 		ret=self.security.check_all()
 		if ret:
-			return ret, 401
+			return ret
 
 		#make sure requested user is in friends list
 		for friend in self.cache["friends"]:
