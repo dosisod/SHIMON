@@ -4,6 +4,7 @@ html, body {
 	width: 100%;
 	height: 100%;
 }
+
 .container {
 	background: var(--container-bg);
 	position: relative;
@@ -12,7 +13,8 @@ html, body {
 	overflow: auto;
 	text-align: center;
 }
-.content {
+
+#tray {
 	width: 50%;
 	margin: auto;
 	position: absolute;
@@ -21,28 +23,34 @@ html, body {
 	top: 0;
 	bottom: 0;
 }
+
 @media screen and (max-width: 700px) {
-	.content {
+	#tray {
 		width: 100%;
 	}
 }
+
 .holder {
 	overflow: hidden;
 }
+
 .blank {
 	height: 128px;
 	display: flex;
 	align-items: center;
 }
+
 ol {
 	display: inline-block;
 	margin: 0;
 	padding: 0;
 	list-style-type: none;
 }
-a {
+
+a.setting, a.rightitem {
 	outline: 0;
 }
+
 textarea {
 	width: 100%;
 	resize: none;
@@ -52,6 +60,7 @@ textarea {
 	background: var(--input-bg);
 	color: var(--input-fg);
 }
+
 .checkbox {
 	min-width: 16px;
 	min-height: 16px;
@@ -62,12 +71,15 @@ textarea {
 	padding-left: 6px;
 	white-space: pre;
 }
+
 .checkbox-checked::after {
 	content: "x";
 }
+
 .checkbox-unchecked::after {
 	content: " ";
 }
+
 .input {
 	border: 1px solid var(--input-bd);
 	box-sizing: border-box;
@@ -76,12 +88,14 @@ textarea {
 	background: var(--input-bg);
 	color: var(--input-fg);
 }
+
 #click {
 	background: var(--click-bg);
 	color: var(--click-fg);
 	cursor: pointer;
 	outline: 0;
 }
+
 div.profile-pic-img {
 	image-rendering: -webkit-optimize-contrast;
 	image-rendering: -webkit-crisp-edges;
@@ -97,38 +111,43 @@ div.profile-pic-img {
 	width: 64px;
 	height: 64px;
 }
+
 .item {
 	width: 100%;
 	text-align: left;
 }
+
 .center {
 	width: 100%;
 	text-align: center;
 }
-.white { /* this name will need to be changed */
+
+/* this name will need to be changed */
+.white {
 	color: black !important;
 	background: white;
 }
+
 #name {
 	width: 100%;
 }
+
 .name {
 	font-weight: bold;
 	font-size: 16px;
 }
+
 .title {
 	color: var(--title-fg);
 }
-ol > .msg {
-	color: var(--msg-fg);
-	font-size: 14px;
-}
+
 .rightbar {
 	background: var(--container-bg);
 	position: absolute;
 	right: 0;
 	text-align: right;
 }
+
 .rightitem {
 	background: var(--container-bg);
 	color: var(--rightitem-fg);
@@ -137,6 +156,7 @@ ol > .msg {
 	padding-left: 5px;
 	right: 0;
 }
+
 .setting {
 	display: flex;
 	align-items: center;
@@ -145,14 +165,17 @@ ol > .msg {
 	padding-bottom: 5px;
 	color: var(--setting-fg);
 }
+
 li > a.setting {
 	display: table;
 }
+
 .dropdown {
 	vertical-align: middle;
 	position: absolute;
 	right: 0;
 }
+
 select.dropdown {
 	width: 50%;
 	border: 1px solid var(--dropdown-bd);
@@ -167,20 +190,25 @@ select.dropdown {
 	-webkit-appearance: none;
 	outline: 0;
 }
+
 select:-moz-focusring {
 	color: transparent;
 	text-shadow: 0 0 0 var(--dropdown-fg);
 }
+
 #reload {
 	color: var(--reload-fg);
 	padding-bottom: 50px;
 }
+
 .warn {
 	color: var(--warn-fg);
 }
+
 .info {
 	color: var(--info-fg);
 }
+
 .error {
 	padding: 5px;
 	background: var(--error-bg);
@@ -189,9 +217,11 @@ select:-moz-focusring {
 	transform: translate(-50%);
 	position: fixed;
 }
+
 .point {
 	cursor: pointer;
 }
+
 .nopoint {
 	cursor: default;
 }

@@ -12,13 +12,13 @@
 <body>
 
 <div class="container">
-<div class="content">
+<div id="tray">
 	<span class="title nopoint">SHIMON</span><br>
-	<span id="prompt" class="desc nopoint"></span>
-	<form method="POST" action="/api/" id="bar">
+	<span id="prompt" class="nopoint"></span>
+	<form method="POST" action="/api/">
 		<input name="unlock" id="pwd" type="password" autocomplete="password" /><input type="submit" id="click" value="UNLOCK" />
 	</form>
-	<span id="msg">{{ error }}</span>
+	<span id="error">{{ error }}</span>
 </div>
 </div>
 
