@@ -6,6 +6,11 @@ __pycache__/
 SHIMON/static/js/*
 !SHIMON/static/js/bundle.js
 
+# hide certain css files
+SHIMON/static/css/*
+!SHIMON/static/css/bundle.css
+!SHIMON/static/css/login.css
+
 # hide personal files
 data.gpg*
 todo
