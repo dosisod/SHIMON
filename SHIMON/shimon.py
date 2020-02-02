@@ -199,14 +199,14 @@ class Shimon:
 
 		return render(self, "pages/add.html")
 
-	def login(self) -> Page:
+	def login(self) -> HttpResponse:
 		self.security.check_local()
 
 		if self.cache==self.empty_cache:
-			return render(self, "pages/login.html")
+			return render(self, "pages/login.html"), 200
 
 		else:
-			return self.index(error="Already logged in"), 301 # type: ignore
+			return self.index(error="Already logged in", code=301)
 
 	def api(self) -> AnyResponse:
 		self.security.check_local()

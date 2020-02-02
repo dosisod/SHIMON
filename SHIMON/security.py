@@ -4,7 +4,7 @@ from hashlib import sha512
 from .util import encode_anystr
 
 from typing import Union, Dict, AnyStr, cast
-from .__init__ import Page
+from .__init__ import HttpResponse
 
 class Security:
 	def __init__(self, shimon_ref):
@@ -12,12 +12,12 @@ class Security:
 
 		self._testing=False
 
-	def check_all(self) -> Union[Page]:
+	def check_all(self) -> Union[HttpResponse]:
 		self.check_local()
 		self.check_allowed()
 		return self.check_session()
 
-	def check_session(self) -> Union[Page]:
+	def check_session(self) -> Union[HttpResponse]:
 		session=""
 		if "session" in request.cookies:
 			session=request.cookies["session"]

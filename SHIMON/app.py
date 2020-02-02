@@ -38,8 +38,8 @@ class App:
 		def add() -> Page:
 			return self.shimon.add()
 
-		@self.app.route("/login")
-		def login() -> Page:
+		@self.app.route("/login") # type: ignore
+		def login() -> HttpResponse:
 			return self.shimon.login()
 
 		@self.app.route("/api/", methods=["POST"]) # type: ignore

@@ -10,7 +10,7 @@ from .api.error import error
 from .kee import Kee
 
 from typing import Optional, Dict
-from .__init__ import Page
+from .__init__ import Page, HttpResponse
 
 class Session:
 	def __init__(self, shimon_ref):
@@ -58,7 +58,7 @@ class Session:
 
 		return res, 200
 
-	def check(self, data: Dict) -> Optional[Page]:
+	def check(self, data: Dict) -> Optional[HttpResponse]:
 		if "session" in data:
 			if datetime.now()>(self.lastcall+timedelta(seconds=self.expires)):
 				self.kill()
