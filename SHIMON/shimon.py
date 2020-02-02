@@ -19,7 +19,7 @@ from .__init__ import Page, HttpResponse, AnyResponse
 
 class Shimon:
 	def __init__(self) -> None:
-		self.VERSION="0.0.26"
+		self.VERSION="0.1.0"
 
 		self.login_limiter=LoginLimiter(self)
 		self.session=Session(self)

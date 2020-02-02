@@ -210,12 +210,7 @@ function new_card(uuid: string, name: string, message: string, doReturnCard: boo
 		}
 	}
 
-	div.appendChild(
-		nu("img", {
-			"src": new_img(uuid),
-			"alt": name+"'s profile img"
-		})
-	)
+	div.appendChild(profile_pic(uuid, name))
 	div.appendChild(document.createTextNode("\n"))
 	div.appendChild(ol)
 
@@ -241,31 +236,20 @@ function reload_button(func) {
 	})
 }
 
-function new_img(uuid: string): string {
-	var canvas=<HTMLCanvasElement>(nu("canvas", {
-		"width": 16,
-		"height": 16
-	}))
+function profile_pic(uuid: string, name: string): HTMLDivElement {
+	const profile_pic=nu("div", {
+		"className": "profile-pic-img",
+		"innerText": name[0]
+	})
 
-	var draw: CanvasRenderingContext2D=canvas.getContext("2d")
+	const color=uuid.slice(0, 6)
+	profile_pic.style.background="#" + uuid.slice(0, 6)
 
-	var binary=""
-	for (const character of uuid) {
-		const bits=parseInt(character, 16)
-			.toString(2)
+	//https://stackoverflow.com/a/33890907
+	profile_pic.style.color=(parseInt(color, 16) > 0xffffff / 2) ?
+		"#000" : "#fff"
 
-		binary+="0".repeat(4-bits.length)+bits
-	}
-
-	for (let i=0; i<256; i++) {
-		draw.fillStyle=(binary[i]=="1") ?
-			"rgb(255,255,255)" :
-			"rgb(0,0,0)"
-
-		draw.fillRect(i%16, ~~(i / 16), 1, 1)
-	}
-
-	return canvas.toDataURL()
+	return <HTMLDivElement>profile_pic
 }
 
 function blank(msg: string): string {

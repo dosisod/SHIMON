@@ -34,13 +34,6 @@ html, body {
 	display: flex;
 	align-items: center;
 }
-img {
-	image-rendering: -webkit-optimize-contrast;
-	image-rendering: -webkit-crisp-edges;
-	image-rendering: -moz-crisp-edges;
-	image-rendering: -o-crisp-edges;
-	image-rendering: pixelated;
-}
 ol {
 	display: inline-block;
 	margin: 0;
@@ -89,8 +82,18 @@ textarea {
 	cursor: pointer;
 	outline: 0;
 }
-div > img {
+div.profile-pic-img {
+	image-rendering: -webkit-optimize-contrast;
+	image-rendering: -webkit-crisp-edges;
+	image-rendering: -moz-crisp-edges;
+	image-rendering: -o-crisp-edges;
+	image-rendering: pixelated;
+
+	display: inline-block;
 	vertical-align: top;
+	font-size: 32px;
+	line-height: 64px;
+	text-align: center;
 	width: 64px;
 	height: 64px;
 }
@@ -105,6 +108,9 @@ div > img {
 .white { /* this name will need to be changed */
 	color: black !important;
 	background: white;
+}
+#name {
+	width: 100%;
 }
 .name {
 	font-weight: bold;
