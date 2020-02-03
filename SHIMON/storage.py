@@ -81,7 +81,7 @@ class Storage:
 			return error_status
 
 	def attempt_lock(self, pwd: str) -> Optional[Page]:
-		if not self.shimon.cache or self.shimon.cache==self.shimon.empty_cache:
+		if not self.shimon.cache or self.shimon.cache.is_empty():
 			return error(
 				400,
 				render(
@@ -97,7 +97,7 @@ class Storage:
 			if self.shimon.security.correct_pwd(pwd):
 				self.raw_lock(
 					self.filepath,
-					json.dumps(self.shimon.cache),
+					json.dumps(self.shimon.cache.export()),
 					pwd
 				)
 

@@ -13,6 +13,7 @@ from .login import LoginLimiter
 from .security import Security
 from .session import Session
 from .storage import Storage
+from .cache import Cache
 
 from typing import Union, Dict, Any
 from .__init__ import Page, HttpResponse, AnyResponse
@@ -26,11 +27,9 @@ class Shimon:
 		self.security=Security(self)
 		self.storage=Storage(self)
 
-		self.empty_cache={"": None}
+		self.cache=Cache(self)
 
-		self.cache: Dict[str, Any]=self.empty_cache
-
-		self.cache_mapper=CacheMapper(self, {
+		self.cache.mapper=CacheMapper(self, {
 			"msg policy": "msg_policy",
 			"expiration": (self.session, "expires"),
 			"developer": "developer",
@@ -121,7 +120,7 @@ class Shimon:
 
 		had_error=self.security.check_session()
 
-		if self.cache==self.empty_cache or had_error:
+		if self.cache.is_empty() or had_error:
 			return render(self, "pages/login.html"), 401
 
 		res=make_response(render(
@@ -202,7 +201,8 @@ class Shimon:
 	def login(self) -> HttpResponse:
 		self.security.check_local()
 
-		if self.cache==self.empty_cache:
+		#if self.cache==self.empty_cache:
+		if self.cache.is_empty():
 			return render(self, "pages/login.html"), 200
 
 		else:

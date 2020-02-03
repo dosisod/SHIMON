@@ -83,5 +83,5 @@ class Session:
 
 	def kill(self) -> None:
 		self.session=""
-		self.shimon.cache=self.shimon.empty_cache
+		self.shimon.cache.wipe()
 		self.lastcall=datetime.min

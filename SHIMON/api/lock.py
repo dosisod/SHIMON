@@ -12,7 +12,7 @@ def lock(self, pwd: str, redirect: bool) -> Union[Page, Json]:
 		if returned_error: return returned_error
 
 		#clean up object states
-		self.cache=self.empty_cache
+		self.cache.wipe()
 		self.session.kill()
 
 		res=make_response(render(

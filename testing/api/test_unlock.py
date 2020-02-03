@@ -51,7 +51,7 @@ class TestUnlock(BaseTest):
 			target="pages/warn.html"
 		)[0].data
 
-		self.shimon.cache_mapper["version"]=old_version
+		self.shimon.cache.mapper["version"]=old_version
 		lock(self.shimon, self.pwd, False)
 
 		assert unlocked_html==warn_html

@@ -12,7 +12,7 @@ def handler(self, data: Dict) -> AnyResponse:
 		data[attr]=try_json_convert(data[attr])
 
 	if "unlock" in data:
-		if self.cache==self.empty_cache:
+		if self.cache.is_empty():
 			return unlock(self, data["unlock"], True)
 
 		else:

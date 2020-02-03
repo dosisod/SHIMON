@@ -8,7 +8,7 @@ def save(self, pwd: str, redirect: bool) -> Union[Json, Page]:
 
 	if storage_error: return storage_error
 
-	self.cache_mapper.update([
+	self.cache.mapper.update([
 		"msg policy",
 		"expiration",
 		"developer"

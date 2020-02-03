@@ -39,7 +39,7 @@ class TestMsgPolict(BaseTest):
 
 	@BaseTest.app_context
 	def test_shimon_msg_policy_is_set(self):
-		self.shimon.cache_mapper["msg policy"]=1
+		self.shimon.cache.mapper["msg policy"]=1
 		self.msg_policy("1")
 
 		assert self.shimon.msg_policy==1

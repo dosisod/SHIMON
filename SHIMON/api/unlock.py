@@ -9,9 +9,9 @@ def unlock(self, pwd: str, redirect: bool) -> HttpResponse:
 	plain=self.storage.unlock(pwd)
 
 	if not self.login_limiter.in_cooldown() and plain:
-		self.cache=json.loads(plain)
+		self.cache.load(json.loads(plain))
 
-		self.cache_mapper.update([
+		self.cache.mapper.update([
 			"msg policy",
 			"developer",
 			"theme",

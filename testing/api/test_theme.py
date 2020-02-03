@@ -49,7 +49,7 @@ class TestTheme(BaseTest):
 		)
 
 	def reset(self):
-		self.shimon.cache_mapper["theme"]="default"
+		self.shimon.cache.mapper["theme"]="default"
 
 	def theme(self, obj):
 		return theme(self.shimon, obj, True)

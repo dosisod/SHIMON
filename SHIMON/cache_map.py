@@ -18,7 +18,7 @@ class CacheMapper:
 		if cache_name not in self.cache_names:
 			return
 
-		self.shimon.cache[cache_name]=value
+		self.shimon.cache._cache[cache_name]=value
 		self._update(cache_name, value)
 
 	def update(self, cache_name: Union[str, list]) -> None:
@@ -33,21 +33,21 @@ class CacheMapper:
 		if cache_name not in self.cache_names:
 			return
 
-		if cache_name in self.shimon.cache:
+		if cache_name in self.shimon.cache._cache:
 			self._update(
 				cache_name,
-				self.shimon.cache[cache_name]
+				self.shimon.cache._cache[cache_name]
 			)
 
 		else:
 			if isinstance(cache_val, tuple):
-				self.shimon.cache[cache_name]= \
+				self.shimon.cache._cache[cache_name]= \
 					self.shimon.__dict__[
 						cache_val[0].__dict__[cache_val[1]]
 					]
 
 			else:
-				self.shimon.cache[cache_name]= \
+				self.shimon.cache._cache[cache_name]= \
 					self.shimon.__dict__[cache_val]
 
 	def _update(self, cache_name: str, value: CacheDictValue) -> None:

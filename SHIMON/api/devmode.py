@@ -4,6 +4,6 @@ from typing import Dict
 from ..__init__ import Json
 
 def devmode(self, enable: str, redirect: bool) -> Json:
-	self.cache_mapper["developer"]=(enable=="true")
+	self.cache.mapper["developer"]=(enable=="true")
 
 	return error_200()

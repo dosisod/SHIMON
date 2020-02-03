@@ -6,7 +6,7 @@ from ..__init__ import Json
 def status(self, _: None, redirect: bool) -> Json:
 	return error_200({
 		"version": self.VERSION,
-		"unlocked": bool(self.cache),
+		"unlocked": not self.cache.is_empty(),
 		"developer": self.developer,
 		"msg policy": self.msg_policy
 	}, redirect)

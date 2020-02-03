@@ -13,7 +13,7 @@ def theme(self, theme: str, redirect: bool) -> Json:
 		#dont allow reverse file traversal
 		if dirty.startswith(os.getcwd()+"/"+path):
 			if os.path.isfile(dirty+".css"):
-				self.cache_mapper["theme"]=dirty.split("/")[-1]
+				self.cache.mapper["theme"]=dirty.split("/")[-1]
 
 				return error_202()
 

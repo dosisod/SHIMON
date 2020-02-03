@@ -7,7 +7,7 @@ def msg_policy(self, data: str, redirect: bool) -> Json:
 	if data.isdigit():
 		policy=int(data)
 		if 0 <= policy <= 2:
-			self.cache_mapper["msg policy"]=policy
+			self.cache.mapper["msg policy"]=policy
 
 			return error_202()
 

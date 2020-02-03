@@ -6,7 +6,7 @@ from testing.util import assertHttpResponse
 class TestDevmode(BaseTest):
 	@BaseTest.request_context
 	def test_true_enables_devmode(self):
-		self.shimon.cache_mapper["developer"]=False
+		self.shimon.cache.mapper["developer"]=False
 
 		self.devmode("true")
 
@@ -15,7 +15,7 @@ class TestDevmode(BaseTest):
 
 	@BaseTest.request_context
 	def test_non_true_string_disables_devmode(self):
-		self.shimon.cache_mapper["developer"]=False
+		self.shimon.cache.mapper["developer"]=False
 
 		self.devmode("false")
 

@@ -9,7 +9,7 @@ class TestLock(BaseTest):
 	def test_cache_cleared_after_lock(self):
 		self.lock(self.pwd, True)
 
-		assert self.shimon.cache==self.shimon.empty_cache
+		assert self.shimon.cache.is_empty()
 
 	@BaseTest.request_context
 	@BaseTest.unlocked
