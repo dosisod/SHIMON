@@ -13,7 +13,7 @@
 <div class="container">
 <ol id="tray">
 	{% include "utils/sidebar.html" %}
-	<span class="center name point" id="reload" onclick="reload_msgs()">RELOAD</span>
+	<span class="center name point" id="reload" onclick="reloadMsgs()">RELOAD</span>
 </ol>
 {% include "utils/error-msg.html" %}
 <input id="typer" placeholder="Type away!" onkeydown="send(event)" />
@@ -29,9 +29,9 @@ url("@"+document.cookie.replace(/(?:(?:^|.*;\s*)uname\s*\=\s*([^;]*).*$)|^.*$/, 
 preload={{ preload|default("false")|safe() }}
 friends={{ friends|default("false")|safe() }}
 
-reload_msgs()
+reloadMsgs()
 
-setInterval(reload_msgs, api_wait)
+setHeartbeat(reloadMsgs)
 
 })
 </script>

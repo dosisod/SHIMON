@@ -32,7 +32,7 @@ window.addEventListener("load", function(){
 
 url("add")
 
-setInterval(heartbeat, api_wait)
+setHeartbeat()
 
 window["send"]=function() {
 	post({"add friend": {

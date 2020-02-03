@@ -5,7 +5,7 @@ var friends=[]
 
 declare var preload: Dict | false
 
-async function check_friends(): Promise<void> {
+async function checkFriends(): Promise<void> {
 	if (!friends.length) {
 		friends=await post({"friends": ""})
 		friends=friends["msg"]
@@ -26,10 +26,10 @@ function uname(name: string): string | undefined {
 	return undefined
 }
 
-async function reload_msgs(): Promise<void> {
+async function reloadMsgs(): Promise<void> {
 	const user=document.cookie.replace(/(?:(?:^|.*;\s*)uname\s*\=\s*([^;]*).*$)|^.*$/, "$1")
 
-	const raw=await post_or_preload({"allfor": user})
+	const raw=await postOrPreload({"allfor": user})
 
 	if (raw.length==0) return
 	const data=raw["msgs"]
@@ -38,38 +38,38 @@ async function reload_msgs(): Promise<void> {
 	const rawId=raw["id"]
 
 	if (data.length==0) {
-		replace_template(
-			new_card(
+		replaceTemplate(
+			newCard(
 				raw["hash"],
 				realname(user),
 				"", //message
 				true, //doReturnCard
 				false //isClickable
 			).outerHTML + blank("Say hi to " + realname(user) + "!"),
-			reload_button(reload_msgs)
+			reloadButton(reloadMsgs)
 		)
 
 		return
 	}
 
-	replace_template(
-		new_card(
+	replaceTemplate(
+		newCard(
 			raw["hash"],
 			realname(user),
 			"", //message
 			true, //doReturnCard
 			false //isClickable
 		),
-		reload_button(reload_msgs),
+		reloadButton(reloadMsgs),
 		data,
 		(user)=>{
-			return create_msg(user, rawId)
+			return createMsg(user, rawId)
 		}
 	)
 	nu("reload").scrollIntoView()
 }
 
-function create_msg(user, userId) {
+function createMsg(user: string, userId: string) {
 	var box=nu("span", {
 		"className": user["sending"] ? "x-sending" : "x-receiving",
 		"innerText": "x",
@@ -91,7 +91,7 @@ function create_msg(user, userId) {
 					"pwd": pwd || ""
 				}})
 
-				reload_msgs()
+				reloadMsgs()
 			})
 		}
 	}, nu("li", {
@@ -112,25 +112,25 @@ function create_msg(user, userId) {
 	return box
 }
 
-async function reload_index(): Promise<void> {
-	const recent=await post_or_preload({"recent": ""})
+async function reloadIndex(): Promise<void> {
+	const recent=await postOrPreload({"recent": ""})
 
 	if (recent.length==0) {
 		//if there are no msgs to display, display welcome msg
-		replace_template(
+		replaceTemplate(
 			blank("Add a friend to start talking!"),
-			reload_button(reload_index)
+			reloadButton(reloadIndex)
 		)
 
 		return
 	}
 
-	replace_template(
+	replaceTemplate(
 		undefined,
-		reload_button(reload_index),
+		reloadButton(reloadIndex),
 		recent,
 		(user)=>{
-			return new_card(
+			return newCard(
 				user["hash"],
 				realname(user["id"]),
 				user["msgs"][user["msgs"].length-1]["msg"],
@@ -142,8 +142,8 @@ async function reload_index(): Promise<void> {
 	)
 }
 
-async function post_or_preload(data: Dict): Promise<Dict> {
-	await check_friends()
+async function postOrPreload(data: Dict): Promise<Dict> {
+	await checkFriends()
 
 	if (preload) {
 		const raw=<Dict>preload
@@ -158,7 +158,7 @@ async function post_or_preload(data: Dict): Promise<Dict> {
 	}
 }
 
-async function replace_template(start: Appendable, end?: Appendable, params?: Dict | false, template?: Function): Promise<void> {
+async function replaceTemplate(start: Appendable, end?: Appendable, params?: Dict | false, template?: Function): Promise<void> {
 	//clear tray, add right bar
 	tray.innerHTML=`<div class="rightbar"><a class="rightitem name point" href="/add">ADD FRIEND</a><br><a class="rightitem name point" href="/account">ACCOUNT</a><br><span class="rightitem name point" onclick="save(event)">SAVE</span></div>`
 
@@ -185,7 +185,7 @@ async function replace_template(start: Appendable, end?: Appendable, params?: Di
 	}
 }
 
-function new_card(uuid: string, name: string, message: string, doReturnCard: boolean=false, isClickable: boolean=false, usePointer: boolean=false): HTMLElement | undefined {
+function newCard(uuid: string, name: string, message: string, doReturnCard: boolean=false, isClickable: boolean=false, usePointer: boolean=false): HTMLElement | undefined {
 	var ol=nu("ol", {})
 	ol.appendChild(
 		nu("li", {
@@ -210,7 +210,7 @@ function new_card(uuid: string, name: string, message: string, doReturnCard: boo
 		}
 	}
 
-	div.appendChild(profile_pic(uuid, name))
+	div.appendChild(makeProfilePic(uuid, name))
 	div.appendChild(document.createTextNode("\n"))
 	div.appendChild(ol)
 
@@ -227,7 +227,7 @@ function new_card(uuid: string, name: string, message: string, doReturnCard: boo
 	return undefined
 }
 
-function reload_button(func) {
+function reloadButton(func) {
 	return nu("span", {
 		"className": "center name point",
 		"id": "reload",
@@ -236,20 +236,20 @@ function reload_button(func) {
 	})
 }
 
-function profile_pic(uuid: string, name: string): HTMLDivElement {
-	const profile_pic=nu("div", {
+function makeProfilePic(uuid: string, name: string): HTMLDivElement {
+	const profilePic=nu("div", {
 		"className": "profile-pic-img",
 		"innerText": name[0]
 	})
 
 	const color=uuid.slice(0, 6)
-	profile_pic.style.background="#" + uuid.slice(0, 6)
+	profilePic.style.background="#" + uuid.slice(0, 6)
 
 	//https://stackoverflow.com/a/33890907
-	profile_pic.style.color=(parseInt(color, 16) > 0xffffff / 2) ?
+	profilePic.style.color=(parseInt(color, 16) > 0xffffff / 2) ?
 		"#000" : "#fff"
 
-	return <HTMLDivElement>profile_pic
+	return <HTMLDivElement>profilePic
 }
 
 function blank(msg: string): string {

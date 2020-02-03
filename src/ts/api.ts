@@ -1,9 +1,9 @@
-var last_error=0
+var lastError=0
 
-const api_wait=5000
+const API_WAIT=5000
 
 async function post(param: {[key: string]: any}, doRedirect: boolean=false): Promise<any> {
-	clear_error()
+	clearError()
 
 	param["session"]=document.cookie.replace(/(?:(?:^|.*;\s*)session\s*\=\s*([^;]*).*$)|^.*$/, "$1")
 	param["redirect"]=!!doRedirect
@@ -82,22 +82,31 @@ async function heartbeat(): Promise<void> {
 		error("Network Disconnected")
 	}
 	else {
-		clear_error()
+		clearError()
 	}
 }
 
-function clear_error(): void {
+async function setHeartbeat(func?: Function): Promise<void> {
+	if (func) {
+		setInterval(func, API_WAIT)
+	}
+	else {
+		setInterval(heartbeat, API_WAIT)
+	}
+}
+
+function clearError(): void {
 	error(false)
 }
 
 function error(msg: string | boolean): void {
 	if (typeof msg==="string") {
-		last_error=Date.now()
+		lastError=Date.now()
 		nu("error").style.display="block"
 		nu("error").innerText=msg
 	}
 	else {
-		if (Date.now() > (last_error + api_wait)) {
+		if (Date.now() > (lastError + API_WAIT)) {
 			nu("error").style.display="none"
 			nu("error").innerText=""
 		}

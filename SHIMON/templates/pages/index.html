@@ -13,7 +13,7 @@
 <div class="container">
 <ol id="tray">
 	{% include "utils/sidebar.html" %}
-	<span class="center name point" id="reload" onclick="reload_index()">RELOAD</span>
+	<span class="center name point" id="reload" onclick="reloadIndex()">RELOAD</span>
 </ol>
 {% include "utils/error-msg.html" %}
 </div>
@@ -28,9 +28,9 @@ url("")
 preload={{ preload|default("false")|safe() }}
 friends={{ friends|default("false")|safe() }}
 
-reload_index() //load recents if there is no error
+reloadIndex()
 
-setInterval(reload_index, api_wait)
+setHeartbeat(reloadIndex)
 
 })
 </script>

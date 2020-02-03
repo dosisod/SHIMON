@@ -10,7 +10,7 @@ async function send(keydown: KeyboardEvent): Promise<any> {
 	}})
 	.then((response)=>{
 		if (response.code!=400) {
-			reload_msgs()
+			reloadMsgs()
 		}
 	})
 
