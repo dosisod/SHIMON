@@ -2,10 +2,9 @@ import os
 
 from .error import error_202, error_400
 
-from typing import Union, Dict, Any, List
-from ..__init__ import Json
+from ..__init__ import HttpResponse
 
-def theme(self, theme: str, redirect: bool) -> Json:
+def theme(self, theme: str, redirect: bool) -> HttpResponse:
 	if type(theme) is str:
 		path="SHIMON/templates/themes/"
 		dirty=os.path.abspath(path+theme)

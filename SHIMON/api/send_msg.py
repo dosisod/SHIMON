@@ -3,9 +3,9 @@ from ..renderer import render
 from .error import error_200, error_400
 
 from typing import Dict
-from ..__init__ import Json
+from ..__init__ import HttpResponse
 
-def send_msg(self, sending: Dict, redirect: bool) -> Json:
+def send_msg(self, sending: Dict, redirect: bool) -> HttpResponse:
 	if type(sending) is not dict:
 		#message contains illegal characters if it was unable to be parsed
 		return error_400()

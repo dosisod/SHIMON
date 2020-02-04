@@ -1,9 +1,8 @@
 from .error import error_200
 
-from typing import Union, Dict
-from ..__init__ import Json, Page
+from ..__init__ import HttpResponse
 
-def save(self, pwd: str, redirect: bool) -> Union[Json, Page]:
+def save(self, pwd: str, redirect: bool) -> HttpResponse:
 	storage_error=self.storage.save(pwd)
 
 	if storage_error: return storage_error

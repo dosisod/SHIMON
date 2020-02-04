@@ -1,10 +1,9 @@
 from ..renderer import render, make_response
 from .error import error_400
 
-from typing import Union, Dict
-from ..__init__ import Page, Json
+from ..__init__ import HttpResponse
 
-def lock(self, pwd: str, redirect: bool) -> Union[Page, Json]:
+def lock(self, pwd: str, redirect: bool) -> HttpResponse:
 	#dont kill session unless user will be directed to login
 	if redirect:
 		returned_error=self.storage.lock(pwd)

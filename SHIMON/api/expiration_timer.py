@@ -1,9 +1,8 @@
 from .error import error_202, error_400
 
-from typing import Dict
-from ..__init__ import Json
+from ..__init__ import HttpResponse
 
-def expiration_timer(self, data: str, redirect: bool) -> Json:
+def expiration_timer(self, data: str, redirect: bool) -> HttpResponse:
 	if data.isdigit():
 		seconds=int(data)
 		if 900 <= seconds <= 86400:

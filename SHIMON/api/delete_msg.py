@@ -3,9 +3,9 @@ from copy import deepcopy
 from .error import error_200, error_400, error_401
 
 from typing import Dict
-from ..__init__ import Page, Json
+from ..__init__ import HttpResponse
 
-def delete_msg(self, data: Dict, redirect: bool) -> Json:
+def delete_msg(self, data: Dict, redirect: bool) -> HttpResponse:
 	if type(data) is not dict:
 		#message contains illegal characters if it was unable to be parsed
 		return error_400()

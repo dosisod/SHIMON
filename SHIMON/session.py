@@ -67,7 +67,7 @@ class Session:
 				self.keepalive()
 				return None
 
-		return error( # type: ignore
+		return error(
 			401,
 			render(
 				self.shimon,

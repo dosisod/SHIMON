@@ -7,7 +7,7 @@ from .api.error import error, error_401
 from .renderer import render
 
 from typing import Union, Optional, cast
-from .__init__ import Page, Json
+from .__init__ import Page, Json, HttpResponse
 
 class Storage:
 	def __init__(self, shimon_ref, filepath: str="data.gpg"):
@@ -46,7 +46,7 @@ class Storage:
 
 		return os.path.isfile(filepath)
 
-	def lock(self, pwd: str) -> Optional[Page]:
+	def lock(self, pwd: str) -> Optional[HttpResponse]:
 		error_status=self.attempt_lock(pwd)
 
 		if error_status=="fail":
@@ -66,9 +66,9 @@ class Storage:
 			return None
 
 		else:
-			return error_status
+			return error_status # type: ignore
 
-	def save(self, pwd: str) -> Union[Page, Json, None]:
+	def save(self, pwd: str) -> Optional[HttpResponse]:
 		error_status=self.attempt_lock(pwd)
 
 		if error_status=="fail":
@@ -78,9 +78,9 @@ class Storage:
 			return None
 
 		else:
-			return error_status
+			return error_status # type: ignore
 
-	def attempt_lock(self, pwd: str) -> Optional[Page]:
+	def attempt_lock(self, pwd: str) -> Union[HttpResponse, str, None]:
 		if not self.shimon.cache or self.shimon.cache.is_empty():
 			return error(
 				400,

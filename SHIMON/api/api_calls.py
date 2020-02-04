@@ -21,14 +21,14 @@ from .recent import recent
 from .allfor import allfor
 from .add_friend import add_friend
 
-from typing import Callable, Dict, Any, Union
-from ..__init__ import Page, Json
+from typing import Callable, Dict, Any
+from ..__init__ import HttpResponse
 
 call_type=Dict[
 	str,
 	Callable[
 		[Any, Any, bool],
-		Union[Page, Json]
+		HttpResponse
 	]
 ]
 

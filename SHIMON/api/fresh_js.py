@@ -2,10 +2,9 @@ import os
 
 from .error import error_200
 
-from typing import Dict
-from ..__init__ import Json
+from ..__init__ import HttpResponse
 
-def fresh_js(self, enable: str, redirect: bool) -> Json:
+def fresh_js(self, enable: str, redirect: bool) -> HttpResponse:
 	#check if there is a compiled js file (could be any .js file)
 	if os.path.isfile("SHIMON/static/js/api.js"):
 		self.cache.mapper["fresh js"]=(enable=="true")

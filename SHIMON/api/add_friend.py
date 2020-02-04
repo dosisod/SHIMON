@@ -1,9 +1,9 @@
 from .error import error_400
 
 from typing import Dict
-from ..__init__ import Page
+from ..__init__ import HttpResponse
 
-def add_friend(self, friend: Dict, redirect: bool) -> Page:
+def add_friend(self, friend: Dict, redirect: bool) -> HttpResponse:
 	if type(friend) is not dict:
 		#message contains illegal characters if it was unable to be parsed
 		return error_400()
