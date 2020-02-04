@@ -136,7 +136,7 @@ class Shimon:
 
 		return res, code
 
-	def settings(self) -> Page:
+	def settings(self) -> HttpResponse:
 		ret=self.security.check_all()
 		if ret: return ret
 
@@ -156,9 +156,9 @@ class Shimon:
 			seconds=self.session.expires,
 			msg_policy=self.msg_policy,
 			themes=themes
-		)
+		), 200
 
-	def account(self) -> Page:
+	def account(self) -> HttpResponse:
 		ret=self.security.check_all()
 		if ret: return ret
 
@@ -166,7 +166,7 @@ class Shimon:
 			self,
 			"pages/account.html",
 			version=self.VERSION
-		)
+		), 200
 
 	def msg(self, uuid: str) -> HttpResponse:
 		ret=self.security.check_all()
@@ -192,16 +192,15 @@ class Shimon:
 
 		abort(404)
 
-	def add(self) -> Page:
+	def add(self) -> HttpResponse:
 		ret=self.security.check_all()
 		if ret: return ret
 
-		return render(self, "pages/add.html")
+		return render(self, "pages/add.html"), 200
 
 	def login(self) -> HttpResponse:
 		self.security.check_local()
 
-		#if self.cache==self.empty_cache:
 		if self.cache.is_empty():
 			return render(self, "pages/login.html"), 200
 

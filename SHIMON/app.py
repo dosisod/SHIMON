@@ -26,16 +26,16 @@ class App:
 		def index(uuid: str="") -> HttpResponse:
 			return self.shimon.index(uuid=uuid)
 
-		@self.app.route("/settings")
-		def settings() -> Page:
+		@self.app.route("/settings") # type: ignore
+		def settings() -> HttpResponse:
 			return self.shimon.settings()
 
-		@self.app.route("/account")
-		def account() -> Page:
+		@self.app.route("/account") # type: ignore
+		def account() -> HttpResponse:
 			return self.shimon.account()
 
-		@self.app.route("/add")
-		def add() -> Page:
+		@self.app.route("/add") # type: ignore
+		def add() -> HttpResponse:
 			return self.shimon.add()
 
 		@self.app.route("/login") # type: ignore

@@ -3,7 +3,7 @@ from hashlib import sha512
 
 from .util import encode_anystr
 
-from typing import Union, Dict, AnyStr, cast
+from typing import Dict, AnyStr, Optional, cast
 from .__init__ import HttpResponse
 
 class Security:
@@ -12,12 +12,12 @@ class Security:
 
 		self._testing=False
 
-	def check_all(self) -> Union[HttpResponse]:
+	def check_all(self) -> Optional[HttpResponse]:
 		self.check_local()
 		self.check_allowed()
 		return self.check_session()
 
-	def check_session(self) -> Union[HttpResponse]:
+	def check_session(self) -> Optional[HttpResponse]:
 		session=""
 		if "session" in request.cookies:
 			session=request.cookies["session"]
