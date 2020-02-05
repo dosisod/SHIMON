@@ -36,7 +36,7 @@ def handler(self, data: Dict) -> AnyResponse:
 	return error_400(redirect=redirect)
 
 def try_json_convert(string: str) -> Union[Dict, List, str]:
-	if string.startswith("[") or string.startswith("{"):
+	if string.startswith(("[", "{")):
 		with suppress(json.decoder.JSONDecodeError):
 			return cast(
 				Union[Dict, List],

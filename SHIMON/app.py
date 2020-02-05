@@ -4,7 +4,7 @@ from flask import Flask, Response
 from SHIMON.shimon import Shimon
 
 from typing import Union
-from SHIMON.__init__ import Page, HttpResponse, AnyResponse
+from SHIMON.__init__ import HttpResponse, AnyResponse
 
 class App:
 	IP="127.0.0.1"

@@ -3,7 +3,7 @@ from hashlib import sha512
 
 from .util import encode_anystr
 
-from typing import Dict, AnyStr, Optional, cast
+from typing import AnyStr, Optional, cast
 from .__init__ import HttpResponse
 
 class Security:

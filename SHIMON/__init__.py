@@ -1,6 +1,6 @@
 from flask import Response
 
-from typing import Union, Dict, List, Any, Tuple
+from typing import Union, Dict, List, Tuple
 
 Page=Union[
 	Response,

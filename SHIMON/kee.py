@@ -5,7 +5,7 @@ from Cryptodome.Hash import SHA512
 
 from .util import encode_anystr
 
-from typing import Union, AnyStr, Optional
+from typing import AnyStr, Optional
 
 class Kee:
 	def __init__(self, bits: Optional[int]=None) -> None:

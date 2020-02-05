@@ -15,8 +15,8 @@ from .session import Session
 from .storage import Storage
 from .cache import Cache
 
-from typing import Union, Dict, Any
-from .__init__ import Page, HttpResponse, AnyResponse
+from typing import Union
+from .__init__ import HttpResponse, AnyResponse
 
 class Shimon:
 	def __init__(self) -> None:

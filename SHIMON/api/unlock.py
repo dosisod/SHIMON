@@ -2,7 +2,6 @@ import json
 
 from ..renderer import render
 
-from typing import Dict
 from ..__init__ import HttpResponse
 
 def unlock(self, pwd: str, redirect: bool) -> HttpResponse:
