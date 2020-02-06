@@ -6,10 +6,6 @@ from testing.base import BaseTest
 
 class TestError(BaseTest):
 	@BaseTest.app_context
-	def test_true_as_string_is_True(self):
-		assert error(200, "testing", "true")[0]=="testing"
-
-	@BaseTest.app_context
 	def test_string_returned_as_is(self):
 		assert error(200, "testing", True)[0]=="testing"
 

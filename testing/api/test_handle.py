@@ -1,6 +1,6 @@
 import json
 
-from SHIMON.api.handle import handler, try_json_convert
+from SHIMON.api.handle import handler
 
 from testing.base import BaseTest
 from testing.util import assertHttpResponse
@@ -46,29 +46,3 @@ class TestHandler(BaseTest):
 			handler(self.shimon, {"ping": ""}),
 			401
 		)
-
-	def test_json_converter_returns_non_json_as_str(self):
-		output=try_json_convert("testing 123")
-
-		assert output=="testing 123"
-		assert type(output)==str
-
-	def test_json_converter_returns_malformed_json_as_str(self):
-		def test_malformed(string):
-			output=try_json_convert(string)
-
-			assert output==string
-			assert type(output)==str
-
-		test_malformed("[bad json")
-		test_malformed("{bad json")
-
-	def test_json_converter_returns_proper_json_returned_as_obj(self):
-		def test_proper(string):
-			output=try_json_convert(string)
-
-			assert output==json.loads(string)
-			assert type(output)==type(json.loads(string))
-
-		test_proper('{"testing":123}')
-		test_proper("[1,2,3,4]")

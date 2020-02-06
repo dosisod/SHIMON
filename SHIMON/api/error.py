@@ -3,13 +3,7 @@ from ..renderer import jsonify
 from typing import Union
 from ..__init__ import Complex, HttpResponse
 
-Boolish=Union[bool, str]
-
-def error(code: int, data: Complex, redirect: Boolish, rethrow: bool=False) -> HttpResponse:
-	if type(redirect) is str:
-		#convert JS true to python True
-		redirect=(redirect=="true")
-
+def error(code: int, data: Complex, redirect: bool, rethrow: bool=False) -> HttpResponse:
 	if redirect:
 		if isinstance(data, (dict, list)):
 			return jsonify(data), code
@@ -30,14 +24,14 @@ def error(code: int, data: Complex, redirect: Boolish, rethrow: bool=False) -> H
 			"msg": data
 		}), code
 
-def error_200(msg: Complex="OK", redirect: Boolish=False) -> HttpResponse:
+def error_200(msg: Complex="OK", redirect: bool=False) -> HttpResponse:
 	return error(200, msg, redirect, rethrow=False)
 
-def error_202(msg: Complex="Lock or save to apply changes", redirect: Boolish=False) -> HttpResponse:
+def error_202(msg: Complex="Lock or save to apply changes", redirect: bool=False) -> HttpResponse:
 	return error(202, msg, redirect, rethrow=False)
 
-def error_400(msg: Complex="Invalid Request", redirect: Boolish=False) -> HttpResponse:
+def error_400(msg: Complex="Invalid Request", redirect: bool=False) -> HttpResponse:
 	return error(400, msg, redirect, rethrow=False)
 
-def error_401(msg: Complex="Invalid Password", redirect: Boolish=False) -> HttpResponse:
+def error_401(msg: Complex="Invalid Password", redirect: bool=False) -> HttpResponse:
 	return error(401, msg, redirect, rethrow=False)

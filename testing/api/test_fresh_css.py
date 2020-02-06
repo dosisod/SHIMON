@@ -7,7 +7,7 @@ class TestFreshCSS(BaseTest):
 	@BaseTest.request_context
 	def test_always_returns_http_200(self):
 		assertHttpResponse(
-			self.fresh_css("true"),
+			self.fresh_css(True),
 			200
 		)
 
@@ -15,7 +15,7 @@ class TestFreshCSS(BaseTest):
 	def test_enabled_when_set_to_true(self):
 		self.shimon.cache.mapper["fresh css"]=False
 
-		self.fresh_css("true")
+		self.fresh_css(True)
 
 		assert self.shimon.fresh_css==True
 		assert self.shimon.cache["fresh css"]==True
@@ -24,7 +24,7 @@ class TestFreshCSS(BaseTest):
 	def test_disabled_when_set_to_non_true(self):
 		self.shimon.cache.mapper["fresh css"]=False
 
-		self.fresh_css("false")
+		self.fresh_css(False)
 
 		assert self.shimon.fresh_css==False
 		assert self.shimon.cache["fresh css"]==False
@@ -32,6 +32,6 @@ class TestFreshCSS(BaseTest):
 	def fresh_css(self, enable: bool):
 		return fresh_css(
 			self.shimon,
-			"true" if enable=="true" else "false",
+			enable,
 			False
 		)

@@ -9,20 +9,20 @@ class TestStatus(BaseTest):
 	@BaseTest.request_context
 	def test_always_returns_http_200(self):
 		assertHttpResponse(
-			self.status("true"),
+			self.status(True),
 			200
 		)
 
 	@BaseTest.request_context
 	def test_unlocked_false_when_locked(self):
 		assert self.shimon.cache.is_empty() != \
-			self.status("true")[0].json["unlocked"]
+			self.status(True)[0].json["unlocked"]
 
 	@BaseTest.request_context
 	@BaseTest.unlocked
 	def test_unlocked_true_when_unlocked(self):
 		assert self.shimon.cache.is_empty() != \
-			self.status("true")[0].json["unlocked"]
+			self.status(True)[0].json["unlocked"]
 
 	@BaseTest.request_context
 	@BaseTest.unlocked
@@ -41,10 +41,10 @@ class TestStatus(BaseTest):
 
 	@BaseTest.request_context
 	def test_that_redirect_flag_doesnt_change_output(self):
-		assert self.status("true")[0].json== \
-			json.loads(self.status("false")[0].data)["msg"]
+		assert self.status(True)[0].json== \
+			json.loads(self.status(False)[0].data)["msg"]
 
-	def status(self, redirect: str):
+	def status(self, redirect: bool):
 		return status(self.shimon, None, redirect)
 
 	def assertStatus(self, key: str) -> None:
@@ -52,4 +52,4 @@ class TestStatus(BaseTest):
 				self.shimon.cache.mapper.cache_names[key]
 			] == \
 			self.shimon.cache[key] == \
-			self.status("true")[0].json[key]
+			self.status(True)[0].json[key]

@@ -24,7 +24,7 @@ async function post(param: {[key: string]: any}, doRedirect: boolean=false): Pro
 			"action": "/api/",
 			"method": "POST"
 		})
-	
+
 		for (const key in param) {
 			nu("input", {
 				"type": "hidden",
@@ -36,42 +36,40 @@ async function post(param: {[key: string]: any}, doRedirect: boolean=false): Pro
 			"type": "submit",
 			"style": "visibility: hidden;"
 		}, [form, document.body], true)
-		
+
 		submit.click()
 
 		nu("api-form").remove()
 	}
 	else {
-		var formData=new FormData()
-		for (const key in param) {
-			formData.append(
-				key,
-				encode(param[key])
-			)
-		}
-	
-		return fetch("/api/", {method: "POST", body: formData})
-			.then(e=>e.json())
-			.catch((response)=>{
-				console.log({"error": response.message})
-				if (response.message=="NetworkError when attempting to fetch resource.") {
-					error("Network Disconnected")
-				}
-				else if (response.message=="JSON.parse: unexpected character at line 1 column 1 of the JSON data") {
-					error("Could Not Handle Request")
-				}
-			})
-			.then((response)=>{
-				if (response["code"]!=200) {
-					error(response["msg"])
-				}
-				if (response["rethrow"]=="") {
-					post(param, true)
-				}
-				else {
-					return response
-				}
-			})
+		return fetch("/api/", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify(param)
+		})
+		.then(e=>e.json())
+		.catch((response)=>{
+			console.log({"error": response.message})
+			if (response.message=="NetworkError when attempting to fetch resource.") {
+				error("Network Disconnected")
+			}
+			else if (response.message=="JSON.parse: unexpected character at line 1 column 1 of the JSON data") {
+				error("Could Not Handle Request")
+			}
+		})
+		.then((response)=>{
+			if (response["code"]!=200) {
+				error(response["msg"])
+			}
+			if (response["rethrow"]=="") {
+				post(param, true)
+			}
+			else {
+				return response
+			}
+		})
 	}
 }
 

@@ -8,9 +8,6 @@ from typing import Union, Dict, List, cast
 from ..__init__ import AnyResponse
 
 def handler(self, data: Dict) -> AnyResponse:
-	for attr in data:
-		data[attr]=try_json_convert(data[attr])
-
 	if "unlock" in data:
 		if self.cache.is_empty():
 			return unlock(self, data["unlock"], True)
@@ -26,21 +23,11 @@ def handler(self, data: Dict) -> AnyResponse:
 			return func(
 				self,
 				data[callname],
-				data["redirect"]=="true"
+				data["redirect"]
 			)
 
-	redirect="false"
+	redirect=False
 	if "redirect" in data:
 		redirect=data["redirect"]
 
 	return error_400(redirect=redirect)
-
-def try_json_convert(string: str) -> Union[Dict, List, str]:
-	if string.startswith(("[", "{")):
-		with suppress(json.decoder.JSONDecodeError):
-			return cast(
-				Union[Dict, List],
-				json.loads(string)
-			)
-
-	return string

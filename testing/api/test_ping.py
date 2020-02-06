@@ -8,24 +8,24 @@ class TestPing(BaseTest):
 	@BaseTest.request_context
 	def test_ping_with_redirect_returns_http_200(self):
 		assertHttpResponse(
-			self.ping("true"),
+			self.ping(True),
 			200
 		)
 
 	@BaseTest.request_context
 	def test_ping_without_redirect_returns_http_200(self):
 		assertHttpResponse(
-			self.ping("false"),
+			self.ping(False),
 			200
 		)
 
 	@BaseTest.request_context
 	def test_ping_with_redirect_returns_pong(self):
-		assert self.ping("true")[0]=="pong"
+		assert self.ping(True)[0]=="pong"
 
 	@BaseTest.request_context
 	def test_ping_without_redirect_returns_pong(self):
-		assert self.ping("false")[0].json["msg"]=="pong"
+		assert self.ping(False)[0].json["msg"]=="pong"
 
 	def ping(self, redirect: bool):
 		return ping(self.shimon, None, redirect)

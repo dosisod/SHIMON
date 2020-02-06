@@ -210,4 +210,7 @@ class Shimon:
 	def api(self) -> AnyResponse:
 		self.security.check_local()
 
-		return handler(self, request.form.to_dict())
+		return handler(
+			self,
+			request.json or request.form.to_dict()
+		)
