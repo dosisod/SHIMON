@@ -8,16 +8,6 @@ async function post(param: {[key: string]: any}, doRedirect: boolean=false): Pro
 	param["session"]=document.cookie.replace(/(?:(?:^|.*;\s*)session\s*\=\s*([^;]*).*$)|^.*$/, "$1")
 	param["redirect"]=!!doRedirect
 
-	const encode=function(str: string): string {
-		if (typeof str==="object") {
-			try {
-				return JSON.stringify(str)
-			}
-			catch {}
-		}
-		return str
-	}
-
 	if (doRedirect) {
 		const form=nu("form", {
 			"id": "api-form",
@@ -25,13 +15,12 @@ async function post(param: {[key: string]: any}, doRedirect: boolean=false): Pro
 			"method": "POST"
 		})
 
-		for (const key in param) {
-			nu("input", {
-				"type": "hidden",
-				"name": key,
-				"value": encode(param[key])
-			}, form)
-		}
+		nu("input", {
+			"type": "hidden",
+			"name": "json",
+			"value": JSON.stringify(param)
+		}, form)
+
 		const submit=nu("input", {
 			"type": "submit",
 			"style": "visibility: hidden;"
