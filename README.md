@@ -1,5 +1,7 @@
 # SHIMON
 
+![GitHub](https://img.shields.io/github/license/dosisod/SHIMON) [![security: bandit](https://img.shields.io/badge/security-bandit-yellow.svg)](https://github.com/PyCQA/bandit)
+
 Secure Human Interactions Made Over Networks
 
 A simplistic messaging app using python3 and flask
@@ -45,13 +47,25 @@ Enable use of compiled CSS with:
 Install testing requirements:
 
 ```
-pip3 install -r test-requirements.txt
+$ pip3 install -r test-requirements.txt
 ```
 
-Run tests with:
+Run unit tests with:
 
 ```
-pytest tesing/
+$ pytest tesing/
+```
+
+Run type checker with:
+
+```
+$ mypy -p SHIMON
+```
+
+Run bandit security audit with:
+
+```
+$ bandit -r SHIMON
 ```
 
 ## Running
