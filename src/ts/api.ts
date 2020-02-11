@@ -5,7 +5,6 @@ const API_WAIT=5000
 async function post(param: {[key: string]: any}, doRedirect: boolean=false): Promise<any> {
 	clearError()
 
-	param["session"]=document.cookie.replace(/(?:(?:^|.*;\s*)session\s*\=\s*([^;]*).*$)|^.*$/, "$1")
 	param["redirect"]=!!doRedirect
 
 	if (doRedirect) {
