@@ -1,5 +1,6 @@
 # hide temp or object files
 __pycache__/
+.venv/
 *.bak
 
 # hide all js files except certain files

@@ -11,6 +11,8 @@ A simplistic messaging app using python3 and flask
 ```
 $ git clone https://github.com/dosisod/SHIMON.git
 $ cd SHIMON
+$ python3 -m venv .venv
+$ source .venv/bin/activate
 $ pip3 install -r requirements.txt
 ```
 
@@ -53,7 +55,7 @@ $ pip3 install -r test-requirements.txt
 Run unit tests with:
 
 ```
-$ pytest tesing/
+$ pytest
 ```
 
 Run type checker with:
