@@ -22,12 +22,12 @@ class Shimon:
 	def __init__(self) -> None:
 		self.VERSION="0.1.0"
 
-		self.login_limiter=LoginLimiter(self)
+		self.login_limiter=LoginLimiter()
 		self.session=Session(self)
 		self.security=Security(self)
 		self.storage=Storage(self)
 
-		self.cache=Cache(self)
+		self.cache=Cache()
 
 		self.cache.mapper=CacheMapper(self, {
 			"msg policy": "msg_policy",

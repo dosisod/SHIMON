@@ -10,9 +10,7 @@ class Cache:
 
 	mapper: CacheMapper
 
-	def __init__(self, shimon_ref, cache: Optional[CacheType]=None) -> None:
-		self.shimon=shimon_ref
-
+	def __init__(self, cache: Optional[CacheType]=None) -> None:
 		if cache:
 			self._cache=cache
 
