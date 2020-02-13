@@ -17,4 +17,4 @@ def new_key(self, pwd: str, redirect: bool) -> HttpResponse:
 
 		return self.index()
 
-	return error_401()
+	return self.index(error="Invalid Password", code=401)

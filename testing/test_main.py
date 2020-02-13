@@ -7,6 +7,9 @@ from testing.base import BaseTest
 
 class TestMain(BaseTest):
 	def test_main_exit_code_is_1_when_port_in_use(self) -> None:
+		print("if you just closed SHIMON, re-run tests.")
+		print("force killing app will keep port open for a bit.")
+
 		sock=socket()
 		sock.bind((
 			self.test_app.IP,
