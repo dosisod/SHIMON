@@ -1,11 +1,14 @@
-from waitress import serve # type: ignore
 import sys
+
+if sys.version_info[0] < 3:
+	raise Exception("Python 3.x is required to run SHIMON.")
+
+from waitress import serve # type: ignore
 
 from .app import App
 
-def run(app: App) -> None:
-	print("starting SHIMON v" + app.shimon.VERSION + " -> github.com/dosisod/SHIMON")
-	print("")
+def run(app): # type: (App) -> None
+	print("starting SHIMON v" + app.shimon.VERSION + " -> github.com/dosisod/SHIMON\n")
 
 	try:
 		serve(
