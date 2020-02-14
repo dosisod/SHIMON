@@ -113,3 +113,6 @@ class Storage:
 			symmetric=True,
 			output=filepath
 		)
+
+		#ensure only the current user can access the file
+		os.chmod(filepath, 0o600)
