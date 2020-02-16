@@ -31,4 +31,17 @@ if [ -z "$@" ]; then
 
 	minify src/css/font.css > "SHIMON/static/css/login.css"
 	minify src/css/login.css >> "SHIMON/static/css/login.css"
+
+	files=$(find src/themes/ | grep -vF "auto.css" | tail -n +2 | cut -d "/" -f 3)
+	echo ""
+	echo "minifying:"
+	echo "$files"
+
+	while read -r file; do
+		>"SHIMON/templates/themes/$file"
+		minify "src/themes/$file" > "SHIMON/templates/themes/$file"
+	done <<< "$files"
+
+	#add license to solarized dark
+	echo -e "/* Reference to the original colorscheme */\n/* github.com/altercation/solarized      */\n\n$(cat "SHIMON/templates/themes/solarized dark.css")" > "SHIMON/templates/themes/solarized dark.css"
 fi
