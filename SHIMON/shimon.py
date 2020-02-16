@@ -20,7 +20,7 @@ from .__init__ import HttpResponse, AnyResponse
 
 class Shimon:
 	def __init__(self) -> None:
-		self.VERSION="0.1.0"
+		self.VERSION="0.1.1"
 
 		self.login_limiter=LoginLimiter()
 		self.session=Session(self)
@@ -50,7 +50,7 @@ class Shimon:
 		#stores whether css should be taken from minified file or "fresh" files
 		self.fresh_css=False
 
-		self.theme="default"
+		self.theme="auto"
 
 		#changes which method of deletion to use when deleting msgs
 		#0 confirm before delete (default)

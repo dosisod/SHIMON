@@ -12,7 +12,7 @@ class TestTheme(BaseTest):
 	def test_valid_theme_returns_http_202(self):
 		self.reset()
 		assertHttpResponse(
-			self.theme("default"),
+			self.theme("auto"),
 			202
 		)
 
@@ -36,20 +36,20 @@ class TestTheme(BaseTest):
 		self.reset()
 		self.theme("not a theme")
 
-		assert self.shimon.theme=="default"
-		assert self.shimon.cache["theme"]=="default"
+		assert self.shimon.theme=="auto"
+		assert self.shimon.cache["theme"]=="auto"
 
 	@BaseTest.request_context
 	def test_file_traversal_returns_http_400(self):
 		self.reset()
 
 		assertHttpResponse(
-			self.theme("../default"),
+			self.theme("../auto"),
 			400
 		)
 
 	def reset(self):
-		self.shimon.cache.mapper["theme"]="default"
+		self.shimon.cache.mapper["theme"]="auto"
 
 	def theme(self, obj):
 		return theme(self.shimon, obj, True)

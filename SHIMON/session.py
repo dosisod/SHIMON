@@ -39,7 +39,7 @@ class Session:
 
 				"version": self.shimon.VERSION,
 
-				"theme": "default"
+				"theme": "auto"
 			}
 
 			#save default cache right away

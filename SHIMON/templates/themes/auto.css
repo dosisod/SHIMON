@@ -1,0 +1,4 @@
+{% include("themes/white.css") %}
+@media (prefers-color-scheme: dark) {
+{%- include("themes/dark.css") -%}
+}

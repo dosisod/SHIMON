@@ -1,5 +1,9 @@
 <style>
-{% include("themes/"+theme+".css") %}
+{% if theme=="auto" %}
+{%- include("themes/auto.css") -%}
+{% else %}
+{%- include("themes/" + theme + ".css") -%}
+{% endif %}
 </style>
 {% if developer and fresh_css %}
 <link rel="stylesheet" href={{ url_for("static", filename="css/index.css") }}>
