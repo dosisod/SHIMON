@@ -23,7 +23,7 @@ class Session:
 	def create(self, fresh: bool=False, target: str="pages/index.html") -> Page:
 		if fresh:
 			#fill cache with default values
-			self.shimon.cache={
+			self.shimon.cache.load({
 				"friends": [],
 				"history": [],
 
@@ -40,7 +40,7 @@ class Session:
 				"version": self.shimon.VERSION,
 
 				"theme": "auto"
-			}
+			})
 
 			#save default cache right away
 			self.shimon.storage.lock("123")
