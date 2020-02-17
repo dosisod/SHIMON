@@ -1,3 +1,3 @@
-function url(path): void {
+function url(path: string): void {
 	history.replaceState({}, "", "/" + path)
 }

@@ -1,6 +1,6 @@
 type Dict={[key: string]: any}
 
-var tray=nu("tray")
+const tray=nu("tray")
 var friends=[]
 
 declare var preload: Dict | false
@@ -70,7 +70,7 @@ async function reloadMsgs(): Promise<void> {
 }
 
 function createMsg(user: string, userId: string) {
-	var box=nu("span", {
+	const box=nu("span", {
 		"className": user["sending"] ? "x-sending" : "x-receiving",
 		"innerText": "x",
 		"onclick": ()=>{
@@ -186,7 +186,7 @@ async function replaceTemplate(start: Appendable, end?: Appendable, params?: Dic
 }
 
 function newCard(uuid: string, name: string, message: string, doReturnCard: boolean=false, isClickable: boolean=false, usePointer: boolean=false): HTMLElement | undefined {
-	var ol=nu("ol", {})
+	const ol=nu("ol", {})
 	ol.appendChild(
 		nu("li", {
 			"className": "name title hide",
@@ -200,7 +200,7 @@ function newCard(uuid: string, name: string, message: string, doReturnCard: bool
 		})
 	)
 
-	var div=nu("div", {
+	const div=nu("div", {
 		"className": usePointer ? "holder point" : "holder"
 	})
 
@@ -214,15 +214,15 @@ function newCard(uuid: string, name: string, message: string, doReturnCard: bool
 	div.appendChild(document.createTextNode("\n"))
 	div.appendChild(ol)
 
-	var card=nu("li", {
+	const card=nu("li", {
 		"className": "item"
 	})
 	card.appendChild(div)
-	
+
 	if (doReturnCard) {
 		return card
 	}
-	
+
 	tray.appendChild(card)
 	return undefined
 }
