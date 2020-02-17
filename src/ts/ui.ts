@@ -1,14 +1,20 @@
 type Dict={[key: string]: any}
 
 const tray=nu("tray")
-var friends=[]
+
+interface IFriend {
+	hash: string;
+	id: string;
+	name: string;
+}
+
+var friends: IFriend[]=[]
 
 declare var preload: Dict | false
 
 async function checkFriends(): Promise<void> {
 	if (!friends.length) {
-		friends=await post({"friends": ""})
-		friends=friends["msg"]
+		friends=(await post({"friends": ""}))["msg"]
 	}
 }
 
@@ -62,14 +68,20 @@ async function reloadMsgs(): Promise<void> {
 		),
 		reloadButton(reloadMsgs),
 		data,
-		(user)=>{
+		(user: IUserMsg)=>{
 			return createMsg(user, rawId)
 		}
 	)
 	nu("reload").scrollIntoView()
 }
 
-function createMsg(user: string, userId: string) {
+interface IUserMsg {
+	sending: boolean;
+	msg: string;
+	index: number;
+}
+
+function createMsg(user: IUserMsg, userId: string) {
 	const box=nu("span", {
 		"className": user["sending"] ? "x-sending" : "x-receiving",
 		"innerText": "x",
@@ -112,6 +124,12 @@ function createMsg(user: string, userId: string) {
 	return box
 }
 
+interface IRecentUser {
+	hash: string;
+	id: string;
+	msgs: IUserMsg[];
+}
+
 async function reloadIndex(): Promise<void> {
 	const recent=await postOrPreload({"recent": ""})
 
@@ -129,7 +147,7 @@ async function reloadIndex(): Promise<void> {
 		undefined,
 		reloadButton(reloadIndex),
 		recent,
-		(user)=>{
+		(user: IRecentUser)=>{
 			return newCard(
 				user["hash"],
 				realname(user["id"]),
@@ -170,7 +188,7 @@ async function replaceTemplate(start: Appendable, end?: Appendable, params?: Dic
 	}
 
 	if (params) {
-		params.forEach((param, index)=>{
+		params.forEach((param: Dict, index: number)=>{
 			param["index"]=index
 
 			tray.appendChild(template(param))
@@ -227,7 +245,7 @@ function newCard(uuid: string, name: string, message: string, doReturnCard: bool
 	return undefined
 }
 
-function reloadButton(func) {
+function reloadButton(func: Function) {
 	return nu("span", {
 		"className": "center name point",
 		"id": "reload",
