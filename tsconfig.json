@@ -9,16 +9,7 @@
     "esModuleInterop": true,
     "removeComments": true,
 
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "strictBindCallApply": true,
-    "strictPropertyInitialization": false,
-    "noImplicitThis": true,
-    "alwaysStrict": true,
+    "strict": true,
 
     "forceConsistentCasingInFileNames": true
   },
