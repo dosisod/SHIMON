@@ -41,7 +41,10 @@ button: function(checkbox: HTMLElement): void {
 },
 
 dropdown: function(select: HTMLSelectElement): void {
-	const selected=select.getAttribute("data-type").toLowerCase()
+	const attrib=select.getAttribute("data-type")
+	if (!attrib) return
+
+	const selected=attrib.toLowerCase()
 
 	if (selected=="expiration timer") {
 		post({"expiration timer": select.value})

@@ -18,18 +18,18 @@ async function checkFriends(): Promise<void> {
 	}
 }
 
-function realname(id: string): string | undefined {
+function realname(id: string): string {
 	for (const friend of friends) {
 		if (friend["id"]==id) return friend["name"]
 	}
-	return undefined
+	return ""
 }
 
-function uname(name: string): string | undefined {
+function uname(name: string): string {
 	for (const friend of friends) {
 		if (friend["name"]==name) return friend["id"]
 	}
-	return undefined
+	return ""
 }
 
 async function reloadMsgs(): Promise<void> {
@@ -49,7 +49,6 @@ async function reloadMsgs(): Promise<void> {
 				raw["hash"],
 				realname(user),
 				"", //message
-				true, //doReturnCard
 				false //isClickable
 			).outerHTML + blank("Say hi to " + realname(user) + "!"),
 			reloadButton(reloadMsgs)
@@ -63,7 +62,6 @@ async function reloadMsgs(): Promise<void> {
 			raw["hash"],
 			realname(user),
 			"", //message
-			true, //doReturnCard
 			false //isClickable
 		),
 		reloadButton(reloadMsgs),
@@ -152,7 +150,6 @@ async function reloadIndex(): Promise<void> {
 				user["hash"],
 				realname(user["id"]),
 				user["msgs"][user["msgs"].length-1]["msg"],
-				true, //doReturnCard
 				true, //isClickable
 				true //usePointer
 			)
@@ -176,7 +173,7 @@ async function postOrPreload(data: Dict): Promise<Dict> {
 	}
 }
 
-async function replaceTemplate(start: Appendable, end?: Appendable, params?: Dict | false, template?: Function): Promise<void> {
+async function replaceTemplate(start?: Appendable, end?: Appendable, params?: Dict | false, template?: Function): Promise<void> {
 	//clear tray, add right bar
 	tray.innerHTML=`<div class="rightbar"><a class="rightitem name point" href="/add">ADD FRIEND</a><br><a class="rightitem name point" href="/account">ACCOUNT</a><br><span class="rightitem name point" onclick="save(event)">SAVE</span></div>`
 
@@ -187,7 +184,7 @@ async function replaceTemplate(start: Appendable, end?: Appendable, params?: Dic
 		tray.appendChild(<Node>start)
 	}
 
-	if (params) {
+	if (params && template) {
 		params.forEach((param: Dict, index: number)=>{
 			param["index"]=index
 
@@ -203,7 +200,7 @@ async function replaceTemplate(start: Appendable, end?: Appendable, params?: Dic
 	}
 }
 
-function newCard(uuid: string, name: string, message: string, doReturnCard: boolean=false, isClickable: boolean=false, usePointer: boolean=false): HTMLElement | undefined {
+function newCard(uuid: string, name: string, message: string, isClickable: boolean=false, usePointer: boolean=false): HTMLElement {
 	const ol=nu("ol", {})
 	ol.appendChild(
 		nu("li", {
@@ -237,12 +234,7 @@ function newCard(uuid: string, name: string, message: string, doReturnCard: bool
 	})
 	card.appendChild(div)
 
-	if (doReturnCard) {
-		return card
-	}
-
-	tray.appendChild(card)
-	return undefined
+	return card
 }
 
 function reloadButton(func: Function) {

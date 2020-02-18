@@ -4,9 +4,9 @@ type AppendableBase=HTMLElement | string
 
 type Appendable=AppendableBase | AppendableBase[]
 
-function nu(name: string, attribs?: {[attrib: string]: any}, appendTo?: Appendable, returnOld?: boolean): HTMLElement | null {
+function nu(name: string, attribs?: {[attrib: string]: any}, appendTo?: Appendable, returnOld?: boolean): HTMLElement {
 	if (!attribs) {
-		return document.getElementById(name)
+		return document.getElementById(name)!
 	}
 	let currentNode=document.createElement(name)
 
@@ -20,7 +20,9 @@ function nu(name: string, attribs?: {[attrib: string]: any}, appendTo?: Appendab
 			currentNode=<HTMLElement>data.appendChild(currentNode).parentNode
 		}
 		else if (typeof data==="string") {
-			currentNode=<HTMLElement>document.getElementById(data).appendChild(currentNode).parentNode
+			currentNode=<HTMLElement>nu(data)
+				.appendChild(currentNode)
+				.parentNode
 		}
 	}
 
