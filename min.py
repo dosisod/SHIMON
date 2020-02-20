@@ -10,100 +10,93 @@ def clear(filename: Union[str, List[str]]) -> None:
 		for fn in filename:
 			clear(fn)
 
-		return None
+	else:
+		with open(filename, "w+") as f:
+			f.write("")
 
-	with open(filename, "w+") as f:
-		f.write("")
+def files(path: str, ignore: List=[], fullpath: bool=False) -> Iterator[str]:
+	for filename in os.listdir(path):
+		if filename not in ignore:
+			yield (path + filename) if fullpath else filename
 
-def files(path: str, ignore: List=[], full: bool=False) -> Iterator[str]:
-	for f in os.listdir(path):
-		if f not in ignore:
-			if full:
-				yield path + f
-			else:
-				yield f
-
-def minify_dir(path: str, ignore: List=[], write: str="") -> Optional[bytes]:
+def minify_dir(path: str, ignore: List=[], filename: str="") -> Optional[bytes]:
 	return minify(
-		list(files(path, ignore, full=True)),
-		write
+		list(files(path, ignore, fullpath=True)),
+		filename
 	)
 
-def minify_single(path: str, write: str="") -> Optional[bytes]:
-	return minify([path], write)
+def minify_single(path: str, filename: str="") -> Optional[bytes]:
+	return minify([path], filename)
 
-def minify(commands: List[str], write: str="") -> Optional[bytes]:
-	command=["minify"]
-	command+=commands
+def minify(commands: List[str], filename: str="") -> Optional[bytes]:
+	command=["minify"] + commands
 
 	out=subprocess.run(
 		command,
 		stdout=subprocess.PIPE
 	).stdout
 
-	if write:
-		with open(write, "rb+") as f:
+	if filename:
+		with open(filename, "rb+") as f:
 			f.write(out)
 	else:
 		return out
 
-skipping=False
-if len(sys.argv) > 1:
-	skipping=True
-
 STATIC_CSS="SHIMON/static/css/"
 STATIC_JS="SHIMON/static/js/"
+THEMES="SHIMON/templates/themes/"
 
 BUNDLE_JS=STATIC_JS + "bundle.js"
 BUNDLE_CSS=STATIC_CSS + "bundle.css"
 
 #force clear given files
-
 clear([
 	BUNDLE_JS,
 	BUNDLE_CSS,
 	STATIC_CSS + "login.css"
 ])
 
+skipping=len(sys.argv) > 1
+
 if not skipping:
 	print("minifying JS")
 
-	for f in files(STATIC_JS, ignore=["bundle.js"]):
-		print("  " + f)
+	for filename in files(STATIC_JS, ignore=["bundle.js"]):
+		print("  " + filename)
 
 	minify_dir(
 		STATIC_JS,
 		ignore=["bundle.js"],
-		write=STATIC_JS + "bundle.js"
+		filename=BUNDLE_JS
 	)
 
 print("\ncopying CSS files")
-for f in files("src/css/"):
+for filename in files("src/css/"):
 	shutil.copy(
-		"src/css/" + f,
-		STATIC_CSS + f
+		"src/css/" + filename,
+		STATIC_CSS + filename
 	)
 
 if not skipping:
 	print("\nminifying CSS")
 
-	for f in files(STATIC_CSS, ignore=["bundle.css", "login.css"]):
-		print("  " + f)
+	for filename in files(STATIC_CSS, ignore=["bundle.css", "login.css"]):
+		print("  " + filename)
 
 	minify_dir(
 		"src/css/",
 		ignore=["bundle.css", "login.css"],
-		write=STATIC_CSS + "bundle.css"
+		filename=BUNDLE_CSS
 	)
 
 	print("\nminifying")
 	print("  font.css")
 	print("  login.css")
 
-	#minify src/css/font.css > "SHIMON/static/css/login.css"
-	first=minify_single("src/css/font.css")
+	# minify and combine these 2 css files together
+	# they are not needed in the bundle, only the login
 
-	#minify src/css/login.css >> "SHIMON/static/css/login.css"
+	first=minify_single("src/css/font.css")
 	second=minify_single("src/css/login.css")
 
 	with open(STATIC_CSS + "login.css", "wb+") as f:
@@ -113,13 +106,11 @@ if not skipping:
 
 	for f in files("src/themes", ignore=["auto.css"]):
 		print("  " + f)
-
-		clear("SHIMON/templates/themes/" + f)
-		#minify "src/themes/"+f > "SHIMON/templates/themes/"+f
+		clear(THEMES + f)
 
 		minify_single(
 			"src/themes/" + f,
-			write="SHIMON/templates/themes/" + f
+			filename=THEMES + f
 		)
 
 
@@ -130,10 +121,10 @@ if not skipping:
 """
 
 	css=""
-	with open("SHIMON/templates/themes/solarized dark.css", "r") as f:
+	with open(THEMES + "solarized dark.css", "r") as f:
 		css=f.read()
 
-	with open("SHIMON/templates/themes/solarized dark.css", "w") as f:
+	with open(THEMES + "solarized dark.css", "w") as f:
 		f.write(solarized_license + css)
 
 print("")
