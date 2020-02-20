@@ -25,13 +25,6 @@ function realname(id: string): string {
 	return ""
 }
 
-function uname(name: string): string {
-	for (const friend of friends) {
-		if (friend["name"]==name) return friend["id"]
-	}
-	return ""
-}
-
 async function reloadMsgs(): Promise<void> {
 	const user=document.cookie.replace(/(?:(?:^|.*;\s*)uname\s*\=\s*([^;]*).*$)|^.*$/, "$1")
 
@@ -47,7 +40,7 @@ async function reloadMsgs(): Promise<void> {
 		replaceTemplate(
 			newCard(
 				raw["hash"],
-				realname(user),
+				user,
 				"", //message
 				false //isClickable
 			).outerHTML + blank("Say hi to " + realname(user) + "!"),
@@ -60,7 +53,7 @@ async function reloadMsgs(): Promise<void> {
 	replaceTemplate(
 		newCard(
 			raw["hash"],
-			realname(user),
+			user,
 			"", //message
 			false //isClickable
 		),
@@ -148,7 +141,7 @@ async function reloadIndex(): Promise<void> {
 		(user: IRecentUser)=>{
 			return newCard(
 				user["hash"],
-				realname(user["id"]),
+				user["id"],
 				user["msgs"][user["msgs"].length-1]["msg"],
 				true, //isClickable
 				true //usePointer
@@ -200,8 +193,11 @@ async function replaceTemplate(start?: Appendable, end?: Appendable, params?: Di
 	}
 }
 
-function newCard(uuid: string, name: string, message: string, isClickable: boolean=false, usePointer: boolean=false): HTMLElement {
+function newCard(uuid: string, uname: string, message: string, isClickable: boolean=false, usePointer: boolean=false): HTMLElement {
+	const name=realname(uname)
+
 	const ol=nu("ol", {})
+
 	ol.appendChild(
 		nu("li", {
 			"className": "name title hide",
@@ -221,7 +217,7 @@ function newCard(uuid: string, name: string, message: string, isClickable: boole
 
 	if (isClickable) {
 		div.onclick=()=>{
-			window.location.href="/@"+uname(name)
+			window.location.href="/@" + uname
 		}
 	}
 
