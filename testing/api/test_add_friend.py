@@ -66,7 +66,7 @@ class TestAddFriend(BaseTest):
 			"id": "test add"
 		})
 
-		assert len(self.shimon.cache["friends"])==friends+1
+		assert len(self.shimon.cache["friends"])==friends + 1
 
 		self.remove_tmp_friend()
 

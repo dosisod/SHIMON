@@ -29,14 +29,14 @@ def delete_msg(self, data: Dict, redirect: bool) -> HttpResponse:
 		else:
 			return error_400("Index is not a valid integer")
 
-		if index<0:
+		if index < 0:
 			return error_400("Index is out of bounds")
 
 		for friend in self.cache["friends"]:
 			if friend["id"]==data["id"]:
 				for history_id, current in enumerate(self.cache["history"]):
 					if current["id"]==data["id"]:
-						if index>=len(current["msgs"]):
+						if index >= len(current["msgs"]):
 							return error_400("Index is not a valid integer")
 
 						else:

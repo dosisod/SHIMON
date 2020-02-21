@@ -52,7 +52,7 @@ class TestSendMsg(BaseTest):
 		total_msgs=len(self.user["msgs"])
 
 		self.send_msg_wrapper("testing 123")
-		assert len(self.shimon.cache["history"][0]["msgs"])==total_msgs+1
+		assert len(self.shimon.cache["history"][0]["msgs"])==total_msgs + 1
 
 		self.shimon.cache["history"][0]["msgs"].pop()
 

@@ -142,9 +142,9 @@ class Shimon:
 
 		themes=[]
 
-		theme_folder=os.getcwd()+"/SHIMON/templates/themes/"
+		theme_folder=os.getcwd() + "/SHIMON/templates/themes/"
 		for filename in os.listdir(theme_folder):
-			if os.path.isfile(theme_folder+filename) and filename.endswith(".css"):
+			if os.path.isfile(theme_folder + filename) and filename.endswith(".css"):
 				pretty_name=filename[:-4]
 
 				themes.append((

@@ -8,18 +8,18 @@ class LoginLimiter:
 		self.cooldown_duration: int=10
 
 	def in_cooldown(self) -> bool:
-		return self.elapsed_time()<self.cooldown_duration
+		return self.elapsed_time() < self.cooldown_duration
 
 	def elapsed_time(self) -> float:
 		return round((
-			self.get_time()-
+			self.get_time() -
 			self.cooldown_start
 		), 1)
 
 	def time_to_wait(self) -> float:
 		return round((
-			self.cooldown_start-
-			self.get_time()+
+			self.cooldown_start -
+			self.get_time() +
 			self.cooldown_duration
 		), 1)
 
@@ -27,7 +27,7 @@ class LoginLimiter:
 		return datetime.today().timestamp()
 
 	def exceeded_max(self) -> bool:
-		return self.attempts>=self.max_attempts
+		return self.attempts >= self.max_attempts
 
 	def start_cooldown(self) -> None:
 		self.cooldown_start=self.get_time()

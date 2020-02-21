@@ -34,7 +34,7 @@ def unlock(self, pwd: str, redirect: bool) -> HttpResponse:
 			return render(
 				self,
 				"pages/login.html",
-				error="Try again in "+str(self.login_limiter.time_to_wait())+" seconds"
+				error="Try again in " + str(self.login_limiter.time_to_wait()) + " seconds"
 			), 401
 
 		else:
@@ -46,7 +46,7 @@ def unlock(self, pwd: str, redirect: bool) -> HttpResponse:
 			return render(
 				self,
 				"pages/login.html",
-				error="Try again in "+str(self.login_limiter.cooldown_duration)+" seconds"
+				error="Try again in " + str(self.login_limiter.cooldown_duration) + " seconds"
 			), 401
 
 		elif plain=="{}":

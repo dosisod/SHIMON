@@ -60,7 +60,7 @@ class Session:
 
 	def check(self, data: Dict) -> Optional[HttpResponse]:
 		if "session" in data:
-			if datetime.now()>(self.lastcall+timedelta(seconds=self.expires)):
+			if datetime.now() > (self.lastcall + timedelta(seconds=self.expires)):
 				self.kill()
 
 			elif self.session==data["session"]:
