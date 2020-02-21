@@ -16,7 +16,7 @@ def clear(filename: Union[str, List[str]]) -> None:
 
 def files(path: str, ignore: List=[], fullpath: bool=False) -> Iterator[str]:
 	for filename in os.listdir(path):
-		if filename not in ignore:
+		if filename not in ignore and not filename.endswith(".swp"):
 			yield (path + filename) if fullpath else filename
 
 def sass(src: str, dest: str="") -> bytes:
