@@ -20,7 +20,27 @@ Additional requirements:
 * Command-line version of gpg (check with `whereis gpg`)
 * Access to localhost port 1717
 
+## Running
+
+Run with `python3 main.py`
+
+Got to `http://localhost:1717` in a web browser
+
+Debug cache password is `123` (this can be changed after unlocking)
+
 ## Developers
+
+### Setup
+
+Before developing, make sure you have installed `typescript`, `sass`, and `minify`:
+
+```
+$ npm install -g typescript
+$ npm install -g minify
+$ npm install -g sass
+```
+
+You may need to run the above commands as `sudo`.
 
 ### Building
 
@@ -37,7 +57,7 @@ To use the emitted JS files over `bundle.js`, enable:
 To copy and bundle JS and CSS files, run:
 
 ```
-$ ./min.sh
+$ python3 min.py
 ```
 
 Enable use of compiled CSS with:
@@ -69,14 +89,6 @@ Run bandit security audit with:
 ```
 $ bandit -r SHIMON
 ```
-
-## Running
-
-Run with `python3 main.py`
-
-Got to `http://localhost:1717` in a web browser
-
-Debug cache password is `123` (this can be changed after unlocking)
 
 ## Note
 
