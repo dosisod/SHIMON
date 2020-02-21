@@ -19,28 +19,19 @@ def files(path: str, ignore: List=[], fullpath: bool=False) -> Iterator[str]:
 		if filename not in ignore:
 			yield (path + filename) if fullpath else filename
 
-def minify_dir(path: str, ignore: List=[], filename: str="") -> Optional[bytes]:
-	return minify(
-		list(files(path, ignore, fullpath=True)),
-		filename
-	)
+def sass(src: str, dest: str="") -> bytes:
+	return call([
+		"sass",
+		"--no-source-map",
+		"-s", "compressed",
+		(src + ":" +dest) if dest else src
+	])
 
-def minify_single(path: str, filename: str="") -> Optional[bytes]:
-	return minify([path], filename)
-
-def minify(commands: List[str], filename: str="") -> Optional[bytes]:
-	command=["minify"] + commands
-
-	out=subprocess.run(
-		command,
+def call(commands: List[str]) -> bytes:
+	return subprocess.run(
+		commands,
 		stdout=subprocess.PIPE
 	).stdout
-
-	if filename:
-		with open(filename, "rb+") as f:
-			f.write(out)
-	else:
-		return out
 
 STATIC_CSS="SHIMON/static/css/"
 STATIC_JS="SHIMON/static/js/"
@@ -64,11 +55,16 @@ if not skipping:
 	for filename in files(STATIC_JS, ignore=["bundle.js"]):
 		print("  " + filename)
 
-	minify_dir(
-		STATIC_JS,
-		ignore=["bundle.js"],
-		filename=BUNDLE_JS
-	)
+	with open(BUNDLE_JS, "rb+") as f:
+		f.write(
+			call(["minify"] + list(
+				files(
+					STATIC_JS,
+					["bundle.js"],
+					fullpath=True
+				)
+			))
+		)
 
 print("\ncopying CSS files")
 for filename in files("src/css/"):
@@ -80,14 +76,10 @@ for filename in files("src/css/"):
 if not skipping:
 	print("\nminifying CSS")
 
-	for filename in files(STATIC_CSS, ignore=["bundle.css", "login.css"]):
-		print("  " + filename)
-
-	minify_dir(
-		"src/css/",
-		ignore=["bundle.css", "login.css"],
-		filename=BUNDLE_CSS
-	)
+	with open(BUNDLE_CSS, "rb+") as f:
+		for filename in files("src/css/", ignore=["bundle.css", "login.scss"], fullpath=True):
+			print("  " + filename.split("/")[-1])
+			f.write(sass(filename))
 
 	print("\nminifying")
 	print("  font.css")
@@ -96,23 +88,26 @@ if not skipping:
 	# minify and combine these 2 css files together
 	# they are not needed in the bundle, only the login
 
-	first=minify_single("src/css/font.css")
-	second=minify_single("src/css/login.css")
-
 	with open(STATIC_CSS + "login.css", "wb+") as f:
-		f.write(first + second)
+		f.write(
+			sass("src/css/font.scss") +
+			sass("src/css/login.scss")
+		)
 
 	print("\nminifying themes:")
 
-	for f in files("src/themes", ignore=["auto.css"]):
-		print("  " + f)
-		clear(THEMES + f)
+	for filename in files("src/themes", ignore=["auto.css"]):
+		css_name=filename[:-4] + "css"
 
-		minify_single(
-			"src/themes/" + f,
-			filename=THEMES + f
+		print("  " + filename)
+		clear(THEMES + css_name)
+
+		sass(
+			"src/themes/" + filename,
+			THEMES + css_name
 		)
 
+	# prepend license for solarized colorscheme
 
 	solarized_license= \
 """/* Reference to the original colorscheme */
@@ -120,11 +115,11 @@ if not skipping:
 
 """
 
-	css=""
-	with open(THEMES + "solarized dark.css", "r") as f:
+	css=b""
+	with open(THEMES + "solarized dark.css", "rb") as f:
 		css=f.read()
 
-	with open(THEMES + "solarized dark.css", "w") as f:
-		f.write(solarized_license + css)
+	with open(THEMES + "solarized dark.css", "wb") as f:
+		f.write(solarized_license.encode() + css)
 
 print("")
