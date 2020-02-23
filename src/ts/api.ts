@@ -39,12 +39,13 @@ async function post(param: {[key: string]: any}, doRedirect: boolean=false): Pro
 		})
 		.then(e=>e.json())
 		.catch((response)=>{
-			console.log({"error": response.message})
-			if (response.message=="NetworkError when attempting to fetch resource.") {
+			if (response.message=="NetworkError when attempting to fetch resource." || response.message=="Failed to fetch") {
 				error("Network Disconnected")
+				throw new Error("Network Disconnect: " + response.message)
 			}
-			else if (response.message=="JSON.parse: unexpected character at line 1 column 1 of the JSON data") {
+			else if (response.message.startsWith("JSON.parse: unexpected character at")) {
 				error("Could Not Handle Request")
+				throw new Error("Could Not Handle Request: " + response.message)
 			}
 		})
 		.then((response)=>{
