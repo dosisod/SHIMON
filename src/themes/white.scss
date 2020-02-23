@@ -1,3 +1,5 @@
+@use 'urls';
+
 :root {
 	--x-receiving-fg: black;
 	--receiving-bg: white;
@@ -27,7 +29,7 @@
 	--dropdown-bg: white;
 	--dropdown-bd: black;
 	--dropdown-fg: black;
-	--dropdown-src: url("/img/dropdown-black.png");
+	--dropdown-src: #{urls.$dropdown-black};
 	--reload-fg: black;
 	--error-bg: white;
 }
