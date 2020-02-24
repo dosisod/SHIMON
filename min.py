@@ -68,9 +68,9 @@ if not skipping:
 
 print("\ncopying CSS files")
 for filename in files("src/css/"):
-	shutil.copy(
+	sass(
 		"src/css/" + filename,
-		STATIC_CSS + filename
+		STATIC_CSS + filename[:-4] + "css"
 	)
 
 if not skipping:

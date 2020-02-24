@@ -55,6 +55,8 @@ ol > .msg {
 	border: 1px solid var(--typer-bd);
 	box-shadow: 0 0 0 10px var(--typer-sd);
 	font-size: calc(20px - 0.5vw);
+	color: var(--input-fg);
+	background: var(--input-bg);
 }
 
 @media screen and (max-width: 700px) {

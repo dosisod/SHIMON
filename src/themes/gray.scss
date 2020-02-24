@@ -1,38 +1,38 @@
 @use 'urls';
 
 $dark-gray: #191919;
-$slight-gray: #aaa;
+$light-gray: #aaa;
 
 :root {
 	--x-receiving-fg: #{$dark-gray};
-	--receiving-bg: #{$slight-gray};
+	--receiving-bg: #{$light-gray};
 	--receiving-fg: #{$dark-gray};
 	--receiving-bd: #{$dark-gray};
-	--x-sending-fg: #{$slight-gray};
+	--x-sending-fg: #{$light-gray};
 	--sending-bg: #{$dark-gray};
-	--sending-fg: #{$slight-gray};
-	--sending-bd: #{$slight-gray};
-	--typer-bd: #{$dark-gray};
+	--sending-fg: #{$light-gray};
+	--sending-bd: #{$light-gray};
+	--typer-bd: #{$light-gray};
 	--typer-sd: #{$dark-gray};
 	--container-bg: #{$dark-gray};
 	--checkbox-bg: #{$dark-gray};
-	--checkbox-fg: #{$slight-gray};
-	--checkbox-bd: #{$slight-gray};
+	--checkbox-fg: #{$light-gray};
+	--checkbox-bd: #{$light-gray};
 	--input-bd: #444;
 	--input-bg: #{$dark-gray};
-	--input-fg: #{$slight-gray};
+	--input-fg: #{$light-gray};
 	--click-bg: #{$dark-gray};
-	--click-fg: #{$slight-gray};
-	--title-fg: #{$slight-gray};
-	--msg-fg: #{$slight-gray};
-	--rightitem-fg: #{$slight-gray};
+	--click-fg: #{$light-gray};
+	--title-fg: #{$light-gray};
+	--msg-fg: #{$light-gray};
+	--rightitem-fg: #{$light-gray};
 	--warn-fg: #a50000;
 	--info-fg: #444;
-	--setting-fg: #{$slight-gray};
+	--setting-fg: #{$light-gray};
 	--dropdown-bg: #{$dark-gray};
-	--dropdown-fg: #{$slight-gray};
-	--dropdown-bd: #{$slight-gray};
+	--dropdown-fg: #{$light-gray};
+	--dropdown-bd: #{$light-gray};
 	--dropdown-src: #{urls.$dropdown-white};
-	--reload-fg: #{$slight-gray};
+	--reload-fg: #{$light-gray};
 	--error-bg: #{$dark-gray};
 }
