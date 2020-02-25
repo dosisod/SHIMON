@@ -42,5 +42,6 @@ Variables can be suffixed with: `-fg` (foreground/text), `-bg` (background), `bd
 		/* src for arrow image for dropdowns */
 	--reload-fg: black;         /* text color for reload */
 	--error-bg: white;          /* background color for warning msgs */
+	--text-fg: white;           /* foreground for other text */
 }
 ```
