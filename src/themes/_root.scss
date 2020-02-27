@@ -28,7 +28,7 @@
 --dropdown-bg: #{$dropdown-bg};
 --dropdown-bd: #{$dropdown-bd};
 --dropdown-fg: #{$dropdown-fg};
---dropdown-src: #{$dropdown-src};
+--dropdown-src: url("#{/img/#{$dropdown-src}}");
 --reload-fg: #{$reload-fg};
 --error-bg: #{$error-bg};
 --text-fg: #{$text-fg};

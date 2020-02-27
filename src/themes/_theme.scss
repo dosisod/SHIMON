@@ -1,4 +1,4 @@
-@import 'urls';
+@use 'urls';
 
 // base bacground and foreground colors
 $bg: white !default;
@@ -50,6 +50,6 @@ $setting-fg: $fg !default;
 $dropdown-bg: $bg !default;
 $dropdown-fg: $fg !default;
 $dropdown-bd: $dropdown-fg !default;
-$dropdown-src: $dropdown-black !default;
+$dropdown-src: urls.$dropdown-black !default;
 
 @import 'root';
