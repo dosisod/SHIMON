@@ -3,37 +3,16 @@
 $dark-gray: #191919;
 $light-gray: #aaa;
 
-:root {
-	--x-receiving-fg: #{$dark-gray};
-	--receiving-bg: #{$light-gray};
-	--receiving-fg: #{$dark-gray};
-	--receiving-bd: #{$dark-gray};
-	--x-sending-fg: #{$light-gray};
-	--sending-bg: #{$dark-gray};
-	--sending-fg: #{$light-gray};
-	--sending-bd: #{$light-gray};
-	--typer-bd: #{$light-gray};
-	--typer-sd: #{$dark-gray};
-	--container-bg: #{$dark-gray};
-	--checkbox-bg: #{$dark-gray};
-	--checkbox-fg: #{$light-gray};
-	--checkbox-bd: #{$light-gray};
-	--input-bd: #444;
-	--input-bg: #{$dark-gray};
-	--input-fg: #{$light-gray};
-	--click-bg: #{$dark-gray};
-	--click-fg: #{$light-gray};
-	--title-fg: #{$light-gray};
-	--msg-fg: #{$light-gray};
-	--rightitem-fg: #{$light-gray};
-	--warn-fg: #a50000;
-	--info-fg: #444;
-	--setting-fg: #{$light-gray};
-	--dropdown-bg: #{$dark-gray};
-	--dropdown-fg: #{$light-gray};
-	--dropdown-bd: #{$light-gray};
-	--dropdown-src: #{urls.$dropdown-white};
-	--reload-fg: #{$light-gray};
-	--error-bg: #{$dark-gray};
-	--text-fg: #{$light-gray};
-}
+$bg: $dark-gray;
+$fg: $light-gray;
+
+$receiving-bg: $light-gray;
+$receiving-fg: $dark-gray;
+
+$input-bd: #444;
+$info-fg: #444;
+$warn-fg: #a50000;
+
+$dropdown-src: urls.$dropdown-white;
+
+@import 'theme';

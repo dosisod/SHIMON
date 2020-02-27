@@ -1,8 +1,6 @@
 /* Reference to the original colorscheme */
 /* github.com/altercation/solarized      */
 
-@use 'urls';
-
 $red: #dc322f;
 $yellow: #b58900;
 $orange: #cb4b16;
@@ -18,37 +16,39 @@ $gray: #839496;
 $grayer: #657b83;
 $grayest: #586e75;
 
-:root {
-	--x-receiving-fg: #{$yellow};
-	--receiving-bg: #{$grayest};
-	--receiving-fg: #{$white};
-	--receiving-bd: #{$grayest};
-	--x-sending-fg: #{$orange};
-	--sending-bg: #{$prussian};
-	--sending-fg: #{$cyan};
-	--sending-bd: #{$prussian};
-	--typer-bd: #{$prussian};
-	--typer-sd: #{$sapphire};
-	--container-bg: #{$sapphire};
-	--checkbox-bg: #{$white};
-	--checkbox-fg: #{$sapphire};
-	--checkbox-bd: #{$sapphire};
-	--input-bd: #{$sapphire};
-	--input-bg: #{$prussian};
-	--input-fg: white;
-	--click-bg: #{$prussian};
-	--click-fg: white;
-	--title-fg: #{$violet};
-	--msg-fg: #{$gray};
-	--rightitem-fg: #{$green};
-	--warn-fg: #{$red};
-	--info-fg: #{$grayer};
-	--setting-fg: #{$white};
-	--dropdown-bg: #{$white};
-	--dropdown-bd: #{$white};
-	--dropdown-fg: #{$sapphire};
-	--dropdown-src: #{urls.$dropdown-black};
-	--reload-fg: #{$magenta};
-	--error-bg: #{$sapphire};
-	--text-fg: #{$gray};
-}
+$bg: $sapphire;
+$fg: white;
+
+$text-fg: $gray;
+$title-fg: $violet;
+$msg-fg: $gray;
+$rightitem-fg: $green;
+$reload-fg: $magenta;
+$warn-fg: $red;
+$info-fg: $grayer;
+
+$receiving-bg: $grayest;
+$receiving-bd: $receiving-bg;
+$receiving-fg: $white;
+$x-receiving-fg: $yellow;
+
+$sending-bg: $prussian;
+$sending-bd: $sending-bg;
+$sending-fg: $cyan;
+$x-sending-fg: $orange;
+
+$input-base-bg: $prussian;
+
+$typer-bd: $prussian;
+
+$checkbox-bg: $white;
+$checkbox-fg: $sapphire;
+
+$input-bd: $sapphire;
+
+$setting-fg: $white;
+$dropdown-bg: $white;
+$dropdown-bd: $white;
+$dropdown-fg: $sapphire;
+
+@import 'theme';
