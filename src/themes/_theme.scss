@@ -1,0 +1,55 @@
+@import 'urls';
+
+// base bacground and foreground colors
+$bg: white !default;
+$fg: black !default;
+
+// container (for all ui elements) color
+$container-bg: $bg !default;
+
+// colors used in only a few places
+$text-fg: $fg !default;
+$title-fg: $fg !default;
+$msg-fg: $fg  !default;
+$rightitem-fg: $fg !default;
+$error-bg: $container-bg !default;
+$reload-fg: $fg !default;
+$warn-fg: red !default;
+$info-fg: grey !default;
+
+$receiving-bg: $bg !default;
+$receiving-fg: $fg !default;
+$receiving-bd: $receiving-fg !default;
+$x-receiving-fg: $receiving-fg !default;
+
+$sending-bg: $bg !default;
+$sending-fg: $fg !default;
+$sending-bd: $sending-fg !default;
+$x-sending-fg: $sending-fg !default;
+
+// base colors for input elements
+$input-base-bg: $bg !default;
+$input-base-fg: $fg !default;
+$input-base-bd: $input-base-fg !default;
+
+$typer-bd: $input-base-fg !default;
+$typer-sd: $container-bg !default;
+
+$checkbox-bg: $input-base-bg !default;
+$checkbox-fg: $input-base-fg !default;
+$checkbox-bd: $checkbox-fg !default;
+
+$input-bd: $input-base-bd !default;
+$input-bg: $input-base-bg !default;
+$input-fg: $input-base-fg !default;
+
+$click-bg: $input-base-bg !default;
+$click-fg: $input-base-fg !default;
+
+$setting-fg: $fg !default;
+$dropdown-bg: $bg !default;
+$dropdown-fg: $fg !default;
+$dropdown-bd: $dropdown-fg !default;
+$dropdown-src: $dropdown-black !default;
+
+@import 'root';

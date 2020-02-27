@@ -96,7 +96,7 @@ if not skipping:
 
 	print("\nminifying themes:")
 
-	for filename in files("src/themes", ignore=["_urls.scss"]):
+	for filename in files("src/themes", ignore=["_urls.scss", "_root.scss", "_theme.scss"]):
 		css_name=filename[:-4] + "css"
 
 		print("  " + filename)
