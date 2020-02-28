@@ -26,8 +26,8 @@ window.addEventListener("load", function(){
 
 url("@"+document.cookie.replace(/(?:(?:^|.*;\s*)uname\s*\=\s*([^;]*).*$)|^.*$/, "$1")) //set url
 
-preload={{ preload|default("false")|safe() }}
-friends={{ friends|default("false")|safe() }}
+preload=JSON.parse({{ preload|default("false")|tojson }})
+friends=JSON.parse({{ friends|default("false")|tojson }})
 
 reloadMsgs()
 

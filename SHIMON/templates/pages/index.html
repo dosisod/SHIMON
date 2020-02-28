@@ -25,8 +25,8 @@ window.addEventListener("load", function(){
 
 url("")
 
-preload={{ preload|default("false")|safe() }}
-friends={{ friends|default("false")|safe() }}
+preload=JSON.parse({{ preload|default("false")|tojson }})
+friends=JSON.parse({{ friends|default("false")|tojson }})
 
 reloadIndex()
 
