@@ -7,7 +7,7 @@ from .api_calls import *
 from typing import Union, Dict, List, cast
 from ..__init__ import AnyResponse
 
-def handler(self, data: Dict) -> AnyResponse:
+def api_entry(self, data: Dict) -> AnyResponse:
 	if "unlock" in data:
 		if self.cache.is_empty():
 			return unlock(self, data["unlock"], True)

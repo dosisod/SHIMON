@@ -1,6 +1,6 @@
 import json
 
-from SHIMON.api.handle import handler
+from SHIMON.api.entry import api_entry
 
 from testing.base import BaseTest
 from testing.util import assertHttpResponse
@@ -12,10 +12,10 @@ class TestHandler(BaseTest):
 	def test_unlocking_while_unlocked_returns_http_301(self):
 		@BaseTest.use_cookie("session", self.shimon.session.session)
 		def run(self):
-			handler(self.shimon, {"unlock": self.pwd})
+			api_entry(self.shimon, {"unlock": self.pwd})
 
 			assertHttpResponse(
-				handler(
+				api_entry(
 					self.shimon, {
 						"unlock": self.pwd
 					}),
@@ -31,7 +31,7 @@ class TestHandler(BaseTest):
 		@BaseTest.use_cookie("session", self.shimon.session.session)
 		def run(self):
 			assertHttpResponse(
-				handler(self.shimon, {
+				api_entry(self.shimon, {
 					"not a call": ""
 				}),
 				400
@@ -43,6 +43,6 @@ class TestHandler(BaseTest):
 	@BaseTest.allow_local
 	def test_invalid_session_returns_http_401(self):
 		assertHttpResponse(
-			handler(self.shimon, {"ping": ""}),
+			api_entry(self.shimon, {"ping": ""}),
 			401
 		)

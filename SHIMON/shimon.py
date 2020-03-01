@@ -8,7 +8,7 @@ import os
 from .api.external import api_recent, api_friends, api_allfor
 from .renderer import render, make_response
 from .cache_map import CacheMapper
-from .api.handle import handler
+from .api.entry import api_entry
 from .login import LoginLimiter
 from .security import Security
 from .session import Session
@@ -214,13 +214,13 @@ class Shimon:
 
 		if form:
 			if "json" in form:
-				return handler(
+				return api_entry(
 					self,
 					json.loads(form["json"])
 				)
 
 			else:
-				return handler(self, form)
+				return api_entry(self, form)
 
 		else:
-			return handler(self, request.json)
+			return api_entry(self, request.json)
