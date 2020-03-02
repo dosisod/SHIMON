@@ -5,7 +5,7 @@ async function send(keydown: KeyboardEvent): Promise<any> {
 	if (!input.value) return
 
 	await post({"send msg": {
-		"uname": document.cookie.replace(/(?:(?:^|.*;\s*)uname\s*\=\s*([^;]*).*$)|^.*$/, "$1"),
+		"uname": cookie("uname"),
 		"msg": input.value
 	}})
 	.then((response)=>{

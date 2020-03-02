@@ -26,7 +26,7 @@ function realname(id: string): string {
 }
 
 async function reloadMsgs(): Promise<void> {
-	const user=document.cookie.replace(/(?:(?:^|.*;\s*)uname\s*\=\s*([^;]*).*$)|^.*$/, "$1")
+	const user=cookie("uname")
 
 	const raw=await postOrPreload({"allfor": user})
 
