@@ -1,6 +1,7 @@
 from ..renderer import render
 
 from .error import error_200, error_400
+from .util import history_id
 
 from typing import Dict
 from ..__init__ import HttpResponse
@@ -16,16 +17,15 @@ def send_msg(self, sending: Dict, redirect: bool) -> HttpResponse:
 	if sending["msg"].isspace():
 		return error_400()
 
-	for friend in self.cache["friends"]:
-		if sending["uname"]==friend["id"]:
-			for index, current in enumerate(self.cache["history"]):
-				if current["id"]==sending["uname"]:
-					self.cache["history"][index]["msgs"].append({
-						"sending": True,
-						"msg": sending["msg"]
-					})
+	index=history_id(self, sending["uname"])
 
-					self.redraw=True
-					return error_200()
+	if index >= 0:
+		self.cache["history"][index]["msgs"].append({
+			"sending": True,
+			"msg": sending["msg"]
+		})
+
+		self.redraw=True
+		return error_200()
 
 	return error_400()
