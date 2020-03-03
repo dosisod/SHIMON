@@ -1,14 +1,14 @@
 language: python
 
 python:
-	- "3.5"
-	- "3.6"
-	- "3.7"
-	- "3.8"
+  - "3.5"
+  - "3.6"
+  - "3.7"
+  - "3.8"
 
 install:
-	- pip install -r test-requirements.txt
+  - pip install -r test-requirements.txt
 
 script:
-	- pytest
-	- bandit -r SHIMON
+  - pytest
+  - bandit -r SHIMON
