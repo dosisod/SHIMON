@@ -1,6 +1,6 @@
 # SHIMON
 
-![GitHub](https://img.shields.io/github/license/dosisod/SHIMON) [![security: bandit](https://img.shields.io/badge/security-bandit-yellow.svg)](https://github.com/PyCQA/bandit)
+[![Build Status](https://travis-ci.com/dosisod/SHIMON.svg?branch=master)](https://travis-ci.com/dosisod/SHIMON) ![GitHub](https://img.shields.io/github/license/dosisod/SHIMON) [![security: bandit](https://img.shields.io/badge/security-bandit-yellow.svg)](https://github.com/PyCQA/bandit)
 
 Secure Human Interactions Made Over Networks
 
