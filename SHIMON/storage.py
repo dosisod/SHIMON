@@ -1,5 +1,5 @@
 from flask import Response
-import gnupg as gpg
+import gnupg as gpg # type: ignore
 import json
 import os
 

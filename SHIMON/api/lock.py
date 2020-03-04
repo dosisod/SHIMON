@@ -1,12 +1,13 @@
 from ..renderer import render, make_response
 from .error import error_400
 
+from typing import Optional
 from ..__init__ import HttpResponse
 
 def lock(self, pwd: str, redirect: bool) -> HttpResponse:
 	#dont kill session unless user will be directed to login
 	if redirect:
-		returned_error=self.storage.lock(pwd)
+		returned_error=self.storage.lock(pwd) # type: Optional[HttpResponse]
 
 		if returned_error: return returned_error
 
