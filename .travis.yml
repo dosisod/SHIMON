@@ -10,3 +10,4 @@ install:
 
 script:
   - bandit -r SHIMON
+  - pytest

@@ -7,7 +7,7 @@ from ..__init__ import HttpResponse
 def unlock(self, pwd: str, redirect: bool) -> HttpResponse:
 	plain=self.storage.unlock(pwd)
 
-	if not self.login_limiter.in_cooldown() and plain:
+	if not self.login_limiter.in_cooldown() and plain not in [None, "{}"]:
 		self.cache.load(json.loads(plain))
 
 		self.cache.mapper.update([

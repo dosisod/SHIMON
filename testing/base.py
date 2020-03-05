@@ -5,6 +5,26 @@ from SHIMON.app import App
 from SHIMON.api.unlock import unlock
 from SHIMON.api.lock import lock
 
+def add_data_if_cache_empty(self):
+	if len(self.shimon.cache["friends"]) > 0:
+		return
+
+	if len(self.shimon.cache["history"]) > 0:
+		return
+
+	self.shimon.cache["history"].append({
+		"id": self.default_uuid,
+		"msgs": [{
+				"sending": True,
+				"msg": "test msg"
+		}]
+	})
+
+	self.shimon.cache["friends"].append({
+		"id": self.default_uuid,
+		"name": self.default_name
+	})
+
 class BaseTest:
 	pwd="123"
 
@@ -13,6 +33,10 @@ class BaseTest:
 
 	_app_context=test_app.app.app_context
 	_request_context=test_app.app.test_request_context
+
+	#default data to use when cache is empty
+	default_name="name"
+	default_uuid="uuid"
 
 	def app_context(func):
 		def with_app_context(self):
@@ -41,7 +65,10 @@ class BaseTest:
 	def unlocked(func):
 		def while_unlocked(self):
 			unlock(self.shimon, self.pwd, True)
+
+			add_data_if_cache_empty(self)
 			func(self)
+
 			lock(self.shimon, self.pwd, True)
 
 		return while_unlocked
