@@ -259,5 +259,10 @@ function makeProfilePic(uuid: string, name: string): HTMLDivElement {
 }
 
 function blank(msg: string): string {
-	return `<div class="holder nopoint blank"><span class="title center">${msg}</span></div>`
+	return nu("span", {
+		"className": "title center",
+		"innerText": msg
+	}, nu("div", {
+		"className": "holder nopoint blank"
+	})).outerHTML
 }
