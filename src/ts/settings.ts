@@ -17,7 +17,7 @@ button: function(checkbox: HTMLElement): void {
 		}, true)
 	}
 	else if (selected=="devmode") {
-		post({"devmode": checkbox.className.includes("-unchecked")}).then(()=>{
+		post({"devmode": isChecked(checkbox)}).then(()=>{
 			window.location.reload(true)
 		})
 	}
@@ -41,10 +41,9 @@ button: function(checkbox: HTMLElement): void {
 },
 
 dropdown: function(select: HTMLSelectElement): void {
-	const attrib=select.getAttribute("data-type")
-	if (!attrib) return
-
-	const selected=attrib.toLowerCase()
+	const selected=(
+		select.getAttribute("data-type") || ""
+	).toLowerCase()
 
 	if (selected=="expiration timer") {
 		post({"expiration timer": select.value})

@@ -249,7 +249,7 @@ function makeProfilePic(uuid: string, name: string): HTMLDivElement {
 	})
 
 	const color=uuid.slice(0, 6)
-	profilePic.style.background="#" + uuid.slice(0, 6)
+	profilePic.style.background="#" + color
 
 	//https://stackoverflow.com/a/33890907
 	profilePic.style.color=(parseInt(color, 16) > 0xffffff / 2) ?
