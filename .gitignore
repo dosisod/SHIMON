@@ -1,5 +1,6 @@
 # hide temp or object files
 *.pyc
+.mypy_cache/
 __pycache__/
 .venv/
 *.bak
@@ -13,18 +14,5 @@ SHIMON/static/css/*
 !SHIMON/static/css/bundle.css
 !SHIMON/static/css/login.css
 
-# hide personal files
+# hide cache data
 data.gpg*
-todo
-
-# hide vim related files
-*.swp
-.vim
-
-# hide helper files
-m
-_mod.py
-run
-
-testing/ava_test/
-.*cache/
