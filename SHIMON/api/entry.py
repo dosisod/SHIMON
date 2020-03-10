@@ -1,4 +1,3 @@
-from contextlib import suppress
 from flask import abort
 import json
 

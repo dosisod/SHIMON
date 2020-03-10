@@ -12,7 +12,4 @@ Page=Union[
 HttpResponse=Tuple[Page, int]
 AnyResponse=Union[HttpResponse, Page]
 
-#alias for Page
-Json=Page
-
 Complex=Union[Dict, List, str, Page]
