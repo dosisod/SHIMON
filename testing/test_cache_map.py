@@ -1,5 +1,3 @@
-from SHIMON.cache_map import CacheMapper
-
 from testing.base import BaseTest
 
 class TestCacheMapper(BaseTest):

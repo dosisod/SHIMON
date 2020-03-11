@@ -54,7 +54,7 @@ class BaseTest:
 
 	def use_cookie(name, value):
 		def make_cookie(func):
-			def with_test_client(self, *args, **kwargs):
+			def with_test_client(self):
 				cookie=dump_cookie(name, value)
 				with self._request_context(environ_base={"HTTP_COOKIE": cookie}):
 					func(self)

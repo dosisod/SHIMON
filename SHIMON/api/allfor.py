@@ -9,4 +9,4 @@ def allfor(self, user: str, redirect: bool) -> HttpResponse:
 	if raw==False:
 		return error_400()
 
-	return error_200(raw) # type: ignore
+	return error_200(raw)

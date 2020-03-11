@@ -1,4 +1,3 @@
-from typing import Tuple
 from SHIMON.__init__ import Page, HttpResponse
 
 def assertHttpResponse(data: HttpResponse, code: int) -> None:

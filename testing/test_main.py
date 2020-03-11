@@ -1,4 +1,3 @@
-from threading import Thread
 from socket import socket
 
 from SHIMON.__main__ import run

@@ -1,7 +1,5 @@
 import json
 
-from SHIMON.cache import Cache
-
 from testing.base import BaseTest
 
 class TestCache(BaseTest):

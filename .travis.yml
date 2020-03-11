@@ -12,3 +12,4 @@ script:
   - bandit -r SHIMON
   - pytest
   - vulture SHIMON whitelist.py
+  - vulture testing whitelist.py
