@@ -1,7 +1,7 @@
-from .error import error_200
+from SHIMON.api.error import error_200
 
 from typing import Optional
-from ..__init__ import HttpResponse
+from SHIMON.__init__ import HttpResponse
 
 def save(self, pwd: str, redirect: bool) -> HttpResponse:
 	storage_error=self.storage.save(pwd) # type: Optional[HttpResponse]

@@ -1,28 +1,28 @@
-from .external import api_recent, api_friends, api_allfor
-from .error import error, error_200, error_202, error_400
-from .unlock import unlock
-from .send_msg import send_msg
-from .delete_msg import delete_msg
-from .save import save
-from .lock import lock
-from .change_pwd import change_pwd
-from .new_key import new_key
-from .msg_policy import msg_policy
-from .expiration_timer import expiration_timer
-from .theme import theme
-from .devmode import devmode
-from .nuke import nuke
-from .fresh_js import fresh_js
-from .fresh_css import fresh_css
-from .status import status
-from .ping import ping
-from .friends import friends
-from .recent import recent
-from .allfor import allfor
-from .add_friend import add_friend
+from SHIMON.api.external import api_recent, api_friends, api_allfor
+from SHIMON.api.error import error, error_200, error_202, error_400
+from SHIMON.api.unlock import unlock
+from SHIMON.api.send_msg import send_msg
+from SHIMON.api.delete_msg import delete_msg
+from SHIMON.api.save import save
+from SHIMON.api.lock import lock
+from SHIMON.api.change_pwd import change_pwd
+from SHIMON.api.new_key import new_key
+from SHIMON.api.msg_policy import msg_policy
+from SHIMON.api.expiration_timer import expiration_timer
+from SHIMON.api.theme import theme
+from SHIMON.api.devmode import devmode
+from SHIMON.api.nuke import nuke
+from SHIMON.api.fresh_js import fresh_js
+from SHIMON.api.fresh_css import fresh_css
+from SHIMON.api.status import status
+from SHIMON.api.ping import ping
+from SHIMON.api.friends import friends
+from SHIMON.api.recent import recent
+from SHIMON.api.allfor import allfor
+from SHIMON.api.add_friend import add_friend
 
 from typing import Callable, Dict, Any
-from ..__init__ import HttpResponse
+from SHIMON.__init__ import HttpResponse
 
 call_type=Dict[
 	str,

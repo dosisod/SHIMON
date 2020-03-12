@@ -1,8 +1,8 @@
 import json
 
-from ..renderer import render
+from SHIMON.renderer import render
 
-from ..__init__ import HttpResponse
+from SHIMON.__init__ import HttpResponse
 
 def unlock(self, pwd: str, redirect: bool) -> HttpResponse:
 	plain=self.storage.unlock(pwd)

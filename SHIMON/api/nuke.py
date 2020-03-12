@@ -1,6 +1,6 @@
-from .error import error_401
+from SHIMON.api.error import error_401
 
-from ..__init__ import HttpResponse
+from SHIMON.__init__ import HttpResponse
 
 def nuke(self, pwd: str, redirect: bool) -> HttpResponse:
 	if self.security.correct_pwd(pwd):

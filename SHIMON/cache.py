@@ -1,4 +1,4 @@
-from .cache_map import CacheMapper
+from SHIMON.cache_map import CacheMapper
 
 from typing import Dict, Any, Optional
 

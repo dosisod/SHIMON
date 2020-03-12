@@ -1,4 +1,4 @@
-from .toggle import Toggle
+from SHIMON.api.toggle import Toggle
 
 fresh_css=Toggle(
 	path="SHIMON/static/css/font.css",

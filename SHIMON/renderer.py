@@ -3,7 +3,7 @@ from flask import render_template, Response
 from flask.json import jsonify as _jsonify
 
 from typing import Any, cast
-from .__init__ import Page
+from SHIMON.__init__ import Page
 
 def render(self, filepath: str, **kwargs) -> Page:
 	kwargs["developer"]=self.developer

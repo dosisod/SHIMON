@@ -1,7 +1,7 @@
-from .error import error_400
+from SHIMON.api.error import error_400
 
 from typing import Dict
-from ..__init__ import HttpResponse
+from SHIMON.__init__ import HttpResponse
 
 def add_friend(self, friend: Dict, redirect: bool) -> HttpResponse:
 	if type(friend) is not dict:

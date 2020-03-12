@@ -1,10 +1,10 @@
 import base64 as b64
 
-from ..kee import Kee
+from SHIMON.kee import Kee
 
-from .error import error_400, error_401
+from SHIMON.api.error import error_400, error_401
 
-from ..__init__ import HttpResponse
+from SHIMON.__init__ import HttpResponse
 
 def new_key(self, pwd: str, redirect: bool) -> HttpResponse:
 	if self.security.correct_pwd(pwd):

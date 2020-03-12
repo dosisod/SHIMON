@@ -1,6 +1,6 @@
-from .error import error_200
+from SHIMON.api.error import error_200
 
-from ..__init__ import HttpResponse
+from SHIMON.__init__ import HttpResponse
 
 def status(self, _: None, redirect: bool) -> HttpResponse:
 	return error_200({

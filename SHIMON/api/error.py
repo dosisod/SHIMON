@@ -1,7 +1,7 @@
-from ..renderer import jsonify
+from SHIMON.renderer import jsonify
 
 from typing import Union
-from ..__init__ import Complex, HttpResponse
+from SHIMON.__init__ import Complex, HttpResponse
 
 def error(code: int, data: Complex, redirect: bool, rethrow: bool=False) -> HttpResponse:
 	if redirect:

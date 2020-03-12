@@ -1,8 +1,8 @@
 import os
 
-from .error import error_202, error_400
+from SHIMON.api.error import error_202, error_400
 
-from ..__init__ import HttpResponse
+from SHIMON.__init__ import HttpResponse
 
 def theme(self, theme: str, redirect: bool) -> HttpResponse:
 	if type(theme) is str:

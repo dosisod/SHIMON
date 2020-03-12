@@ -1,8 +1,8 @@
-from ..renderer import render, make_response
-from .error import error_400
+from SHIMON.renderer import render, make_response
+from SHIMON.api.error import error_400
 
 from typing import Optional
-from ..__init__ import HttpResponse
+from SHIMON.__init__ import HttpResponse
 
 def lock(self, pwd: str, redirect: bool) -> HttpResponse:
 	#dont kill session unless user will be directed to login

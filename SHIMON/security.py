@@ -1,10 +1,10 @@
 from flask import request, abort, Response
 from hashlib import sha512
 
-from .util import encode_anystr
+from SHIMON.util import encode_anystr
 
 from typing import AnyStr, Optional, cast
-from .__init__ import HttpResponse
+from SHIMON.__init__ import HttpResponse
 
 class Security:
 	def __init__(self, shimon_ref):

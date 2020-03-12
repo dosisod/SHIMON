@@ -1,7 +1,7 @@
-from .error import error_202, error_400, error_401
+from SHIMON.api.error import error_202, error_400, error_401
 
 from typing import Dict
-from ..__init__ import HttpResponse
+from SHIMON.__init__ import HttpResponse
 
 def change_pwd(self, pwds: Dict, redirect: bool) -> HttpResponse:
 	if type(pwds) is not dict:

@@ -5,7 +5,7 @@ if sys.version_info[0] < 3:
 
 from waitress import serve # type: ignore
 
-from .app import App
+from SHIMON.app import App
 
 def run(app):
 	print("starting SHIMON v" + app.shimon.VERSION + " -> github.com/dosisod/SHIMON\n")

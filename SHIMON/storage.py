@@ -3,11 +3,11 @@ import gnupg as gpg # type: ignore
 import json
 import os
 
-from .api.error import error, error_401
-from .renderer import render
+from SHIMON.api.error import error, error_401
+from SHIMON.renderer import render
 
 from typing import Union, Optional, cast
-from .__init__ import Page, HttpResponse
+from SHIMON.__init__ import Page, HttpResponse
 
 class Storage:
 	def __init__(self, shimon_ref, filepath: str="data.gpg"):

@@ -1,11 +1,11 @@
 from hashlib import sha256
 from copy import deepcopy
 
-from ..util import encode_anystr
+from SHIMON.util import encode_anystr
 
 from typing import Union, List, Dict, AnyStr
 from typing_extensions import Literal
-from ..__init__ import Page
+from SHIMON.__init__ import Page
 
 def api_friends(self) -> List:
 	friends: List=deepcopy(self.cache["friends"])

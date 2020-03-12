@@ -1,10 +1,10 @@
 from copy import deepcopy
 
-from .error import error_200, error_400, error_401
-from .util import history_id
+from SHIMON.api.error import error_200, error_400, error_401
+from SHIMON.api.util import history_id
 
 from typing import Dict
-from ..__init__ import HttpResponse
+from SHIMON.__init__ import HttpResponse
 
 def delete_msg(self, data: Dict, redirect: bool) -> HttpResponse:
 	if type(data) is not dict:

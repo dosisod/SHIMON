@@ -1,10 +1,10 @@
-from ..renderer import render
+from SHIMON.renderer import render
 
-from .error import error_200, error_400
-from .util import history_id
+from SHIMON.api.error import error_200, error_400
+from SHIMON.api.util import history_id
 
 from typing import Dict
-from ..__init__ import HttpResponse
+from SHIMON.__init__ import HttpResponse
 
 def send_msg(self, sending: Dict, redirect: bool) -> HttpResponse:
 	if type(sending) is not dict:

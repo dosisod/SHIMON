@@ -4,13 +4,13 @@ import base64 as b64
 import json
 import os
 
-from .api.external import api_friends, api_recent
-from .renderer import render, make_response
-from .api.error import error
-from .kee import Kee
+from SHIMON.api.external import api_friends, api_recent
+from SHIMON.renderer import render, make_response
+from SHIMON.api.error import error
+from SHIMON.kee import Kee
 
 from typing import Optional, Dict
-from .__init__ import Page, HttpResponse
+from SHIMON.__init__ import Page, HttpResponse
 
 class Session:
 	def __init__(self, shimon_ref):

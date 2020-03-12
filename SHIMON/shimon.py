@@ -5,18 +5,18 @@ import traceback
 import json
 import os
 
-from .api.external import api_recent, api_friends, api_allfor
-from .renderer import render, make_response
-from .cache_map import CacheMapper
-from .api.entry import api_entry
-from .login import LoginLimiter
-from .security import Security
-from .session import Session
-from .storage import Storage
-from .cache import Cache
+from SHIMON.api.external import api_recent, api_friends, api_allfor
+from SHIMON.renderer import render, make_response
+from SHIMON.cache_map import CacheMapper
+from SHIMON.api.entry import api_entry
+from SHIMON.login import LoginLimiter
+from SHIMON.security import Security
+from SHIMON.session import Session
+from SHIMON.storage import Storage
+from SHIMON.cache import Cache
 
 from typing import Union
-from .__init__ import HttpResponse, AnyResponse
+from SHIMON.__init__ import HttpResponse, AnyResponse
 
 class Shimon:
 	def __init__(self) -> None:
