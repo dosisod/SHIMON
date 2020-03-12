@@ -3,6 +3,8 @@ from flask.json import jsonify as _jsonify
 
 from SHIMON.renderer import render, make_response, jsonify
 
+from SHIMON.__init__ import Page, Response
+
 from testing.base import BaseTest
 
 class TestRender(BaseTest):
@@ -11,16 +13,28 @@ class TestRender(BaseTest):
 	def test_all_settings_added_automatically(self):
 		template=render(self.shimon, "testing/render.html")
 
-		def assertHasKey(template: str, key: str) -> None:
-			assert template.find(
-				key + "=" +
-				str(self.shimon.__dict__[key])
-			) > -1
+		if isinstance(template, tuple):
+			template=template[0]
 
-		assertHasKey(template, "developer")
-		assertHasKey(template, "theme")
-		assertHasKey(template, "fresh_js")
-		assertHasKey(template, "fresh_css")
+		def assertHasKeys(html: str) -> None:
+			keys=[
+				"developer",
+				"theme",
+				"fresh_js",
+				"fresh_css"
+			]
+
+			for key in keys:
+				assert html.find(
+					key + "=" +
+					str(self.shimon.__dict__[key])
+				) > -1
+
+		if isinstance(template, Response):
+			assertHasKeys(template.data)
+
+		else:
+			assertHasKeys(template)
 
 	@BaseTest.request_context
 	@BaseTest.unlocked

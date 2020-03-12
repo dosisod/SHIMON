@@ -5,11 +5,14 @@ import os
 from testing.base import BaseTest
 from testing.util import assertHttpResponse
 
+from SHIMON.__init__ import HttpResponse
+
 class FreshToggle(BaseTest):
 	path=""
 	name=""
 
-	func=None
+	def func(self, enable: bool) -> HttpResponse:
+		pass
 
 	@BaseTest.request_context
 	def test_always_returns_http_200(self):

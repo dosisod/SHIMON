@@ -41,7 +41,7 @@ class TestExpirationTimer(BaseTest):
 		assert self.shimon.session.expires!=old_session_value
 
 		self.shimon.cache["expiration"]=old_cache_value
-		self.shimon.session.expiration=old_session_value
+		self.shimon.session.expires=old_session_value
 
 	def expiration(self, num: str):
 		return expiration_timer(self.shimon, num, False)

@@ -1,4 +1,4 @@
-from SHIMON.api.save import save
+from SHIMON.api.save import save as _save
 
 from testing.base import BaseTest
 from testing.util import assertHttpResponse
@@ -23,15 +23,17 @@ class TestSave(BaseTest):
 	@BaseTest.request_context
 	@BaseTest.unlocked
 	def test_valid_password_updates_variables(self):
-		self.shimon.msg_policy=None
-		self.shimon.session.expires=None
-		self.shimon.developer=None
+		self.shimon.msg_policy= -1
+		self.shimon.session.expires= -1
+
+		old=self.shimon.developer
+		self.shimon.developer=not old
 
 		self.save(self.pwd)
 
-		assert self.shimon.msg_policy!=None
-		assert self.shimon.session.expires!=None
-		assert self.shimon.developer!=None
+		assert self.shimon.msg_policy is not -1
+		assert self.shimon.session.expires is not -1
+		assert self.shimon.developer==old
 
 	def save(self, pwd: str):
-		return save(self.shimon, pwd, False)
+		return _save(self.shimon, pwd, False)

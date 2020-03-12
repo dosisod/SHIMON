@@ -11,5 +11,3 @@ Page=Union[
 
 HttpResponse=Tuple[Page, int]
 AnyResponse=Union[HttpResponse, Page]
-
-Complex=Union[Dict, List, str, Page]

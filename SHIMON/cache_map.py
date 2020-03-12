@@ -1,9 +1,12 @@
 from typing import Union, Dict, Tuple, Any
 
-CacheDictValue=Union[str, Tuple[Any, str]]
+CacheDictValue=Union[str, bool, int]
 
 CacheDict=Union[
-	Dict[str, CacheDictValue]
+	Dict[
+		str,
+		Union[str, Tuple[Any, str]]
+	]
 ]
 
 class CacheMapper:

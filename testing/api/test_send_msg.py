@@ -3,7 +3,11 @@ from SHIMON.api.send_msg import send_msg
 from testing.base import BaseTest
 from testing.util import assertHttpResponse
 
+from typing import Dict, Any
+
 class TestSendMsg(BaseTest):
+	user: Dict[str, Any]
+
 	@classmethod
 	@BaseTest.request_context
 	@BaseTest.unlocked
@@ -13,7 +17,7 @@ class TestSendMsg(BaseTest):
 	@BaseTest.request_context
 	def test_invalid_data_returns_http_400(self):
 		assertHttpResponse(
-			send_msg(self.shimon, "not valid", False),
+			send_msg(self.shimon, "not valid", False), # type: ignore
 			400
 		)
 

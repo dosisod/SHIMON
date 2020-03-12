@@ -1,4 +1,4 @@
-from SHIMON.renderer import jsonify
+from SHIMON.renderer import jsonify, render
 
 from SHIMON.api.error import error, error_200
 
@@ -10,20 +10,20 @@ class TestError(BaseTest):
 		assert error(200, "testing", True)[0]=="testing"
 
 	@BaseTest.app_context
-	def test_ints_returned_as_is(self):
-		assert error(200, 1337, True)[0]==1337
-
-	@BaseTest.app_context
 	def test_json_is_jsonified(self):
 		assert error(200, ["test3"], True)[0].json==jsonify(["test3"]).json
 
 	@BaseTest.app_context
 	def test_rethrow_param_causes_rethrow(self):
-		assert error(200, None, False, True)[0].json==jsonify({"rethrow":""}).json
+		assert error(200, "", False, True)[0].json==jsonify({"rethrow":""}).json
 
-	@BaseTest.app_context
+	@BaseTest.request_context
 	def test_unreturnable_variable_is_blank(self):
-		assert error(200, None, False)[0].json==jsonify({"code":200,"msg":""}).json
+		assert error(
+			200,
+			None, # type: ignore
+			False
+		)[0].json==jsonify({"code":200,"msg":""}).json
 
 	@BaseTest.app_context
 	def test_error_wrapper_is_same_when_called_directly(self):

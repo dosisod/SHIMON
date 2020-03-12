@@ -3,7 +3,11 @@ from SHIMON.api.delete_msg import delete_msg
 from testing.base import BaseTest
 from testing.util import assertHttpResponse
 
+from typing import Dict, Any
+
 class TestDeleteMsg(BaseTest):
+	user: Dict[str, Any]
+
 	@classmethod
 	@BaseTest.request_context
 	@BaseTest.unlocked

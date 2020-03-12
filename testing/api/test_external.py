@@ -2,6 +2,8 @@ from SHIMON.api.external import api_friends, api_recent, api_allfor, sha256hex
 
 from testing.base import BaseTest
 
+from typing import Dict, List
+
 class TestApiFriends(BaseTest):
 	@BaseTest.request_context
 	@BaseTest.unlocked
@@ -32,6 +34,8 @@ class TestApiRecent(BaseTest):
 			assert "msg" in recent["msgs"][0]
 
 class TestApiAllfor(BaseTest):
+	user: Dict[str, str]
+
 	@classmethod
 	@BaseTest.request_context
 	@BaseTest.unlocked
@@ -54,6 +58,9 @@ class TestApiAllfor(BaseTest):
 	def test_redraw_enabled_returns_user_data(self):
 		self.shimon.redraw=True
 		raw=api_allfor(self.shimon, self.user["id"])
+
+		assert raw
+		assert not isinstance(raw, List)
 
 		assert "id" in raw
 		assert raw["id"]

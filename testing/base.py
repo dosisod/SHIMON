@@ -5,6 +5,8 @@ from SHIMON.app import App
 from SHIMON.api.unlock import unlock
 from SHIMON.api.lock import lock
 
+from typing import Callable
+
 def add_data_if_cache_empty(self):
 	if len(self.shimon.cache["friends"]) > 0:
 		return
@@ -38,22 +40,25 @@ class BaseTest:
 	default_name="name"
 	default_uuid="uuid"
 
-	def app_context(func):
+	@staticmethod
+	def app_context(func: Callable[..., None]):
 		def with_app_context(self):
 			with self._app_context():
 				func(self)
 
 		return with_app_context
 
-	def request_context(func):
+	@staticmethod
+	def request_context(func: Callable[..., None]):
 		def with_request_context(self):
 			with self._request_context():
 				func(self)
 
 		return with_request_context
 
+	@staticmethod
 	def use_cookie(name, value):
-		def make_cookie(func):
+		def make_cookie(func: Callable[..., None]):
 			def with_test_client(self):
 				cookie=dump_cookie(name, value)
 				with self._request_context(environ_base={"HTTP_COOKIE": cookie}):
@@ -62,7 +67,8 @@ class BaseTest:
 			return with_test_client
 		return make_cookie
 
-	def unlocked(func):
+	@staticmethod
+	def unlocked(func: Callable[..., None]):
 		def while_unlocked(self):
 			unlock(self.shimon, self.pwd, True)
 
@@ -73,7 +79,8 @@ class BaseTest:
 
 		return while_unlocked
 
-	def allow_local(func):
+	@staticmethod
+	def allow_local(func: Callable[..., None]):
 		def while_local(self):
 			self.shimon.security._testing=True
 			try:
