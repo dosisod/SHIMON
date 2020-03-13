@@ -1,5 +1,5 @@
 from SHIMON.api.error import error
-from SHIMON.api.ping import ping
+from SHIMON.api.ping import ping as _ping
 
 from testing.base import BaseTest
 from testing.util import assertHttpResponse
@@ -28,4 +28,4 @@ class TestPing(BaseTest):
 		assert self.ping(False)[0].json["msg"]=="pong"
 
 	def ping(self, redirect: bool):
-		return ping(self.shimon, None, redirect)
+		return _ping(self.shimon, None, redirect)
