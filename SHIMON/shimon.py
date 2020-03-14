@@ -16,7 +16,7 @@ from SHIMON.storage import Storage
 from SHIMON.cache import Cache
 
 from typing import Union
-from SHIMON.__init__ import HttpResponse, AnyResponse
+from SHIMON.__init__ import HttpResponse
 
 class Shimon:
 	def __init__(self) -> None:
@@ -116,7 +116,7 @@ class Shimon:
 			return self.msg(uuid)
 
 		if not self.storage.cache_file_exists():
-			return self.session.create(fresh=True), 200
+			return self.session.create(fresh=True)
 
 		had_error=self.security.check_session()
 
@@ -207,7 +207,7 @@ class Shimon:
 		else:
 			return self.index(error="Already logged in", code=301)
 
-	def api(self) -> AnyResponse:
+	def api(self) -> HttpResponse:
 		self.security.check_local()
 
 		form=request.form.to_dict()

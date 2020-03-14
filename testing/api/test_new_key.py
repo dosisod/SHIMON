@@ -19,7 +19,7 @@ class TestNewKey(BaseTest):
 	def test_invalid_pwd_returns_html(self):
 		resp=self.new_key("not the password")
 
-		assert resp[0].startswith("<!DOCTYPE html>")
+		assert resp[0].data.startswith(b"<!DOCTYPE html>")
 
 	@BaseTest.request_context
 	@BaseTest.unlocked

@@ -1,13 +1,13 @@
 from SHIMON.renderer import jsonify
 
 from typing import Union, Dict, List
-from SHIMON.__init__ import HttpResponse, Page
+from SHIMON.__init__ import HttpResponse, Response
 
-ErrorData=Union[Dict, List, str, Page]
+ErrorData=Union[Dict, List, str, Response]
 
 def error(code: int, data: ErrorData, redirect: bool, rethrow: bool=False) -> HttpResponse:
 	if redirect:
-		if isinstance(data, (Dict, List)):
+		if isinstance(data, (Dict, List, str)):
 			return jsonify(data), code
 
 		else:

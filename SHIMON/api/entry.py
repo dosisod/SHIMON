@@ -4,9 +4,9 @@ import json
 from SHIMON.api.api_calls import *
 
 from typing import Union, Dict, List, Optional
-from SHIMON.__init__ import AnyResponse
+from SHIMON.__init__ import HttpResponse
 
-def api_entry(self, data: Dict) -> AnyResponse:
+def api_entry(self, data: Dict) -> HttpResponse:
 	if "unlock" in data:
 		if self.cache.is_empty():
 			return unlock(self, data["unlock"], True)

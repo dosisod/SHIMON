@@ -4,7 +4,7 @@ from SHIMON.api.lock import lock
 from testing.base import BaseTest
 from testing.util import assertHttpResponse
 
-from SHIMON.__init__ import Page, HttpResponse
+from SHIMON.__init__ import HttpResponse
 
 class TestUnlock(BaseTest):
 	def setup_method(self):

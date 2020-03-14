@@ -21,7 +21,7 @@ class TestPing(BaseTest):
 
 	@BaseTest.request_context
 	def test_ping_with_redirect_returns_pong(self):
-		assert self.ping(True)[0]=="pong"
+		assert self.ping(True)[0].data==b'"pong"\n'
 
 	@BaseTest.request_context
 	def test_ping_without_redirect_returns_pong(self):

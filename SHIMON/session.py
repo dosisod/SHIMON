@@ -10,7 +10,7 @@ from SHIMON.api.error import error
 from SHIMON.kee import Kee
 
 from typing import Optional, Dict
-from SHIMON.__init__ import Page, HttpResponse
+from SHIMON.__init__ import HttpResponse
 
 class Session:
 	def __init__(self, shimon_ref):
@@ -20,7 +20,7 @@ class Session:
 		self.lastcall=datetime.now()
 		self.expires=3600
 
-	def create(self, fresh: bool=False, target: str="pages/index.html") -> Page:
+	def create(self, fresh: bool=False, target: str="pages/index.html") -> HttpResponse:
 		if fresh:
 			#fill cache with default values
 			self.shimon.cache.load({

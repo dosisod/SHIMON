@@ -4,7 +4,7 @@ from flask import Flask, Response
 from SHIMON.shimon import Shimon
 
 from typing import Union
-from SHIMON.__init__ import HttpResponse, AnyResponse
+from SHIMON.__init__ import HttpResponse
 
 class App:
 	IP="127.0.0.1"
@@ -14,34 +14,34 @@ class App:
 	shimon=Shimon()
 
 	def __init__(self):
-		@self.app.route("/error/<int:ex>") # type: ignore
+		@self.app.route("/error/<int:ex>")
 		@self.app.errorhandler(Exception)
 		def error(ex: Union[int, Exception]) -> HttpResponse:
 			return self.shimon.error(ex)
 
 		#using @user syntax the msg page will be rendered
 		#if nothing is added, then the index will be rendered as normal
-		@self.app.route("/") # type: ignore
+		@self.app.route("/")
 		@self.app.route("/@<uuid>")
 		def index(uuid: str="") -> HttpResponse:
 			return self.shimon.index(uuid=uuid)
 
-		@self.app.route("/settings") # type: ignore
+		@self.app.route("/settings")
 		def settings() -> HttpResponse:
 			return self.shimon.settings()
 
-		@self.app.route("/account") # type: ignore
+		@self.app.route("/account")
 		def account() -> HttpResponse:
 			return self.shimon.account()
 
-		@self.app.route("/add") # type: ignore
+		@self.app.route("/add")
 		def add() -> HttpResponse:
 			return self.shimon.add()
 
-		@self.app.route("/login") # type: ignore
+		@self.app.route("/login")
 		def login() -> HttpResponse:
 			return self.shimon.login()
 
-		@self.app.route("/api/", methods=["POST"]) # type: ignore
-		def api() -> AnyResponse:
+		@self.app.route("/api/", methods=["POST"])
+		def api() -> HttpResponse:
 			return self.shimon.api()
