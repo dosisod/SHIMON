@@ -18,7 +18,7 @@ def error(code: int, data: ErrorData, redirect: bool, rethrow: bool=False) -> Ht
 		if rethrow:
 			return jsonify({"rethrow": ""}), code
 
-		if not isinstance(data, (dict, list, str)):
+		if not isinstance(data, (Dict, List, str)):
 			data=""
 
 		return jsonify({

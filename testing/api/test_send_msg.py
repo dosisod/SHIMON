@@ -3,10 +3,10 @@ from SHIMON.api.send_msg import send_msg
 from testing.base import BaseTest
 from testing.util import assertHttpResponse
 
-from typing import Dict, Any
+from SHIMON.__init__ import History
 
 class TestSendMsg(BaseTest):
-	user: Dict[str, Any]
+	user: History
 
 	@classmethod
 	@BaseTest.request_context
