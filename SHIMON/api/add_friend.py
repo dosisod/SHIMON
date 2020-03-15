@@ -1,9 +1,12 @@
 from SHIMON.api.error import error_400
 
-from typing import Dict
+from typing import Dict, TYPE_CHECKING
 from SHIMON.__init__ import HttpResponse
 
-def add_friend(self, friend: Dict, redirect: bool) -> HttpResponse:
+if TYPE_CHECKING:
+	from SHIMON.shimon import Shimon
+
+def add_friend(self: "Shimon", friend: Dict, redirect: bool) -> HttpResponse:
 	if type(friend) is not dict:
 		#message contains illegal characters if it was unable to be parsed
 		return error_400()

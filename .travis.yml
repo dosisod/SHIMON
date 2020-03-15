@@ -13,5 +13,5 @@ script:
   - pytest
   - vulture SHIMON whitelist.py
   - vulture testing whitelist.py
-  - "[[ $(mypy -p SHIMON | tail -n 1 | awk '{print $2}') -le 11 ]]"
-  - "[[ $(mypy -p testing | tail -n 1 | awk '{print $2}') -le 13 ]]"
+  - mypy -p SHIMON
+  - "[[ $(mypy -p testing | tail -n 1 | awk '{print $2}') -le 2 ]]"

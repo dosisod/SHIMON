@@ -3,11 +3,14 @@ from hashlib import sha512
 
 from SHIMON.util import encode_anystr
 
-from typing import AnyStr, Optional, cast
+from typing import AnyStr, Optional, cast, TYPE_CHECKING
 from SHIMON.__init__ import HttpResponse
 
+if TYPE_CHECKING:
+	from SHIMON.shimon import Shimon
+
 class Security:
-	def __init__(self, shimon_ref):
+	def __init__(self, shimon_ref: "Shimon"):
 		self.shimon=shimon_ref
 
 		self._testing=False

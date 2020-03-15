@@ -2,12 +2,16 @@ import json
 
 from SHIMON.renderer import render
 
+from typing import TYPE_CHECKING
 from SHIMON.__init__ import HttpResponse
 
-def unlock(self, pwd: str, redirect: bool) -> HttpResponse:
+if TYPE_CHECKING:
+	from SHIMON.shimon import Shimon
+
+def unlock(self: "Shimon", pwd: str, redirect: bool) -> HttpResponse:
 	plain=self.storage.unlock(pwd)
 
-	if not self.login_limiter.in_cooldown() and plain not in [None, "{}"]:
+	if not self.login_limiter.in_cooldown() and plain and plain!="{}":
 		self.cache.load(json.loads(plain))
 
 		self.cache.mapper.update([

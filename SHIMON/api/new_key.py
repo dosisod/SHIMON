@@ -4,9 +4,13 @@ from SHIMON.kee import Kee
 
 from SHIMON.api.error import error_400, error_401
 
+from typing import TYPE_CHECKING
 from SHIMON.__init__ import HttpResponse
 
-def new_key(self, pwd: str, redirect: bool) -> HttpResponse:
+if TYPE_CHECKING:
+	from SHIMON.shimon import Shimon
+
+def new_key(self: "Shimon", pwd: str, redirect: bool) -> HttpResponse:
 	if self.security.correct_pwd(pwd):
 		self.cache["key"]=b64.b64encode(
 			Kee(2048).private()
