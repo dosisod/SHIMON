@@ -24,7 +24,7 @@ class TestStorage(BaseTest):
 		cache=self.shimon.storage.filepath
 
 		#manually set to chmod 777
-		os.chmod(cache, 0o777)
+		os.chmod(cache, 0o777) # nosec
 
 		@BaseTest.unlocked
 		def lock(self):

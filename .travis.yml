@@ -10,6 +10,7 @@ install:
 
 script:
   - bandit -r SHIMON
+  - bandit -r testing -s B101
   - pytest
   - vulture SHIMON whitelist.py
   - vulture testing whitelist.py

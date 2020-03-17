@@ -28,7 +28,7 @@ def add_data_if_cache_empty(self: "BaseTest"):
 	})
 
 class BaseTest:
-	pwd="123"
+	pwd="123" # nosec
 
 	test_app=App()
 	shimon=test_app.shimon
