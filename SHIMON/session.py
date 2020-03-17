@@ -13,7 +13,7 @@ from typing import Optional, Dict
 from SHIMON.__init__ import HttpResponse
 
 class Session:
-	def __init__(self, shimon_ref):
+	def __init__(self, shimon_ref) -> None:
 		self.shimon=shimon_ref
 
 		self.session=""

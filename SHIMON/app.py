@@ -13,7 +13,7 @@ class App:
 	app=Flask(__name__, static_url_path="")
 	shimon=Shimon()
 
-	def __init__(self):
+	def __init__(self) -> None:
 		@self.app.route("/error/<int:ex>")
 		@self.app.errorhandler(Exception)
 		def error(ex: Union[int, Exception]) -> HttpResponse:

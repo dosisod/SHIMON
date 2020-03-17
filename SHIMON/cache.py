@@ -26,7 +26,7 @@ class Cache:
 	def is_empty(self) -> bool:
 		return self._cache==self._empty_cache
 
-	def wipe(self):
+	def wipe(self) -> None:
 		self._cache=self._empty_cache
 
 	def load(self, cache: CacheType) -> None:

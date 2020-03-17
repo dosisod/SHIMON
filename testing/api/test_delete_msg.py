@@ -3,7 +3,7 @@ from SHIMON.api.delete_msg import delete_msg
 from testing.base import BaseTest
 from testing.util import assertHttpResponse
 
-from SHIMON.__init__ import History
+from SHIMON.__init__ import History, HttpResponse
 
 class TestDeleteMsg(BaseTest):
 	user: History
@@ -63,5 +63,5 @@ class TestDeleteMsg(BaseTest):
 			400
 		)
 
-	def delete_msg(self, obj):
+	def delete_msg(self, obj) -> HttpResponse:
 		return delete_msg(self.shimon, obj, False)

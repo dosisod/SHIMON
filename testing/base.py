@@ -5,9 +5,9 @@ from SHIMON.app import App
 from SHIMON.api.unlock import unlock
 from SHIMON.api.lock import lock
 
-from typing import Callable
+from typing import Callable, Any
 
-def add_data_if_cache_empty(self):
+def add_data_if_cache_empty(self: "BaseTest"):
 	if len(self.shimon.cache["friends"]) > 0:
 		return
 
@@ -57,7 +57,7 @@ class BaseTest:
 		return with_request_context
 
 	@staticmethod
-	def use_cookie(name, value):
+	def use_cookie(name, value) -> Callable[..., Any]:
 		def make_cookie(func: Callable[..., None]):
 			def with_test_client(self):
 				cookie=dump_cookie(name, value)

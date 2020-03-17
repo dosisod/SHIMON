@@ -1,7 +1,7 @@
 from datetime import datetime
 
 class LoginLimiter:
-	def __init__(self):
+	def __init__(self) -> None:
 		self.attempts: int=0
 		self.max_attempts: int=3
 		self.cooldown_start: float=0.0

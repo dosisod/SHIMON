@@ -3,6 +3,8 @@ from SHIMON.api.add_friend import add_friend
 from testing.base import BaseTest
 from testing.util import assertHttpResponse
 
+from SHIMON.__init__ import HttpResponse
+
 class TestAddFriend(BaseTest):
 	@BaseTest.request_context
 	def test_invalid_data_returns_http_400(self):
@@ -73,7 +75,7 @@ class TestAddFriend(BaseTest):
 	@BaseTest.request_context
 	@BaseTest.allow_local
 	@BaseTest.unlocked
-	def test_adding_new_friend_returns_http_200(self):
+	def test_adding_new_friend_returns_http_200(self) -> None:
 		self.remove_tmp_friend()
 
 		@BaseTest.use_cookie("session", self.shimon.session.session)
@@ -89,7 +91,7 @@ class TestAddFriend(BaseTest):
 
 		self.remove_tmp_friend()
 
-	def remove_tmp_friend(self):
+	def remove_tmp_friend(self) -> None:
 		for i, friend in enumerate(self.shimon.cache["friends"]):
 			if friend["id"]=="test add":
 				del self.shimon.cache["friends"][i]
@@ -100,5 +102,5 @@ class TestAddFriend(BaseTest):
 				del self.shimon.cache["history"][i]
 				break
 
-	def add_friend(self, obj):
+	def add_friend(self, obj) -> HttpResponse:
 		return add_friend(self.shimon, obj, False)

@@ -61,7 +61,7 @@ class FreshToggle(BaseTest):
 
 		self.assertValue(False)
 
-	def assertValue(self, value):
+	def assertValue(self, value) -> None:
 		assert self.shimon.__dict__[
 			self.shimon.cache.mapper.cache_names[self.name]
 		]==value

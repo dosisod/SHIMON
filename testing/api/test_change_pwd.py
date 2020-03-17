@@ -3,6 +3,8 @@ from SHIMON.api.change_pwd import change_pwd
 from testing.base import BaseTest
 from testing.util import assertHttpResponse
 
+from SHIMON.__init__ import HttpResponse
+
 class TestChangePwd(BaseTest):
 	@BaseTest.request_context
 	def test_invalid_data_returns_http_400(self):
@@ -50,5 +52,5 @@ class TestChangePwd(BaseTest):
 
 		assert self.shimon.security.correct_pwd("new_pwd")==True
 
-	def change_pwd(self, obj):
+	def change_pwd(self, obj) -> HttpResponse:
 		return change_pwd(self.shimon, obj, True)

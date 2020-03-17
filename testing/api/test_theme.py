@@ -5,6 +5,8 @@ from SHIMON.api.theme import theme
 from testing.base import BaseTest
 from testing.util import assertHttpResponse
 
+from SHIMON.__init__ import HttpResponse
+
 class TestTheme(BaseTest):
 	@BaseTest.request_context
 	def test_valid_theme_returns_http_202(self):
@@ -46,8 +48,8 @@ class TestTheme(BaseTest):
 			400
 		)
 
-	def reset(self):
+	def reset(self) -> None:
 		self.shimon.cache.mapper["theme"]="auto"
 
-	def theme(self, obj):
+	def theme(self, obj) -> HttpResponse:
 		return theme(self.shimon, obj, True)
