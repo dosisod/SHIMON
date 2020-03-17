@@ -1,10 +1,12 @@
 from flask import Response
+import base64 as b64
 import gnupg as gpg # type: ignore
 import json
 import os
 
 from SHIMON.api.error import error, error_401
 from SHIMON.renderer import render
+from SHIMON.kee import Kee
 
 from typing import Union, Optional, cast
 from SHIMON.__init__ import HttpResponse
@@ -116,3 +118,27 @@ class Storage:
 
 		#ensure only the current user can access the file
 		os.chmod(filepath, 0o600)
+
+	def resetCache(self) -> None:
+		#fill cache with default values
+		self.shimon.cache.load({
+			"friends": [],
+			"history": [],
+
+			#hash for "123", can be changed in settings
+			"sha512": "3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2",
+
+			"key": b64.b64encode(
+				Kee(2048).private()
+			).decode(),
+
+			"expiration": 3600,
+			"developer": False,
+
+			"version": self.shimon.VERSION,
+
+			"theme": "auto"
+		})
+
+		#save default cache right away
+		self.shimon.storage.lock("123")

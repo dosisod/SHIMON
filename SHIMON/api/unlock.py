@@ -55,7 +55,8 @@ def unlock(self: "Shimon", pwd: str, redirect: bool) -> HttpResponse:
 
 		elif plain=="{}":
 			self.login_limiter.reset()
-			return self.session.create(fresh=True)
+			self.storage.resetCache()
+			return self.session.create()
 
 		else:
 			return render(

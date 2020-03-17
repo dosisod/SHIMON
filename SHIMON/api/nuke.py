@@ -8,6 +8,7 @@ if TYPE_CHECKING:
 
 def nuke(self: "Shimon", pwd: str, redirect: bool) -> HttpResponse:
 	if self.security.correct_pwd(pwd):
-		return self.session.create(fresh=True)
+		self.storage.resetCache()
+		return self.session.create()
 
 	return error_401()

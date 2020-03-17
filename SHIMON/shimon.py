@@ -116,7 +116,8 @@ class Shimon:
 			return self.msg(uuid)
 
 		if not self.storage.cache_file_exists():
-			return self.session.create(fresh=True)
+			self.storage.resetCache()
+			return self.session.create()
 
 		had_error=self.security.check_session()
 
