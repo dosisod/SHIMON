@@ -4,30 +4,30 @@ from testing.base import BaseTest
 
 class TestStorage(BaseTest):
 	@BaseTest.request_context
-	def test_correct_pwd_doesnt_return_none(self):
+	def test_correct_pwd_doesnt_return_none(self) -> None:
 		assert self.shimon.storage.unlock(self.pwd)!=None
 
 	@BaseTest.request_context
-	def test_incorrect_pwd_returns_none(self):
+	def test_incorrect_pwd_returns_none(self) -> None:
 		assert self.shimon.storage.unlock("not the password")==None
 
 	@BaseTest.request_context
-	def test_default_cache_path_exists(self):
+	def test_default_cache_path_exists(self) -> None:
 		assert self.shimon.storage.cache_file_exists()==True
 
 	@BaseTest.request_context
-	def test_invalid_cache_path_doesnt_exist(self):
+	def test_invalid_cache_path_doesnt_exist(self) -> None:
 		assert self.shimon.storage.cache_file_exists("not a file")==False
 
 	@BaseTest.request_context
-	def test_cache_file_is_chmod_600_after_writing(self):
+	def test_cache_file_is_chmod_600_after_writing(self) -> None:
 		cache=self.shimon.storage.filepath
 
 		#manually set to chmod 777
 		os.chmod(cache, 0o777) # nosec
 
 		@BaseTest.unlocked
-		def lock(self):
+		def lock(self: TestStorage) -> None:
 			pass
 
 		lock(self)
@@ -36,7 +36,7 @@ class TestStorage(BaseTest):
 		assert (os.stat(cache).st_mode & 0o777) == 0o600
 
 	@BaseTest.request_context
-	def test_reset_cache_actually_resets(self):
+	def test_reset_cache_actually_resets(self) -> None:
 		self.shimon.storage.resetCache()
 
 		#randomly generated, check something was added

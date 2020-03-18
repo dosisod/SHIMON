@@ -1,9 +1,13 @@
 from SHIMON.api.external import api_allfor
 from SHIMON.api.error import error_200, error_400
 
+from typing import TYPE_CHECKING
 from SHIMON.__init__ import HttpResponse
 
-def allfor(self, user: str, redirect: bool) -> HttpResponse:
+if TYPE_CHECKING:
+	from SHIMON.shimon import Shimon
+
+def allfor(self: "Shimon", user: str, redirect: bool) -> HttpResponse:
 	raw=api_allfor(self, user)
 
 	if raw==False:

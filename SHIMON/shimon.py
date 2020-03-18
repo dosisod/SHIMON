@@ -109,7 +109,7 @@ class Shimon:
 			msg=msg
 		), return_code
 
-	def index(self, error: str="", uuid: str="", code=200) -> HttpResponse:
+	def index(self, error: str="", uuid: str="", code: int=200) -> HttpResponse:
 		self.security.check_local()
 
 		if uuid:

@@ -8,11 +8,14 @@ from SHIMON.api.error import error, error_401
 from SHIMON.renderer import render
 from SHIMON.kee import Kee
 
-from typing import Union, Optional, cast
+from typing import Union, Optional, cast, TYPE_CHECKING
 from SHIMON.__init__ import HttpResponse
 
+if TYPE_CHECKING:
+	from SHIMON.shimon import Shimon
+
 class Storage:
-	def __init__(self, shimon_ref, filepath: str="data.gpg"):
+	def __init__(self, shimon_ref: "Shimon", filepath: str="data.gpg") -> None:
 		self.shimon=shimon_ref
 
 		self.filepath=filepath

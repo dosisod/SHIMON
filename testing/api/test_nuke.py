@@ -7,7 +7,7 @@ from testing.base import BaseTest
 
 class TestNuke(BaseTest):
 	@classmethod
-	def setup_class(self):
+	def setup_class(self) -> None:
 		#make backup of cache file
 
 		shutil.copy2(
@@ -16,7 +16,7 @@ class TestNuke(BaseTest):
 		)
 
 	@classmethod
-	def teardown_class(self):
+	def teardown_class(self) -> None:
 		#restore old cache file
 
 		shutil.move(
@@ -26,7 +26,7 @@ class TestNuke(BaseTest):
 
 	@BaseTest.request_context
 	@BaseTest.unlocked
-	def test_incorrect_pwd_returns_http_401(self):
+	def test_incorrect_pwd_returns_http_401(self) -> None:
 		assertHttpResponse(
 			nuke(self.shimon, "not the password", False),
 			code=401
@@ -34,7 +34,7 @@ class TestNuke(BaseTest):
 
 	@BaseTest.request_context
 	@BaseTest.unlocked
-	def test_nuke_procedure(self):
+	def test_nuke_procedure(self) -> None:
 		# used "key" as it is randomized when creating a fresh session
 		old_key=self.shimon.cache["key"]
 

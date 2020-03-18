@@ -9,11 +9,14 @@ from SHIMON.api.external import api_friends, api_recent
 from SHIMON.renderer import render, make_response
 from SHIMON.api.error import error
 
-from typing import Optional, Dict
+from typing import Optional, Dict, TYPE_CHECKING
 from SHIMON.__init__ import HttpResponse
 
+if TYPE_CHECKING:
+	from SHIMON.shimon import Shimon
+
 class Session:
-	def __init__(self, shimon_ref) -> None:
+	def __init__(self, shimon_ref: "Shimon") -> None:
 		self.shimon=shimon_ref
 
 		self.session=""

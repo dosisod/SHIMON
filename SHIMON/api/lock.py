@@ -1,10 +1,13 @@
 from SHIMON.renderer import render, make_response
 from SHIMON.api.error import error_400
 
-from typing import Optional
+from typing import Optional, TYPE_CHECKING
 from SHIMON.__init__ import HttpResponse
 
-def lock(self, pwd: str, redirect: bool) -> HttpResponse:
+if TYPE_CHECKING:
+	from SHIMON.shimon import Shimon
+
+def lock(self: "Shimon", pwd: str, redirect: bool) -> HttpResponse:
 	#dont kill session unless user will be directed to login
 	if redirect:
 		returned_error=self.storage.lock(pwd) # type: Optional[HttpResponse]

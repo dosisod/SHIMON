@@ -7,7 +7,7 @@ from SHIMON.api.lock import lock
 
 from typing import Callable, Any
 
-def add_data_if_cache_empty(self: "BaseTest"):
+def add_data_if_cache_empty(self: "BaseTest") -> None:
 	if len(self.shimon.cache["friends"]) > 0:
 		return
 
@@ -41,25 +41,25 @@ class BaseTest:
 	default_uuid="uuid"
 
 	@staticmethod
-	def app_context(func: Callable[..., None]):
-		def with_app_context(self):
-			with self._app_context():
+	def app_context(func: Callable[..., None]) -> Callable[..., Any]:
+		def with_app_context(self: BaseTest) -> None:
+			with self._app_context(): # type: ignore
 				func(self)
 
 		return with_app_context
 
 	@staticmethod
-	def request_context(func: Callable[..., None]):
-		def with_request_context(self):
+	def request_context(func: Callable[..., None]) -> Callable[..., Any]:
+		def with_request_context(self: BaseTest) -> None:
 			with self._request_context():
 				func(self)
 
 		return with_request_context
 
 	@staticmethod
-	def use_cookie(name, value) -> Callable[..., Any]:
-		def make_cookie(func: Callable[..., None]):
-			def with_test_client(self):
+	def use_cookie(name: str, value: str) -> Callable[..., Any]:
+		def make_cookie(func: Callable[..., Any]) -> Callable[..., Any]:
+			def with_test_client(self: BaseTest) -> None:
 				cookie=dump_cookie(name, value)
 				with self._request_context(environ_base={"HTTP_COOKIE": cookie}):
 					func(self)
@@ -68,8 +68,8 @@ class BaseTest:
 		return make_cookie
 
 	@staticmethod
-	def unlocked(func: Callable[..., None]):
-		def while_unlocked(self):
+	def unlocked(func: Callable[..., None]) -> Callable[..., Any]:
+		def while_unlocked(self: BaseTest) -> None:
 			unlock(self.shimon, self.pwd, True)
 
 			add_data_if_cache_empty(self)
@@ -80,8 +80,8 @@ class BaseTest:
 		return while_unlocked
 
 	@staticmethod
-	def allow_local(func: Callable[..., None]):
-		def while_local(self):
+	def allow_local(func: Callable[..., None]) -> Callable[..., Any]:
+		def while_local(self: BaseTest) -> None:
 			self.shimon.security._testing=True
 			try:
 				func(self)

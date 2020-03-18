@@ -3,11 +3,13 @@ from SHIMON.api.new_key import new_key
 from testing.base import BaseTest
 from testing.util import assertHttpResponse
 
+from SHIMON.__init__ import HttpResponse
+
 class TestNewKey(BaseTest):
 	@BaseTest.request_context
 	@BaseTest.unlocked
 	@BaseTest.allow_local
-	def test_invalid_password_returns_http_401(self):
+	def test_invalid_password_returns_http_401(self) -> None:
 		assertHttpResponse(
 			self.new_key("not the password"),
 			401
@@ -16,7 +18,7 @@ class TestNewKey(BaseTest):
 	@BaseTest.request_context
 	@BaseTest.unlocked
 	@BaseTest.allow_local
-	def test_invalid_pwd_returns_html(self):
+	def test_invalid_pwd_returns_html(self) -> None:
 		resp=self.new_key("not the password")
 
 		assert resp[0].data.startswith(b"<!DOCTYPE html>")
@@ -24,9 +26,9 @@ class TestNewKey(BaseTest):
 	@BaseTest.request_context
 	@BaseTest.unlocked
 	@BaseTest.allow_local
-	def test_valid_pwd_returns_http_200(self):
+	def test_valid_pwd_returns_http_200(self) -> None:
 		@BaseTest.use_cookie("session", self.shimon.session.session)
-		def run(self):
+		def run(self: TestNewKey) -> None:
 			assertHttpResponse(
 				self.new_key(self.pwd),
 				200
@@ -37,11 +39,11 @@ class TestNewKey(BaseTest):
 	@BaseTest.request_context
 	@BaseTest.unlocked
 	@BaseTest.allow_local
-	def test_key_gets_changed(self):
+	def test_key_gets_changed(self) -> None:
 		old_key=self.shimon.cache["key"]
 		self.new_key(self.pwd)
 
 		assert self.shimon.cache["key"]!=old_key
 
-	def new_key(self, pwd: str):
+	def new_key(self, pwd: str) -> HttpResponse:
 		return new_key(self.shimon, pwd, False)

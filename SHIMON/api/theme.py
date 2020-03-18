@@ -2,9 +2,13 @@ import os
 
 from SHIMON.api.error import error_202, error_400
 
+from typing import TYPE_CHECKING
 from SHIMON.__init__ import HttpResponse
 
-def theme(self, theme: str, redirect: bool) -> HttpResponse:
+if TYPE_CHECKING:
+	from SHIMON.shimon import Shimon
+
+def theme(self: "Shimon", theme: str, redirect: bool) -> HttpResponse:
 	if type(theme) is str:
 		path="SHIMON/templates/themes/"
 		dirty=os.path.abspath(path + theme)

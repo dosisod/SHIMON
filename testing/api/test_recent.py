@@ -8,7 +8,7 @@ from SHIMON.__init__ import HttpResponse
 class TestRecent(BaseTest):
 	@BaseTest.request_context
 	@BaseTest.unlocked
-	def test_always_returns_http_200(self):
+	def test_always_returns_http_200(self) -> None:
 		assertHttpResponse(
 			self.recent(),
 			200
@@ -16,7 +16,7 @@ class TestRecent(BaseTest):
 
 	@BaseTest.request_context
 	@BaseTest.unlocked
-	def test_always_returns_data(self):
+	def test_always_returns_data(self) -> None:
 		assert self.recent()[0].json
 
 	def recent(self) -> HttpResponse:

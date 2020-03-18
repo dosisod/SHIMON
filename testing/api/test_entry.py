@@ -5,13 +5,13 @@ from SHIMON.api.entry import api_entry
 from testing.base import BaseTest
 from testing.util import assertHttpResponse
 
-class TestHandler(BaseTest):
+class TestEntry(BaseTest):
 	@BaseTest.request_context
 	@BaseTest.allow_local
 	@BaseTest.unlocked
-	def test_unlocking_while_unlocked_returns_http_301(self):
+	def test_unlocking_while_unlocked_returns_http_301(self) -> None:
 		@BaseTest.use_cookie("session", self.shimon.session.session)
-		def run(self):
+		def run(self: TestEntry) -> None:
 			api_entry(self.shimon, {"unlock": self.pwd})
 
 			assertHttpResponse(
@@ -27,9 +27,9 @@ class TestHandler(BaseTest):
 	@BaseTest.request_context
 	@BaseTest.allow_local
 	@BaseTest.unlocked
-	def test_invalid_call_returns_http_400(self):
+	def test_invalid_call_returns_http_400(self) -> None:
 		@BaseTest.use_cookie("session", self.shimon.session.session)
-		def run(self):
+		def run(self: TestEntry) -> None:
 			assertHttpResponse(
 				api_entry(self.shimon, {
 					"not a call": ""
@@ -41,7 +41,7 @@ class TestHandler(BaseTest):
 
 	@BaseTest.request_context
 	@BaseTest.allow_local
-	def test_invalid_session_returns_http_401(self):
+	def test_invalid_session_returns_http_401(self) -> None:
 		assertHttpResponse(
 			api_entry(self.shimon, {"ping": ""}),
 			401

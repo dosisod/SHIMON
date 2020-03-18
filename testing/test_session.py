@@ -6,7 +6,7 @@ from testing.base import BaseTest
 class TestSession(BaseTest):
 	@BaseTest.request_context
 	@BaseTest.unlocked
-	def test_kill_wipes_session(self):
+	def test_kill_wipes_session(self) -> None:
 		assert self.shimon.session.session
 
 		self.shimon.session.kill()
@@ -14,7 +14,7 @@ class TestSession(BaseTest):
 
 	@BaseTest.request_context
 	@BaseTest.unlocked
-	def test_check_fails_when_missing_session(self):
+	def test_check_fails_when_missing_session(self) -> None:
 		had_error=self.shimon.session.check({
 			"not session": "",
 			"redirect": False
@@ -23,7 +23,7 @@ class TestSession(BaseTest):
 
 	@BaseTest.request_context
 	@BaseTest.unlocked
-	def test_check_fails_with_incorrect_session(self):
+	def test_check_fails_with_incorrect_session(self) -> None:
 		had_error=self.shimon.session.check({
 			"session": "invalid",
 			"redirect": False
@@ -32,7 +32,7 @@ class TestSession(BaseTest):
 
 	@BaseTest.request_context
 	@BaseTest.unlocked
-	def test_expired_session_ignores_session(self):
+	def test_expired_session_ignores_session(self) -> None:
 		self.shimon.session.keepalive()
 
 		session_time_length=timedelta(

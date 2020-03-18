@@ -3,17 +3,20 @@ from copy import deepcopy
 
 from SHIMON.util import encode_anystr
 
-from typing import Union, List, Dict, AnyStr
+from typing import Union, List, Dict, AnyStr, TYPE_CHECKING
 from typing_extensions import Literal
 
-def api_friends(self) -> List:
+if TYPE_CHECKING:
+	from SHIMON.shimon import Shimon
+
+def api_friends(self: "Shimon") -> List:
 	friends: List=deepcopy(self.cache["friends"])
 	for friend in friends:
 		friend["hash"]=sha256hex(friend["id"])
 
 	return friends
 
-def api_recent(self) -> List:
+def api_recent(self: "Shimon") -> List:
 	recent=[]
 
 	for user in self.cache["history"]:
@@ -36,7 +39,7 @@ def api_recent(self) -> List:
 
 	return recent
 
-def api_allfor(self, id: str) -> Union[List, Dict, Literal[False]]:
+def api_allfor(self: "Shimon", id: str) -> Union[List, Dict, Literal[False]]:
 	for user in self.cache["history"]:
 		if user["id"]==id:
 			break

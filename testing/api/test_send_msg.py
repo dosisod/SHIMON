@@ -3,7 +3,7 @@ from SHIMON.api.send_msg import send_msg
 from testing.base import BaseTest
 from testing.util import assertHttpResponse
 
-from SHIMON.__init__ import History
+from SHIMON.__init__ import History, HttpResponse
 
 class TestSendMsg(BaseTest):
 	user: History
@@ -11,25 +11,25 @@ class TestSendMsg(BaseTest):
 	@classmethod
 	@BaseTest.request_context
 	@BaseTest.unlocked
-	def setup_class(self):
+	def setup_class(self) -> None:
 		self.user=self.shimon.cache["history"][0]
 
 	@BaseTest.request_context
-	def test_invalid_data_returns_http_400(self):
+	def test_invalid_data_returns_http_400(self) -> None:
 		assertHttpResponse(
 			send_msg(self.shimon, "not valid", False), # type: ignore
 			400
 		)
 
 	@BaseTest.request_context
-	def test_missing_uname_param_returns_http_400(self):
+	def test_missing_uname_param_returns_http_400(self) -> None:
 		assertHttpResponse(
 			send_msg(self.shimon, {"msg": "hello"}, False),
 			400
 		)
 
 	@BaseTest.request_context
-	def test_missing_msg_param_returns_http_400(self):
+	def test_missing_msg_param_returns_http_400(self) -> None:
 		assertHttpResponse(
 			send_msg(self.shimon, {"uname": "user"}, False),
 			400
@@ -37,14 +37,14 @@ class TestSendMsg(BaseTest):
 
 	@BaseTest.request_context
 	@BaseTest.unlocked
-	def test_uname_not_in_friend_list_returns_http_400(self):
+	def test_uname_not_in_friend_list_returns_http_400(self) -> None:
 		assertHttpResponse(
 			self.send_msg_wrapper("hello", uname="not a valid uname"),
 			400
 		)
 
 	@BaseTest.request_context
-	def test_whitespace_only_msg_returns_http_400(self):
+	def test_whitespace_only_msg_returns_http_400(self) -> None:
 		assertHttpResponse(
 			self.send_msg_wrapper("   "),
 			400
@@ -52,7 +52,7 @@ class TestSendMsg(BaseTest):
 
 	@BaseTest.request_context
 	@BaseTest.unlocked
-	def test_sending_msg_adds_to_msgs(self):
+	def test_sending_msg_adds_to_msgs(self) -> None:
 		total_msgs=len(self.user["msgs"])
 
 		self.send_msg_wrapper("testing 123")
@@ -60,7 +60,7 @@ class TestSendMsg(BaseTest):
 
 		self.shimon.cache["history"][0]["msgs"].pop()
 
-	def send_msg_wrapper(self, msg: str, uname: str=""):
+	def send_msg_wrapper(self, msg: str, uname: str="") -> HttpResponse:
 		if not uname:
 			uname=self.user["id"]
 

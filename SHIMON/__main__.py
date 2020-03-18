@@ -7,7 +7,7 @@ from waitress import serve # type: ignore
 
 from SHIMON.app import App
 
-def run(app: App):
+def run(app: App) -> None:
 	print("starting SHIMON v" + app.shimon.VERSION + " -> github.com/dosisod/SHIMON\n")
 
 	try:

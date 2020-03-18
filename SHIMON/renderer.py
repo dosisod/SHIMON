@@ -2,9 +2,12 @@ from flask import make_response as _make_response
 from flask import render_template, Response
 from flask.json import jsonify as _jsonify
 
-from typing import Any, cast
+from typing import Any, cast, TYPE_CHECKING
 
-def render(self, filepath: str, **kwargs) -> Response:
+if TYPE_CHECKING:
+	from SHIMON.shimon import Shimon
+
+def render(self: "Shimon", filepath: str, **kwargs: Any) -> Response:
 	kwargs["developer"]=self.developer
 	kwargs["theme"]=self.theme
 	kwargs["fresh_js"]=self.fresh_js

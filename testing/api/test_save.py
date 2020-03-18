@@ -3,10 +3,12 @@ from SHIMON.api.save import save as _save
 from testing.base import BaseTest
 from testing.util import assertHttpResponse
 
+from SHIMON.__init__ import HttpResponse
+
 class TestSave(BaseTest):
 	@BaseTest.request_context
 	@BaseTest.unlocked
-	def test_invalid_pwd_returns_http_401(self):
+	def test_invalid_pwd_returns_http_401(self) -> None:
 		assertHttpResponse(
 			self.save("not the password"),
 			401
@@ -14,7 +16,7 @@ class TestSave(BaseTest):
 
 	@BaseTest.request_context
 	@BaseTest.unlocked
-	def test_valid_password_returns_http_200(self):
+	def test_valid_password_returns_http_200(self) -> None:
 		assertHttpResponse(
 			self.save(self.pwd),
 			200
@@ -22,7 +24,7 @@ class TestSave(BaseTest):
 
 	@BaseTest.request_context
 	@BaseTest.unlocked
-	def test_valid_password_updates_variables(self):
+	def test_valid_password_updates_variables(self) -> None:
 		self.shimon.msg_policy= -1
 		self.shimon.session.expires= -1
 
@@ -35,5 +37,5 @@ class TestSave(BaseTest):
 		assert self.shimon.session.expires is not -1
 		assert self.shimon.developer==old
 
-	def save(self, pwd: str):
+	def save(self, pwd: str) -> HttpResponse:
 		return _save(self.shimon, pwd, False)

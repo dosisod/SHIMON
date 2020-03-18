@@ -15,14 +15,14 @@ class FreshToggle(BaseTest):
 		pass
 
 	@BaseTest.request_context
-	def test_always_returns_http_200(self):
+	def test_always_returns_http_200(self) -> None:
 		assertHttpResponse(
 			self.func(True),
 			200
 		)
 
 	@BaseTest.request_context
-	def test_not_having_fresh_file_ignores_value(self):
+	def test_not_having_fresh_file_ignores_value(self) -> None:
 		self.shimon.cache.mapper[self.name]=False
 
 		if os.path.isfile(self.path):
@@ -38,7 +38,7 @@ class FreshToggle(BaseTest):
 		self.assertValue(False)
 
 	@BaseTest.request_context
-	def test_having_fresh_file_respects_value(self):
+	def test_having_fresh_file_respects_value(self) -> None:
 		self.shimon.cache.mapper[self.name]=False
 
 		if not os.path.isfile(self.path):
@@ -54,14 +54,14 @@ class FreshToggle(BaseTest):
 		self.assertValue(True)
 
 	@BaseTest.request_context
-	def test_disabled_when_set_to_false(self):
+	def test_disabled_when_set_to_false(self) -> None:
 		self.shimon.cache.mapper[self.name]=False
 
 		self.func(False)
 
 		self.assertValue(False)
 
-	def assertValue(self, value) -> None:
+	def assertValue(self, value: bool) -> None:
 		assert self.shimon.__dict__[
 			self.shimon.cache.mapper.cache_names[self.name]
 		]==value

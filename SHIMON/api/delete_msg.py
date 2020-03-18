@@ -3,10 +3,13 @@ from copy import deepcopy
 from SHIMON.api.error import error_200, error_400, error_401
 from SHIMON.api.util import history_id
 
-from typing import Dict
+from typing import Dict, TYPE_CHECKING
 from SHIMON.__init__ import HttpResponse
 
-def delete_msg(self, data: Dict, redirect: bool) -> HttpResponse:
+if TYPE_CHECKING:
+	from SHIMON.shimon import Shimon
+
+def delete_msg(self: "Shimon", data: Dict, redirect: bool) -> HttpResponse:
 	if type(data) is not dict:
 		#message contains illegal characters if it was unable to be parsed
 		return error_400()

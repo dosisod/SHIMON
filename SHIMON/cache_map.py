@@ -1,4 +1,7 @@
-from typing import Union, Dict, Tuple, Any
+from typing import Union, Dict, Tuple, Any, TYPE_CHECKING
+
+if TYPE_CHECKING:
+	from SHIMON.shimon import Shimon
 
 CacheDictValue=Union[str, bool, int]
 
@@ -12,7 +15,7 @@ CacheDict=Union[
 class CacheMapper:
 	cache_names: CacheDict
 
-	def __init__(self, shimon_ref, mapped_vars: CacheDict):
+	def __init__(self, shimon_ref: "Shimon", mapped_vars: CacheDict) -> None:
 		self.shimon=shimon_ref
 
 		self.cache_names=mapped_vars
