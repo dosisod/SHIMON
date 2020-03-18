@@ -11,8 +11,8 @@
 <body>
 
 <div class="container">
+{% include "utils/sidebar.html" %}
 <ol id="tray">
-	{% include "utils/sidebar.html" %}
 	<span class="center name point" id="reload" onclick="reloadIndex()">RELOAD</span>
 </ol>
 {% include "utils/error-msg.html" %}

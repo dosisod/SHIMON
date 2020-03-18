@@ -1,3 +1,5 @@
+$mobile-width: 700px;
+
 * {
 	border-radius: 0;
 }
@@ -33,7 +35,7 @@ html, body {
 	bottom: 0;
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: $mobile-width) {
 	#tray {
 		width: 100%;
 	}
@@ -147,8 +149,15 @@ div.profile-pic-img {
 .rightbar {
 	background: var(--container-bg);
 	position: absolute;
-	right: 0;
+	right: 25%;
 	text-align: right;
+	z-index: 1;
+}
+
+@media screen and (max-width: $mobile-width) {
+	.rightbar {
+		right: 0;
+	}
 }
 
 .rightitem {

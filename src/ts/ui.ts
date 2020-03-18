@@ -167,13 +167,11 @@ async function postOrPreload(data: Dict): Promise<Dict> {
 }
 
 async function replaceTemplate(start?: Appendable, end?: Appendable, params?: Dict | false, template?: Function): Promise<void> {
-	//clear tray, add right bar
-	tray.innerHTML=`<div class="rightbar"><a class="rightitem name point" href="/add">ADD FRIEND</a><br><a class="rightitem name point" href="/account">ACCOUNT</a><br><span class="rightitem name point" onclick="save(event)">SAVE</span></div>`
-
 	if (typeof start==="string") {
-		tray.innerHTML+=start
+		tray.innerHTML=start
 	}
-	else if (start) {
+	else {
+		tray.innerHTML=""
 		tray.appendChild(<Node>start)
 	}
 
