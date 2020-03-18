@@ -1,6 +1,6 @@
 from flask import Response
 
-from typing import Union, Dict, List, Tuple
+from typing import Dict, List, Tuple
 from mypy_extensions import TypedDict
 
 HttpResponse=Tuple[Response, int]

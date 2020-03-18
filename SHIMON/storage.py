@@ -9,6 +9,7 @@ from SHIMON.renderer import render
 from SHIMON.kee import Kee
 
 from typing import Union, Optional, cast, TYPE_CHECKING
+from typing_extensions import Literal
 from SHIMON.__init__ import HttpResponse
 
 if TYPE_CHECKING:
@@ -27,7 +28,7 @@ class Storage:
 		if data==None:
 			return "{}"
 
-		if data=="":
+		elif data=="":
 			return None
 
 		return data
@@ -67,11 +68,11 @@ class Storage:
 				False
 			)
 
-		if not error_status:
+		elif not error_status:
 			return None
 
 		else:
-			return error_status # type: ignore
+			return error_status
 
 	def save(self, pwd: str) -> Optional[HttpResponse]:
 		error_status=self.attempt_lock(pwd)
@@ -79,13 +80,13 @@ class Storage:
 		if error_status=="fail":
 			return error_401()
 
-		if not error_status:
+		elif not error_status:
 			return None
 
 		else:
-			return error_status # type: ignore
+			return error_status
 
-	def attempt_lock(self, pwd: str) -> Union[HttpResponse, str, None]:
+	def attempt_lock(self, pwd: str) -> Union[HttpResponse, Literal["fail"], None]:
 		if not self.shimon.cache or self.shimon.cache.is_empty():
 			return error(
 				400,

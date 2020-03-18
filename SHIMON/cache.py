@@ -10,12 +10,8 @@ class Cache:
 
 	mapper: CacheMapper
 
-	def __init__(self, cache: Optional[CacheType]=None) -> None:
-		if cache:
-			self._cache=cache
-
-		else:
-			self._cache=self._empty_cache
+	def __init__(self) -> None:
+		self._cache=self._empty_cache
 
 	def __setitem__(self, key: str, value: Any) -> None:
 		self._cache[key]=value
