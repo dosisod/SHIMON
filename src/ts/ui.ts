@@ -37,32 +37,30 @@ async function reloadMsgs(): Promise<void> {
 	const rawId=raw["id"]
 
 	if (data.length==0) {
-		replaceTemplate(
-			newCard(
-				raw["hash"],
-				user,
-				"", //message
-				false //isClickable
-			).outerHTML + blank("Say hi to " + realname(user) + "!"),
-			reloadButton(reloadMsgs)
-		)
+		replaceTemplate({
+			"start": makeNewCard({
+				"uuid": raw["hash"],
+				"name": user,
+				"isClickable": false
+			}).outerHTML + blank("Say hi to " + realname(user) + "!"),
+			"end": reloadButton(reloadMsgs)
+		})
 
 		return
 	}
 
-	replaceTemplate(
-		newCard(
-			raw["hash"],
-			user,
-			"", //message
-			false //isClickable
-		),
-		reloadButton(reloadMsgs),
-		data,
-		(user: IUserMsg)=>{
+	replaceTemplate({
+		"start": makeNewCard({
+			"uuid": raw["hash"],
+			"name": user,
+			"isClickable": false
+		}),
+		"params": data,
+		"builder": (user: IUserMsg)=>{
 			return createMsg(user, rawId)
-		}
-	)
+		},
+		"end": reloadButton(reloadMsgs)
+	})
 	nu("reload").scrollIntoView()
 }
 
@@ -126,28 +124,27 @@ async function reloadIndex(): Promise<void> {
 
 	if (recent.length==0) {
 		//if there are no msgs to display, display welcome msg
-		replaceTemplate(
-			blank("Add a friend to start talking!"),
-			reloadButton(reloadIndex)
-		)
+		replaceTemplate({
+			"start": blank("Add a friend to start talking!"),
+			"end": reloadButton(reloadIndex)
+		})
 
 		return
 	}
 
-	replaceTemplate(
-		undefined,
-		reloadButton(reloadIndex),
-		recent,
-		(user: IRecentUser)=>{
-			return newCard(
-				user["hash"],
-				user["id"],
-				user["msgs"][user["msgs"].length-1]["msg"],
-				true, //isClickable
-				true //usePointer
-			)
-		}
-	)
+	replaceTemplate({
+		"params": recent,
+		"builder": (user: IRecentUser)=>{
+			return makeNewCard({
+				"uuid": user["hash"],
+				"name": user["id"],
+				"message": user["msgs"][user["msgs"].length-1]["msg"],
+				"isClickable": true,
+				"usePointer": true
+			})
+		},
+		"end": reloadButton(reloadIndex)
+	})
 }
 
 async function postOrPreload(data: Dict): Promise<Dict> {
@@ -160,39 +157,53 @@ async function postOrPreload(data: Dict): Promise<Dict> {
 		return raw
 	}
 	else {
-		return (
-			await post(data)
-		)["msg"]
+		return (await post(data))["msg"]
 	}
 }
 
-async function replaceTemplate(start?: Appendable, end?: Appendable, params?: Dict | false, template?: Function): Promise<void> {
-	if (typeof start==="string") {
-		tray.innerHTML=start
-	}
-	else {
-		tray.innerHTML=""
-		tray.appendChild(<Node>start)
-	}
+interface ITemplateData {
+	start?: Appendable,
+	params?: Dict | false,
+	builder?: Function
+	end?: Appendable
+}
 
-	if (params && template) {
-		params.forEach((param: Dict, index: number)=>{
+function replaceTemplate(template: ITemplateData): void {
+	tray.innerHTML=""
+	addAppendable(tray, template.start)
+
+	if (template.params) {
+		template.params.forEach((param: Dict, index: number)=>{
 			param["index"]=index
 
-			tray.appendChild(template(param))
+			if (template.builder) {
+				tray.appendChild(template.builder(param))
+			}
 		})
 	}
 
-	if (typeof end==="string") {
-		tray.innerHTML+=end
+	addAppendable(tray, template.end)
+}
+
+function addAppendable(node: HTMLElement, append?: Appendable): void {
+	if (typeof append==="string") {
+		node.innerHTML+=append
 	}
-	else if (end) {
-		tray.appendChild(<Node>end)
+	else if (append) {
+		node.appendChild(<Node>append)
 	}
 }
 
-function newCard(uuid: string, uname: string, message: string, isClickable: boolean=false, usePointer: boolean=false): HTMLElement {
-	const name=realname(uname)
+interface ICardData {
+	uuid: string,
+	name: string,
+	message?: string,
+	isClickable?: boolean,
+	usePointer?: boolean
+}
+
+function makeNewCard(card: ICardData): HTMLElement {
+	const name=realname(card.name)
 
 	const ol=nu("ol", {})
 
@@ -205,30 +216,30 @@ function newCard(uuid: string, uname: string, message: string, isClickable: bool
 	ol.appendChild(
 		nu("li", {
 			"className": "msg hide",
-			"innerText": message
+			"innerText": card.message || ""
 		})
 	)
 
 	const div=nu("div", {
-		"className": usePointer ? "holder point" : "holder"
+		"className": card.usePointer ? "holder point" : "holder"
 	})
 
-	if (isClickable) {
+	if (card.isClickable) {
 		div.onclick=()=>{
-			window.location.href="/@" + uname
+			window.location.href="/@" + card.name
 		}
 	}
 
-	div.appendChild(makeProfilePic(uuid, name))
+	div.appendChild(makeProfilePic(card.uuid, name))
 	div.appendChild(document.createTextNode("\n"))
 	div.appendChild(ol)
 
-	const card=nu("li", {
+	const li=nu("li", {
 		"className": "item"
 	})
-	card.appendChild(div)
+	li.appendChild(div)
 
-	return card
+	return li
 }
 
 function reloadButton(func: Function) {
