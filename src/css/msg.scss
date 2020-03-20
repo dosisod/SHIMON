@@ -20,6 +20,8 @@ ol > .msg {
 	color: var(--x-receiving-fg);
 	position: absolute;
 	right: calc(20% - 35px);
+	margin: -5px;
+	padding: 5px;
 	z-index: 1;
 	cursor: pointer;
 }
@@ -35,6 +37,8 @@ ol > .msg {
 	color: var(--x-sending-fg);
 	position: absolute;
 	right: 5px;
+	margin: -5px;
+	padding: 5px;
 	z-index: 1;
 	cursor: pointer;
 }
