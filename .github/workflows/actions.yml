@@ -26,4 +26,4 @@ jobs:
         vulture SHIMON whitelist.py
         vulture testing whitelist.py
         mypy -p SHIMON
-        "[[ $(mypy -p testing | tail -n 1 | awk '{print $2}') -le 2 ]]"
+        "test $(mypy -p testing | tail -n 1 | awk '{print $2}') -le 2"
