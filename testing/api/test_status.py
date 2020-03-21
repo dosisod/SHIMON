@@ -51,7 +51,7 @@ class TestStatus(BaseTest):
 
 	def assertStatus(self, key: str) -> None:
 		assert self.shimon.__dict__[
-				self.shimon.cache.mapper.cache_names[key]
+				self.shimon.cache.mapper.cache_names[key] # type: ignore
 			] == \
 			self.shimon.cache[key] == \
 			self.status(True)[0].json[key]
