@@ -15,6 +15,8 @@ from SHIMON.__init__ import HttpResponse
 if TYPE_CHECKING:
 	from SHIMON.shimon import Shimon
 
+gpg.logger.setLevel(gpg.logging.ERROR)
+
 class Storage:
 	def __init__(self, shimon_ref: "Shimon", filepath: str="data.gpg") -> None:
 		self.shimon=shimon_ref
