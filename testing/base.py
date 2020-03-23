@@ -59,10 +59,10 @@ class BaseTest:
 	@staticmethod
 	def use_cookie(name: str, value: str) -> Callable[..., Any]:
 		def make_cookie(func: Callable[..., Any]) -> Callable[..., Any]:
-			def with_test_client(self: BaseTest) -> None:
+			def with_test_client(self: BaseTest, *args: Any) -> None:
 				cookie=dump_cookie(name, value)
 				with self._request_context(environ_base={"HTTP_COOKIE": cookie}):
-					func(self)
+					func(self, *args)
 
 			return with_test_client
 		return make_cookie

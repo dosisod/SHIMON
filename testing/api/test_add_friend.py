@@ -66,7 +66,7 @@ class TestAddFriend(BaseTest):
 		friends=len(self.shimon.cache["friends"])
 		self.add_friend({
 			"name": "whatever",
-			"id": "test add"
+			"id": "testAdd"
 		})
 
 		assert len(self.shimon.cache["friends"])==friends + 1
@@ -84,7 +84,7 @@ class TestAddFriend(BaseTest):
 			assertHttpResponse(
 				self.add_friend({
 					"name": "whatever",
-					"id": "test add"
+					"id": "testAdd"
 				}
 			), code=200)
 
@@ -92,14 +92,32 @@ class TestAddFriend(BaseTest):
 
 		self.remove_tmp_friend()
 
+	@BaseTest.request_context
+	@BaseTest.allow_local
+	@BaseTest.unlocked
+	def test_bad_uuid_regex_causes_http_400(self) -> None:
+		@BaseTest.use_cookie("session", self.shimon.session.session)
+		def check(self: TestAddFriend, uuid: str) -> None:
+			assertHttpResponse(
+				self.add_friend({
+					"name": "whatever",
+					"id": uuid
+				}
+			), code=400)
+
+		check(self, "bad uuid")
+		check(self, "")
+		check(self, "\r\n")
+		check(self, "bad!")
+
 	def remove_tmp_friend(self) -> None:
 		for i, friend in enumerate(self.shimon.cache["friends"]):
-			if friend["id"]=="test add":
+			if friend["id"]=="testAdd":
 				del self.shimon.cache["friends"][i]
 				break
 
 		for i, history in enumerate(self.shimon.cache["history"]):
-			if history["id"]=="test add":
+			if history["id"]=="testAdd":
 				del self.shimon.cache["history"][i]
 				break
 

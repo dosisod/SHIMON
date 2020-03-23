@@ -1,3 +1,5 @@
+import re
+
 from SHIMON.api.error import error_400
 
 from typing import Dict, TYPE_CHECKING
@@ -12,8 +14,8 @@ def add_friend(self: "Shimon", friend: Dict, redirect: bool) -> HttpResponse:
 		return error_400()
 
 	if "name" in friend and "id" in friend:
-		#make sure that name and id are not blank
-		if friend["name"] and friend["id"]:
+		#make sure that name and id are valid
+		if friend["name"] and re.search("^[a-zA-z0-9]+$", friend["id"]):
 			#make sure id is not already taken
 			for _friend in self.cache["friends"]:
 				if _friend["id"]==friend["id"]:
