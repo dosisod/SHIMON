@@ -1,4 +1,4 @@
-name: SHIMON unit tests
+name: tests
 
 on: [push, pull_request]
 
