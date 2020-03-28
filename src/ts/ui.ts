@@ -25,126 +25,16 @@ function realname(id: string): string {
 	return ""
 }
 
-async function reloadMsgs(): Promise<void> {
-	const user=cookie("uname")
-
-	const raw=await postOrPreload({"allfor": user})
-
-	if (raw.length==0) return
-	const data=raw["msgs"]
-
-	//must be stored like this as raw can change over time
-	const rawId=raw["id"]
-
-	if (data.length==0) {
-		replaceTemplate({
-			"start": makeNewCard({
-				"uuid": raw["hash"],
-				"name": user,
-				"isClickable": false
-			}).outerHTML + blank("Say hi to " + realname(user) + "!"),
-			"end": reloadButton(reloadMsgs)
-		})
-
-		return
-	}
-
-	replaceTemplate({
-		"start": makeNewCard({
-			"uuid": raw["hash"],
-			"name": user,
-			"isClickable": false
-		}),
-		"params": data,
-		"builder": (user: IUserMsg)=>{
-			return createMsg(user, rawId)
-		},
-		"end": reloadButton(reloadMsgs)
-	})
-	nu("reload").scrollIntoView()
-}
-
 interface IUserMsg {
 	sending: boolean;
 	msg: string;
 	index: number;
 }
 
-function createMsg(user: IUserMsg, userId: string) {
-	const box=nu("span", {
-		"className": user["sending"] ? "x-sending" : "x-receiving",
-		"innerText": "x",
-		"onclick": ()=>{
-			post({"status": ""}).then((response)=>{
-				if (response.msg["msg policy"]==0) {
-					askForConfirmation("Are you sure you want to delete this message?")
-				}
-				else if (response.msg["msg policy"]==1) {
-					var pwd=askForPassword("Enter Password")
-				}
-				else if (response.msg["msg policy"]!=2) {
-					error("Invalid Request")
-				}
-
-				post({"delete msg":{
-					"id": userId,
-					"index": user["index"],
-					"pwd": pwd || ""
-				}})
-
-				reloadMsgs()
-			})
-		}
-	}, nu("li", {
-		"className": "item"
-	}))
-
-	nu("span", {
-		"className": "msg",
-		"innerText": user["msg"]
-	}, [
-		nu("div", {
-			"className": "holder block " + (
-				user["sending"] ? "sending" : "receiving"
-			)
-		}),
-		box
-	])
-	return box
-}
-
 interface IRecentUser {
 	hash: string;
 	id: string;
 	msgs: IUserMsg[];
-}
-
-async function reloadIndex(): Promise<void> {
-	const recent=await postOrPreload({"recent": ""})
-
-	if (recent.length==0) {
-		//if there are no msgs to display, display welcome msg
-		replaceTemplate({
-			"start": blank("Add a friend to start talking!"),
-			"end": reloadButton(reloadIndex)
-		})
-
-		return
-	}
-
-	replaceTemplate({
-		"params": recent,
-		"builder": (user: IRecentUser)=>{
-			return makeNewCard({
-				"uuid": user["hash"],
-				"name": user["id"],
-				"message": user["msgs"][user["msgs"].length-1]["msg"],
-				"isClickable": true,
-				"usePointer": true
-			})
-		},
-		"end": reloadButton(reloadIndex)
-	})
 }
 
 async function postOrPreload(data: Dict): Promise<Dict> {

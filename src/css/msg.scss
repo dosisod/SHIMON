@@ -16,14 +16,24 @@ ol > .msg {
 	position: relative;
 }
 
-.x-receiving {
-	color: var(--x-receiving-fg);
+%x-button {
 	position: absolute;
-	right: calc(20% - 35px);
 	margin: -5px;
 	padding: 5px;
 	z-index: 1;
 	cursor: pointer;
+}
+
+.x-receiving {
+	@extend %x-button;
+	color: var(--x-sending-fg);
+	right: calc(20% - 35px);
+}
+
+.x-sending {
+	@extend %x-button;
+	color: var(--x-sending-fg);
+	right: 5px;
 }
 
 .receiving {
@@ -31,16 +41,6 @@ ol > .msg {
 	color: var(--receiving-fg);
 	left: 0;
 	border: 1px solid var(--receiving-bd);
-}
-
-.x-sending {
-	color: var(--x-sending-fg);
-	position: absolute;
-	right: 5px;
-	margin: -5px;
-	padding: 5px;
-	z-index: 1;
-	cursor: pointer;
 }
 
 .sending {
