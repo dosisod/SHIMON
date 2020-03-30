@@ -5,21 +5,21 @@
 <meta name="viewport" content="width=device-width">
 <title>SHIMON</title>
 
-{% include "utils/styles.html" %}
+{% include "utils/styles.jinja" %}
 
 </head>
 <body>
 
 <div class="container">
-{% include "utils/sidebar.html" %}
+{% include "utils/sidebar.jinja" %}
 <ol id="tray">
 	<span class="center name point" id="reload" onclick="reloadMsgs()">RELOAD</span>
 </ol>
-{% include "utils/error-msg.html" %}
+{% include "utils/error-msg.jinja" %}
 <input id="typer" placeholder="Type away!" onkeydown="send(event)" />
 </div>
 
-{% include "utils/scripts.html" %}
+{% include "utils/scripts.jinja" %}
 
 <script>
 window.addEventListener("load", function(){

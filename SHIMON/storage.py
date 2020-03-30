@@ -62,7 +62,7 @@ class Storage:
 				401,
 				render(
 					self.shimon,
-					"pages/account.html",
+					"pages/account.jinja",
 					error="Cache could not be locked",
 					version=self.shimon.VERSION
 				),
@@ -94,7 +94,7 @@ class Storage:
 				400,
 				render(
 					self.shimon,
-					"pages/login.html",
+					"pages/login.jinja",
 					msg="Please re-open cache"
 				),
 				False,

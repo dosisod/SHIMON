@@ -48,7 +48,7 @@ class TestUnlock(BaseTest):
 		lock(self.shimon, self.pwd, False)
 
 		warn_html=self.shimon.session.create(
-			target="pages/warn.html"
+			target="pages/warn.jinja"
 		)[0].data
 
 		self.shimon.cache.mapper["version"]=old_version

@@ -102,7 +102,7 @@ class Shimon:
 
 		return render(
 			self,
-			"pages/error.html",
+			"pages/error.jinja",
 			error=return_code,
 			url=request.url,
 			traceback=tb,
@@ -122,11 +122,11 @@ class Shimon:
 		had_error=self.security.check_session()
 
 		if self.cache.is_empty() or had_error:
-			return render(self, "pages/login.html"), 401
+			return render(self, "pages/login.jinja"), 401
 
 		res=make_response(render(
 			self,
-			"pages/index.html",
+			"pages/index.jinja",
 			error=error,
 			preload=json.dumps(api_recent(self)),
 			friends=json.dumps(api_friends(self))
@@ -153,7 +153,7 @@ class Shimon:
 					pretty_name
 				))
 
-		return render(self, "pages/settings.html",
+		return render(self, "pages/settings.jinja",
 			seconds=self.session.expires,
 			msg_policy=self.msg_policy,
 			themes=themes
@@ -165,7 +165,7 @@ class Shimon:
 
 		return render(
 			self,
-			"pages/account.html",
+			"pages/account.jinja",
 			version=self.VERSION
 		), 200
 
@@ -181,7 +181,7 @@ class Shimon:
 
 				res=make_response(render(
 					self,
-					"pages/msg.html",
+					"pages/msg.jinja",
 					preload=json.dumps(api_allfor(self, uuid)),
 					friends=json.dumps(api_friends(self))
 				))
@@ -197,13 +197,13 @@ class Shimon:
 		ret=self.security.check_all()
 		if ret: return ret
 
-		return render(self, "pages/add.html"), 200
+		return render(self, "pages/add.jinja"), 200
 
 	def login(self) -> HttpResponse:
 		self.security.check_local()
 
 		if self.cache.is_empty():
-			return render(self, "pages/login.html"), 200
+			return render(self, "pages/login.jinja"), 200
 
 		else:
 			return self.index(error="Already logged in", code=301)

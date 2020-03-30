@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width">
 <title>SHIMON</title>
 
-{% include "utils/styles.html" %}
+{% include "utils/styles.jinja" %}
 
-{%- from "utils/ui-elements.html" import dropdown, checkbox -%}
+{%- from "utils/ui-elements.jinja" import dropdown, checkbox -%}
 
 </head>
 <body>
@@ -34,11 +34,11 @@
 	{{ checkbox("USE FRESH CSS", "fresh css", fresh_css) }}
 	{% endif -%}
 </ol>
-{% include "utils/error-msg.html" %}
+{% include "utils/error-msg.jinja" %}
 
 </div>
 
-{% include "utils/scripts.html" %}
+{% include "utils/scripts.jinja" %}
 
 <script>
 window.addEventListener("load", function(){

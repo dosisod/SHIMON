@@ -20,7 +20,7 @@ def lock(self: "Shimon", pwd: str, redirect: bool) -> HttpResponse:
 
 		res=make_response(render(
 			self,
-			"pages/login.html",
+			"pages/login.jinja",
 			error="Cache has been locked"
 		))
 

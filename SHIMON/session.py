@@ -23,7 +23,7 @@ class Session:
 		self.lastcall=datetime.now()
 		self.expires=3600
 
-	def create(self, target: str="pages/index.html") -> HttpResponse:
+	def create(self, target: str="pages/index.jinja") -> HttpResponse:
 		res=make_response(render(
 			self.shimon,
 			target,
@@ -53,7 +53,7 @@ class Session:
 			401,
 			render(
 				self.shimon,
-				"pages/login.html",
+				"pages/login.jinja",
 				msg="Session is no longer valid"
 			),
 			data["redirect"],

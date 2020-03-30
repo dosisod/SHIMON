@@ -9,7 +9,7 @@ class TestRender(BaseTest):
 	@BaseTest.request_context
 	@BaseTest.unlocked
 	def test_all_settings_added_automatically(self) -> None:
-		template=render(self.shimon, "testing/render.html")
+		template=render(self.shimon, "testing/render.jinja")
 
 		def assertHasKeys(html: str) -> None:
 			keys=[
@@ -32,12 +32,12 @@ class TestRender(BaseTest):
 	def test_make_response_is_same_as_calling_directly(self) -> None:
 		make_resp_wrapper=make_response(render(
 			self.shimon,
-			"testing/hello.html"
+			"testing/hello.jinja"
 		))
 
 		make_resp=_make_response(render(
 			self.shimon,
-			"testing/hello.html"
+			"testing/hello.jinja"
 		))
 
 		assert make_resp.data==make_resp_wrapper.data
