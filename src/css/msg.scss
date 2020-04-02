@@ -1,3 +1,5 @@
+@use 'screen';
+
 ol > .msg {
 	color: var(--msg-fg);
 	font-size: 14px;
@@ -44,9 +46,9 @@ ol > .msg {
 }
 
 .sending {
-	left: calc(20% - 40px);
 	background: var(--sending-bg);
 	color: var(--sending-fg);
+	left: calc(20% - 40px);
 	border: 1px solid var(--sending-bd);
 }
 
@@ -64,7 +66,7 @@ ol > .msg {
 	z-index: 2;
 }
 
-@media screen and (max-width: 700px) {
+@include screen.mobile {
 	#typer {
 		width: 100%;
 		left: 0;

@@ -1,3 +1,5 @@
+@use 'screen';
+
 * {
 	border-radius: 0;
 }
@@ -18,13 +20,13 @@
 #prompt {
 	font-size: calc(1vw + 1em);
 	padding-bottom: 5px;
+
+	&::after {
+		content: "Type in password to unlock cache";
+	}
 }
 
-#prompt::after {
-	content: "Type in password to unlock cache";
-}
-
-@media screen and (max-width: 700px) {
+@include screen.mobile {
 	#tray {
 		left: 5px;
 		transform: translate(0%, -50%);
