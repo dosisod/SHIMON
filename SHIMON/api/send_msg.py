@@ -14,18 +14,18 @@ def send_msg(self: "Shimon", sending: Dict, redirect: bool) -> HttpResponse:
 		#message contains illegal characters if it was unable to be parsed
 		return error_400()
 
-	if "uname" not in sending or "msg" not in sending:
+	msg=sending.get("msg", None)
+	uname=sending.get("uname", None)
+
+	if not msg or not uname or msg.isspace():
 		return error_400()
 
-	if sending["msg"].isspace():
-		return error_400()
-
-	index=history_id(self, sending["uname"])
+	index=history_id(self, uname)
 
 	if index >= 0:
 		self.cache["history"][index]["msgs"].append({
 			"sending": True,
-			"msg": sending["msg"]
+			"msg": msg
 		})
 
 		self.redraw=True

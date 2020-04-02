@@ -10,9 +10,10 @@ if TYPE_CHECKING:
 	from SHIMON.shimon import Shimon
 
 def api_entry(self: "Shimon", data: Dict) -> HttpResponse:
-	if "unlock" in data:
+	unlock_pwd=data.get("unlock", "")
+	if unlock_pwd:
 		if self.cache.is_empty():
-			return unlock(self, data["unlock"], True)
+			return unlock(self, unlock_pwd, True)
 
 		else:
 			return self.index(error="Already logged in", code=301)
@@ -20,16 +21,14 @@ def api_entry(self: "Shimon", data: Dict) -> HttpResponse:
 	ret=self.security.check_all() # type: Optional[HttpResponse]
 	if ret: return ret
 
+	redirect=data.get("redirect", False)
+
 	for callname, func in calls.items():
 		if callname in data:
 			return func(
 				self,
 				data[callname],
-				data["redirect"]
+				redirect
 			)
-
-	redirect=False
-	if "redirect" in data:
-		redirect=data["redirect"]
 
 	return error_400(redirect=redirect)

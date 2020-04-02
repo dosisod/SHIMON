@@ -21,12 +21,8 @@ class Security:
 		return self.check_session()
 
 	def check_session(self) -> Optional[HttpResponse]:
-		session=""
-		if "session" in request.cookies:
-			session=request.cookies["session"]
-
 		return self.shimon.session.check({
-			"session": session,
+			"session": request.cookies.get("session", ""),
 			"redirect": True
 		})
 

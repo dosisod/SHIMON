@@ -72,12 +72,8 @@ class Shimon:
 		msg=""
 
 		if isinstance(ex, HTTPException):
-			code=ex.code or 500
-
-			if code in codes:
-				msg=codes[code]
-
-			return_code=code
+			return_code=ex.code or 500
+			msg=codes.get(return_code, "")
 
 		elif isinstance(ex, int):
 			code=ex

@@ -11,8 +11,11 @@ def change_pwd(self: "Shimon", pwds: Dict, redirect: bool) -> HttpResponse:
 		#message contains illegal characters if it was unable to be parsed
 		return error_400()
 
-	if "old" in pwds and "new" in pwds:
-		success=self.security.update_pwd(pwds["old"], pwds["new"])
+	old=pwds.get("old", "")
+	new=pwds.get("new", "")
+
+	if old and new:
+		success=self.security.update_pwd(old, new)
 		if not success:
 			return error_401("Password could not be updated", redirect)
 

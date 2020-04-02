@@ -41,13 +41,12 @@ class Session:
 		return res, 200
 
 	def check(self, data: Dict) -> Optional[HttpResponse]:
-		if "session" in data:
-			if datetime.now() > (self.lastcall + timedelta(seconds=self.expires)):
-				self.kill()
+		if datetime.now() > (self.lastcall + timedelta(seconds=self.expires)):
+			self.kill()
 
-			elif self.session==data["session"]:
-				self.keepalive()
-				return None
+		elif self.session==data.get("session", ""):
+			self.keepalive()
+			return None
 
 		return error(
 			401,

@@ -51,6 +51,24 @@ class TestSendMsg(BaseTest):
 		)
 
 	@BaseTest.request_context
+	def test_empty_msg_or_uname_returns_http_400(self) -> None:
+		assertHttpResponse(
+			send_msg(self.shimon, {
+				"uname": "whatever",
+				"msg": None
+			}, False),
+			400
+		)
+
+		assertHttpResponse(
+			send_msg(self.shimon, {
+				"uname": None,
+				"msg": "whatever"
+			}, False),
+			400
+		)
+
+	@BaseTest.request_context
 	@BaseTest.unlocked
 	def test_sending_msg_adds_to_msgs(self) -> None:
 		total_msgs=len(self.user["msgs"])

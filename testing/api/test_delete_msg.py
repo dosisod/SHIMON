@@ -23,6 +23,7 @@ class TestDeleteMsg(BaseTest):
 		)
 
 	@BaseTest.request_context
+	@BaseTest.unlocked
 	def test_missing_id_param_returns_http_400(self) -> None:
 		assertHttpResponse(
 			self.delete_msg({"index": "0"}),

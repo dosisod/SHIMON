@@ -14,40 +14,35 @@ def delete_msg(self: "Shimon", data: Dict, redirect: bool) -> HttpResponse:
 		#message contains illegal characters if it was unable to be parsed
 		return error_400()
 
-	if "id" in data and "index" in data:
-		#verify password if msg policy requires password
-		if "pwd" in data and self.msg_policy==1:
-			if not self.security.correct_pwd(data["pwd"]):
-				return error_401()
+	pwd=data.get("pwd", "")
+	if pwd and self.msg_policy==1:
+		if not self.security.correct_pwd(pwd):
+			return error_401()
 
-		index=0
-		if type(data["index"]) is int:
-			index=data["index"]
-
-		elif type(data["index"]) is str:
-			if data["index"].isdigit():
-				index=int(data["index"])
-			else:
-				return error_400("Index is not a valid integer")
-
-		else:
+	index=data.get("index", None)
+	if isinstance(index, str):
+		try:
+			index=int(index)
+		except ValueError:
 			return error_400("Index is not a valid integer")
 
-		if index < 0:
-			return error_400("Index is out of bounds")
+	elif not isinstance(index, int):
+		return error_400("Index is not a valid integer")
 
-		hist_id=history_id(self, data["id"])
+	if index < 0:
+		return error_400("Index is out of bounds")
 
-		if hist_id >= 0:
-			msgs=self.cache["history"][hist_id]["msgs"]
+	hist_id=history_id(self, data.get("id", ""))
 
-			if index >= len(msgs):
-				return error_400("Index is not a valid integer")
+	if hist_id >= 0:
+		msgs=self.cache["history"][hist_id]["msgs"]
 
-			else:
-				msgs.pop(index)
+		if index >= len(msgs):
+			return error_400("Index is not a valid integer")
 
-				self.redraw=True
-				return error_200("Message deleted")
+		msgs.pop(index)
+
+		self.redraw=True
+		return error_200("Message deleted")
 
 	return error_400()
