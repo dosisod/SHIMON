@@ -8,10 +8,13 @@ if TYPE_CHECKING:
 	from SHIMON.shimon import Shimon
 
 def render(self: "Shimon", filepath: str, **kwargs: Any) -> Response:
-	kwargs["developer"]=self.developer
-	kwargs["theme"]=self.theme
-	kwargs["fresh_js"]=self.fresh_js
-	kwargs["fresh_css"]=self.fresh_css
+	kwargs={
+		**kwargs,
+		"developer": self.developer,
+		"theme": self.theme,
+		"fresh_js": self.fresh_js,
+		"fresh_css": self.fresh_css
+	}
 
 	return make_response(
 		render_template(filepath, **kwargs)

@@ -80,12 +80,7 @@ class Shimon:
 
 			#client can only set certain http codes
 			if 300 <= code <= 417:
-				if code in codes:
-					msg=codes[code]
-
-				else:
-					msg=""
-
+				msg=codes.get(code, "")
 				return_code=code
 
 			else:
