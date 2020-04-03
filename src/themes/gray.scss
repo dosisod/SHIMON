@@ -1,5 +1,3 @@
-@use 'urls';
-
 $dark-gray: #191919;
 $light-gray: #aaa;
 
@@ -12,7 +10,5 @@ $receiving-fg: $dark-gray;
 $input-bd: #444;
 $info-fg: #444;
 $warn-fg: #a50000;
-
-$dropdown-src: urls.$dropdown-white;
 
 @import 'theme';

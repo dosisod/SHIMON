@@ -6,6 +6,7 @@
 
 {% macro dropdown(text, default, data) -%}
 <li class="name setting nopoint">{{ text }}
+	{{ svg("/img/chevron-down.svg") }}
 	<select class="dropdown point" onchange="setting.dropdown(this)" data-type="{{ text }}">
 		<option disabled="disabled" selected="selected">
 		{%- for i in data -%}
@@ -19,4 +20,8 @@
 		{%- endfor %}
 	</select>
 </li>
+{%- endmacro %}
+
+{% macro svg(filename) %}
+{% include filename %}
 {%- endmacro %}

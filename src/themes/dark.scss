@@ -1,5 +1,3 @@
-@use 'urls';
-
 $bg: black;
 $fg: white;
 
@@ -7,7 +5,5 @@ $receiving-bg: white;
 $receiving-fg: black;
 
 $input-bd: #333;
-
-$dropdown-src: urls.$dropdown-white;
 
 @import 'theme';
