@@ -1,6 +1,8 @@
-{% macro checkbox(text, id, var) -%}
+{% macro checkbox(text, id, checked) -%}
 <li class="name setting nopoint"><span>{{ text }}
-	<div class="checkbox dropdown point checkbox-{{ "checked" if var else "unchecked" }}" data-type="{{ text }}" onclick="setting.button(this)" id="{{ id }}"></div>
+	<div class="checkbox dropdown point{{ " checkbox-unchecked" if not checked }}" data-type="{{ text }}" onclick="setting.button(this)" id="{{ id }}">
+		{{ svg("/img/x.svg") if checked }}
+	</div>
 </span></li>
 {%- endmacro %}
 

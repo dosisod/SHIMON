@@ -1,7 +1,7 @@
 const setting = {
 
 button: function(checkbox: HTMLElement): void {
-	const selected=checkbox.innerText.toLowerCase() || checkbox.id
+	const selected=checkbox.innerText.toLowerCase().trim() || checkbox.id
 
 	if (selected=="change password") {
 		post({"change pwd": {
