@@ -171,6 +171,12 @@ div.profile-pic-img {
 	color: var(--setting-fg);
 }
 
+@include screen.mobile {
+	.setting {
+		padding-bottom: 15px;
+	}
+}
+
 li > a.setting {
 	display: table;
 }
