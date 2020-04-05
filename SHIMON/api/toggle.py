@@ -1,6 +1,6 @@
 import os
 
-from SHIMON.api.error import error_200
+from SHIMON.api.error import error_200, error_400
 
 from typing import TYPE_CHECKING
 from SHIMON.__init__ import HttpResponse
@@ -16,8 +16,8 @@ class Toggle:
 	def __call__(self, shimon: "Shimon", enable: bool, _: bool) -> HttpResponse:
 		if os.path.isfile(self.path):
 			shimon.cache.mapper[self.name]=enable
+			return error_200()
 
 		else:
 			shimon.cache.mapper[self.name]=False
-
-		return error_200()
+			return error_400("Missing required file(s)")
