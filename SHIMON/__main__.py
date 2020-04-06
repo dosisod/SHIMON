@@ -8,7 +8,7 @@ from waitress import serve # type: ignore
 from SHIMON.app import App
 
 def run(app: App) -> None:
-	print("starting SHIMON v" + app.shimon.VERSION + " -> github.com/dosisod/SHIMON\n")
+	print(f"starting SHIMON v{app.shimon.VERSION} -> github.com/dosisod/SHIMON\n")
 
 	try:
 		serve(
@@ -20,8 +20,8 @@ def run(app: App) -> None:
 		)
 
 	except OSError:
-		print("Could not bind to port", app.PORT)
-		print("Is SHIMON already running? if not, check port", app.PORT, "availability")
+		print(f"Could not bind to port {app.PORT}")
+		print(f"Is SHIMON already running? if not, check port {app.PORT} availability")
 
 		sys.exit(1)
 

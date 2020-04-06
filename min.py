@@ -24,7 +24,7 @@ def sass(src: str, dest: str="") -> bytes:
 		"sass",
 		"--no-source-map",
 		"-s", "compressed",
-		(src + ":" +dest) if dest else src
+		(f"{src}:{dest}") if dest else src
 	])
 
 def call(commands: List[str]) -> bytes:
@@ -53,7 +53,7 @@ if not skipping:
 	print("minifying JS")
 
 	for filename in files(STATIC_JS, ignore=["bundle.js"]):
-		print("  " + filename)
+		print(f"  {filename}")
 
 	with open(BUNDLE_JS, "rb+") as f:
 		f.write(
@@ -69,7 +69,7 @@ if not skipping:
 print("\ncopying CSS files")
 for filename in files("src/css/"):
 	sass(
-		"src/css/" + filename,
+		f"src/css/{filename}",
 		STATIC_CSS + filename[:-4] + "css"
 	)
 
@@ -99,7 +99,7 @@ if not skipping:
 	for filename in files("src/themes", ignore=["_urls.scss", "_root.scss", "_theme.scss"]):
 		css_name=filename[:-4] + "css"
 
-		print("  " + filename)
+		print(f"  {filename}")
 		clear(THEMES + css_name)
 
 		sass(

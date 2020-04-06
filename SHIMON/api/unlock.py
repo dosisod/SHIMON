@@ -38,7 +38,7 @@ def unlock(self: "Shimon", pwd: str, redirect: bool) -> HttpResponse:
 			return render(
 				self,
 				"pages/login.jinja",
-				error="Try again in " + str(self.login_limiter.time_to_wait()) + " seconds"
+				error=f"Try again in {self.login_limiter.time_to_wait()} seconds"
 			), 401
 
 		else:
@@ -50,7 +50,7 @@ def unlock(self: "Shimon", pwd: str, redirect: bool) -> HttpResponse:
 			return render(
 				self,
 				"pages/login.jinja",
-				error="Try again in " + str(self.login_limiter.cooldown_duration) + " seconds"
+				error=f"Try again in {self.login_limiter.cooldown_duration} seconds"
 			), 401
 
 		elif plain=="{}":

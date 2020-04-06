@@ -34,7 +34,7 @@ async function reloadMsgs(): Promise<void> {
 				"uuid": raw["hash"],
 				"name": user,
 				"isClickable": false
-			}).outerHTML + blank("Say hi to " + realname(user) + "!"),
+			}).outerHTML + blank(`Say hi to ${realname(user)}!`),
 			"end": reloadButton(reloadMsgs)
 		})
 

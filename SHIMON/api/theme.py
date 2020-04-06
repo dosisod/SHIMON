@@ -15,7 +15,7 @@ def theme(self: "Shimon", theme: str, redirect: bool) -> HttpResponse:
 
 		#dont allow reverse file traversal
 		if dirty.startswith(os.getcwd() + "/" + path):
-			if os.path.isfile(dirty + ".css"):
+			if os.path.isfile(f"{dirty}.css"):
 				self.cache.mapper["theme"]=dirty.split("/")[-1]
 
 				return error_202()

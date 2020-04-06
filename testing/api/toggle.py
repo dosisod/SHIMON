@@ -57,9 +57,11 @@ class FreshToggle(BaseTest):
 		self.shimon.cache.mapper[self.name]=False
 
 		if os.path.isfile(self.path):
-			shutil.move(self.path, self.path + ".bak")
+			backup_file=f"{self.path}.bak"
+
+			shutil.move(self.path, backup_file)
 			ret=self.func(True)
-			shutil.move(self.path + ".bak", self.path)
+			shutil.move(backup_file, self.path)
 
 		else:
 			ret=self.func(True)
