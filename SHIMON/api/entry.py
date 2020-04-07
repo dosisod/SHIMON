@@ -10,8 +10,8 @@ if TYPE_CHECKING:
 	from SHIMON.shimon import Shimon
 
 def api_entry(self: "Shimon", data: Dict) -> HttpResponse:
-	unlock_pwd=data.get("unlock", "")
-	if unlock_pwd:
+	unlock_pwd=data.get("unlock")
+	if unlock_pwd is not None:
 		if self.cache.is_empty():
 			return unlock(self, unlock_pwd, True)
 

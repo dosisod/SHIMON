@@ -15,14 +15,19 @@ class TestEntry(BaseTest):
 			api_entry(self.shimon, {"unlock": self.pwd})
 
 			assertHttpResponse(
-				api_entry(
-					self.shimon, {
-						"unlock": self.pwd
-					}),
+				api_entry(self.shimon, {"unlock": self.pwd}),
 				301
 			)
 
 		run(self)
+
+	@BaseTest.request_context
+	@BaseTest.allow_local
+	def test_blank_unlock_pwd_returns_http_400(self) -> None:
+		assertHttpResponse(
+			api_entry(self.shimon, {"unlock": ""}),
+			401
+		)
 
 	@BaseTest.request_context
 	@BaseTest.allow_local
@@ -31,9 +36,7 @@ class TestEntry(BaseTest):
 		@BaseTest.use_cookie("session", self.shimon.session.session)
 		def run(self: TestEntry) -> None:
 			assertHttpResponse(
-				api_entry(self.shimon, {
-					"not a call": ""
-				}),
+				api_entry(self.shimon, {"not a call": ""}),
 				400
 			)
 
