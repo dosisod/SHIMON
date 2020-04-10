@@ -4,8 +4,7 @@ async function reloadIndex(): Promise<void> {
 	if (recent.length==0) {
 		//if there are no msgs to display, display welcome msg
 		replaceTemplate({
-			"start": blank("Add a friend to start talking!"),
-			"end": reloadButton(reloadIndex)
+			"start": blank("Add a friend to start talking!")
 		})
 
 		return
@@ -21,7 +20,6 @@ async function reloadIndex(): Promise<void> {
 				"isClickable": true,
 				"usePointer": true
 			})
-		},
-		"end": reloadButton(reloadIndex)
+		}
 	})
 }

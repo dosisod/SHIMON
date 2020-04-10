@@ -34,8 +34,7 @@ async function reloadMsgs(): Promise<void> {
 				"uuid": raw["hash"],
 				"name": user,
 				"isClickable": false
-			}).outerHTML + blank(`Say hi to ${realname(user)}!`),
-			"end": reloadButton(reloadMsgs)
+			}).outerHTML + blank(`Say hi to ${realname(user)}!`)
 		})
 
 		return
@@ -50,8 +49,7 @@ async function reloadMsgs(): Promise<void> {
 		"params": data,
 		"builder": (user: IUserMsg)=>{
 			return createMsg(user, rawId)
-		},
-		"end": reloadButton(reloadMsgs)
+		}
 	})
 	nu("reload").scrollIntoView()
 }

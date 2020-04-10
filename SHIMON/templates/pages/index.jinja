@@ -12,7 +12,8 @@
 
 <div class="container">
 {% include "utils/sidebar.jinja" %}
-<ol id="tray">
+<ol class="tray">
+	<div id="tray"></div>
 	<span class="center name point" id="reload" onclick="reloadIndex()">RELOAD</span>
 </ol>
 {% include "utils/error-msg.jinja" %}

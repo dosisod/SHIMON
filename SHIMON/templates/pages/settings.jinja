@@ -12,7 +12,7 @@
 </head>
 <body>
 <div class="container">
-<ol id="tray">
+<ol class="tray"><div id="tray">
 	<li class="name setting"><span class="point" onclick="setting.button(this)">CHANGE PASSWORD</span></li>
 	<li class="name setting warn"><span class="point" onclick="setting.button(this)">GENERATE NEW KEY</span></li>
 	{{ dropdown("MSG DELETION", msg_policy, [
@@ -33,7 +33,7 @@
 	{{ checkbox("USE FRESH JS", "fresh js", fresh_js) }}
 	{{ checkbox("USE FRESH CSS", "fresh css", fresh_css) }}
 	{% endif -%}
-</ol>
+</div></ol>
 {% include "utils/error-msg.jinja" %}
 
 </div>

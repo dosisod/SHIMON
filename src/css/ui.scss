@@ -23,7 +23,7 @@ html, body, .container {
 	text-align: center;
 }
 
-#tray {
+ol.tray {
 	width: 50%;
 	margin: auto;
 	position: absolute;
@@ -34,7 +34,7 @@ html, body, .container {
 }
 
 @include screen.mobile {
-	#tray {
+	ol.tray {
 		width: 100%;
 	}
 }

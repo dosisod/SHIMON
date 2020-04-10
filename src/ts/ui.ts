@@ -132,15 +132,6 @@ function makeNewCard(card: ICardData): HTMLElement {
 	return li
 }
 
-function reloadButton(func: Function) {
-	return nu("span", {
-		"className": "center name point",
-		"id": "reload",
-		"innerText": "RELOAD",
-		"onclick": ()=>func()
-	})
-}
-
 function makeProfilePic(uuid: string, name: string): HTMLDivElement {
 	const profilePic=nu("div", {
 		"className": "profile-pic-img",
