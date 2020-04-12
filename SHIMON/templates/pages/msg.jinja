@@ -3,7 +3,7 @@
 <head>
 <meta name="description" content="Message user">
 <meta name="viewport" content="width=device-width">
-<title>SHIMON</title>
+<title>Message</title>
 
 {% include "utils/styles.jinja" %}
 
@@ -25,10 +25,13 @@
 <script>
 window.addEventListener("load", function(){
 
-url("@" + cookie("uname"))
-
 preload=JSON.parse({{ preload|default("false")|tojson }})
 friends=JSON.parse({{ friends|default("false")|tojson }})
+
+let uname=cookie("uname")
+
+url("@" + uname)
+document.title+=" " + realname(uname)
 
 reloadMsgs()
 
