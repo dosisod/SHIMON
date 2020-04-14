@@ -11,6 +11,8 @@ if TYPE_CHECKING:
 	from SHIMON.shimon import Shimon
 
 class ApiSendMsg(ApiBase):
+	callname="send msg"
+
 	def __init__(self) -> None:
 		super().__init__()
 

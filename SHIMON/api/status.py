@@ -8,6 +8,8 @@ if TYPE_CHECKING:
 	from SHIMON.shimon import Shimon
 
 class ApiStatus(ApiBase):
+	callname="status"
+
 	def __init__(self) -> None:
 		super().__init__()
 

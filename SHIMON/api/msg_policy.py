@@ -8,6 +8,8 @@ if TYPE_CHECKING:
 	from SHIMON.shimon import Shimon
 
 class ApiMsgPolicy(ApiBase):
+	callname="msg policy"
+
 	def __init__(self) -> None:
 		super().__init__()
 

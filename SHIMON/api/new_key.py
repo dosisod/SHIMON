@@ -12,6 +12,8 @@ if TYPE_CHECKING:
 	from SHIMON.shimon import Shimon
 
 class ApiNewKey(ApiBase):
+	callname="new key"
+
 	def __init__(self) -> None:
 		super().__init__()
 

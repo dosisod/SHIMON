@@ -1,4 +1,5 @@
 from SHIMON.api.api_base import ApiBase
+from SHIMON.api.api_calls import apicalls
 
 from testing.base import BaseTest
 from testing.util import assertHttpResponse
@@ -12,3 +13,7 @@ class TestApiBase(BaseTest):
 	def test_entry_dry_run(self) -> None:
 		obj=ApiBase()
 		obj.entry(self.shimon, None, False)
+
+def test_all_api_calls() -> None:
+	for apicall in apicalls.values():
+		assert apicall.callname

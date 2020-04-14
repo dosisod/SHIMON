@@ -7,6 +7,8 @@ if TYPE_CHECKING:
 	from SHIMON.shimon import Shimon
 
 class ApiBase:
+	callname=""
+
 	def __init__(self) -> None:
 		pass
 

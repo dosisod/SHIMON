@@ -10,6 +10,8 @@ if TYPE_CHECKING:
 	from SHIMON.shimon import Shimon
 
 class ApiAddFriend(ApiBase):
+	callname="add friend"
+
 	def __init__(self) -> None:
 		super().__init__()
 

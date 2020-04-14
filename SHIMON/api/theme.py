@@ -10,6 +10,8 @@ if TYPE_CHECKING:
 	from SHIMON.shimon import Shimon
 
 class ApiTheme(ApiBase):
+	callname="theme"
+
 	def __init__(self) -> None:
 		super().__init__()
 

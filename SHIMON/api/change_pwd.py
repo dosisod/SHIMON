@@ -8,6 +8,8 @@ if TYPE_CHECKING:
 	from SHIMON.shimon import Shimon
 
 class ApiChangePwd(ApiBase):
+	callname="change pwd"
+
 	def __init__(self) -> None:
 		super().__init__()
 

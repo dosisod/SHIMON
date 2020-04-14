@@ -9,6 +9,8 @@ if TYPE_CHECKING:
 	from SHIMON.shimon import Shimon
 
 class ApiLock(ApiBase):
+	callname="lock"
+
 	def __init__(self) -> None:
 		super().__init__()
 
