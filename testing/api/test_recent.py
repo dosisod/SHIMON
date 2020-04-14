@@ -1,4 +1,4 @@
-from SHIMON.api.recent import recent
+from SHIMON.api.recent import ApiRecent
 
 from testing.base import BaseTest
 from testing.util import assertHttpResponse
@@ -20,4 +20,4 @@ class TestRecent(BaseTest):
 		assert self.recent()[0].json
 
 	def recent(self) -> HttpResponse:
-		return recent(self.shimon, None, False)
+		return ApiRecent().entry(self.shimon, None, False)

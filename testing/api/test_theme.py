@@ -1,6 +1,6 @@
-from SHIMON.api.unlock import unlock
+from SHIMON.api.unlock import ApiUnlock
+from SHIMON.api.theme import ApiTheme
 from SHIMON.renderer import jsonify
-from SHIMON.api.theme import theme
 
 from testing.base import BaseTest
 from testing.util import assertHttpResponse
@@ -52,4 +52,4 @@ class TestTheme(BaseTest):
 		self.shimon.cache.mapper["theme"]="auto"
 
 	def theme(self, name: str) -> HttpResponse:
-		return theme(self.shimon, name, True)
+		return ApiTheme().entry(self.shimon, name, True)

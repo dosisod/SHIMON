@@ -1,6 +1,8 @@
 from SHIMON.api.toggle import Toggle
 
-fresh_js=Toggle(
-	path="SHIMON/static/js/api.js",
-	name="fresh js"
-)
+class ApiFreshJs(Toggle):
+	def __init__(self) -> None:
+		super().__init__(
+			path="SHIMON/static/js/api.js",
+			name="fresh js"
+		)

@@ -1,6 +1,6 @@
 import shutil
 
-from SHIMON.api.nuke import nuke
+from SHIMON.api.nuke import ApiNuke
 
 from testing.util import assertHttpResponse
 from testing.base import BaseTest
@@ -28,7 +28,7 @@ class TestNuke(BaseTest):
 	@BaseTest.unlocked
 	def test_incorrect_pwd_returns_http_401(self) -> None:
 		assertHttpResponse(
-			nuke(self.shimon, "not the password", False),
+			ApiNuke().entry(self.shimon, "not the password", False),
 			code=401
 		)
 
@@ -39,7 +39,7 @@ class TestNuke(BaseTest):
 		old_key=self.shimon.cache["key"]
 
 		assertHttpResponse(
-			nuke(self.shimon, self.pwd, False),
+			ApiNuke().entry(self.shimon, self.pwd, False),
 			code=200
 		)
 

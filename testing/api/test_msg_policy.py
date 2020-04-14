@@ -1,5 +1,5 @@
-from SHIMON.api.msg_policy import msg_policy
-from SHIMON.api.unlock import unlock
+from SHIMON.api.msg_policy import ApiMsgPolicy
+from SHIMON.api.unlock import ApiUnlock
 
 from testing.base import BaseTest
 from testing.util import assertHttpResponse
@@ -10,7 +10,7 @@ class TestMsgPolict(BaseTest):
 	@classmethod
 	@BaseTest.request_context
 	def setup_class(self) -> None:
-		unlock(self.shimon, self.pwd, False)
+		ApiUnlock().entry(self.shimon, self.pwd, False)
 
 	@BaseTest.app_context
 	def test_num_too_high_causes_http_400(self) -> None:
@@ -48,4 +48,4 @@ class TestMsgPolict(BaseTest):
 		assert self.shimon.cache["msg policy"]==1
 
 	def msg_policy(self, policy: str) -> HttpResponse:
-		return msg_policy(self.shimon, policy, False)
+		return ApiMsgPolicy().entry(self.shimon, policy, False)

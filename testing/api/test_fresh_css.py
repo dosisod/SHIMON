@@ -1,4 +1,4 @@
-from SHIMON.api.fresh_css import fresh_css
+from SHIMON.api.fresh_css import ApiFreshCss
 
 from testing.api.toggle import FreshToggle
 
@@ -9,7 +9,7 @@ class TestFreshCSS(FreshToggle):
 	name="fresh css"
 
 	def func(self, enable: bool) -> HttpResponse:
-		return fresh_css(
+		return ApiFreshCss().entry(
 			self.shimon,
 			enable,
 			False

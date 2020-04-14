@@ -1,4 +1,4 @@
-from SHIMON.api.new_key import new_key
+from SHIMON.api.new_key import ApiNewKey
 
 from testing.base import BaseTest
 from testing.util import assertHttpResponse
@@ -46,4 +46,4 @@ class TestNewKey(BaseTest):
 		assert self.shimon.cache["key"]!=old_key
 
 	def new_key(self, pwd: str) -> HttpResponse:
-		return new_key(self.shimon, pwd, False)
+		return ApiNewKey().entry(self.shimon, pwd, False)

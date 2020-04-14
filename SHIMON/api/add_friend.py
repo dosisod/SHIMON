@@ -1,5 +1,6 @@
 import re
 
+from SHIMON.api.api_base import ApiBase
 from SHIMON.api.error import error_400
 
 from typing import Dict, TYPE_CHECKING
@@ -7,6 +8,13 @@ from SHIMON.__init__ import HttpResponse
 
 if TYPE_CHECKING:
 	from SHIMON.shimon import Shimon
+
+class ApiAddFriend(ApiBase):
+	def __init__(self) -> None:
+		super().__init__()
+
+	def entry(_, self: "Shimon", adding: Dict, redirect: bool) -> HttpResponse:
+		return add_friend(self, adding, redirect)
 
 def add_friend(self: "Shimon", adding: Dict, redirect: bool) -> HttpResponse:
 	if type(adding) is not dict:

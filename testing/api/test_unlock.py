@@ -1,5 +1,5 @@
-from SHIMON.api.unlock import unlock as _unlock
-from SHIMON.api.lock import lock
+from SHIMON.api.unlock import ApiUnlock
+from SHIMON.api.lock import ApiLock
 
 from testing.base import BaseTest
 from testing.util import assertHttpResponse
@@ -45,14 +45,14 @@ class TestUnlock(BaseTest):
 		self.shimon.VERSION="different version"
 
 		unlocked_html=self.unlock(self.pwd)[0].data
-		lock(self.shimon, self.pwd, False)
+		ApiLock().entry(self.shimon, self.pwd, False)
 
 		warn_html=self.shimon.session.create(
 			target="pages/warn.jinja"
 		)[0].data
 
 		self.shimon.cache.mapper["version"]=old_version
-		lock(self.shimon, self.pwd, False)
+		ApiLock().entry(self.shimon, self.pwd, False)
 
 		assert unlocked_html==warn_html
 
@@ -64,7 +64,7 @@ class TestUnlock(BaseTest):
 		)
 
 	def unlock(self, pwd: str) -> HttpResponse:
-		return _unlock(
+		return ApiUnlock().entry(
 			self.shimon,
 			pwd,
 			redirect=False

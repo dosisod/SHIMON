@@ -1,6 +1,6 @@
 import json
 
-from SHIMON.api.status import status
+from SHIMON.api.status import ApiStatus
 
 from testing.base import BaseTest
 from testing.util import assertHttpResponse
@@ -47,7 +47,7 @@ class TestStatus(BaseTest):
 			json.loads(self.status(False)[0].data)["msg"]
 
 	def status(self, redirect: bool) -> HttpResponse:
-		return status(self.shimon, None, redirect)
+		return ApiStatus().entry(self.shimon, None, redirect)
 
 	def assertStatus(self, key: str) -> None:
 		assert self.shimon.__dict__[

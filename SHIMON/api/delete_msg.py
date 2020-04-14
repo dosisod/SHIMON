@@ -1,6 +1,7 @@
 from copy import deepcopy
 
 from SHIMON.api.error import error_200, error_400, error_401
+from SHIMON.api.api_base import ApiBase
 from SHIMON.api.util import history_id
 
 from typing import Dict, TYPE_CHECKING
@@ -8,6 +9,13 @@ from SHIMON.__init__ import HttpResponse
 
 if TYPE_CHECKING:
 	from SHIMON.shimon import Shimon
+
+class ApiDeleteMsg(ApiBase):
+	def __init__(self) -> None:
+		super().__init__()
+
+	def entry(_, self: "Shimon", data: Dict, redirect: bool) -> HttpResponse:
+		return delete_msg(self, data, redirect)
 
 def delete_msg(self: "Shimon", data: Dict, redirect: bool) -> HttpResponse:
 	if type(data) is not dict:

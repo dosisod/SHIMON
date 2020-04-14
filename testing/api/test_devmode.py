@@ -1,4 +1,4 @@
-from SHIMON.api.devmode import devmode
+from SHIMON.api.devmode import ApiDevmode
 
 from testing.base import BaseTest
 from testing.util import assertHttpResponse
@@ -32,7 +32,7 @@ class TestDevmode(BaseTest):
 		)
 
 	def devmode(self, enable: bool) -> HttpResponse:
-		return devmode(
+		return ApiDevmode().entry(
 			self.shimon,
 			enable,
 			False

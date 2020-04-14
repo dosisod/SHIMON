@@ -1,6 +1,8 @@
 from SHIMON.api.toggle import Toggle
 
-fresh_css=Toggle(
-	path="SHIMON/static/css/font.css",
-	name="fresh css"
-)
+class ApiFreshCss(Toggle):
+	def __init__(self) -> None:
+		super().__init__(
+			path="SHIMON/static/css/font.css",
+			name="fresh css"
+		)

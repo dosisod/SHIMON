@@ -1,4 +1,4 @@
-from SHIMON.api.change_pwd import change_pwd
+from SHIMON.api.change_pwd import ApiChangePwd
 
 from testing.base import BaseTest
 from testing.util import assertHttpResponse
@@ -54,4 +54,4 @@ class TestChangePwd(BaseTest):
 		assert self.shimon.security.correct_pwd("new_pwd")==True
 
 	def change_pwd(self, obj: Dict) -> HttpResponse:
-		return change_pwd(self.shimon, obj, True)
+		return ApiChangePwd().entry(self.shimon, obj, True)

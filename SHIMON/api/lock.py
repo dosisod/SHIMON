@@ -1,4 +1,5 @@
 from SHIMON.renderer import render, make_response
+from SHIMON.api.api_base import ApiBase
 from SHIMON.api.error import error_400
 
 from typing import Optional, TYPE_CHECKING
@@ -6,6 +7,13 @@ from SHIMON.__init__ import HttpResponse
 
 if TYPE_CHECKING:
 	from SHIMON.shimon import Shimon
+
+class ApiLock(ApiBase):
+	def __init__(self) -> None:
+		super().__init__()
+
+	def entry(_, self: "Shimon", pwd: str, redirect: bool) -> HttpResponse:
+		return lock(self, pwd, redirect)
 
 def lock(self: "Shimon", pwd: str, redirect: bool) -> HttpResponse:
 	#dont kill session unless user will be directed to login

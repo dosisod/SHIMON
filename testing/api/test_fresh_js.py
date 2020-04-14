@@ -1,4 +1,4 @@
-from SHIMON.api.fresh_js import fresh_js
+from SHIMON.api.fresh_js import ApiFreshJs
 
 from testing.api.toggle import FreshToggle
 
@@ -9,7 +9,7 @@ class TestFreshJS(FreshToggle):
 	name="fresh js"
 
 	def func(self, enable: bool) -> HttpResponse:
-		return fresh_js(
+		return ApiFreshJs().entry(
 			self.shimon,
 			enable,
 			False

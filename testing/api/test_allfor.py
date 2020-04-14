@@ -1,4 +1,4 @@
-from SHIMON.api.allfor import allfor
+from SHIMON.api.allfor import ApiAllfor
 
 from testing.base import BaseTest
 from testing.util import assertHttpResponse
@@ -32,4 +32,4 @@ class TestAllfor(BaseTest):
 		assert raw or raw==[]
 
 	def allfor(self, id: str) -> HttpResponse:
-		return allfor(self.shimon, id, False)
+		return ApiAllfor().entry(self.shimon, id, False)

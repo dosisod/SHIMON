@@ -1,4 +1,4 @@
-from SHIMON.api.add_friend import add_friend
+from SHIMON.api.add_friend import ApiAddFriend
 
 from testing.base import BaseTest
 from testing.util import assertHttpResponse
@@ -122,4 +122,4 @@ class TestAddFriend(BaseTest):
 				break
 
 	def add_friend(self, obj: Dict) -> HttpResponse:
-		return add_friend(self.shimon, obj, False)
+		return ApiAddFriend().entry(self.shimon, obj, False)

@@ -2,8 +2,8 @@ from werkzeug.http import dump_cookie
 
 from SHIMON.app import App
 
-from SHIMON.api.unlock import unlock
-from SHIMON.api.lock import lock
+from SHIMON.api.unlock import ApiUnlock
+from SHIMON.api.lock import ApiLock
 
 from typing import Callable, Any
 
@@ -70,12 +70,12 @@ class BaseTest:
 	@staticmethod
 	def unlocked(func: Callable[..., None]) -> Callable[..., Any]:
 		def while_unlocked(self: BaseTest) -> None:
-			unlock(self.shimon, self.pwd, True)
+			ApiUnlock().entry(self.shimon, self.pwd, True)
 
 			add_data_if_cache_empty(self)
 			func(self)
 
-			lock(self.shimon, self.pwd, True)
+			ApiLock().entry(self.shimon, self.pwd, True)
 
 		return while_unlocked
 

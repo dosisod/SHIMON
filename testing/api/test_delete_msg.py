@@ -1,4 +1,4 @@
-from SHIMON.api.delete_msg import delete_msg
+from SHIMON.api.delete_msg import ApiDeleteMsg
 
 from testing.base import BaseTest
 from testing.util import assertHttpResponse
@@ -66,4 +66,4 @@ class TestDeleteMsg(BaseTest):
 		)
 
 	def delete_msg(self, obj: Dict) -> HttpResponse:
-		return delete_msg(self.shimon, obj, False)
+		return ApiDeleteMsg().entry(self.shimon, obj, False)

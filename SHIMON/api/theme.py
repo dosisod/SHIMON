@@ -1,6 +1,7 @@
 import os
 
 from SHIMON.api.error import error_202, error_400
+from SHIMON.api.api_base import ApiBase
 
 from typing import TYPE_CHECKING
 from SHIMON.__init__ import HttpResponse
@@ -8,10 +9,17 @@ from SHIMON.__init__ import HttpResponse
 if TYPE_CHECKING:
 	from SHIMON.shimon import Shimon
 
-def theme(self: "Shimon", theme: str, redirect: bool) -> HttpResponse:
-	if type(theme) is str:
+class ApiTheme(ApiBase):
+	def __init__(self) -> None:
+		super().__init__()
+
+	def entry(_, self: "Shimon", name: str, redirect: bool) -> HttpResponse:
+		return theme(self, name, redirect)
+
+def theme(self: "Shimon", name: str, redirect: bool) -> HttpResponse:
+	if type(name) is str:
 		path="SHIMON/templates/themes/"
-		dirty=os.path.abspath(path + theme)
+		dirty=os.path.abspath(path + name)
 
 		#dont allow reverse file traversal
 		if dirty.startswith(os.getcwd() + "/" + path):

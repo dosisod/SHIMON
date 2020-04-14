@@ -1,4 +1,4 @@
-from SHIMON.api.friends import friends
+from SHIMON.api.friends import ApiFriends
 
 from testing.base import BaseTest
 from testing.util import assertHttpResponse
@@ -20,4 +20,4 @@ class TestFriends(BaseTest):
 		assert self.friends()[0].json
 
 	def friends(self) -> HttpResponse:
-		return friends(self.shimon, None, False)
+		return ApiFriends().entry(self.shimon, None, False)

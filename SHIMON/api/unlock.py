@@ -1,5 +1,7 @@
 import json
 
+from SHIMON.api.api_base import ApiBase
+
 from SHIMON.renderer import render
 
 from typing import TYPE_CHECKING
@@ -7,6 +9,13 @@ from SHIMON.__init__ import HttpResponse
 
 if TYPE_CHECKING:
 	from SHIMON.shimon import Shimon
+
+class ApiUnlock(ApiBase):
+	def __init__(self) -> None:
+		super().__init__()
+
+	def entry(_, self: "Shimon", pwd: str, redirect: bool) -> HttpResponse:
+		return unlock(self, pwd, redirect)
 
 def unlock(self: "Shimon", pwd: str, redirect: bool) -> HttpResponse:
 	plain=self.storage.unlock(pwd)

@@ -1,6 +1,7 @@
 import os
 
 from SHIMON.api.error import error_200, error_400
+from SHIMON.api.api_base import ApiBase
 
 from typing import TYPE_CHECKING
 from SHIMON.__init__ import HttpResponse
@@ -8,12 +9,12 @@ from SHIMON.__init__ import HttpResponse
 if TYPE_CHECKING:
 	from SHIMON.shimon import Shimon
 
-class Toggle:
+class Toggle(ApiBase):
 	def __init__(self, path: str, name: str):
 		self.path=path
 		self.name=name
 
-	def __call__(self, shimon: "Shimon", enable: bool, _: bool) -> HttpResponse:
+	def entry(self, shimon: "Shimon", enable: bool, _: bool) -> HttpResponse:
 		if os.path.isfile(self.path):
 			shimon.cache.mapper[self.name]=enable
 			return error_200()

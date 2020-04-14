@@ -1,4 +1,4 @@
-from SHIMON.api.lock import lock
+from SHIMON.api.lock import ApiLock
 
 from testing.base import BaseTest
 from testing.util import assertHttpResponse
@@ -30,7 +30,7 @@ class TestLock(BaseTest):
 		)
 
 	def lock(self, pwd: str, redirect: bool) -> HttpResponse:
-		return lock(
+		return ApiLock().entry(
 			self.shimon,
 			pwd,
 			redirect

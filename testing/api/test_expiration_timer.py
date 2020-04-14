@@ -1,4 +1,4 @@
-from SHIMON.api.expiration_timer import expiration_timer
+from SHIMON.api.expiration_timer import ApiExpirationTimer
 
 from testing.base import BaseTest
 from testing.util import assertHttpResponse
@@ -46,4 +46,4 @@ class TestExpirationTimer(BaseTest):
 		self.shimon.session.expires=old_session_value
 
 	def expiration(self, num: str) -> HttpResponse:
-		return expiration_timer(self.shimon, num, False)
+		return ApiExpirationTimer().entry(self.shimon, num, False)

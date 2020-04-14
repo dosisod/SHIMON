@@ -1,4 +1,4 @@
-from SHIMON.api.save import save as _save
+from SHIMON.api.save import ApiSave
 
 from testing.base import BaseTest
 from testing.util import assertHttpResponse
@@ -38,4 +38,4 @@ class TestSave(BaseTest):
 		assert self.shimon.developer==old
 
 	def save(self, pwd: str) -> HttpResponse:
-		return _save(self.shimon, pwd, False)
+		return ApiSave().entry(self.shimon, pwd, False)

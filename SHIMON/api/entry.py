@@ -13,7 +13,7 @@ def api_entry(self: "Shimon", data: Dict) -> HttpResponse:
 	unlock_pwd=data.get("unlock")
 	if unlock_pwd is not None:
 		if self.cache.is_empty():
-			return unlock(self, unlock_pwd, True)
+			return ApiUnlock().entry(self, unlock_pwd, True)
 
 		else:
 			return self.index(error="Already logged in", code=301)
@@ -23,9 +23,9 @@ def api_entry(self: "Shimon", data: Dict) -> HttpResponse:
 
 	redirect=data.get("redirect", False)
 
-	for callname, func in calls.items():
+	for callname, apicall in apicalls.items():
 		if callname in data:
-			return func(
+			return apicall.entry(
 				self,
 				data[callname],
 				redirect
