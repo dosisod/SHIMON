@@ -15,5 +15,5 @@ class TestApiBase(BaseTest):
 		obj.entry(self.shimon, None, False)
 
 def test_all_api_calls() -> None:
-	for apicall in apicalls.values():
+	for apicall in apicalls:
 		assert apicall.callname

@@ -25,26 +25,24 @@ from SHIMON.api.api_base import ApiBase
 from typing import Dict, Any, Optional
 from SHIMON.__init__ import HttpResponse
 
-apicalls: Dict[str, ApiBase]={
-
-"send msg": ApiSendMsg(),
-"delete msg": ApiDeleteMsg(),
-"save": ApiSave(),
-"lock": ApiLock(),
-"change pwd": ApiChangePwd(),
-"new key": ApiNewKey(),
-"msg policy": ApiMsgPolicy(),
-"expiration timer": ApiExpirationTimer(),
-"theme": ApiTheme(),
-"devmode": ApiDevmode(),
-"nuke": ApiNuke(),
-"fresh js": ApiFreshJs(),
-"fresh css": ApiFreshCss(),
-"status": ApiStatus(),
-"ping": ApiPing(),
-"friends": ApiFriends(),
-"recent": ApiRecent(),
-"allfor": ApiAllfor(),
-"add friend": ApiAddFriend()
-
-}
+apicalls=[
+	ApiSendMsg(),
+	ApiDeleteMsg(),
+	ApiSave(),
+	ApiLock(),
+	ApiChangePwd(),
+	ApiNewKey(),
+	ApiMsgPolicy(),
+	ApiExpirationTimer(),
+	ApiTheme(),
+	ApiDevmode(),
+	ApiNuke(),
+	ApiFreshJs(),
+	ApiFreshCss(),
+	ApiStatus(),
+	ApiPing(),
+	ApiFriends(),
+	ApiRecent(),
+	ApiAllfor(),
+	ApiAddFriend()
+]

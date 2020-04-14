@@ -23,11 +23,11 @@ def api_entry(self: "Shimon", data: Dict) -> HttpResponse:
 
 	redirect=data.get("redirect", False)
 
-	for callname, apicall in apicalls.items():
-		if callname in data:
+	for apicall in apicalls:
+		if apicall.callname in data:
 			return apicall.entry(
 				self,
-				data[callname],
+				data[apicall.callname],
 				redirect
 			)
 
