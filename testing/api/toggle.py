@@ -46,6 +46,10 @@ class FreshToggle(BaseTest):
 
 		self.assertValue(False)
 
+	def test_sane_path_and_name_values(self) -> None:
+		assert self.path
+		assert self.name
+
 	def assertValue(self, value: bool) -> None:
 		assert self.shimon.__dict__[
 			self.shimon.cache.mapper.cache_names[self.name] # type: ignore

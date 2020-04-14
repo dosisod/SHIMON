@@ -10,9 +10,8 @@ if TYPE_CHECKING:
 	from SHIMON.shimon import Shimon
 
 class Toggle(ApiBase):
-	def __init__(self, path: str, name: str):
-		self.path=path
-		self.name=name
+	path=""
+	name=""
 
 	def entry(self, shimon: "Shimon", enable: bool, _: bool) -> HttpResponse:
 		if os.path.isfile(self.path):
