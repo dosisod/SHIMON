@@ -16,14 +16,11 @@ class ApiDeleteMsg(ApiBase):
 	def __init__(self) -> None:
 		super().__init__()
 
+	@ApiBase.dict_required
 	def entry(_, self: "Shimon", data: Dict, redirect: bool) -> HttpResponse:
 		return delete_msg(self, data, redirect)
 
 def delete_msg(self: "Shimon", data: Dict, redirect: bool) -> HttpResponse:
-	if type(data) is not dict:
-		#message contains illegal characters if it was unable to be parsed
-		return error_400()
-
 	pwd=data.get("pwd", "")
 	if pwd and self.msg_policy==1:
 		if not self.security.correct_pwd(pwd):

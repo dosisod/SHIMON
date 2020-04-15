@@ -17,7 +17,7 @@ class TestSendMsg(BaseTest):
 	@BaseTest.request_context
 	def test_invalid_data_returns_http_400(self) -> None:
 		assertHttpResponse(
-			ApiSendMsg().entry(self.shimon, "not valid", False), # type: ignore
+			ApiSendMsg().entry(self.shimon, "not valid", False),
 			400
 		)
 

@@ -15,14 +15,11 @@ class ApiAddFriend(ApiBase):
 	def __init__(self) -> None:
 		super().__init__()
 
+	@ApiBase.dict_required
 	def entry(_, self: "Shimon", adding: Dict, redirect: bool) -> HttpResponse:
 		return add_friend(self, adding, redirect)
 
 def add_friend(self: "Shimon", adding: Dict, redirect: bool) -> HttpResponse:
-	if type(adding) is not dict:
-		#message contains illegal characters if it was unable to be parsed
-		return error_400()
-
 	name=adding.get("name", None)
 	_id=adding.get("id", None)
 

@@ -13,14 +13,11 @@ class ApiChangePwd(ApiBase):
 	def __init__(self) -> None:
 		super().__init__()
 
+	@ApiBase.dict_required
 	def entry(_, self: "Shimon", pwds: Dict, redirect: bool) -> HttpResponse:
 		return change_pwd(self, pwds, redirect)
 
 def change_pwd(self: "Shimon", pwds: Dict, redirect: bool) -> HttpResponse:
-	if type(pwds) is not dict:
-		#message contains illegal characters if it was unable to be parsed
-		return error_400()
-
 	old=pwds.get("old", "")
 	new=pwds.get("new", "")
 
