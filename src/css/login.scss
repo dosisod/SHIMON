@@ -54,6 +54,11 @@ input {
 	color: black;
 }
 
+button[type=submit] {
+	padding: 0;
+	border: 0;
+}
+
 #pwd {
 	font-size: 20px;
 	width: calc(16vw + 5em);
