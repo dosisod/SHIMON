@@ -2,7 +2,7 @@ from SHIMON.api.api_base import ApiBase
 from SHIMON.api.api_calls import apicalls
 
 from testing.base import BaseTest
-from testing.util import assertHttpResponse
+from testing.http import assertHttpResponse
 
 class TestApiBase(BaseTest):
 	@BaseTest.request_context

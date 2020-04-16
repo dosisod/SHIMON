@@ -1,7 +1,7 @@
 from flask import request, abort, Response
 from hashlib import sha512
 
-from SHIMON.util import encode_anystr
+from SHIMON.encoding import encode_anystr
 
 from typing import AnyStr, Optional, cast, TYPE_CHECKING
 from SHIMON.__init__ import HttpResponse

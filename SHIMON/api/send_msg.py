@@ -2,7 +2,7 @@ from SHIMON.renderer import render
 
 from SHIMON.api.error import error_200, error_400
 from SHIMON.api.api_base import ApiBase
-from SHIMON.api.util import history_id
+from SHIMON.api.msg import history_id
 
 from typing import Dict, TYPE_CHECKING
 from SHIMON.__init__ import HttpResponse

@@ -3,7 +3,7 @@ import json
 from SHIMON.api.entry import api_entry
 
 from testing.base import BaseTest
-from testing.util import assertHttpResponse
+from testing.http import assertHttpResponse
 
 class TestEntry(BaseTest):
 	@BaseTest.request_context

@@ -3,7 +3,7 @@ from Cryptodome.Cipher import PKCS1_OAEP
 from Cryptodome.PublicKey import RSA
 from Cryptodome.Hash import SHA512
 
-from SHIMON.util import encode_anystr
+from SHIMON.encoding import encode_anystr
 
 from typing import AnyStr, Optional
 

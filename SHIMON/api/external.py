@@ -1,7 +1,7 @@
 from hashlib import sha256
 from copy import deepcopy
 
-from SHIMON.util import encode_anystr
+from SHIMON.encoding import encode_anystr
 
 from typing import Union, List, Dict, AnyStr, TYPE_CHECKING
 from typing_extensions import Literal

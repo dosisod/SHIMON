@@ -1,7 +1,7 @@
 from SHIMON.api.delete_msg import ApiDeleteMsg
 
 from testing.base import BaseTest
-from testing.util import assertHttpResponse
+from testing.http import assertHttpResponse
 
 from typing import Dict
 from SHIMON.__init__ import History, HttpResponse

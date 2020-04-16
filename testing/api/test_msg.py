@@ -1,4 +1,4 @@
-from SHIMON.api.util import history_id
+from SHIMON.api.msg import history_id
 
 from testing.base import BaseTest
 

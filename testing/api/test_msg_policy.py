@@ -2,7 +2,7 @@ from SHIMON.api.msg_policy import ApiMsgPolicy
 from SHIMON.api.unlock import ApiUnlock
 
 from testing.base import BaseTest
-from testing.util import assertHttpResponse
+from testing.http import assertHttpResponse
 
 from SHIMON.__init__ import HttpResponse
 

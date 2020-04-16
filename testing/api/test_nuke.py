@@ -2,7 +2,7 @@ import shutil
 
 from SHIMON.api.nuke import ApiNuke
 
-from testing.util import assertHttpResponse
+from testing.http import assertHttpResponse
 from testing.base import BaseTest
 
 class TestNuke(BaseTest):

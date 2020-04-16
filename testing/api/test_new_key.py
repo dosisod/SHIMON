@@ -1,7 +1,7 @@
 from SHIMON.api.new_key import ApiNewKey
 
 from testing.base import BaseTest
-from testing.util import assertHttpResponse
+from testing.http import assertHttpResponse
 
 from SHIMON.__init__ import HttpResponse
 
