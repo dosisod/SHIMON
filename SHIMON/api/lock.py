@@ -19,25 +19,23 @@ class ApiLock(ApiBase):
 
 def lock(self: "Shimon", pwd: str, redirect: bool) -> HttpResponse:
 	#dont kill session unless user will be directed to login
-	if redirect:
-		returned_error=self.storage.lock(pwd) # type: Optional[HttpResponse]
-
-		if returned_error: return returned_error
-
-		#clean up object states
-		self.cache.wipe()
-		self.session.kill()
-
-		res=make_response(render(
-			self,
-			"pages/login.jinja",
-			error="Cache has been locked"
-		))
-
-		res.set_cookie("uname", "", expires=0)
-		res.set_cookie("session", "", expires=0)
-
-		return res, 200
-
-	else:
+	if not redirect:
 		return error_400()
+
+	returned_error=self.storage.lock(pwd) # type: Optional[HttpResponse]
+	if returned_error: return returned_error
+
+	#clean up object states
+	self.cache.wipe()
+	self.session.kill()
+
+	res=make_response(render(
+		self,
+		"pages/login.jinja",
+		error="Cache has been locked"
+	))
+
+	res.set_cookie("uname", "", expires=0)
+	res.set_cookie("session", "", expires=0)
+
+	return res, 200

@@ -21,14 +21,14 @@ class ApiNewKey(ApiBase):
 		return new_key(self, pwd, redirect)
 
 def new_key(self: "Shimon", pwd: str, redirect: bool) -> HttpResponse:
-	if self.security.correct_pwd(pwd):
-		self.cache["key"]=b64.b64encode(
-			Kee(2048).private()
-		).decode()
+	if not self.security.correct_pwd(pwd):
+		return self.index(error="Invalid Password", code=401)
 
-		#makes sure changes are saved
-		self.storage.lock(pwd)
+	self.cache["key"]=b64.b64encode(
+		Kee(2048).private()
+	).decode()
 
-		return self.index()
+	#makes sure changes are saved
+	self.storage.lock(pwd)
 
-	return self.index(error="Invalid Password", code=401)
+	return self.index()

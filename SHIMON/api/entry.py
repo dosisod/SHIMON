@@ -15,8 +15,7 @@ def api_entry(self: "Shimon", data: Dict) -> HttpResponse:
 		if self.cache.is_empty():
 			return ApiUnlock().entry(self, unlock_pwd, True)
 
-		else:
-			return self.index(error="Already logged in", code=301)
+		return self.index(error="Already logged in", code=301)
 
 	ret=self.security.check_all() # type: Optional[HttpResponse]
 	if ret: return ret

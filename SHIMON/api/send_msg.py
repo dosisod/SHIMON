@@ -29,13 +29,13 @@ def send_msg(self: "Shimon", sending: Dict, redirect: bool) -> HttpResponse:
 
 	index=history_id(self, uname)
 
-	if index >= 0:
-		self.cache["history"][index]["msgs"].append({
-			"sending": True,
-			"msg": msg
-		})
+	if index < 0:
+		return error_400()
 
-		self.redraw=True
-		return error_200()
+	self.cache["history"][index]["msgs"].append({
+		"sending": True,
+		"msg": msg
+	})
 
-	return error_400()
+	self.redraw=True
+	return error_200()

@@ -42,36 +42,34 @@ def unlock(self: "Shimon", pwd: str, redirect: bool) -> HttpResponse:
 			self.cache["version"]=self.VERSION
 			return self.session.create()
 
+	self.login_limiter.attempts+=1
+
+	if self.login_limiter.in_cooldown():
+		return render(
+			self,
+			"pages/login.jinja",
+			error=f"Try again in {self.login_limiter.time_to_wait()} seconds"
+		), 401
+
 	else:
-		self.login_limiter.attempts+=1
+		self.login_limiter.stop_cooldown()
 
-		if self.login_limiter.in_cooldown():
-			return render(
-				self,
-				"pages/login.jinja",
-				error=f"Try again in {self.login_limiter.time_to_wait()} seconds"
-			), 401
+	if self.login_limiter.exceeded_max():
+		self.login_limiter.start_cooldown()
 
-		else:
-			self.login_limiter.stop_cooldown()
+		return render(
+			self,
+			"pages/login.jinja",
+			error=f"Try again in {self.login_limiter.cooldown_duration} seconds"
+		), 401
 
-		if self.login_limiter.exceeded_max():
-			self.login_limiter.start_cooldown()
+	elif plain=="{}":
+		self.login_limiter.reset()
+		self.storage.resetCache()
+		return self.session.create()
 
-			return render(
-				self,
-				"pages/login.jinja",
-				error=f"Try again in {self.login_limiter.cooldown_duration} seconds"
-			), 401
-
-		elif plain=="{}":
-			self.login_limiter.reset()
-			self.storage.resetCache()
-			return self.session.create()
-
-		else:
-			return render(
-				self,
-				"pages/login.jinja",
-				error="Incorrect password"
-			), 401
+	return render(
+		self,
+		"pages/login.jinja",
+		error="Incorrect password"
+	), 401

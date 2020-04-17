@@ -18,6 +18,5 @@ class Toggle(ApiBase):
 			shimon.cache.mapper[self.name]=enable
 			return error_200()
 
-		else:
-			shimon.cache.mapper[self.name]=False
-			return error_400("Missing required file(s)")
+		shimon.cache.mapper[self.name]=False
+		return error_400("Missing required file(s)")

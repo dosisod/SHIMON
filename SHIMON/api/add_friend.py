@@ -24,24 +24,24 @@ def add_friend(self: "Shimon", adding: Dict, redirect: bool) -> HttpResponse:
 	_id=adding.get("id", None)
 
 	#make sure that name and id are valid
-	if name and _id and re.search("^[a-zA-z0-9]+$", _id):
-		#make sure id is not already taken
-		for friend in self.cache["friends"]:
-			if friend["id"]==_id:
-				return self.index(error="Friend already exists", code=400)
+	if not name or not _id or not re.search("^[a-zA-z0-9]+$", _id):
+		return self.index(error="Invalid Request", code=400)
 
-		#only append the names and ids, dont let user add extra data
-		self.cache["friends"].append({
-			"id": _id,
-			"name": name
-		})
+	#make sure id is not already taken
+	for friend in self.cache["friends"]:
+		if friend["id"]==_id:
+			return self.index(error="Friend already exists", code=400)
 
-		#add blank msg history to cache history
-		self.cache["history"].append({
-			"id": _id,
-			"msgs": []
-		})
+	#only append the names and ids, dont let user add extra data
+	self.cache["friends"].append({
+		"id": _id,
+		"name": name
+	})
 
-		return self.index()
+	#add blank msg history to cache history
+	self.cache["history"].append({
+		"id": _id,
+		"msgs": []
+	})
 
-	return self.index(error="Invalid Request", code=400)
+	return self.index()

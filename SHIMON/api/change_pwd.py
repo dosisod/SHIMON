@@ -21,12 +21,11 @@ def change_pwd(self: "Shimon", pwds: Dict, redirect: bool) -> HttpResponse:
 	old=pwds.get("old", "")
 	new=pwds.get("new", "")
 
-	if old and new:
-		success=self.security.update_pwd(old, new)
-		if not success:
-			return error_401("Password could not be updated", redirect)
-
-		return error_202()
-
-	else:
+	if not old or not new:
 		return error_400()
+
+	success=self.security.update_pwd(old, new)
+	if not success:
+		return error_401("Password could not be updated", redirect)
+
+	return error_202()
