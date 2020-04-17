@@ -8,6 +8,7 @@ import os
 from SHIMON.api.external import api_recent, api_friends, api_allfor
 from SHIMON.renderer import render, make_response
 from SHIMON.cache_map import CacheMapper
+from SHIMON.api.error import http_codes
 from SHIMON.api.entry import api_entry
 from SHIMON.login import LoginLimiter
 from SHIMON.security import Security
@@ -59,33 +60,24 @@ class Shimon:
 		self.msg_policy=0
 
 	def error(self, ex: Union[int, Exception]) -> HttpResponse:
-		codes={
-			301: "Moved Permanently",
-			400: "Invalid Request",
-			401: "Unauthorized",
-			403: "Forbidden",
-			404: "Not Found",
-			500: "Server Error"
-		}
-
 		return_code=500
 		msg=""
 
 		if isinstance(ex, HTTPException):
 			return_code=ex.code or 500
-			msg=codes.get(return_code, "")
+			msg=http_codes.get(return_code, "")
 
 		elif isinstance(ex, int):
 			code=ex
 
 			#client can only set certain http codes
 			if 300 <= code <= 417:
-				msg=codes.get(code, "")
+				msg=http_codes.get(code, "")
 				return_code=code
 
 			else:
 				return_code=400
-				msg=codes[400]
+				msg=http_codes[400]
 
 		tb=""
 		if isinstance(ex, BaseException) and self.developer:
