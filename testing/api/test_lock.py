@@ -22,6 +22,15 @@ class TestLock(BaseTest):
 		)
 
 	@BaseTest.request_context
+	def test_non_str_input_returns_http_400(self) -> None:
+		not_a_str=123
+
+		assertHttpResponse(
+			self.lock(not_a_str, True), # type: ignore
+			400
+		)
+
+	@BaseTest.request_context
 	@BaseTest.unlocked
 	def test_not_redirecting_returns_http_400(self) -> None:
 		assertHttpResponse(

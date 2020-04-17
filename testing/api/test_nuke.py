@@ -44,3 +44,12 @@ class TestNuke(BaseTest):
 		)
 
 		assert self.shimon.cache["key"]!=old_key
+
+	@BaseTest.request_context
+	def test_non_str_input_returns_http_400(self) -> None:
+		not_a_str=123
+
+		assertHttpResponse(
+			ApiNuke().entry(self.shimon, not_a_str, False),
+			code=400
+		)

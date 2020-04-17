@@ -48,6 +48,16 @@ class TestTheme(BaseTest):
 			400
 		)
 
+	@BaseTest.request_context
+	def test_non_str_input_returns_http_400(self) -> None:
+		self.reset()
+		not_a_str=123
+
+		assertHttpResponse(
+			self.theme(not_a_str), # type: ignore
+			400
+		)
+
 	def reset(self) -> None:
 		self.shimon.cache.mapper["theme"]="auto"
 

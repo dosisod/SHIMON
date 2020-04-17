@@ -14,6 +14,7 @@ class ApiLock(ApiBase):
 	def __init__(self) -> None:
 		super().__init__()
 
+	@ApiBase.str_required
 	def entry(_, self: "Shimon", pwd: str, redirect: bool) -> HttpResponse:
 		return lock(self, pwd, redirect)
 

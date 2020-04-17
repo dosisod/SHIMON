@@ -37,5 +37,14 @@ class TestSave(BaseTest):
 		assert self.shimon.session.expires is not -1
 		assert self.shimon.developer==old
 
+	@BaseTest.request_context
+	def test_non_str_input_returns_http_400(self) -> None:
+		not_a_str=123
+
+		assertHttpResponse(
+			self.save(not_a_str), # type: ignore
+			400
+		)
+
 	def save(self, pwd: str) -> HttpResponse:
 		return ApiSave().entry(self.shimon, pwd, False)

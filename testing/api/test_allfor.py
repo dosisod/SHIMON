@@ -24,6 +24,15 @@ class TestAllfor(BaseTest):
 		)
 
 	@BaseTest.request_context
+	def test_non_str_input_returns_http_400(self) -> None:
+		not_a_string=123
+
+		assertHttpResponse(
+			self.allfor(not_a_string), # type: ignore
+			400
+		)
+
+	@BaseTest.request_context
 	@BaseTest.unlocked
 	def test_always_will_return_data(self) -> None:
 		user=self.shimon.cache["friends"][0]

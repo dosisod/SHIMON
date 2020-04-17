@@ -17,6 +17,7 @@ class ApiNewKey(ApiBase):
 	def __init__(self) -> None:
 		super().__init__()
 
+	@ApiBase.str_required
 	def entry(_, self: "Shimon", pwd: str, redirect: bool) -> HttpResponse:
 		return new_key(self, pwd, redirect)
 

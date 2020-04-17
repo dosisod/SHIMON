@@ -15,19 +15,19 @@ class ApiTheme(ApiBase):
 	def __init__(self) -> None:
 		super().__init__()
 
+	@ApiBase.str_required
 	def entry(_, self: "Shimon", name: str, redirect: bool) -> HttpResponse:
 		return theme(self, name, redirect)
 
 def theme(self: "Shimon", name: str, redirect: bool) -> HttpResponse:
-	if type(name) is str:
-		path="SHIMON/templates/themes/"
-		dirty=os.path.abspath(path + name)
+	path="SHIMON/templates/themes/"
+	dirty=os.path.abspath(path + name)
 
-		#dont allow reverse file traversal
-		if dirty.startswith(os.getcwd() + "/" + path):
-			if os.path.isfile(f"{dirty}.css"):
-				self.cache.mapper["theme"]=dirty.split("/")[-1]
+	#dont allow reverse file traversal
+	if dirty.startswith(os.getcwd() + "/" + path):
+		if os.path.isfile(f"{dirty}.css"):
+			self.cache.mapper["theme"]=dirty.split("/")[-1]
 
-				return error_202()
+			return error_202()
 
 	return error_400()

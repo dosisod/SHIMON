@@ -45,5 +45,14 @@ class TestNewKey(BaseTest):
 
 		assert self.shimon.cache["key"]!=old_key
 
+	@BaseTest.request_context
+	def test_non_str_input_returns_http_400(self) -> None:
+		not_a_string=123
+
+		assertHttpResponse(
+			self.new_key(not_a_string), # type: ignore
+			400
+		)
+
 	def new_key(self, pwd: str) -> HttpResponse:
 		return ApiNewKey().entry(self.shimon, pwd, False)

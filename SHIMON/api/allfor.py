@@ -14,6 +14,7 @@ class ApiAllfor(ApiBase):
 	def __init__(self) -> None:
 		super().__init__()
 
+	@ApiBase.str_required
 	def entry(_, self: "Shimon", user: str, redirect: bool) -> HttpResponse:
 		return allfor(self, user, redirect)
 
