@@ -34,3 +34,20 @@ class ApiBase:
 		def make_dec(self: ApiBase, *args: Any, **kwargs: Any) -> HttpResponse:
 			return make_required(self, str, func, *args, **kwargs)
 		return make_dec
+
+	@staticmethod
+	def bool_required(func: HttpCall) -> HttpCall:
+		def make_dec(self: ApiBase, *args: Any, **kwargs: Any) -> HttpResponse:
+			return make_required(self, bool, func, *args, **kwargs)
+		return make_dec
+
+	@staticmethod
+	def int_str_required(func: HttpCall) -> HttpCall:
+		def make_dec(self: ApiBase, *args: Any, **kwargs: Any) -> HttpResponse:
+			if type(args[1]) is str and args[1].isdigit():
+				return func(self, *args, **kwargs)
+
+			else:
+				return error_400()
+
+		return make_dec

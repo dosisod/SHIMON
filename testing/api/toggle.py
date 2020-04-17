@@ -46,6 +46,15 @@ class FreshToggle(BaseTest):
 
 		self.assertValue(False)
 
+	@BaseTest.request_context
+	def test_non_bool_input_returns_http_400(self) -> None:
+		not_a_bool=123
+
+		assertHttpResponse(
+			self.func(not_a_bool), # type: ignore
+			400
+		)
+
 	def test_sane_path_and_name_values(self) -> None:
 		assert self.path
 		assert self.name

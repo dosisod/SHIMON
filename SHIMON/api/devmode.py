@@ -13,6 +13,7 @@ class ApiDevmode(ApiBase):
 	def __init__(self) -> None:
 		super().__init__()
 
+	@ApiBase.bool_required
 	def entry(_, self: "Shimon", enable: bool, redirect: bool) -> HttpResponse:
 		return devmode(self, enable, redirect)
 

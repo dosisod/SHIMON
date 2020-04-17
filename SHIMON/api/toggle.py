@@ -13,6 +13,7 @@ class Toggle(ApiBase):
 	path=""
 	name=""
 
+	@ApiBase.bool_required
 	def entry(self, shimon: "Shimon", enable: bool, _: bool) -> HttpResponse:
 		if os.path.isfile(self.path):
 			shimon.cache.mapper[self.name]=enable

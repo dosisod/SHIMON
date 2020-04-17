@@ -13,15 +13,15 @@ class ApiExpirationTimer(ApiBase):
 	def __init__(self) -> None:
 		super().__init__()
 
+	@ApiBase.int_str_required
 	def entry(_, self: "Shimon", data: str, redirect: bool) -> HttpResponse:
 		return expiration_timer(self, data, redirect)
 
 def expiration_timer(self: "Shimon", data: str, redirect: bool) -> HttpResponse:
-	if data.isdigit():
-		seconds=int(data)
-		if 900 <= seconds <= 86400:
-			self.cache.mapper["expiration"]=seconds
+	seconds=int(data)
+	if 900 <= seconds <= 86400:
+		self.cache.mapper["expiration"]=seconds
 
-			return error_202()
+		return error_202()
 
 	return error_400()
