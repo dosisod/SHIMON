@@ -17,17 +17,22 @@ def api_entry(self: "Shimon", data: Dict) -> HttpResponse:
 
 		return self.index(error="Already logged in", code=301)
 
-	ret=self.security.check_all() # type: Optional[HttpResponse]
-	if ret: return ret
-
 	redirect=data.get("redirect", False)
+
+	unlock_error=self.security.check_all() # type: Optional[HttpResponse]
 
 	for apicall in apicalls:
 		if apicall.callname in data:
+			if apicall.unlock_required and unlock_error:
+				return unlock_error
+
 			return apicall.entry(
 				self,
 				data[apicall.callname],
 				redirect
 			)
+
+	if unlock_error:
+		return unlock_error
 
 	return error_400(redirect=redirect)

@@ -16,6 +16,7 @@ def make_required(self: "ApiBase", requested_type: Type, func: HttpCall, *args: 
 
 class ApiBase:
 	callname=""
+	unlock_required=True
 
 	def __init__(self) -> None:
 		pass

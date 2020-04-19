@@ -46,6 +46,6 @@ class TestEntry(BaseTest):
 	@BaseTest.allow_local
 	def test_invalid_session_returns_http_401(self) -> None:
 		assertHttpResponse(
-			api_entry(self.shimon, {"ping": ""}),
+			api_entry(self.shimon, {"not a call": ""}),
 			401
 		)

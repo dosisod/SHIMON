@@ -9,6 +9,7 @@ if TYPE_CHECKING:
 
 class ApiStatus(ApiBase):
 	callname="status"
+	unlock_required=False
 
 	def __init__(self) -> None:
 		super().__init__()

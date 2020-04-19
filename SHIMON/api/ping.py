@@ -9,6 +9,7 @@ if TYPE_CHECKING:
 
 class ApiPing(ApiBase):
 	callname="ping"
+	unlock_required=False
 
 	def __init__(self) -> None:
 		super().__init__()
