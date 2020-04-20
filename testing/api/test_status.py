@@ -46,6 +46,10 @@ class TestStatus(BaseTest):
 		assert self.status(True)[0].json== \
 			json.loads(self.status(False)[0].data)["msg"]
 
+	@BaseTest.request_context
+	def test_msg_policy_is_none_when_locked(self) -> None:
+		assert self.status(True)[0].json["msg policy"] is None
+
 	def status(self, redirect: bool) -> HttpResponse:
 		return ApiStatus().entry(self.shimon, None, redirect)
 

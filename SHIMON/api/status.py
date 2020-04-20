@@ -19,9 +19,11 @@ class ApiStatus(ApiBase):
 
 
 def status(self: "Shimon", _: None, redirect: bool) -> HttpResponse:
+	unlocked=not self.cache.is_empty()
+
 	return error_200({
 		"version": self.VERSION,
-		"unlocked": not self.cache.is_empty(),
+		"unlocked": unlocked,
 		"developer": self.developer,
-		"msg policy": self.msg_policy
+		"msg policy": self.msg_policy if unlocked else None
 	}, redirect)
