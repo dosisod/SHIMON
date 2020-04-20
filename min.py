@@ -77,7 +77,7 @@ if not skipping:
 	print("\nminifying CSS")
 
 	with open(BUNDLE_CSS, "rb+") as f:
-		for filename in files("src/css/", ignore=["bundle.css", "login.scss"], fullpath=True):
+		for filename in files("src/css/", ignore=["bundle.css", "login.scss", "_screen.scss"], fullpath=True):
 			print("  " + filename.split("/")[-1])
 			f.write(sass(filename))
 
