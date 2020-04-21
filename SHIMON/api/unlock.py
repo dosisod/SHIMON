@@ -18,7 +18,10 @@ class ApiUnlock(ApiBase):
 
 	@ApiBase.str_required
 	def entry(_, self: "Shimon", pwd: str, redirect: bool) -> HttpResponse:
-		return unlock(self, pwd, redirect)
+		if self.cache.is_empty():
+			return unlock(self, pwd, redirect)
+
+		return self.index(error="Already logged in", code=301)
 
 def unlock(self: "Shimon", pwd: str, redirect: bool) -> HttpResponse:
 	plain=self.storage.unlock(pwd)

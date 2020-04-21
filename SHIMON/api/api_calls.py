@@ -26,6 +26,7 @@ from typing import Dict, Any, Optional
 from SHIMON.__init__ import HttpResponse
 
 apicalls=[
+	ApiUnlock(),
 	ApiSendMsg(),
 	ApiDeleteMsg(),
 	ApiSave(),

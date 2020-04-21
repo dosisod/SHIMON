@@ -10,15 +10,7 @@ if TYPE_CHECKING:
 	from SHIMON.shimon import Shimon
 
 def api_entry(self: "Shimon", data: Dict) -> HttpResponse:
-	unlock_pwd=data.get("unlock")
-	if unlock_pwd is not None:
-		if self.cache.is_empty():
-			return ApiUnlock().entry(self, unlock_pwd, True)
-
-		return self.index(error="Already logged in", code=301)
-
 	redirect=data.get("redirect", False)
-
 	unlock_error=self.security.check_all() # type: Optional[HttpResponse]
 
 	for apicall in apicalls:

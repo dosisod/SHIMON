@@ -1,4 +1,4 @@
-from SHIMON.api.unlock import ApiUnlock
+from SHIMON.api.unlock import ApiUnlock, unlock
 from SHIMON.api.lock import ApiLock
 
 from testing.base import BaseTest
@@ -68,12 +68,12 @@ class TestUnlock(BaseTest):
 		not_a_str=123
 
 		assertHttpResponse(
-			self.unlock(not_a_str), # type: ignore
+			ApiUnlock().entry(self.shimon, not_a_str, False),
 			400
 		)
 
 	def unlock(self, pwd: str) -> HttpResponse:
-		return ApiUnlock().entry(
+		return unlock(
 			self.shimon,
 			pwd,
 			redirect=False
