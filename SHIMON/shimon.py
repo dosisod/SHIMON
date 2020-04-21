@@ -104,8 +104,15 @@ class Shimon:
 
 		had_error=self.security.check_session()
 
-		if self.cache.is_empty() or had_error:
+		if self.cache.is_empty():
 			return render(self, "pages/login.jinja"), 401
+
+		elif had_error:
+			return render(
+				self,
+				"pages/login.jinja",
+				error="Invalid session"
+			), 401
 
 		res=make_response(render(
 			self,
