@@ -28,20 +28,14 @@ def add_friend(self: "Shimon", adding: Dict, redirect: bool) -> HttpResponse:
 		return self.index(error="Invalid Request", code=400)
 
 	#make sure id is not already taken
-	for friend in self.cache["friends"]:
+	for friend in self.cache["history"]:
 		if friend["id"]==_id:
 			return self.index(error="Friend already exists", code=400)
 
-	#only append the names and ids, dont let user add extra data
-	self.cache["friends"].append({
-		"id": _id,
-		"name": name
-	})
-
-	#add blank msg history to cache history
 	self.cache["history"].append({
 		"id": _id,
-		"msgs": []
+		"msgs": [],
+		"name": name
 	})
 
 	return self.index()

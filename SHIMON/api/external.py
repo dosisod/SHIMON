@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 	from SHIMON.shimon import Shimon
 
 def api_friends(self: "Shimon") -> List:
-	friends: List=deepcopy(self.cache["friends"])
+	friends: List=deepcopy(self.cache["history"])
 	for friend in friends:
 		friend["hash"]=sha256hex(friend["id"])
 

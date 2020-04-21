@@ -8,12 +8,12 @@ class TestApiFriends(BaseTest):
 	@BaseTest.request_context
 	@BaseTest.unlocked
 	def test_hash_is_not_added_to_cache(self) -> None:
-		for friend in self.shimon.cache["friends"]:
+		for friend in self.shimon.cache["history"]:
 			assert "hash" not in friend
 
 		api_friends(self.shimon)
 
-		for friend in self.shimon.cache["friends"]:
+		for friend in self.shimon.cache["history"]:
 			assert "hash" not in friend
 
 class TestApiRecent(BaseTest):
@@ -40,7 +40,7 @@ class TestApiAllfor(BaseTest):
 	@BaseTest.request_context
 	@BaseTest.unlocked
 	def setup_class(self) -> None:
-		self.user=self.shimon.cache["friends"][0]
+		self.user=self.shimon.cache["history"][0]
 
 	@BaseTest.request_context
 	@BaseTest.unlocked

@@ -128,7 +128,6 @@ class Storage:
 	def resetCache(self) -> None:
 		#fill cache with default values
 		self.shimon.cache.load({
-			"friends": [],
 			"history": [],
 
 			#hash for "123", can be changed in settings

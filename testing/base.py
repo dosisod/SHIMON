@@ -8,24 +8,15 @@ from SHIMON.api.lock import ApiLock
 from typing import Callable, Any
 
 def add_data_if_cache_empty(self: "BaseTest") -> None:
-	if len(self.shimon.cache["friends"]) > 0:
-		return
-
-	if len(self.shimon.cache["history"]) > 0:
-		return
-
-	self.shimon.cache["history"].append({
-		"id": self.default_uuid,
-		"msgs": [{
-				"sending": True,
-				"msg": "test msg"
-		}]
-	})
-
-	self.shimon.cache["friends"].append({
-		"id": self.default_uuid,
-		"name": self.default_name
-	})
+	if len(self.shimon.cache["history"]) == 0:
+		self.shimon.cache["history"].append({
+			"id": self.default_uuid,
+			"name": self.default_name,
+			"msgs": [{
+					"sending": True,
+					"msg": "test msg"
+			}]
+		})
 
 class BaseTest:
 	pwd="123" # nosec

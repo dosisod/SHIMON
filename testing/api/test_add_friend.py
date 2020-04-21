@@ -63,13 +63,13 @@ class TestAddFriend(BaseTest):
 	def test_adding_new_friend_actually_adds_them(self) -> None:
 		self.remove_tmp_friend()
 
-		friends=len(self.shimon.cache["friends"])
+		friends=len(self.shimon.cache["history"])
 		self.add_friend({
 			"name": "whatever",
 			"id": "testAdd"
 		})
 
-		assert len(self.shimon.cache["friends"])==friends + 1
+		assert len(self.shimon.cache["history"])==friends + 1
 
 		self.remove_tmp_friend()
 
@@ -111,13 +111,8 @@ class TestAddFriend(BaseTest):
 		check(self, "bad!")
 
 	def remove_tmp_friend(self) -> None:
-		for i, friend in enumerate(self.shimon.cache["friends"]):
+		for i, friend in enumerate(self.shimon.cache["history"]):
 			if friend["id"]=="testAdd":
-				del self.shimon.cache["friends"][i]
-				break
-
-		for i, history in enumerate(self.shimon.cache["history"]):
-			if history["id"]=="testAdd":
 				del self.shimon.cache["history"][i]
 				break
 

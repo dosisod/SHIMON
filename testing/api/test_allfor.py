@@ -9,7 +9,7 @@ class TestAllfor(BaseTest):
 	@BaseTest.request_context
 	@BaseTest.unlocked
 	def test_valid_id_always_returns_http_200(self) -> None:
-		user=self.shimon.cache["friends"][0]
+		user=self.shimon.cache["history"][0]
 		assertHttpResponse(
 			self.allfor(user["id"]),
 			200
@@ -35,7 +35,7 @@ class TestAllfor(BaseTest):
 	@BaseTest.request_context
 	@BaseTest.unlocked
 	def test_always_will_return_data(self) -> None:
-		user=self.shimon.cache["friends"][0]
+		user=self.shimon.cache["history"][0]
 
 		raw=self.allfor(user["id"])[0].json
 		assert raw or raw==[]

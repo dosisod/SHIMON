@@ -165,7 +165,7 @@ class Shimon:
 			return ret
 
 		#make sure requested user is in friends list
-		for friend in self.cache["friends"]:
+		for friend in self.cache["history"]:
 			if friend["id"]==uuid:
 				self.redraw=True
 
