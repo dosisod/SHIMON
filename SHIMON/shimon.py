@@ -161,27 +161,27 @@ class Shimon:
 
 	def msg(self, uuid: str) -> HttpResponse:
 		ret=self.security.check_all()
-		if ret:
-			return ret
+		if ret: return ret
 
-		#make sure requested user is in friends list
 		for friend in self.cache["history"]:
 			if friend["id"]==uuid:
-				self.redraw=True
+				break
+		else:
+			abort(404)
 
-				res=make_response(render(
-					self,
-					"pages/msg.jinja",
-					preload=json.dumps(api_allfor(self, uuid)),
-					friends=json.dumps(api_friends(self))
-				))
-				res.set_cookie("uname", uuid)
+		self.redraw=True
 
-				self.redraw=True
+		res=make_response(render(
+			self,
+			"pages/msg.jinja",
+			preload=json.dumps(api_allfor(self, uuid)),
+			friends=json.dumps(api_friends(self))
+		))
+		res.set_cookie("uname", uuid)
 
-				return res, 200
+		self.redraw=True
 
-		abort(404)
+		return res, 200
 
 	def add(self) -> HttpResponse:
 		ret=self.security.check_all()

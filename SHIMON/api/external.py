@@ -23,17 +23,11 @@ def api_recent(self: "Shimon") -> List:
 		recent_user={
 			"id": user["id"],
 			"hash": sha256hex(user["id"]),
-		}
-
-		if len(user["msgs"]) > 0:
-			recent_user["msgs"]=[user["msgs"][-1]]
-
-		else:
-			#if this is a new user, use blank message
-			recent_user["msgs"]=[{
+			"msgs": [user["msgs"][-1] if len(user["msgs"]) > 0 else {
 				"sending": False,
 				"msg": ""
 			}]
+		}
 
 		recent.append(recent_user)
 
@@ -46,17 +40,16 @@ def api_allfor(self: "Shimon", id: str) -> Union[List, Dict, Literal[False]]:
 	else:
 		return False
 
-	if self.redraw:
-		self.redraw=False
+	if not self.redraw:
+		return []
 
-		return {
-			"id": user["id"],
-			"msgs": user["msgs"],
-			"hash": sha256hex(user["id"])
-		}
+	self.redraw=False
 
-	#dont return data if we shouldnt redraw
-	return []
+	return {
+		"id": user["id"],
+		"msgs": user["msgs"],
+		"hash": sha256hex(user["id"])
+	}
 
 def sha256hex(data: AnyStr) -> str:
 	return sha256(encode_anystr(data)).hexdigest()
