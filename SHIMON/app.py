@@ -24,7 +24,10 @@ class App:
 		@self.app.route("/")
 		@self.app.route("/@<uuid>")
 		def index(uuid: str="") -> HttpResponse:
-			return self.shimon.index(uuid=uuid)
+			if uuid:
+				return self.shimon.msg(uuid)
+
+			return self.shimon.index()
 
 		@self.app.route("/settings")
 		def settings() -> HttpResponse:

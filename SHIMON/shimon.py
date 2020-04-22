@@ -92,11 +92,8 @@ class Shimon:
 			msg=msg
 		), return_code
 
-	def index(self, error: str="", uuid: str="", code: int=200) -> HttpResponse:
+	def index(self, error: str="", code: int=200) -> HttpResponse:
 		self.security.check_local()
-
-		if uuid:
-			return self.msg(uuid)
 
 		if not self.storage.cache_file_exists():
 			self.storage.resetCache()
