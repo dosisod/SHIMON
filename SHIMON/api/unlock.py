@@ -12,6 +12,7 @@ if TYPE_CHECKING:
 
 class ApiUnlock(ApiBase):
 	callname="unlock"
+	unlock_required=False
 
 	def __init__(self) -> None:
 		super().__init__()

@@ -1,4 +1,5 @@
 from SHIMON.api.unlock import ApiUnlock, unlock
+from SHIMON.api.entry import api_entry
 from SHIMON.api.lock import ApiLock
 
 from testing.base import BaseTest
@@ -70,6 +71,17 @@ class TestUnlock(BaseTest):
 		assertHttpResponse(
 			ApiUnlock().entry(self.shimon, not_a_str, False),
 			400
+		)
+
+	@BaseTest.request_context
+	@BaseTest.allow_local
+	def test_unlock_via_entry_works(self) -> None:
+		# clear the cache as if we had locked and are re-opening
+		self.shimon.cache.wipe()
+
+		assertHttpResponse(
+			api_entry(self.shimon, {"unlock": self.pwd}),
+			200
 		)
 
 	def unlock(self, pwd: str) -> HttpResponse:
