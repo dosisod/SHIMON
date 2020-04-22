@@ -1,4 +1,4 @@
-import os
+from pathlib import Path
 
 from testing.base import BaseTest
 
@@ -24,7 +24,7 @@ class TestStorage(BaseTest):
 		cache=self.shimon.storage.filepath
 
 		#manually set to chmod 777
-		os.chmod(cache, 0o777) # nosec
+		Path(cache).chmod(0o777) # nosec
 
 		@BaseTest.unlocked
 		def lock(self: TestStorage) -> None:
@@ -33,7 +33,7 @@ class TestStorage(BaseTest):
 		lock(self)
 
 		#make sure file is changed to chmod 600
-		assert (os.stat(cache).st_mode & 0o777) == 0o600
+		assert (Path(cache).stat().st_mode & 0o777) == 0o600
 
 	@BaseTest.request_context
 	def test_reset_cache_actually_resets(self) -> None:

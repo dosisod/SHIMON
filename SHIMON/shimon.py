@@ -1,9 +1,9 @@
 from flask import Flask, request, abort, Response
 from werkzeug.exceptions import HTTPException
 from datetime import datetime, timedelta
+from pathlib import Path
 import traceback
 import json
-import os
 
 from SHIMON.api.external import api_recent, api_friends, api_allfor
 from SHIMON.renderer import render, make_response
@@ -118,10 +118,10 @@ class Shimon:
 
 		themes=[]
 
-		theme_folder=os.getcwd() + "/SHIMON/templates/themes/"
-		for filename in os.listdir(theme_folder):
-			if os.path.isfile(theme_folder + filename) and filename.endswith(".css"):
-				themes.append((filename[:-4],) * 2)
+		theme_folder=Path("SHIMON/templates/themes/").resolve()
+		for theme in theme_folder.iterdir():
+			if Path(theme).is_file() and theme.name.endswith(".css"):
+				themes.append((theme.name[:-4],) * 2)
 
 		return render(self, "pages/settings.jinja",
 			seconds=self.session.expires,

@@ -1,6 +1,5 @@
 from pathlib import Path
 import shutil
-import os
 
 from testing.base import BaseTest
 from testing.http import assertHttpResponse
@@ -69,7 +68,7 @@ class FreshToggle(BaseTest):
 	def run_without_fresh_file(self) -> HttpResponse:
 		self.shimon.cache.mapper[self.name]=False
 
-		if os.path.isfile(self.path):
+		if Path(self.path).is_file():
 			backup_file=f"{self.path}.bak"
 
 			shutil.move(self.path, backup_file)
@@ -84,10 +83,10 @@ class FreshToggle(BaseTest):
 	def run_with_fresh_file(self) -> HttpResponse:
 		self.shimon.cache.mapper[self.name]=False
 
-		if not os.path.isfile(self.path):
+		if not Path(self.path).is_file():
 			Path(self.path).touch()
 			ret=self.func(True)
-			os.remove(self.path)
+			Path(self.path).unlink()
 
 		else:
 			ret=self.func(True)

@@ -1,8 +1,8 @@
 from flask import Response
+from pathlib import Path
 import base64 as b64
 import gnupg as gpg # type: ignore
 import json
-import os
 
 from SHIMON.api.error import error, error_401
 from SHIMON.renderer import render
@@ -49,7 +49,7 @@ class Storage:
 		return None
 
 	def cache_file_exists(self, filepath: str="") -> bool:
-		return os.path.isfile(filepath if filepath else self.filepath)
+		return Path(filepath if filepath else self.filepath).is_file()
 
 	def lock(self, pwd: str) -> Optional[HttpResponse]:
 		error_status=self.attempt_lock(pwd)
@@ -118,7 +118,7 @@ class Storage:
 		)
 
 		#ensure only the current user can access the file
-		os.chmod(filepath, 0o600)
+		Path(filepath).chmod(0o600)
 
 	def resetCache(self) -> None:
 		#fill cache with default values

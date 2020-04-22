@@ -1,7 +1,7 @@
+from pathlib import Path
 import subprocess
 import shutil
 import sys
-import os
 
 from typing import List, Iterator, Union, Optional
 
@@ -15,9 +15,11 @@ def clear(filename: Union[str, List[str]]) -> None:
 			f.write("")
 
 def files(path: str, ignore: List=[], fullpath: bool=False) -> Iterator[str]:
-	for filename in os.listdir(path):
-		if filename not in ignore and not filename.endswith(".swp"):
-			yield (path + filename) if fullpath else filename
+	path=Path(path)
+
+	for filename in path.iterdir():
+		if filename.name not in ignore and not filename.name.endswith(".swp"):
+			yield str(filename.resolve()) if fullpath else str(filename.name)
 
 def sass(src: str, dest: str="") -> bytes:
 	return call([

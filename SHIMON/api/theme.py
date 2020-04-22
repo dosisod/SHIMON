@@ -1,4 +1,4 @@
-import os
+from pathlib import Path
 
 from SHIMON.api.error import error_202, error_400
 from SHIMON.api.api_base import ApiBase
@@ -20,13 +20,13 @@ class ApiTheme(ApiBase):
 		return theme(self, name, redirect)
 
 def theme(self: "Shimon", name: str, redirect: bool) -> HttpResponse:
-	path="SHIMON/templates/themes/"
-	dirty=os.path.abspath(path + name)
+	themes=Path("SHIMON/templates/themes/")
+	dirty=(themes / name).resolve()
 
 	#dont allow reverse file traversal
-	if dirty.startswith(os.getcwd() + "/" + path):
-		if os.path.isfile(f"{dirty}.css"):
-			self.cache.mapper["theme"]=dirty.split("/")[-1]
+	if str(dirty).startswith(str(Path.cwd() / themes)):
+		if Path(f"{dirty}.css").is_file():
+			self.cache.mapper["theme"]=dirty.parts[-1]
 
 			return error_202()
 

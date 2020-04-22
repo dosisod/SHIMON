@@ -1,4 +1,4 @@
-import os
+from pathlib import Path
 
 from SHIMON.api.error import error_200, error_400
 from SHIMON.api.api_base import ApiBase
@@ -15,7 +15,7 @@ class Toggle(ApiBase):
 
 	@ApiBase.bool_required
 	def entry(self, shimon: "Shimon", enable: bool, _: bool) -> HttpResponse:
-		if os.path.isfile(self.path):
+		if Path(self.path).is_file():
 			shimon.cache.mapper[self.name]=enable
 			return error_200()
 
