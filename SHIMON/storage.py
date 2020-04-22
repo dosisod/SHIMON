@@ -49,10 +49,7 @@ class Storage:
 		return None
 
 	def cache_file_exists(self, filepath: str="") -> bool:
-		if filepath=="":
-			filepath=self.filepath
-
-		return os.path.isfile(filepath)
+		return os.path.isfile(filepath if filepath else self.filepath)
 
 	def lock(self, pwd: str) -> Optional[HttpResponse]:
 		error_status=self.attempt_lock(pwd)
@@ -73,8 +70,7 @@ class Storage:
 		elif not error_status:
 			return None
 
-		else:
-			return error_status
+		return error_status
 
 	def save(self, pwd: str) -> Optional[HttpResponse]:
 		error_status=self.attempt_lock(pwd)
@@ -85,8 +81,7 @@ class Storage:
 		elif not error_status:
 			return None
 
-		else:
-			return error_status
+		return error_status
 
 	def attempt_lock(self, pwd: str) -> Union[HttpResponse, Literal["fail"], None]:
 		if not self.shimon.cache or self.shimon.cache.is_empty():

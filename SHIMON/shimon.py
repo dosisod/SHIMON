@@ -61,23 +61,12 @@ class Shimon:
 
 	def error(self, ex: Union[int, Exception]) -> HttpResponse:
 		return_code=500
-		msg=""
 
 		if isinstance(ex, HTTPException):
 			return_code=ex.code or 500
-			msg=http_codes.get(return_code, "")
 
 		elif isinstance(ex, int):
-			code=ex
-
-			#client can only set certain http codes
-			if 300 <= code <= 417:
-				msg=http_codes.get(code, "")
-				return_code=code
-
-			else:
-				return_code=400
-				msg=http_codes[400]
+			return_code=ex if (300 <= ex <= 417) else 400
 
 		tb=""
 		if isinstance(ex, BaseException) and self.developer:
@@ -89,7 +78,7 @@ class Shimon:
 			error=return_code,
 			url=request.url,
 			traceback=tb,
-			msg=msg
+			msg=http_codes.get(return_code, "")
 		), return_code
 
 	def index(self, error: str="", code: int=200) -> HttpResponse:
@@ -119,7 +108,6 @@ class Shimon:
 			friends=json.dumps(api_friends(self))
 		))
 
-		#clear uname cookie if set
 		res.set_cookie("uname", "", expires=0)
 
 		return res, code
@@ -133,12 +121,7 @@ class Shimon:
 		theme_folder=os.getcwd() + "/SHIMON/templates/themes/"
 		for filename in os.listdir(theme_folder):
 			if os.path.isfile(theme_folder + filename) and filename.endswith(".css"):
-				pretty_name=filename[:-4]
-
-				themes.append((
-					pretty_name,
-					pretty_name
-				))
+				themes.append((filename[:-4],) * 2)
 
 		return render(self, "pages/settings.jinja",
 			seconds=self.session.expires,
