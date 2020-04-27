@@ -18,24 +18,15 @@ http_codes={
 
 def error(code: int, data: ErrorData, redirect: bool, rethrow: bool=False) -> HttpResponse:
 	if redirect:
-		if isinstance(data, (Dict, List, str)):
-			return jsonify(data), code
+		return (jsonify(data) if isinstance(data, (Dict, List, str)) else data), code
 
-		else:
-			return data, code
+	if rethrow:
+		return jsonify({"rethrow": ""}), code
 
-	else:
-		#force user to make the same call with redirect on
-		if rethrow:
-			return jsonify({"rethrow": ""}), code
-
-		if not isinstance(data, (Dict, List, str)):
-			data=""
-
-		return jsonify({
-			"code": code,
-			"msg": data
-		}), code
+	return jsonify({
+		"code": code,
+		"msg": data if isinstance(data, (Dict, List, str)) else ""
+	}), code
 
 def error_200(msg: ErrorData=http_codes[200], redirect: bool=False) -> HttpResponse:
 	return error(200, msg, redirect, rethrow=False)

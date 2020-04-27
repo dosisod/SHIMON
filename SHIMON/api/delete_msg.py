@@ -26,7 +26,7 @@ def delete_msg(self: "Shimon", data: Dict, redirect: bool) -> HttpResponse:
 		if not self.security.correct_pwd(pwd):
 			return error_401()
 
-	index=data.get("index", None)
+	index=data.get("index")
 	if isinstance(index, str):
 		try:
 			index=int(index)
@@ -40,16 +40,14 @@ def delete_msg(self: "Shimon", data: Dict, redirect: bool) -> HttpResponse:
 		return error_400("Index is out of bounds")
 
 	hist_id=history_id(self, data.get("id", ""))
+	if hist_id < 0:
+		return error_400()
 
-	if hist_id >= 0:
-		msgs=self.cache["history"][hist_id]["msgs"]
+	msgs=self.cache["history"][hist_id]["msgs"]
+	if index >= len(msgs):
+		return error_400("Index is not a valid integer")
 
-		if index >= len(msgs):
-			return error_400("Index is not a valid integer")
+	msgs.pop(index)
+	self.redraw=True
 
-		msgs.pop(index)
-
-		self.redraw=True
-		return error_200("Message deleted")
-
-	return error_400()
+	return error_200("Message deleted")

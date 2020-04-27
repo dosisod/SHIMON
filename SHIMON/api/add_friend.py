@@ -20,8 +20,8 @@ class ApiAddFriend(ApiBase):
 		return add_friend(self, adding, redirect)
 
 def add_friend(self: "Shimon", adding: Dict, redirect: bool) -> HttpResponse:
-	name=adding.get("name", None)
-	_id=adding.get("id", None)
+	name=adding.get("name")
+	_id=adding.get("id")
 
 	#make sure that name and id are valid
 	if not name or not _id or not re.search("^[a-zA-z0-9]+$", _id):

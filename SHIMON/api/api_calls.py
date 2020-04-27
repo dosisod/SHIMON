@@ -22,9 +22,6 @@ from SHIMON.api.allfor import ApiAllfor
 from SHIMON.api.add_friend import ApiAddFriend
 from SHIMON.api.api_base import ApiBase
 
-from typing import Dict, Any, Optional
-from SHIMON.__init__ import HttpResponse
-
 apicalls=[
 	ApiUnlock(),
 	ApiSendMsg(),

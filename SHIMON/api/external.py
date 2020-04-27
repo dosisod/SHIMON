@@ -20,16 +20,14 @@ def api_recent(self: "Shimon") -> List:
 	recent=[]
 
 	for user in self.cache["history"]:
-		recent_user={
+		recent.append({
 			"id": user["id"],
 			"hash": sha256hex(user["id"]),
 			"msgs": [user["msgs"][-1] if len(user["msgs"]) > 0 else {
 				"sending": False,
 				"msg": ""
 			}]
-		}
-
-		recent.append(recent_user)
+		})
 
 	return recent
 

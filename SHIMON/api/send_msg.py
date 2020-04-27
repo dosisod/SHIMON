@@ -21,8 +21,8 @@ class ApiSendMsg(ApiBase):
 		return send_msg(self, sending, redirect)
 
 def send_msg(self: "Shimon", sending: Dict, redirect: bool) -> HttpResponse:
-	msg=sending.get("msg", None)
-	uname=sending.get("uname", None)
+	msg=sending.get("msg")
+	uname=sending.get("uname")
 
 	if not msg or not uname or msg.isspace():
 		return error_400()
