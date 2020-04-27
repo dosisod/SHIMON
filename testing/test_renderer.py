@@ -21,8 +21,7 @@ class TestRender(BaseTest):
 
 			for key in keys:
 				assert html.find(
-					key + "=" +
-					str(self.shimon.__dict__[key])
+					key + "=" + str(getattr(self.shimon, key))
 				) > -1
 
 		assertHasKeys(template.data.decode())

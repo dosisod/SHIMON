@@ -48,19 +48,20 @@ class CacheMapper:
 		else:
 			if isinstance(cache_val, tuple):
 				self.shimon.cache._cache[cache_name]= \
-					self.shimon.__dict__[
-						cache_val[0].__dict__[cache_val[1]]
-					]
+					getattr(
+						self.shimon,
+						getattr(cache_val[0], cache_val[1])
+					)
 
 			else:
 				self.shimon.cache._cache[cache_name]= \
-					self.shimon.__dict__[cache_val]
+					getattr(self.shimon, cache_val)
 
 	def _update(self, cache_name: str, value: CacheDictValue) -> None:
 		cache_val=self.cache_names[cache_name]
 
 		if isinstance(cache_val, tuple):
-			cache_val[0].__dict__[cache_val[1]]=value
+			setattr(cache_val[0], cache_val[1], value)
 
 		else:
-			self.shimon.__dict__[cache_val]=value
+			setattr(self.shimon, cache_val, value)

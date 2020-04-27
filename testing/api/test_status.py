@@ -54,8 +54,10 @@ class TestStatus(BaseTest):
 		return ApiStatus().entry(self.shimon, None, redirect)
 
 	def assertStatus(self, key: str) -> None:
-		assert self.shimon.__dict__[
-				self.shimon.cache.mapper.cache_names[key] # type: ignore
-			] == \
-			self.shimon.cache[key] == \
-			self.status(True)[0].json[key]
+		current_status=getattr(
+			self.shimon,
+			self.shimon.cache.mapper.cache_names[key] # type: ignore
+		)
+
+		assert current_status==self.shimon.cache[key]
+		assert current_status==self.status(True)[0].json[key]
