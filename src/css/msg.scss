@@ -1,76 +1,76 @@
 @use 'screen';
 
 ol > .msg {
-	color: var(--msg-fg);
-	font-size: 14px;
+  color: var(--msg-fg);
+  font-size: 14px;
 }
 
 .msg {
-	font-size: 14px;
+  font-size: 14px;
 }
 
 .block {
-	margin: 5px;
-	padding: 15px;
-	word-break: break-all;
-	width: 80%;
+  margin: 5px;
+  padding: 15px;
+  word-break: break-all;
+  width: 80%;
 
-	position: relative;
+  position: relative;
 }
 
 %x-button {
-	position: absolute;
-	margin: -5px;
-	padding: 5px;
-	z-index: 1;
-	cursor: pointer;
+  position: absolute;
+  margin: -5px;
+  padding: 5px;
+  z-index: 1;
+  cursor: pointer;
 }
 
 .x-receiving {
-	@extend %x-button;
-	color: var(--x-sending-fg);
-	right: calc(20% - 35px);
+  @extend %x-button;
+  color: var(--x-sending-fg);
+  right: calc(20% - 35px);
 }
 
 .x-sending {
-	@extend %x-button;
-	color: var(--x-sending-fg);
-	right: 5px;
+  @extend %x-button;
+  color: var(--x-sending-fg);
+  right: 5px;
 }
 
 .receiving {
-	background: var(--receiving-bg);
-	color: var(--receiving-fg);
-	left: 0;
-	border: 1px solid var(--receiving-bd);
+  background: var(--receiving-bg);
+  color: var(--receiving-fg);
+  left: 0;
+  border: 1px solid var(--receiving-bd);
 }
 
 .sending {
-	background: var(--sending-bg);
-	color: var(--sending-fg);
-	left: calc(20% - 40px);
-	border: 1px solid var(--sending-bd);
+  background: var(--sending-bg);
+  color: var(--sending-fg);
+  left: calc(20% - 40px);
+  border: 1px solid var(--sending-bd);
 }
 
 #typer {
-	width: 50%;
-	margin: auto;
-	position: fixed;
-	bottom: 0;
-	left: 25%;
-	border: 1px solid var(--typer-bd);
-	box-shadow: 0 0 0 10px var(--typer-sd);
-	font-size: calc(20px - 0.5vw);
-	color: var(--input-fg);
-	background: var(--input-bg);
-	z-index: 2;
+  width: 50%;
+  margin: auto;
+  position: fixed;
+  bottom: 0;
+  left: 25%;
+  border: 1px solid var(--typer-bd);
+  box-shadow: 0 0 0 10px var(--typer-sd);
+  font-size: calc(20px - 0.5vw);
+  color: var(--input-fg);
+  background: var(--input-bg);
+  z-index: 2;
 }
 
 @include screen.mobile {
-	#typer {
-		width: 100%;
-		left: 0;
-		margin-bottom: 0;
-		box-shadow: 0;
-	}
+  #typer {
+    width: 100%;
+    left: 0;
+    margin-bottom: 0;
+    box-shadow: 0;
+  }
 }

@@ -1,239 +1,239 @@
 @use 'screen';
 
 * {
-	border-radius: 0;
+  border-radius: 0;
 }
 
 ::placeholder {
-	font-style: italic;
-	opacity: 1;
+  font-style: italic;
+  opacity: 1;
 }
 
 html, body, .container {
-	padding: 0;
-	margin: 0;
-	width: 100%;
-	height: 100%;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .container {
-	background: var(--container-bg);
-	position: relative;
-	overflow: auto;
-	text-align: center;
+  background: var(--container-bg);
+  position: relative;
+  overflow: auto;
+  text-align: center;
 }
 
 ol.tray {
-	width: 50%;
-	margin: auto;
-	position: absolute;
-	left: 0;
-	right: 0;
-	top: 0;
-	bottom: 0;
+  width: 50%;
+  margin: auto;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
 }
 
 @include screen.mobile {
-	ol.tray {
-		width: 100%;
-	}
+  ol.tray {
+    width: 100%;
+  }
 }
 
 .holder {
-	overflow: hidden;
+  overflow: hidden;
 }
 
 .blank {
-	height: 128px;
-	display: flex;
-	align-items: center;
+  height: 128px;
+  display: flex;
+  align-items: center;
 }
 
 ol {
-	display: inline-block;
-	margin: 0;
-	padding: 0;
-	list-style-type: none;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
 }
 
 a.setting, a.rightitem {
-	outline: 0;
+  outline: 0;
 }
 
 textarea {
-	width: 100%;
-	resize: none;
-	border: 1px solid var(--input-bd);
-	box-sizing: border-box;
-	vertical-align: middle;
-	background: var(--input-bg);
-	color: var(--input-fg);
+  width: 100%;
+  resize: none;
+  border: 1px solid var(--input-bd);
+  box-sizing: border-box;
+  vertical-align: middle;
+  background: var(--input-bg);
+  color: var(--input-fg);
 }
 
 .checkbox {
-	min-width: 16px;
-	min-height: 16px;
-	display: inline-block;
-	background: var(--checkbox-bg);
-	color: var(--checkbox-fg);
-	border: 1px solid var(--checkbox-bd);
-	line-height: 10px;
+  min-width: 16px;
+  min-height: 16px;
+  display: inline-block;
+  background: var(--checkbox-bg);
+  color: var(--checkbox-fg);
+  border: 1px solid var(--checkbox-bd);
+  line-height: 10px;
 
-	&-unchecked {
-		padding-left: 8px;
-		padding-bottom: 8px;
-	}
+  &-unchecked {
+    padding-left: 8px;
+    padding-bottom: 8px;
+  }
 }
 
 .input {
-	border: 1px solid var(--input-bd);
-	box-sizing: border-box;
-	vertical-align: middle;
-	height: 20px;
-	background: var(--input-bg);
-	color: var(--input-fg);
+  border: 1px solid var(--input-bd);
+  box-sizing: border-box;
+  vertical-align: middle;
+  height: 20px;
+  background: var(--input-bg);
+  color: var(--input-fg);
 }
 
 #click {
-	background: var(--click-bg);
-	color: var(--click-fg);
-	cursor: pointer;
-	outline: 0;
+  background: var(--click-bg);
+  color: var(--click-fg);
+  cursor: pointer;
+  outline: 0;
 }
 
 div.profile-pic-img {
-	image-rendering: -webkit-optimize-contrast;
-	image-rendering: -webkit-crisp-edges;
-	image-rendering: -moz-crisp-edges;
-	image-rendering: -o-crisp-edges;
-	image-rendering: pixelated;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: -webkit-crisp-edges;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -o-crisp-edges;
+  image-rendering: pixelated;
 
-	display: inline-block;
-	vertical-align: top;
-	font-size: 32px;
-	line-height: 64px;
-	text-align: center;
-	width: 64px;
-	height: 64px;
+  display: inline-block;
+  vertical-align: top;
+  font-size: 32px;
+  line-height: 64px;
+  text-align: center;
+  width: 64px;
+  height: 64px;
 }
 
 .item {
-	width: 100%;
-	text-align: left;
+  width: 100%;
+  text-align: left;
 }
 
 .center {
-	width: 100%;
-	text-align: center;
+  width: 100%;
+  text-align: center;
 }
 
 #name {
-	width: 100%;
+  width: 100%;
 }
 
 .name {
-	font-weight: bold;
-	font-size: 16px;
+  font-weight: bold;
+  font-size: 16px;
 }
 
 .title {
-	color: var(--title-fg);
+  color: var(--title-fg);
 }
 
 .rightbar {
-	background: var(--container-bg);
-	position: absolute;
-	right: 25%;
-	text-align: right;
-	z-index: 1;
+  background: var(--container-bg);
+  position: absolute;
+  right: 25%;
+  text-align: right;
+  z-index: 1;
 }
 
 @include screen.mobile {
-	.rightbar {
-		right: 0;
-	}
+  .rightbar {
+    right: 0;
+  }
 }
 
 .rightitem {
-	background: var(--container-bg);
-	color: var(--rightitem-fg);
-	position: relative;
-	padding-top: 3px;
-	padding-left: 5px;
-	right: 0;
+  background: var(--container-bg);
+  color: var(--rightitem-fg);
+  position: relative;
+  padding-top: 3px;
+  padding-left: 5px;
+  right: 0;
 }
 
 .setting {
-	align-items: center;
-	text-align: left;
-	padding-top: 5px;
-	padding-bottom: 5px;
-	color: var(--setting-fg);
+  align-items: center;
+  text-align: left;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  color: var(--setting-fg);
 }
 
 @include screen.mobile {
-	.setting {
-		padding-bottom: 15px;
-	}
+  .setting {
+    padding-bottom: 15px;
+  }
 }
 
 li > a.setting {
-	display: table;
+  display: table;
 }
 
 .dropdown {
-	vertical-align: middle;
-	position: absolute;
-	right: 0;
+  vertical-align: middle;
+  position: absolute;
+  right: 0;
 }
 
 select.dropdown {
-	width: 50%;
-	border: 1px solid var(--dropdown-bd);
-	padding: 2px;
-	margin-left: 3px;
-	color: var(--dropdown-fg);
-	background: var(--dropdown-bg);
-	-moz-appearance: none;
-	-webkit-appearance: none;
-	outline: 0;
+  width: 50%;
+  border: 1px solid var(--dropdown-bd);
+  padding: 2px;
+  margin-left: 3px;
+  color: var(--dropdown-fg);
+  background: var(--dropdown-bg);
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  outline: 0;
 
-	&:-moz-focusring {
-		color: transparent;
-		text-shadow: 0 0 0 var(--dropdown-fg);
-	}
+  &:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 var(--dropdown-fg);
+  }
 }
 
 #reload {
-	color: var(--reload-fg);
-	padding-bottom: 50px;
+  color: var(--reload-fg);
+  padding-bottom: 50px;
 }
 
 .warn {
-	color: var(--warn-fg);
+  color: var(--warn-fg);
 }
 
 .info {
-	color: var(--info-fg);
+  color: var(--info-fg);
 }
 
 .error {
-	padding: 5px;
-	background: var(--error-bg);
-	text-align: center;
-	left: 50%;
-	transform: translate(-50%);
-	position: fixed;
+  padding: 5px;
+  background: var(--error-bg);
+  text-align: center;
+  left: 50%;
+  transform: translate(-50%);
+  position: fixed;
 }
 
 .point {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 .nopoint {
-	cursor: default;
+  cursor: default;
 }
 
 .hide {
-	white-space: nowrap;
+  white-space: nowrap;
 }
