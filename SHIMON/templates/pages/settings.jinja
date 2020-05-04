@@ -13,26 +13,26 @@
 <body>
 <div class="container">
 <ol class="tray"><div id="tray">
-	<li class="name setting"><span class="point" onclick="setting.button(this)">CHANGE PASSWORD</span></li>
-	<li class="name setting warn"><span class="point" onclick="setting.button(this)">GENERATE NEW KEY</span></li>
-	{{ dropdown("MSG DELETION", msg_policy, [
-		(0, "Ask first"),
-		(1, "Require password"),
-		(2, "Dont ask")
-	]) }}
-	{{ dropdown("EXPIRATION TIMER", seconds, [
-		(900, "15 Mins"),
-		(3600, "1 Hour"),
-		(18000, "5 Hours"),
-		(86400, "1 Day")
-	]) }}
-	{{ dropdown("THEME", theme, themes) }}
-	{{ checkbox("ENABLE DEVELOPER MODE", "devmode", developer) }}
-	<li class="name setting warn"><span class="point" onclick="setting.button(this)">NUKE CACHE</span></li>
-	{% if developer -%}
-	{{ checkbox("USE FRESH JS", "fresh js", fresh_js) }}
-	{{ checkbox("USE FRESH CSS", "fresh css", fresh_css) }}
-	{% endif -%}
+  <li class="name setting"><span class="point" onclick="setting.button(this)">CHANGE PASSWORD</span></li>
+  <li class="name setting warn"><span class="point" onclick="setting.button(this)">GENERATE NEW KEY</span></li>
+  {{ dropdown("MSG DELETION", msg_policy, [
+    (0, "Ask first"),
+    (1, "Require password"),
+    (2, "Dont ask")
+  ]) }}
+  {{ dropdown("EXPIRATION TIMER", seconds, [
+    (900, "15 Mins"),
+    (3600, "1 Hour"),
+    (18000, "5 Hours"),
+    (86400, "1 Day")
+  ]) }}
+  {{ dropdown("THEME", theme, themes) }}
+  {{ checkbox("ENABLE DEVELOPER MODE", "devmode", developer) }}
+  <li class="name setting warn"><span class="point" onclick="setting.button(this)">NUKE CACHE</span></li>
+  {% if developer -%}
+  {{ checkbox("USE FRESH JS", "fresh js", fresh_js) }}
+  {{ checkbox("USE FRESH CSS", "fresh css", fresh_css) }}
+  {% endif -%}
 </div></ol>
 {% include "utils/error-msg.jinja" %}
 
@@ -52,17 +52,17 @@ setHeartbeat()
 
 <style>
 .chevron-down-svg {
-	position: absolute;
-	right: 0;
-	z-index: 1;
-	pointer-events: none;
-	stroke: var(--checkbox-fg);
+  position: absolute;
+  right: 0;
+  z-index: 1;
+  pointer-events: none;
+  stroke: var(--checkbox-fg);
 }
 .x-svg {
-	width: 20px;
-	height: 20px;
-	stroke: var(--checkbox-fg);
-	padding: 2px;
+  width: 20px;
+  height: 20px;
+  stroke: var(--checkbox-fg);
+  padding: 2px;
 }
 </style>
 

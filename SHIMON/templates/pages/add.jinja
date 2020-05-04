@@ -11,15 +11,15 @@
 <body>
 <div class="container">
 <ol class="tray"><div id="tray">
-	<li class="item">
-		<li class="name hide setting">
-			<input id="name" class="name input" placeholder="NAME" />
-		</li>
-	</li>
-	<textarea class="name" id="id" placeholder="USER ID"></textarea>
-	<li class="name setting">
-		<button class="input" onclick="send()" id="click">ADD FRIEND</button>
-	</li>
+  <li class="item">
+    <li class="name hide setting">
+      <input id="name" class="name input" placeholder="NAME" />
+    </li>
+  </li>
+  <textarea class="name" id="id" placeholder="USER ID"></textarea>
+  <li class="name setting">
+    <button class="input" onclick="send()" id="click">ADD FRIEND</button>
+  </li>
 </div></ol>
 {% include "utils/error-msg.jinja" %}
 
@@ -35,10 +35,10 @@ url("add")
 setHeartbeat()
 
 window["send"]=function() {
-	post({"add friend": {
-		"id": nu("id").value,
-		"name": nu("name").value
-	}}, true)
+  post({"add friend": {
+    "id": nu("id").value,
+    "name": nu("name").value
+  }}, true)
 }
 
 })
