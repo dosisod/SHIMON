@@ -1,7 +1,7 @@
 from SHIMON.renderer import jsonify
 
 from typing import Union, Dict, List
-from SHIMON.__init__ import HttpResponse, Response
+from SHIMON import HttpResponse, Response
 
 ErrorData=Union[Dict, List, str, Response]
 

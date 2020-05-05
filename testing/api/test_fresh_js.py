@@ -2,7 +2,7 @@ from SHIMON.api.fresh_js import ApiFreshJs
 
 from testing.api.toggle import FreshToggle
 
-from SHIMON.__init__ import HttpResponse
+from SHIMON import HttpResponse
 
 class TestFreshJS(FreshToggle):
 	path="SHIMON/static/js/api.js"

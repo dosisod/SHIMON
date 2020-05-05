@@ -4,7 +4,7 @@ from SHIMON.api.unlock import ApiUnlock
 from testing.base import BaseTest
 from testing.http import assertHttpResponse
 
-from SHIMON.__init__ import HttpResponse
+from SHIMON import HttpResponse
 
 class TestMsgPolict(BaseTest):
 	@classmethod

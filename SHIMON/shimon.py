@@ -17,7 +17,7 @@ from SHIMON.storage import Storage
 from SHIMON.cache import Cache
 
 from typing import Union
-from SHIMON.__init__ import HttpResponse
+from SHIMON import HttpResponse
 
 class Shimon:
 	def __init__(self) -> None:

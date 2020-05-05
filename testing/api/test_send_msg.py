@@ -3,7 +3,7 @@ from SHIMON.api.send_msg import ApiSendMsg
 from testing.base import BaseTest
 from testing.http import assertHttpResponse
 
-from SHIMON.__init__ import History, HttpResponse
+from SHIMON import History, HttpResponse
 
 class TestSendMsg(BaseTest):
 	user: History

@@ -4,7 +4,7 @@ from testing.base import BaseTest
 from testing.http import assertHttpResponse
 
 from typing import Dict
-from SHIMON.__init__ import HttpResponse
+from SHIMON import HttpResponse
 
 class TestAddFriend(BaseTest):
 	@BaseTest.request_context

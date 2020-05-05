@@ -5,7 +5,7 @@ from SHIMON.api.api_base import ApiBase
 from SHIMON.renderer import render
 
 from typing import TYPE_CHECKING
-from SHIMON.__init__ import HttpResponse
+from SHIMON import HttpResponse
 
 if TYPE_CHECKING:
 	from SHIMON.shimon import Shimon

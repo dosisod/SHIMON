@@ -3,7 +3,7 @@ from SHIMON.api.new_key import ApiNewKey
 from testing.base import BaseTest
 from testing.http import assertHttpResponse
 
-from SHIMON.__init__ import HttpResponse
+from SHIMON import HttpResponse
 
 class TestNewKey(BaseTest):
 	@BaseTest.request_context

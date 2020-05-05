@@ -2,7 +2,7 @@ from SHIMON.api.fresh_css import ApiFreshCss
 
 from testing.api.toggle import FreshToggle
 
-from SHIMON.__init__ import HttpResponse
+from SHIMON import HttpResponse
 
 class TestFreshCSS(FreshToggle):
 	path="SHIMON/static/css/font.css"

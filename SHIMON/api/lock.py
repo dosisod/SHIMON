@@ -3,7 +3,7 @@ from SHIMON.api.api_base import ApiBase
 from SHIMON.api.error import error_400
 
 from typing import Optional, TYPE_CHECKING
-from SHIMON.__init__ import HttpResponse
+from SHIMON import HttpResponse
 
 if TYPE_CHECKING:
 	from SHIMON.shimon import Shimon

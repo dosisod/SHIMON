@@ -10,7 +10,7 @@ from SHIMON.kee import Kee
 
 from typing import Union, Optional, cast, TYPE_CHECKING
 from typing_extensions import Literal
-from SHIMON.__init__ import HttpResponse
+from SHIMON import HttpResponse
 
 if TYPE_CHECKING:
 	from SHIMON.shimon import Shimon

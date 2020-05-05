@@ -3,7 +3,7 @@ from SHIMON.api.devmode import ApiDevmode
 from testing.base import BaseTest
 from testing.http import assertHttpResponse
 
-from SHIMON.__init__ import HttpResponse
+from SHIMON import HttpResponse
 
 class TestDevmode(BaseTest):
 	@BaseTest.request_context

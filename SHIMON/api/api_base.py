@@ -1,7 +1,7 @@
 from SHIMON.api.error import error_400
 
 from typing import Any, Dict, Callable, Type, TYPE_CHECKING
-from SHIMON.__init__ import HttpResponse
+from SHIMON import HttpResponse
 
 if TYPE_CHECKING:
 	from SHIMON.shimon import Shimon

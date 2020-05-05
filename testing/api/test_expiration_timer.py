@@ -3,7 +3,7 @@ from SHIMON.api.expiration_timer import ApiExpirationTimer
 from testing.base import BaseTest
 from testing.http import assertHttpResponse
 
-from SHIMON.__init__ import HttpResponse
+from SHIMON import HttpResponse
 
 class TestExpirationTimer(BaseTest):
 	@BaseTest.request_context

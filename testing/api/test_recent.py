@@ -3,7 +3,7 @@ from SHIMON.api.recent import ApiRecent
 from testing.base import BaseTest
 from testing.http import assertHttpResponse
 
-from SHIMON.__init__ import HttpResponse
+from SHIMON import HttpResponse
 
 class TestRecent(BaseTest):
 	@BaseTest.request_context

@@ -5,7 +5,7 @@ from SHIMON.api.status import ApiStatus
 from testing.base import BaseTest
 from testing.http import assertHttpResponse
 
-from SHIMON.__init__ import HttpResponse
+from SHIMON import HttpResponse
 
 class TestStatus(BaseTest):
 	@BaseTest.request_context

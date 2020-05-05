@@ -3,7 +3,7 @@ from SHIMON.api.friends import ApiFriends
 from testing.base import BaseTest
 from testing.http import assertHttpResponse
 
-from SHIMON.__init__ import HttpResponse
+from SHIMON import HttpResponse
 
 class TestFriends(BaseTest):
 	@BaseTest.request_context

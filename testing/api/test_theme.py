@@ -5,7 +5,7 @@ from SHIMON.renderer import jsonify
 from testing.base import BaseTest
 from testing.http import assertHttpResponse
 
-from SHIMON.__init__ import HttpResponse
+from SHIMON import HttpResponse
 
 class TestTheme(BaseTest):
 	@BaseTest.request_context

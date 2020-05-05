@@ -4,7 +4,7 @@ from testing.base import BaseTest
 from testing.http import assertHttpResponse
 
 from typing import Dict
-from SHIMON.__init__ import History, HttpResponse
+from SHIMON import History, HttpResponse
 
 class TestDeleteMsg(BaseTest):
 	user: History
