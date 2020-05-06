@@ -2,7 +2,6 @@
 
 ol > .msg {
   color: var(--msg-fg);
-  font-size: 14px;
 }
 
 .msg {
@@ -54,7 +53,6 @@ ol > .msg {
 
 #typer {
   width: 50%;
-  margin: auto;
   position: fixed;
   bottom: 0;
   left: 25%;
@@ -70,7 +68,5 @@ ol > .msg {
   #typer {
     width: 100%;
     left: 0;
-    margin-bottom: 0;
-    box-shadow: 0;
   }
 }

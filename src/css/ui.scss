@@ -30,7 +30,6 @@ ol.tray {
   left: 0;
   right: 0;
   top: 0;
-  bottom: 0;
 }
 
 @include screen.mobile {
@@ -65,7 +64,6 @@ textarea {
   resize: none;
   border: 1px solid var(--input-bd);
   box-sizing: border-box;
-  vertical-align: middle;
   background: var(--input-bg);
   color: var(--input-fg);
 }
@@ -95,19 +93,10 @@ textarea {
 }
 
 #click {
-  background: var(--click-bg);
-  color: var(--click-fg);
   cursor: pointer;
-  outline: 0;
 }
 
 div.profile-pic-img {
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: -webkit-crisp-edges;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: -o-crisp-edges;
-  image-rendering: pixelated;
-
   display: inline-block;
   vertical-align: top;
   font-size: 32px;
@@ -124,7 +113,6 @@ div.profile-pic-img {
 
 .center {
   width: 100%;
-  text-align: center;
 }
 
 #name {
@@ -141,7 +129,6 @@ div.profile-pic-img {
 }
 
 .rightbar {
-  background: var(--container-bg);
   position: absolute;
   right: 25%;
   text-align: right;
@@ -155,16 +142,12 @@ div.profile-pic-img {
 }
 
 .rightitem {
-  background: var(--container-bg);
   color: var(--rightitem-fg);
-  position: relative;
   padding-top: 3px;
   padding-left: 5px;
-  right: 0;
 }
 
 .setting {
-  align-items: center;
   text-align: left;
   padding-top: 5px;
   padding-bottom: 5px;
@@ -182,7 +165,6 @@ li > a.setting {
 }
 
 .dropdown {
-  vertical-align: middle;
   position: absolute;
   right: 0;
 }
