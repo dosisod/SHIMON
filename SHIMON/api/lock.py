@@ -23,7 +23,7 @@ def lock(self: "Shimon", pwd: str, redirect: bool) -> HttpResponse:
 	if not redirect:
 		return error_400()
 
-	returned_error=self.storage.lock(pwd) # type: Optional[HttpResponse]
+	returned_error=self.storage.lock(pwd)
 	if returned_error: return returned_error
 
 	#clean up object states

@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 
 def api_entry(self: "Shimon", data: Dict) -> HttpResponse:
 	redirect=data.get("redirect", False)
-	unlock_error=self.security.check_all() # type: Optional[HttpResponse]
+	unlock_error=self.security.check_all()
 
 	for apicall in apicalls:
 		if apicall.callname in data:

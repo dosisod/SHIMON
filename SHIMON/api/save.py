@@ -18,7 +18,7 @@ class ApiSave(ApiBase):
 		return save(self, pwd, redirect)
 
 def save(self: "Shimon", pwd: str, redirect: bool) -> HttpResponse:
-	storage_error=self.storage.save(pwd) # type: Optional[HttpResponse]
+	storage_error=self.storage.save(pwd)
 
 	if storage_error: return storage_error
 
