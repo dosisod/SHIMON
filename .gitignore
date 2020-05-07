@@ -12,7 +12,6 @@ SHIMON/static/js/*
 # hide certain css files
 SHIMON/static/css/*
 !SHIMON/static/css/bundle.css
-!SHIMON/static/css/login.css
 
 # hide cache data
 data.gpg*

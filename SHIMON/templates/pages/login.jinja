@@ -5,19 +5,19 @@
 <meta name="viewport" content="width=device-width">
 <title>Login</title>
 
-<link rel="stylesheet" href={{ url_for("static", filename="css/login.css") }}>
+{% include "utils/styles.jinja" %}
 
 </head>
 
 <body>
 
-<div id="tray">
-  <span class="title nopoint">SHIMON</span><br>
-  <span id="prompt" class="nopoint"></span>
-  <form method="POST" action="/api/" id="form">
-    <input name="unlock" id="pwd" type="password" autocomplete="password" /><button type="submit"><img src="/img/lock-open.svg" id="click"></button>
+<div id="tray" class="login">
+  <span class="login-title nopoint">SHIMON</span><br>
+  <span id="prompt" class="nopoint login"></span>
+  <form method="POST" action="/api/" id="form" class="login">
+    <input name="unlock" id="pwd" class="login" type="password" autocomplete="password" /><button class="login" type="submit"><img src="/img/lock-open.svg" id="click" class="login"></button>
   </form>
-  <span id="error">{{ error }}</span>
+  <span id="error" class="login">{{ error }}</span>
 </div>
 
 {% include "utils/scripts.jinja" %}

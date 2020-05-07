@@ -44,7 +44,8 @@ THEMES=Path("SHIMON/templates/themes/")
 BUNDLE_CSS=STATIC_CSS / "bundle.css"
 BUNDLE_JS=STATIC_JS / "bundle.js"
 
-[clear(f) for f in [BUNDLE_JS, BUNDLE_CSS, STATIC_CSS / "login.css"]]
+clear(BUNDLE_JS)
+clear(BUNDLE_CSS)
 
 skipping=len(sys.argv) > 1
 
@@ -73,22 +74,9 @@ if not skipping:
 	print("\nminifying CSS")
 
 	with open(BUNDLE_CSS, "rb+") as f:
-		for file in files("src/css/", ignore=["bundle.css", "login.scss", "_screen.scss"]):
+		for file in files("src/css/", ignore=["bundle.css", "_screen.scss"]):
 			print(f"  {file.name}")
 			f.write(sass(file))
-
-	print("\nminifying")
-	print("  font.css")
-	print("  login.css")
-
-	# minify and combine these 2 css files together
-	# they are not needed in the bundle, only the login
-
-	with open(STATIC_CSS / "login.css", "wb+") as f:
-		f.write(
-			sass("src/css/font.scss") +
-			sass("src/css/login.scss")
-		)
 
 	print("\nminifying themes:")
 

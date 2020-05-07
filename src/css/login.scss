@@ -1,17 +1,13 @@
 @use 'screen';
 
-* {
-  border-radius: 0;
-}
-
-#tray {
+#tray.login {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
-#prompt {
+#prompt.login {
   font-size: calc(1vw + 1em);
   padding-bottom: 5px;
 
@@ -21,25 +17,25 @@
 }
 
 @include screen.mobile {
-  #tray {
+  #tray.login {
     left: 5px;
     transform: translate(0%, -50%);
   }
 
-  #prompt::after {
+  #prompt.login::after {
     content: "Enter password to unlock";
   }
 }
 
-.title {
+.login-title {
   font-size: 45px;
 }
 
-form {
+form.login {
   margin-top: 10px;
 }
 
-button[type=submit] {
+button.login[type=submit] {
   padding: 0;
   border: 0;
   margin-left: 5px;
@@ -47,7 +43,7 @@ button[type=submit] {
   cursor: pointer;
 }
 
-#pwd {
+#pwd.login {
   border: 1px solid #333;
   box-sizing: border-box;
   vertical-align: middle;
@@ -58,15 +54,11 @@ button[type=submit] {
   width: calc(16vw + 5em);
 }
 
-#click {
+#click.login {
   vertical-align: middle;
 }
 
-.nopoint {
-  cursor: default;
-}
-
-#error {
+#error.login {
   display: block;
   margin-top: 10px;
   color: red;
