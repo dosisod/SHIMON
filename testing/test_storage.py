@@ -2,53 +2,54 @@ from pathlib import Path
 
 from testing.base import BaseTest
 
+
 class TestStorage(BaseTest):
-	@BaseTest.request_context
-	def test_correct_pwd_doesnt_return_none(self) -> None:
-		assert self.shimon.storage.unlock(self.pwd)!=None
+    @BaseTest.request_context
+    def test_correct_pwd_doesnt_return_none(self) -> None:
+        assert self.shimon.storage.unlock(self.pwd) != None
 
-	@BaseTest.request_context
-	def test_incorrect_pwd_returns_none(self) -> None:
-		assert self.shimon.storage.unlock("not the password")==None
+    @BaseTest.request_context
+    def test_incorrect_pwd_returns_none(self) -> None:
+        assert self.shimon.storage.unlock("not the password") == None
 
-	@BaseTest.request_context
-	def test_default_cache_path_exists(self) -> None:
-		assert self.shimon.storage.cache_file_exists()==True
+    @BaseTest.request_context
+    def test_default_cache_path_exists(self) -> None:
+        assert self.shimon.storage.cache_file_exists() == True
 
-	@BaseTest.request_context
-	def test_invalid_cache_path_doesnt_exist(self) -> None:
-		assert self.shimon.storage.cache_file_exists("not a file")==False
+    @BaseTest.request_context
+    def test_invalid_cache_path_doesnt_exist(self) -> None:
+        assert self.shimon.storage.cache_file_exists("not a file") == False
 
-	@BaseTest.request_context
-	def test_cache_file_is_chmod_600_after_writing(self) -> None:
-		cache=self.shimon.storage.filepath
+    @BaseTest.request_context
+    def test_cache_file_is_chmod_600_after_writing(self) -> None:
+        cache = self.shimon.storage.filepath
 
-		#manually set to chmod 777
-		Path(cache).chmod(0o777) # nosec
+        # manually set to chmod 777
+        Path(cache).chmod(0o777)  # nosec
 
-		@BaseTest.unlocked
-		def lock(self: TestStorage) -> None:
-			pass
+        @BaseTest.unlocked
+        def lock(self: TestStorage) -> None:
+            pass
 
-		lock(self)
+        lock(self)
 
-		#make sure file is changed to chmod 600
-		assert (Path(cache).stat().st_mode & 0o777) == 0o600
+        # make sure file is changed to chmod 600
+        assert (Path(cache).stat().st_mode & 0o777) == 0o600
 
-	@BaseTest.request_context
-	def test_reset_cache_actually_resets(self) -> None:
-		self.shimon.storage.resetCache()
+    @BaseTest.request_context
+    def test_reset_cache_actually_resets(self) -> None:
+        self.shimon.storage.resetCache()
 
-		#randomly generated, check something was added
-		assert self.shimon.cache["key"]
+        # randomly generated, check something was added
+        assert self.shimon.cache["key"]
 
-		self.shimon.cache._cache.pop("key")
+        self.shimon.cache._cache.pop("key")
 
-		assert self.shimon.cache._cache == {
-			"history": [],
-			"sha512": "3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2",
-			"expiration": 3600,
-			"developer": False,
-			"version": self.shimon.VERSION,
-			"theme": "auto"
-		}
+        assert self.shimon.cache._cache == {
+            "history": [],
+            "sha512": "3c9909afec25354d551dae21590bb26e38d53f2173b8d3dc3eee4c047e7ab1c1eb8b85103e3be7ba613b31bb5c9c36214dc9f14a42fd7a2fdb84856bca5c44c2",
+            "expiration": 3600,
+            "developer": False,
+            "version": self.shimon.VERSION,
+            "theme": "auto",
+        }

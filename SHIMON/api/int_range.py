@@ -5,19 +5,20 @@ from typing import TYPE_CHECKING
 from SHIMON import HttpResponse
 
 if TYPE_CHECKING:
-	from SHIMON.shimon import Shimon
+    from SHIMON.shimon import Shimon
+
 
 class ApiIntRange(ApiBase):
-	cachename=""
-	min_allowed=0
-	max_allowed=1
+    cachename = ""
+    min_allowed = 0
+    max_allowed = 1
 
-	@ApiBase.int_str_required
-	def entry(self, shimon: "Shimon", data: str, redirect: bool) -> HttpResponse:
-		num=int(data)
-		if self.min_allowed <= num <= self.max_allowed:
-			shimon.cache.mapper[self.cachename]=num
+    @ApiBase.int_str_required
+    def entry(self, shimon: "Shimon", data: str, redirect: bool) -> HttpResponse:
+        num = int(data)
+        if self.min_allowed <= num <= self.max_allowed:
+            shimon.cache.mapper[self.cachename] = num
 
-			return error_202()
+            return error_202()
 
-		return error_400()
+        return error_400()

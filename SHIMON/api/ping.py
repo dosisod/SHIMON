@@ -5,17 +5,19 @@ from typing import TYPE_CHECKING
 from SHIMON import HttpResponse
 
 if TYPE_CHECKING:
-	from SHIMON.shimon import Shimon
+    from SHIMON.shimon import Shimon
+
 
 class ApiPing(ApiBase):
-	callname="ping"
-	unlock_required=False
+    callname = "ping"
+    unlock_required = False
 
-	def __init__(self) -> None:
-		super().__init__()
+    def __init__(self) -> None:
+        super().__init__()
 
-	def entry(_, self: "Shimon", __: None, redirect: bool) -> HttpResponse:
-		return ping(self, __, redirect)
+    def entry(_, self: "Shimon", __: None, redirect: bool) -> HttpResponse:
+        return ping(self, __, redirect)
+
 
 def ping(self: "Shimon", _: None, redirect: bool) -> HttpResponse:
-	return error_200("pong", redirect)
+    return error_200("pong", redirect)

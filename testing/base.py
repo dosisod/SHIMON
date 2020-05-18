@@ -7,78 +7,81 @@ from SHIMON.api.lock import ApiLock
 
 from typing import Callable, Any
 
+
 def add_data_if_cache_empty(self: "BaseTest") -> None:
-	if len(self.shimon.cache["history"]) == 0:
-		self.shimon.cache["history"].append({
-			"id": self.default_uuid,
-			"name": self.default_name,
-			"msgs": [{
-					"sending": True,
-					"msg": "test msg"
-			}]
-		})
+    if len(self.shimon.cache["history"]) == 0:
+        self.shimon.cache["history"].append(
+            {
+                "id": self.default_uuid,
+                "name": self.default_name,
+                "msgs": [{"sending": True, "msg": "test msg"}],
+            }
+        )
+
 
 class BaseTest:
-	pwd="123" # nosec
+    pwd = "123"  # nosec
 
-	test_app=App()
-	shimon=test_app.shimon
+    test_app = App()
+    shimon = test_app.shimon
 
-	_app_context=test_app.app.app_context
-	_request_context=test_app.app.test_request_context
+    _app_context = test_app.app.app_context
+    _request_context = test_app.app.test_request_context
 
-	#default data to use when cache is empty
-	default_name="name"
-	default_uuid="uuid"
+    # default data to use when cache is empty
+    default_name = "name"
+    default_uuid = "uuid"
 
-	@staticmethod
-	def app_context(func: Callable[..., None]) -> Callable[..., Any]:
-		def with_app_context(self: BaseTest) -> None:
-			with self._app_context(): # type: ignore
-				func(self)
+    @staticmethod
+    def app_context(func: Callable[..., None]) -> Callable[..., Any]:
+        def with_app_context(self: BaseTest) -> None:
+            with self._app_context():  # type: ignore
+                func(self)
 
-		return with_app_context
+        return with_app_context
 
-	@staticmethod
-	def request_context(func: Callable[..., None]) -> Callable[..., Any]:
-		def with_request_context(self: BaseTest) -> None:
-			with self._request_context():
-				func(self)
+    @staticmethod
+    def request_context(func: Callable[..., None]) -> Callable[..., Any]:
+        def with_request_context(self: BaseTest) -> None:
+            with self._request_context():
+                func(self)
 
-		return with_request_context
+        return with_request_context
 
-	@staticmethod
-	def use_cookie(name: str, value: str) -> Callable[..., Any]:
-		def make_cookie(func: Callable[..., Any]) -> Callable[..., Any]:
-			def with_test_client(self: BaseTest, *args: Any) -> None:
-				cookie=dump_cookie(name, value)
-				with self._request_context(environ_base={"HTTP_COOKIE": cookie}):
-					func(self, *args)
+    @staticmethod
+    def use_cookie(name: str, value: str) -> Callable[..., Any]:
+        def make_cookie(func: Callable[..., Any]) -> Callable[..., Any]:
+            def with_test_client(self: BaseTest, *args: Any) -> None:
+                cookie = dump_cookie(name, value)
+                with self._request_context(environ_base={"HTTP_COOKIE": cookie}):
+                    func(self, *args)
 
-			return with_test_client
-		return make_cookie
+            return with_test_client
 
-	@staticmethod
-	def unlocked(func: Callable[..., None]) -> Callable[..., Any]:
-		def while_unlocked(self: BaseTest) -> None:
-			unlock(self.shimon, self.pwd, True)
+        return make_cookie
 
-			add_data_if_cache_empty(self)
-			func(self)
+    @staticmethod
+    def unlocked(func: Callable[..., None]) -> Callable[..., Any]:
+        def while_unlocked(self: BaseTest) -> None:
+            unlock(self.shimon, self.pwd, True)
 
-			ApiLock().entry(self.shimon, self.pwd, True)
+            add_data_if_cache_empty(self)
+            func(self)
 
-		return while_unlocked
+            ApiLock().entry(self.shimon, self.pwd, True)
 
-	@staticmethod
-	def allow_local(func: Callable[..., None]) -> Callable[..., Any]:
-		def while_local(self: BaseTest) -> None:
-			self.shimon.security._testing=True
-			try:
-				func(self)
-			except AssertionError:
-				self.shimon.security._testing=False
-				raise
+        return while_unlocked
 
-			self.shimon.security._testing=False
-		return while_local
+    @staticmethod
+    def allow_local(func: Callable[..., None]) -> Callable[..., Any]:
+        def while_local(self: BaseTest) -> None:
+            self.shimon.security._testing = True
+            try:
+                func(self)
+            except AssertionError:
+                self.shimon.security._testing = False
+                raise
+
+            self.shimon.security._testing = False
+
+        return while_local

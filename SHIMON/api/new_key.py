@@ -9,27 +9,27 @@ from typing import TYPE_CHECKING
 from SHIMON import HttpResponse
 
 if TYPE_CHECKING:
-	from SHIMON.shimon import Shimon
+    from SHIMON.shimon import Shimon
+
 
 class ApiNewKey(ApiBase):
-	callname="new key"
+    callname = "new key"
 
-	def __init__(self) -> None:
-		super().__init__()
+    def __init__(self) -> None:
+        super().__init__()
 
-	@ApiBase.str_required
-	def entry(_, self: "Shimon", pwd: str, redirect: bool) -> HttpResponse:
-		return new_key(self, pwd, redirect)
+    @ApiBase.str_required
+    def entry(_, self: "Shimon", pwd: str, redirect: bool) -> HttpResponse:
+        return new_key(self, pwd, redirect)
+
 
 def new_key(self: "Shimon", pwd: str, redirect: bool) -> HttpResponse:
-	if not self.security.correct_pwd(pwd):
-		return self.index(error="Invalid Password", code=401)
+    if not self.security.correct_pwd(pwd):
+        return self.index(error="Invalid Password", code=401)
 
-	self.cache["key"]=b64.b64encode(
-		Kee(2048).private()
-	).decode()
+    self.cache["key"] = b64.b64encode(Kee(2048).private()).decode()
 
-	#makes sure changes are saved
-	self.storage.lock(pwd)
+    # makes sure changes are saved
+    self.storage.lock(pwd)
 
-	return self.index()
+    return self.index()

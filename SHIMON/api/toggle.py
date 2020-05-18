@@ -7,17 +7,18 @@ from typing import TYPE_CHECKING
 from SHIMON import HttpResponse
 
 if TYPE_CHECKING:
-	from SHIMON.shimon import Shimon
+    from SHIMON.shimon import Shimon
+
 
 class Toggle(ApiBase):
-	path=""
-	name=""
+    path = ""
+    name = ""
 
-	@ApiBase.bool_required
-	def entry(self, shimon: "Shimon", enable: bool, _: bool) -> HttpResponse:
-		if Path(self.path).is_file():
-			shimon.cache.mapper[self.name]=enable
-			return error_200()
+    @ApiBase.bool_required
+    def entry(self, shimon: "Shimon", enable: bool, _: bool) -> HttpResponse:
+        if Path(self.path).is_file():
+            shimon.cache.mapper[self.name] = enable
+            return error_200()
 
-		shimon.cache.mapper[self.name]=False
-		return error_400("Missing required file(s)")
+        shimon.cache.mapper[self.name] = False
+        return error_400("Missing required file(s)")

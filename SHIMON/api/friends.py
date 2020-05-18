@@ -6,16 +6,18 @@ from typing import TYPE_CHECKING
 from SHIMON import HttpResponse
 
 if TYPE_CHECKING:
-	from SHIMON.shimon import Shimon
+    from SHIMON.shimon import Shimon
+
 
 class ApiFriends(ApiBase):
-	callname="friends"
+    callname = "friends"
 
-	def __init__(self) -> None:
-		super().__init__()
+    def __init__(self) -> None:
+        super().__init__()
 
-	def entry(_, self: "Shimon", __: None, redirect: bool) -> HttpResponse:
-		return friends(self, __, redirect)
+    def entry(_, self: "Shimon", __: None, redirect: bool) -> HttpResponse:
+        return friends(self, __, redirect)
+
 
 def friends(self: "Shimon", _: None, redirect: bool) -> HttpResponse:
-	return error_200(api_friends(self))
+    return error_200(api_friends(self))

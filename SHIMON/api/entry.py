@@ -7,24 +7,21 @@ from typing import Union, Dict, List, Optional, TYPE_CHECKING
 from SHIMON import HttpResponse
 
 if TYPE_CHECKING:
-	from SHIMON.shimon import Shimon
+    from SHIMON.shimon import Shimon
+
 
 def api_entry(self: "Shimon", data: Dict) -> HttpResponse:
-	redirect=data.get("redirect", False)
-	unlock_error=self.security.check_all()
+    redirect = data.get("redirect", False)
+    unlock_error = self.security.check_all()
 
-	for apicall in apicalls:
-		if apicall.callname in data:
-			if apicall.unlock_required and unlock_error:
-				return unlock_error
+    for apicall in apicalls:
+        if apicall.callname in data:
+            if apicall.unlock_required and unlock_error:
+                return unlock_error
 
-			return apicall.entry(
-				self,
-				data[apicall.callname],
-				redirect
-			)
+            return apicall.entry(self, data[apicall.callname], redirect)
 
-	if unlock_error:
-		return unlock_error
+    if unlock_error:
+        return unlock_error
 
-	return error_400(redirect=redirect)
+    return error_400(redirect=redirect)

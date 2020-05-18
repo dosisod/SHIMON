@@ -5,19 +5,21 @@ from typing import TYPE_CHECKING
 from SHIMON import HttpResponse
 
 if TYPE_CHECKING:
-	from SHIMON.shimon import Shimon
+    from SHIMON.shimon import Shimon
+
 
 class ApiDevmode(ApiBase):
-	callname="devmode"
+    callname = "devmode"
 
-	def __init__(self) -> None:
-		super().__init__()
+    def __init__(self) -> None:
+        super().__init__()
 
-	@ApiBase.bool_required
-	def entry(_, self: "Shimon", enable: bool, redirect: bool) -> HttpResponse:
-		return devmode(self, enable, redirect)
+    @ApiBase.bool_required
+    def entry(_, self: "Shimon", enable: bool, redirect: bool) -> HttpResponse:
+        return devmode(self, enable, redirect)
+
 
 def devmode(self: "Shimon", enable: bool, redirect: bool) -> HttpResponse:
-	self.cache.mapper["developer"]=enable
+    self.cache.mapper["developer"] = enable
 
-	return error_200()
+    return error_200()

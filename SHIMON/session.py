@@ -13,56 +13,53 @@ from typing import Optional, Dict, TYPE_CHECKING
 from SHIMON import HttpResponse
 
 if TYPE_CHECKING:
-	from SHIMON.shimon import Shimon
+    from SHIMON.shimon import Shimon
+
 
 class Session:
-	def __init__(self, shimon_ref: "Shimon") -> None:
-		self.shimon=shimon_ref
+    def __init__(self, shimon_ref: "Shimon") -> None:
+        self.shimon = shimon_ref
 
-		self.session=""
-		self.lastcall=datetime.now()
-		self.expires=3600
+        self.session = ""
+        self.lastcall = datetime.now()
+        self.expires = 3600
 
-	def create(self, target: str="pages/index.jinja") -> HttpResponse:
-		res=make_response(render(
-			self.shimon,
-			target,
-			preload=json.dumps(api_recent(self.shimon)),
-			friends=json.dumps(api_friends(self.shimon))
-		))
+    def create(self, target: str = "pages/index.jinja") -> HttpResponse:
+        res = make_response(
+            render(
+                self.shimon,
+                target,
+                preload=json.dumps(api_recent(self.shimon)),
+                friends=json.dumps(api_friends(self.shimon)),
+            )
+        )
 
-		self.session=urlb64encode(
-			os.urandom(32)
-		).decode().replace("=", "")
+        self.session = urlb64encode(os.urandom(32)).decode().replace("=", "")
 
-		res.set_cookie("session", self.session)
-		self.keepalive()
+        res.set_cookie("session", self.session)
+        self.keepalive()
 
-		return res, 200
+        return res, 200
 
-	def check(self, data: Dict) -> Optional[HttpResponse]:
-		if datetime.now() > (self.lastcall + timedelta(seconds=self.expires)):
-			self.kill()
+    def check(self, data: Dict) -> Optional[HttpResponse]:
+        if datetime.now() > (self.lastcall + timedelta(seconds=self.expires)):
+            self.kill()
 
-		elif self.session==data.get("session", ""):
-			self.keepalive()
-			return None
+        elif self.session == data.get("session", ""):
+            self.keepalive()
+            return None
 
-		return error(
-			401,
-			render(
-				self.shimon,
-				"pages/login.jinja",
-				msg="Session is no longer valid"
-			),
-			data["redirect"],
-			True
-		)
+        return error(
+            401,
+            render(self.shimon, "pages/login.jinja", msg="Session is no longer valid"),
+            data["redirect"],
+            True,
+        )
 
-	def keepalive(self) -> None:
-		self.lastcall=datetime.now()
+    def keepalive(self) -> None:
+        self.lastcall = datetime.now()
 
-	def kill(self) -> None:
-		self.session=""
-		self.shimon.cache.wipe()
-		self.lastcall=datetime.min
+    def kill(self) -> None:
+        self.session = ""
+        self.shimon.cache.wipe()
+        self.lastcall = datetime.min
