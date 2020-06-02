@@ -1,4 +1,4 @@
-Click==7.1.1
+Click==7.1.2
 Flask==1.1.2
 itsdangerous==1.1.0
 Jinja2==2.11.2
@@ -7,5 +7,5 @@ mypy-extensions==0.4.3
 pycryptodomex==3.9.7
 python-gnupg==0.4.6
 typing-extensions==3.7.4.2
-waitress==1.4.3
+waitress==1.4.4
 Werkzeug==1.0.1
