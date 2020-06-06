@@ -1,7 +1,6 @@
-from flask import make_response as _make_response
 from flask.json import jsonify as _jsonify
 
-from SHIMON.renderer import render, make_response, jsonify
+from SHIMON.renderer import render, jsonify
 
 from testing.base import BaseTest
 
@@ -20,15 +19,6 @@ class TestRender(BaseTest):
 
         assertHasKeys(template.data.decode())
 
-    @BaseTest.request_context
-    @BaseTest.unlocked
-    def test_make_response_is_same_as_calling_directly(self) -> None:
-        make_resp_wrapper = make_response(render(self.shimon, "testing/hello.jinja"))
-
-        make_resp = _make_response(render(self.shimon, "testing/hello.jinja"))
-
-        assert make_resp.data == make_resp_wrapper.data
-        assert make_resp.status == make_resp_wrapper.status
 
     @BaseTest.request_context
     def test_jsonify_is_same_as_calling_directly(self) -> None:

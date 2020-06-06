@@ -1,5 +1,4 @@
-from flask import make_response as _make_response
-from flask import render_template, Response
+from flask import make_response, render_template, Response
 from flask.json import jsonify as _jsonify
 
 from typing import Any, cast, TYPE_CHECKING
@@ -21,10 +20,6 @@ def render(self: "Shimon", filepath: str, **kwargs: Any) -> Response:
             }
         )
     )
-
-
-def make_response(*args: Any) -> Response:
-    return cast(Response, _make_response(*args))
 
 
 # duplicate function of jsonify that returns Response type and not Any

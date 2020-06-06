@@ -1,4 +1,5 @@
-from SHIMON.renderer import render, make_response
+from flask import make_response
+from SHIMON.renderer import render
 from SHIMON.api.api_base import ApiBase
 from SHIMON.api.error import error_400
 

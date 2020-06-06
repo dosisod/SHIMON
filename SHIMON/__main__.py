@@ -3,7 +3,7 @@ import sys
 if sys.version_info[0] < 3:
     raise Exception("Python 3.x is required to run SHIMON.")
 
-from waitress import serve  # type: ignore
+from waitress import serve
 
 from SHIMON.app import App
 

@@ -1,4 +1,4 @@
-from flask import Flask, request, abort, Response
+from flask import Flask, request, abort, Response, make_response
 from werkzeug.exceptions import HTTPException
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -6,7 +6,6 @@ import traceback
 import json
 
 from SHIMON.api.external import api_recent, api_friends, api_allfor
-from SHIMON.renderer import render, make_response
 from SHIMON.cache_map import CacheMapper
 from SHIMON.api.error import http_codes
 from SHIMON.api.entry import api_entry
@@ -14,6 +13,7 @@ from SHIMON.login import LoginLimiter
 from SHIMON.security import Security
 from SHIMON.session import Session
 from SHIMON.storage import Storage
+from SHIMON.renderer import render
 from SHIMON.cache import Cache
 
 from typing import Union

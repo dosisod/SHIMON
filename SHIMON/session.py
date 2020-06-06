@@ -1,12 +1,12 @@
 from base64 import urlsafe_b64encode as urlb64encode
 from datetime import datetime, timedelta
-from flask import Response
+from flask import make_response, Response
 import base64 as b64
 import json
 import os
 
 from SHIMON.api.external import api_friends, api_recent
-from SHIMON.renderer import render, make_response
+from SHIMON.renderer import render
 from SHIMON.api.error import error
 
 from typing import Optional, Dict, TYPE_CHECKING
