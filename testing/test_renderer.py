@@ -19,7 +19,6 @@ class TestRender(BaseTest):
 
         assertHasKeys(template.data.decode())
 
-
     @BaseTest.request_context
     def test_jsonify_is_same_as_calling_directly(self) -> None:
         json_wrapper = jsonify({"hello": "world!"})
