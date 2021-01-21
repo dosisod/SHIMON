@@ -23,7 +23,7 @@ pycryptodomex==3.9.7
 pyparsing==2.4.7
 pytest==5.4.3
 python-gnupg==0.4.6
-PyYAML==5.3.1
+PyYAML==5.4
 regex==2020.5.14
 six==1.15.0
 smmap==3.0.4
